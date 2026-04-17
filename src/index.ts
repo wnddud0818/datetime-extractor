@@ -51,10 +51,18 @@ async function buildResponse(
     contextDate: req.contextDate ? parseReferenceDate(req.contextDate) : undefined,
   };
   const resolverStart = now();
+  const clampToToday = req.presentRangeEnd === "today";
 
   const result: ExtractedExpression[] = [];
   for (const e of expressions) {
     const range = resolveExpression(e.expression, ctx);
+    if (
+      clampToToday &&
+      range.start <= referenceDate &&
+      range.end > referenceDate
+    ) {
+      range.end = referenceDate;
+    }
     const filter = getFilterKind(e.expression);
     const results: ResolvedValue[] = [];
     for (const mode of outputModes) {
@@ -110,6 +118,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     fiscalYearStart: req.fiscalYearStart ?? 1,
     weekStartsOn: req.weekStartsOn ?? 1,
     contextDate: req.contextDate ?? "",
+    presentRangeEnd: req.presentRangeEnd ?? "period",
   };
   const cached = cacheGet(cacheKey);
   breakdown.cache = now() - cacheStart;

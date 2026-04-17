@@ -15,6 +15,11 @@ const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const CSV = args[0] ?? "C:/Users/first/Downloads/test_results.csv";
 const REFERENCE_DATE = "2025-11-17";
 const DEFAULT_TO_TODAY = process.argv.includes("--default-to-today");
+const PRESENT_RANGE_END: "period" | "today" = process.argv.includes(
+  "--present-today",
+)
+  ? "today"
+  : "period";
 
 interface Row {
   text: string;
@@ -146,6 +151,7 @@ async function main() {
       referenceDate: REFERENCE_DATE,
       outputModes: ["range", "single"],
       defaultToToday: DEFAULT_TO_TODAY,
+      presentRangeEnd: PRESENT_RANGE_END,
     });
     const actualRanges = res.expressions
       .map((e) => pickBestRange(e.results))

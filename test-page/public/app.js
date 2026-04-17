@@ -74,6 +74,7 @@ async function doExtract() {
     fiscalYearStart: Number.isFinite(fyRaw) ? fyRaw : 1,
     weekStartsOn: parseInt($("#weekStartsOn").value, 10),
     contextDate: $("#contextDate").value || undefined,
+    presentRangeEnd: $("#presentRangeEnd").value,
   };
 
   const t0 = performance.now();

@@ -25,11 +25,23 @@
 
         <div class="row">
           <label>
-            <span>기준 날짜 (referenceDate)</span>
+            <span
+              >기준 날짜 (referenceDate)<i
+                class="info"
+                data-tip="'어제', '다음주', '저번달' 같은 상대 표현의 기준이 되는 오늘 날짜. 비워두면 서버의 현재 시각 사용."
+                >?</i
+              ></span
+            >
             <input id="refDate" type="date" />
           </label>
           <label>
-            <span>timezone</span>
+            <span
+              >timezone<i
+                class="info"
+                data-tip="날짜 계산에 사용할 IANA 타임존. 기준일을 이 타임존의 하루 경계로 해석."
+                >?</i
+              ></span
+            >
             <select id="tz">
               <option value="Asia/Seoul" selected>Asia/Seoul</option>
               <option value="UTC">UTC</option>
@@ -37,7 +49,13 @@
             </select>
           </label>
           <label>
-            <span>locale</span>
+            <span
+              >locale<i
+                class="info"
+                data-tip="입력 언어. auto면 텍스트에서 자동 감지, ko/en이면 해당 로케일 규칙만 적용."
+                >?</i
+              ></span
+            >
             <select id="locale">
               <option value="auto" selected>auto</option>
               <option value="ko">ko</option>
@@ -47,7 +65,13 @@
         </div>
 
         <div class="row modes">
-          <span>outputModes (여러 개 선택 가능)</span>
+          <span
+            >outputModes (여러 개 선택 가능)<i
+              class="info"
+              data-tip="반환할 결과 형태. single=단일일, range={시작,끝}, list=개별 날짜 배열, business_days=영업일(주말·공휴일 제외), weekdays=평일, holidays=공휴일, all=모두 포함."
+              >?</i
+            ></span
+          >
           <label><input type="checkbox" value="single" /> single</label>
           <label><input type="checkbox" value="range" checked /> range</label>
           <label><input type="checkbox" value="list" /> list</label>
@@ -61,7 +85,13 @@
 
         <div class="row">
           <label>
-            <span>ambiguityStrategy</span>
+            <span
+              >ambiguityStrategy<i
+                class="info"
+                data-tip="연/월이 생략된 표현('5일', '3월')의 해석 방향. past=가장 가까운 과거(기본), future=가장 가까운 미래, both=모호성 유지(현재는 past와 동일)."
+                >?</i
+              ></span
+            >
             <select id="ambiguityStrategy">
               <option value="past" selected>past (기본)</option>
               <option value="future">future</option>
@@ -69,7 +99,13 @@
             </select>
           </label>
           <label>
-            <span>fiscalYearStart (1~12)</span>
+            <span
+              >fiscalYearStart (1~12)<i
+                class="info"
+                data-tip="회계연도 시작월. 분기/반기 계산에 영향. 예: 7이면 7~9월이 1분기, 7~12월이 상반기. 기본값 1(=달력연도)."
+                >?</i
+              ></span
+            >
             <input
               id="fiscalYearStart"
               type="number"
@@ -79,14 +115,26 @@
             />
           </label>
           <label>
-            <span>weekStartsOn</span>
+            <span
+              >weekStartsOn<i
+                class="info"
+                data-tip="주의 시작 요일. '이번주/지난주' 같은 주 단위 범위 계산에 사용. 1=월요일(기본), 0=일요일."
+                >?</i
+              ></span
+            >
             <select id="weekStartsOn">
               <option value="1" selected>월요일 (1)</option>
               <option value="0">일요일 (0)</option>
             </select>
           </label>
           <label>
-            <span>contextDate (선택)</span>
+            <span
+              >contextDate (선택)<i
+                class="info"
+                data-tip="직전 대화/문맥의 기준 날짜. 연/월이 생략된 표현을 이 날짜 기준으로 보간. 예: contextDate=2025-06-01일 때 '15일' → 2025-06-15."
+                >?</i
+              ></span
+            >
             <input id="contextDate" type="date" />
           </label>
         </div>
@@ -94,12 +142,32 @@
         <div class="row">
           <label
             ><input type="checkbox" id="forceLLM" /> LLM 경로 강제 (룰
-            스킵)</label
+            스킵)<i
+              class="info"
+              data-tip="룰 기반 파서를 건너뛰고 LLM으로만 추출. 룰 커버리지 비교/디버깅용."
+              >?</i
+            ></label
           >
           <label
             ><input type="checkbox" id="defaultToToday" /> 날짜 미감지 시 오늘로
-            기본값</label
+            기본값<i
+              class="info"
+              data-tip="룰·LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 반환. 금융·운영 도메인처럼 '날짜 미지정 = 현재 시점'이 관습인 환경용."
+              >?</i
+            ></label
           >
+          <label>
+            현재 기간 끝:
+            <select id="presentRangeEnd">
+              <option value="period">기간 전체 (예: 이번달 → 1~30일)</option>
+              <option value="today">기준일까지 (예: 이번달 → 1일~오늘)</option>
+            </select>
+            <i
+              class="info"
+              data-tip="기준일을 포함하는 기간(이번달·이번분기·올해·하반기·이번주)의 종료일 처리. 'today'는 기준일까지 잘라 반환. 단일 시점이나 과거·미래 기간엔 영향 없음."
+              >?</i
+            >
+          </label>
           <button id="extract-btn">추출</button>
           <button id="clear-cache-btn" type="button">캐시 비우기</button>
         </div>
