@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>datetime-extractor · 테스트 페이지</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>datetime-extractor</h1>
+      <p class="sub">한국어/영어 자연어에서 날짜·시간 추출 (룰 + LLM 하이브리드)</p>
+    </header>
+
+    <main>
+      <section class="panel input-panel">
+        <label>
+          <span>자연어 질의</span>
+          <textarea
+            id="text"
+            rows="3"
+            placeholder="예: 저번달 영업일, 3월 4월 잔액, 사흘 전 날씨..."
+          ></textarea>
+        </label>
+
+        <div class="row">
+          <label>
+            <span>기준 날짜 (referenceDate)</span>
+            <input id="refDate" type="date" />
+          </label>
+          <label>
+            <span>timezone</span>
+            <select id="tz">
+              <option value="Asia/Seoul" selected>Asia/Seoul</option>
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">America/New_York</option>
+            </select>
+          </label>
+          <label>
+            <span>locale</span>
+            <select id="locale">
+              <option value="auto" selected>auto</option>
+              <option value="ko">ko</option>
+              <option value="en">en</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row modes">
+          <span>outputModes (여러 개 선택 가능)</span>
+          <label><input type="checkbox" value="single" /> single</label>
+          <label><input type="checkbox" value="range" checked /> range</label>
+          <label><input type="checkbox" value="list" /> list</label>
+          <label
+            ><input type="checkbox" value="business_days" /> business_days</label
+          >
+          <label><input type="checkbox" value="weekdays" /> weekdays</label>
+          <label><input type="checkbox" value="holidays" /> holidays</label>
+          <label><input type="checkbox" value="all" /> all</label>
+        </div>
+
+        <div class="row">
+          <label
+            ><input type="checkbox" id="forceLLM" /> LLM 경로 강제 (룰
+            스킵)</label
+          >
+          <button id="extract-btn">추출</button>
+          <button id="clear-cache-btn" type="button">캐시 비우기</button>
+        </div>
+      </section>
+
+      <section class="panel examples-panel">
+        <h3>골든 예제 (원클릭)</h3>
+        <div id="examples"></div>
+      </section>
+
+      <section class="panel result-panel">
+        <h3>
+          결과
+          <span id="path-badge" class="badge" hidden></span>
+          <span id="latency-badge" class="latency" hidden></span>
+          <span id="hasdate-badge" class="badge" hidden></span>
+        </h3>
+        <div id="latency-breakdown" class="latency-breakdown"></div>
+
+        <div class="result-grid">
+          <div>
+            <h4>입력 (매치 하이라이트)</h4>
+            <div id="highlighted"></div>
+          </div>
+          <div>
+            <h4>1단계 DSL</h4>
+            <pre id="dsl"></pre>
+          </div>
+          <div>
+            <h4>2단계 리졸버 결과</h4>
+            <pre id="resolved"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

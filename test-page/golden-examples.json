@@ -1,0 +1,23 @@
+[
+  { "label": "저번달 잔액", "text": "저번 달 잔액 알려줘", "modes": ["range"] },
+  { "label": "3월 4월 잔액", "text": "3월 4월 잔액 알려줘", "modes": ["range"] },
+  { "label": "사흘 전 날씨", "text": "사흘 전 날씨", "modes": ["single"] },
+  { "label": "저번달 영업일", "text": "저번달 영업일", "modes": ["business_days"] },
+  { "label": "이번 달 평일", "text": "이번 달 평일", "modes": ["weekdays"] },
+  { "label": "작년 공휴일", "text": "작년 공휴일", "modes": ["holidays"] },
+  { "label": "오늘", "text": "오늘 일정", "modes": ["single"] },
+  { "label": "어제", "text": "어제 매출", "modes": ["single"] },
+  { "label": "내일", "text": "내일 날씨", "modes": ["single"] },
+  { "label": "그저께", "text": "그저께 있었던 일", "modes": ["single"] },
+  { "label": "보름 전", "text": "보름 전", "modes": ["single"] },
+  { "label": "7일 전", "text": "7일 전", "modes": ["single"] },
+  { "label": "ISO 절대", "text": "2025-12-25 잔액", "modes": ["single"] },
+  { "label": "작년 전체", "text": "작년 매출", "modes": ["range"] },
+  { "label": "올해", "text": "올해 실적", "modes": ["range"] },
+  { "label": "지난주", "text": "지난주 일정", "modes": ["range"] },
+  { "label": "이번주", "text": "이번 주 일정", "modes": ["range"] },
+  { "label": "복합 (LLM)", "text": "3개월 전부터 보름 동안의 평일", "modes": ["weekdays"] },
+  { "label": "영어 yesterday", "text": "what was the balance yesterday", "modes": ["single"] },
+  { "label": "영어 last month", "text": "last month sales", "modes": ["range"] },
+  { "label": "날짜 없음", "text": "안녕하세요", "modes": ["single"] }
+]

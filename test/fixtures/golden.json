@@ -1,0 +1,249 @@
+[
+  {
+    "id": "last_month_balance",
+    "text": "저번 달 잔액 알려줘",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-03-01", "end": "2026-03-31" } }
+      ]
+    }
+  },
+  {
+    "id": "march_april_balance",
+    "text": "3월 4월 잔액 알려줘",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-03-01", "end": "2026-03-31" } },
+        { "range": { "start": "2026-04-01", "end": "2026-04-30" } }
+      ]
+    }
+  },
+  {
+    "id": "three_days_ago",
+    "text": "사흘 전 날씨",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-14" }]
+    }
+  },
+  {
+    "id": "last_month_business_days",
+    "text": "저번달 영업일",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["business_days"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "business_days_include": ["2026-03-03", "2026-03-31"],
+          "business_days_exclude": ["2026-03-01", "2026-03-02", "2026-03-07", "2026-03-08"],
+          "business_days_count_min": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "this_month_weekdays",
+    "text": "이번 달 평일",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["weekdays"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "weekdays_count_min": 20 }]
+    }
+  },
+  {
+    "id": "last_year_holidays",
+    "text": "작년 공휴일",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["holidays"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "holidays_include": [
+            "2025-01-01",
+            "2025-03-01",
+            "2025-05-05",
+            "2025-12-25"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "yesterday",
+    "text": "어제 매출",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-16" }]
+    }
+  },
+  {
+    "id": "today",
+    "text": "오늘 일정",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-17" }]
+    }
+  },
+  {
+    "id": "tomorrow_weather",
+    "text": "내일 날씨",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-18" }]
+    }
+  },
+  {
+    "id": "the_day_before_yesterday",
+    "text": "그저께 있었던 일",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-15" }]
+    }
+  },
+  {
+    "id": "bareum_ago",
+    "text": "보름 전",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-02" }]
+    }
+  },
+  {
+    "id": "n_days_ago",
+    "text": "7일 전",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-10" }]
+    }
+  },
+  {
+    "id": "iso_date",
+    "text": "2025-12-25 잔액",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2025-12-25" }]
+    }
+  },
+  {
+    "id": "korean_full_date",
+    "text": "2025년 3월 1일",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2025-03-01" }]
+    }
+  },
+  {
+    "id": "last_year",
+    "text": "작년 매출",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2025-01-01", "end": "2025-12-31" } }
+      ]
+    }
+  },
+  {
+    "id": "this_year",
+    "text": "올해 실적",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-01-01", "end": "2026-12-31" } }
+      ]
+    }
+  },
+  {
+    "id": "last_week",
+    "text": "지난주 일정",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-04-06", "end": "2026-04-12" } }
+      ]
+    }
+  },
+  {
+    "id": "this_week",
+    "text": "이번 주 일정",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-04-13", "end": "2026-04-19" } }
+      ]
+    }
+  },
+  {
+    "id": "no_date",
+    "text": "안녕하세요",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": { "hasDate": false, "expressions": [] }
+  },
+  {
+    "id": "no_date_2",
+    "text": "오늘의 운세 말고 다른 거",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-17" }]
+    }
+  },
+  {
+    "id": "english_yesterday",
+    "text": "what was the balance yesterday",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-16" }]
+    }
+  },
+  {
+    "id": "english_last_month",
+    "text": "last month sales",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-03-01", "end": "2026-03-31" } }
+      ]
+    }
+  }
+]
