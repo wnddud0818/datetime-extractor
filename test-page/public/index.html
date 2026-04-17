@@ -60,6 +60,38 @@
         </div>
 
         <div class="row">
+          <label>
+            <span>ambiguityStrategy</span>
+            <select id="ambiguityStrategy">
+              <option value="past" selected>past (기본)</option>
+              <option value="future">future</option>
+              <option value="both">both</option>
+            </select>
+          </label>
+          <label>
+            <span>fiscalYearStart (1~12)</span>
+            <input
+              id="fiscalYearStart"
+              type="number"
+              min="1"
+              max="12"
+              value="1"
+            />
+          </label>
+          <label>
+            <span>weekStartsOn</span>
+            <select id="weekStartsOn">
+              <option value="1" selected>월요일 (1)</option>
+              <option value="0">일요일 (0)</option>
+            </select>
+          </label>
+          <label>
+            <span>contextDate (선택)</span>
+            <input id="contextDate" type="date" />
+          </label>
+        </div>
+
+        <div class="row">
           <label
             ><input type="checkbox" id="forceLLM" /> LLM 경로 강제 (룰
             스킵)</label

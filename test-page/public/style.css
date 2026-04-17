@@ -212,3 +212,35 @@ pre {
   border-radius: 4px;
   font-weight: 500;
 }
+.hl.temp-past {
+  background: #64748b;
+}
+.hl.temp-present {
+  background: #0ea5e9;
+}
+.hl.temp-future {
+  background: #8b5cf6;
+}
+.temp-badge {
+  display: inline-block;
+  margin-left: 2px;
+  padding: 0 5px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  vertical-align: super;
+  text-transform: uppercase;
+}
+.temp-badge.temp-past {
+  background: #475569;
+  color: #cbd5e1;
+}
+.temp-badge.temp-present {
+  background: #0284c7;
+  color: white;
+}
+.temp-badge.temp-future {
+  background: #7c3aed;
+  color: white;
+}

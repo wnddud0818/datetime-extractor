@@ -33,7 +33,12 @@ function renderHighlight(text, expressions) {
   const spans = [];
   for (const e of expressions) {
     const idx = text.indexOf(e.text);
-    if (idx >= 0) spans.push({ start: idx, end: idx + e.text.length });
+    if (idx >= 0)
+      spans.push({
+        start: idx,
+        end: idx + e.text.length,
+        temporality: e.temporality,
+      });
   }
   spans.sort((a, b) => a.start - b.start);
   let out = "";
@@ -41,7 +46,11 @@ function renderHighlight(text, expressions) {
   for (const s of spans) {
     if (s.start < cursor) continue;
     out += escapeHtml(text.slice(cursor, s.start));
-    out += `<span class="hl">${escapeHtml(text.slice(s.start, s.end))}</span>`;
+    const tCls = s.temporality ? ` temp-${s.temporality}` : "";
+    const tBadge = s.temporality
+      ? `<sup class="temp-badge${tCls}">${s.temporality}</sup>`
+      : "";
+    out += `<span class="hl${tCls}">${escapeHtml(text.slice(s.start, s.end))}</span>${tBadge}`;
     cursor = s.end;
   }
   out += escapeHtml(text.slice(cursor));
@@ -52,6 +61,7 @@ async function doExtract() {
   const text = $("#text").value.trim();
   if (!text) return;
 
+  const fyRaw = parseInt($("#fiscalYearStart").value, 10);
   const body = {
     text,
     referenceDate: $("#refDate").value || undefined,
@@ -60,6 +70,10 @@ async function doExtract() {
     outputModes: selectedModes(),
     forceLLM: $("#forceLLM").checked,
     defaultToToday: $("#defaultToToday").checked,
+    ambiguityStrategy: $("#ambiguityStrategy").value,
+    fiscalYearStart: Number.isFinite(fyRaw) ? fyRaw : 1,
+    weekStartsOn: parseInt($("#weekStartsOn").value, 10),
+    contextDate: $("#contextDate").value || undefined,
   };
 
   const t0 = performance.now();
@@ -110,7 +124,11 @@ async function doExtract() {
     2,
   );
   $("#resolved").textContent = JSON.stringify(
-    (data.expressions ?? []).map((e) => ({ text: e.text, results: e.results })),
+    (data.expressions ?? []).map((e) => ({
+      text: e.text,
+      temporality: e.temporality,
+      results: e.results,
+    })),
     null,
     2,
   );
