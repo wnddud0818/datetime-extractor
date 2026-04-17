@@ -23,6 +23,9 @@ import type {
   NamedExpression,
   RangeExpression,
   FilterExpression,
+  QuarterExpression,
+  HalfExpression,
+  DurationExpression,
   OutputMode,
   ResolvedValue,
   AllModes,
@@ -69,25 +72,28 @@ function resolveAbsolute(
   const refYear = ref.getFullYear();
   const refMonth = ref.getMonth() + 1;
 
-  let year = expr.year ?? refYear;
+  let year =
+    expr.year ??
+    (expr.yearOffset !== undefined ? refYear + expr.yearOffset : refYear);
   let month = expr.month;
   let day = expr.day;
 
-  // 연도 생략 시 모호성 해결: month만 있으면 "가장 가까운 미래 또는 현재"
-  if (expr.year === undefined && month !== undefined && day === undefined) {
-    // 월 단독: 현재 월 이전이면 내년이 아니라 "과거" (예: 4월에 "3월 잔액")
-    // "지난 3월" 같은 표현은 LLM/rules가 relative로 처리.
-    // 여기서는 단순히 현재 연도 사용.
+  // 연도 생략 시 모호성 해결 (yearOffset이 지정된 경우는 위에서 이미 계산됨)
+  if (
+    expr.year === undefined &&
+    expr.yearOffset === undefined &&
+    month !== undefined &&
+    day === undefined
+  ) {
     year = refYear;
   }
-  if (expr.year === undefined && month !== undefined && day !== undefined) {
-    const candidate = new Date(refYear, month - 1, day);
-    if (candidate < ref) {
-      // 기본적으로 과거 해석 (현재 연도 유지). "다음 3월 15일" 같은 미래 지향은 LLM이 +1 offset 추가.
-      year = refYear;
-    } else {
-      year = refYear;
-    }
+  if (
+    expr.year === undefined &&
+    expr.yearOffset === undefined &&
+    month !== undefined &&
+    day !== undefined
+  ) {
+    year = refYear;
   }
 
   // 음력 → 양력 변환
@@ -96,6 +102,56 @@ function resolveAbsolute(
     year = solar.year;
     month = solar.month;
     day = solar.day;
+  }
+
+  // yearPart: YYYY년 초(Q1) / 말(Q4) — day/month 없을 때만
+  if (expr.yearPart && month === undefined && day === undefined) {
+    const q = expr.yearPart === "early" ? 0 : 9;
+    const start = new Date(year, q, 1);
+    const end = endOfMonth(new Date(year, q + 2, 1));
+    return { start, end, granularity: "quarter" };
+  }
+
+  // monthPart: M월 초/중/말
+  if (expr.monthPart && month !== undefined && day === undefined) {
+    const monthStart = new Date(year, month - 1, 1);
+    const lastDay = endOfMonth(monthStart).getDate();
+    let sd: number;
+    let ed: number;
+    if (expr.monthPart === "early") {
+      sd = 1;
+      ed = 10;
+    } else if (expr.monthPart === "mid") {
+      sd = 11;
+      ed = 20;
+    } else {
+      sd = 21;
+      ed = lastDay;
+    }
+    return {
+      start: new Date(year, month - 1, sd),
+      end: new Date(year, month - 1, ed),
+      granularity: "day",
+    };
+  }
+
+  // firstWeek: M월 첫 주 (1-7)
+  if (expr.firstWeek && month !== undefined && day === undefined) {
+    return {
+      start: new Date(year, month - 1, 1),
+      end: new Date(year, month - 1, 7),
+      granularity: "day",
+    };
+  }
+
+  // day만 있고 month/year 모두 없는 경우 → 기준일의 현재 월 사용
+  if (
+    day !== undefined &&
+    month === undefined &&
+    expr.year === undefined &&
+    expr.yearOffset === undefined
+  ) {
+    month = refMonth;
   }
 
   // 구체성에 따라 range 구성
@@ -113,6 +169,80 @@ function resolveAbsolute(
   }
   const d = new Date(year, 0, 1);
   return { start: startOfYear(d), end: endOfYear(d), granularity: "year" };
+}
+
+function resolveQuarter(
+  expr: QuarterExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const refYear = ctx.referenceDate.getFullYear();
+  const year = expr.year ?? refYear + (expr.yearOffset ?? 0);
+  const startMonth = (expr.quarter - 1) * 3;
+  return {
+    start: new Date(year, startMonth, 1),
+    end: endOfMonth(new Date(year, startMonth + 2, 1)),
+    granularity: "quarter",
+  };
+}
+
+function resolveHalf(
+  expr: HalfExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const ref = ctx.referenceDate;
+  let year: number;
+  if (expr.year !== undefined) {
+    year = expr.year;
+  } else if (expr.mostRecentPast) {
+    const refYear = ref.getFullYear();
+    const refMonth = ref.getMonth() + 1;
+    if (expr.half === 1) {
+      // 상반기 끝 = 6월. refMonth > 6이면 current year, 아니면 last year
+      year = refMonth > 6 ? refYear : refYear - 1;
+    } else {
+      // 하반기: 항상 가장 최근 과거 하반기 = 작년 (올해 하반기는 진행 중이거나 미래)
+      year = refYear - 1;
+    }
+  } else {
+    year = ref.getFullYear() + (expr.yearOffset ?? 0);
+  }
+  const startMonth = expr.half === 1 ? 0 : 6;
+  const endMonth = expr.half === 1 ? 5 : 11;
+  return {
+    start: new Date(year, startMonth, 1),
+    end: endOfMonth(new Date(year, endMonth, 1)),
+    granularity: "half",
+  };
+}
+
+function resolveDuration(
+  expr: DurationExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const ref = ctx.referenceDate;
+  const amt = expr.direction === "past" ? -expr.amount : expr.amount;
+  let other: Date;
+  switch (expr.unit) {
+    case "day":
+      other = addDays(ref, amt);
+      break;
+    case "week":
+      other = addWeeks(ref, amt);
+      break;
+    case "month":
+      other = addMonths(ref, amt);
+      break;
+    case "year":
+      other = addYears(ref, amt);
+      break;
+  }
+  const start = expr.direction === "past" ? other : ref;
+  const end = expr.direction === "past" ? ref : other;
+  return {
+    start: startOfDay(start),
+    end: startOfDay(end),
+    granularity: "day",
+  };
 }
 
 function resolveRelative(
@@ -211,6 +341,12 @@ export function resolveExpression(
       return resolveNamed(expr, ctx);
     case "range":
       return resolveRange(expr, ctx);
+    case "quarter":
+      return resolveQuarter(expr, ctx);
+    case "half":
+      return resolveHalf(expr, ctx);
+    case "duration":
+      return resolveDuration(expr, ctx);
     case "filter":
       // filter 자체는 base의 range를 그대로 사용. 출력 단계에서 필터 적용.
       return resolveExpression(expr.base, ctx);

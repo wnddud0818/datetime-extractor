@@ -3,16 +3,49 @@ export type DateExpression =
   | RelativeExpression
   | RangeExpression
   | FilterExpression
-  | NamedExpression;
+  | NamedExpression
+  | QuarterExpression
+  | HalfExpression
+  | DurationExpression;
 
 export interface AbsoluteExpression {
   kind: "absolute";
   year?: number;
+  /** year 대신 사용: 기준일 연도 + yearOffset. 작년/올해/내년 + M월 조합. */
+  yearOffset?: number;
   month?: number;
   day?: number;
   lunar?: boolean;
   hour?: number;
   minute?: number;
+  // 초(1-10), 중(11-20), 말(21-end) of month
+  monthPart?: "early" | "mid" | "late";
+  // 첫 주 (day 1-7 of month)
+  firstWeek?: boolean;
+  // YYYY년 초(Q1) / YYYY년 말(Q4)
+  yearPart?: "early" | "late";
+}
+
+export interface QuarterExpression {
+  kind: "quarter";
+  quarter: 1 | 2 | 3 | 4;
+  year?: number;
+  yearOffset?: number;
+}
+
+export interface HalfExpression {
+  kind: "half";
+  half: 1 | 2;
+  year?: number;
+  yearOffset?: number;
+  mostRecentPast?: boolean;
+}
+
+export interface DurationExpression {
+  kind: "duration";
+  unit: "day" | "week" | "month" | "year";
+  amount: number;
+  direction: "past" | "future";
 }
 
 export interface RelativeExpression {

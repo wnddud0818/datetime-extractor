@@ -1,4 +1,9 @@
-import type { DateExpression, FilterKind, NamedToken } from "../types.js";
+import type {
+  DateExpression,
+  AbsoluteExpression,
+  FilterKind,
+  NamedToken,
+} from "../types.js";
 import { KOREAN_DAY_NUMERALS, KOREAN_DAY_WORDS, ENGLISH_DAY_WORDS } from "./numerals.js";
 
 export interface Match {
@@ -109,6 +114,76 @@ export function findMatches(text: string): Match[] {
     }
   }
 
+  // 2b. YYYY년 M월 [초/중/말]? (일이 없을 때)
+  {
+    const re = /(\d{4})\s*년\s*(\d{1,2})\s*월(?!\s*\d+\s*일)(\s*(초|중|말))?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const part = m[4];
+      const monthPart =
+        part === "초" ? ("early" as const)
+        : part === "중" ? ("mid" as const)
+        : part === "말" ? ("late" as const)
+        : undefined;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          year: Number(m[1]),
+          month: Number(m[2]),
+          ...(monthPart ? { monthPart } : {}),
+        },
+        priority: 93,
+      });
+    }
+  }
+
+  // 2c. M월 [초/중/말/첫 주] (연도 없음, 일 없음)
+  {
+    const re = /(?<!\d)(\d{1,2})\s*월\s*(초|중|말|첫\s*주)(?!\s*\d+\s*일)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const part = m[2].replace(/\s+/g, "");
+      const baseExpr: AbsoluteExpression = {
+        kind: "absolute",
+        month: Number(m[1]),
+      };
+      if (part === "초") baseExpr.monthPart = "early";
+      else if (part === "중") baseExpr.monthPart = "mid";
+      else if (part === "말") baseExpr.monthPart = "late";
+      else if (part === "첫주") baseExpr.firstWeek = true;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: baseExpr,
+        priority: 88,
+      });
+    }
+  }
+
+  // 2d. YYYY년 [초/말] (월 없음)
+  {
+    const re = /(\d{4})\s*년\s*(초|말)(?!\s*\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const part = m[2];
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          year: Number(m[1]),
+          yearPart: part === "초" ? "early" : "late",
+        },
+        priority: 90,
+      });
+    }
+  }
+
   // 3. 월 단독 (3월) — 연월일/월일 매치와 겹치면 priority 낮음
   //    뒤에 "N일"이 붙으면 월일 패턴이 이미 처리하므로 배제
   {
@@ -150,6 +225,7 @@ export function findMatches(text: string): Match[] {
     { word: "재작년", offset: -2 },
     { word: "작년", offset: -1 },
     { word: "지난해", offset: -1 },
+    { word: "전년", offset: -1 },
     { word: "올해", offset: 0 },
     { word: "금년", offset: 0 },
     { word: "내년", offset: 1 },
@@ -356,6 +432,337 @@ export function findMatches(text: string): Match[] {
     }
   }
 
+  // 14. N분기 (prefix 없는 N분기 = 올해 기준)
+  {
+    const re = /(?<![\d가-힣])([1-4])\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const q = Number(m[1]) as 1 | 2 | 3 | 4;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "quarter", quarter: q, yearOffset: 0 },
+        priority: 82,
+      });
+    }
+  }
+
+  // 14b. (올해/작년/내년/재작년/지난해/금년) N분기
+  {
+    const re = /(재작년|지난해|작년|올해|금년|내년|후년)\s*([1-4])\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const prefix = m[1];
+      const yearOffset =
+        prefix === "재작년" ? -2
+        : prefix === "작년" || prefix === "지난해" ? -1
+        : prefix === "내년" ? 1
+        : prefix === "후년" ? 2
+        : 0;
+      const q = Number(m[2]) as 1 | 2 | 3 | 4;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "quarter", quarter: q, yearOffset },
+        priority: 92,
+      });
+    }
+  }
+
+  // 14c. (YYYY년) N분기
+  {
+    const re = /(\d{4})\s*년\s*([1-4])\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const q = Number(m[2]) as 1 | 2 | 3 | 4;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "quarter", quarter: q, year: Number(m[1]) },
+        priority: 94,
+      });
+    }
+  }
+
+  // 15. 이번/지난/지지난/다음/저번 분기
+  {
+    const re = /(지지난|저번|지난|이번|금|다음)\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const p = m[1];
+      const offset =
+        p === "지지난" ? -2
+        : p === "지난" || p === "저번" ? -1
+        : p === "다음" ? 1
+        : 0;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "relative", unit: "quarter", offset },
+        priority: 80,
+      });
+    }
+  }
+
+  // 16. (YYYY년|prefix) 상/하반기
+  {
+    const re = /(\d{4})\s*년\s*(상|하)\s*반기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const half = (m[2] === "상" ? 1 : 2) as 1 | 2;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "half", half, year: Number(m[1]) },
+        priority: 92,
+      });
+    }
+  }
+  {
+    const re = /(재작년|지난해|작년|올해|금년|내년|후년)\s*(상|하)\s*반기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const prefix = m[1];
+      const yearOffset =
+        prefix === "재작년" ? -2
+        : prefix === "작년" || prefix === "지난해" ? -1
+        : prefix === "내년" ? 1
+        : prefix === "후년" ? 2
+        : 0;
+      const half = (m[2] === "상" ? 1 : 2) as 1 | 2;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "half", half, yearOffset },
+        priority: 90,
+      });
+    }
+  }
+
+  // 16b. 지난 상/하반기 (most-recent-past)
+  {
+    const re = /지난\s*(상|하)\s*반기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const half = (m[1] === "상" ? 1 : 2) as 1 | 2;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "half", half, mostRecentPast: true },
+        priority: 88,
+      });
+    }
+  }
+
+  // 16c. 단독 상/하반기 (올해 기준)
+  {
+    const re = /(?<!(?:재작년|지난해|작년|올해|금년|내년|후년|지난)\s*)(상|하)\s*반기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const half = (m[1] === "상" ? 1 : 2) as 1 | 2;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "half", half, yearOffset: 0 },
+        priority: 78,
+      });
+    }
+  }
+
+  // 17. 최근/지난 N 일/주/개월/달/년 (간|동안|내) — duration
+  {
+    const KOREAN_NUM: Record<string, number> = {
+      한: 1,
+      두: 2,
+      세: 3,
+      네: 4,
+      다섯: 5,
+      여섯: 6,
+      일곱: 7,
+      여덟: 8,
+      아홉: 9,
+      열: 10,
+    };
+    const re =
+      /(최근|지난|요)?\s*(\d+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\s*(일|주일|주|개월|달|년|해)\s*(간|동안|내|째)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const numStr = m[2];
+      const amount = /^\d+$/.test(numStr) ? Number(numStr) : KOREAN_NUM[numStr] ?? 1;
+      const unitWord = m[3];
+      let unit: "day" | "week" | "month" | "year" = "day";
+      if (unitWord === "주" || unitWord === "주일") unit = "week";
+      else if (unitWord === "개월" || unitWord === "달") unit = "month";
+      else if (unitWord === "년" || unitWord === "해") unit = "year";
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit, amount, direction: "past" },
+        priority: 83,
+      });
+    }
+  }
+
+  // 17b. 일주일/한 달/한 해 + 전/뒤/후 (point-in-time; 단일 날짜)
+  {
+    const re = /(일주일|한\s*달|한\s*해|한\s*주)\s*(전|뒤|후)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const word = m[1].replace(/\s+/g, "");
+      const sign = m[2] === "전" ? -1 : 1;
+      let unit: "day" | "month" = "day";
+      let offset = 0;
+      if (word === "일주일" || word === "한주") {
+        unit = "day";
+        offset = sign * 7;
+      } else if (word === "한달") {
+        unit = "month";
+        offset = sign * 1;
+      } else {
+        // 한 해
+        unit = "day";
+        offset = sign * 365;
+      }
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "relative", unit, offset },
+        priority: 82,
+      });
+    }
+  }
+
+  // 18. YY년 (2자리 연도, 20-99 → 2020-2099)
+  {
+    const re = /(?<![\d가-힣])([2-9]\d)\s*년(?!도)(?!\s*(전|뒤|후))/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yy = Number(m[1]);
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "absolute", year: 2000 + yy },
+        priority: 65,
+      });
+    }
+  }
+
+  // 19. DD일 단독 (이번 달 D일) — 월/연 컨텍스트 없을 때
+  {
+    const re =
+      /(?<![\d가-힣])(\d{1,2})\s*일(?!\s*(전|뒤|후|이상|이하|이내|동안|간|째|부터|까지))/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const d = Number(m[1]);
+      if (d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "absolute", day: d } as AbsoluteExpression,
+        priority: 68,
+      });
+    }
+  }
+
+  // 20. (prefix) M월 [초/중/말/첫주]? — 작년 12월, 올해 3월 등
+  {
+    const PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of PREFIXES) {
+      const re = new RegExp(
+        `${word}\\s*(\\d{1,2})\\s*월\\s*(초|중|말|첫\\s*주)?(?!\\s*\\d+\\s*일)`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const part = m[2]?.replace(/\s+/g, "");
+        const baseExpr: AbsoluteExpression = {
+          kind: "absolute",
+          yearOffset: offset,
+          month: Number(m[1]),
+        };
+        if (part === "초") baseExpr.monthPart = "early";
+        else if (part === "중") baseExpr.monthPart = "mid";
+        else if (part === "말") baseExpr.monthPart = "late";
+        else if (part === "첫주") baseExpr.firstWeek = true;
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: baseExpr,
+          priority: 91,
+        });
+      }
+    }
+  }
+
+  // 20b. (전년|작년|지난해|재작년) 대비 → 암묵적 "올해"도 함께 반환
+  //      "대비" 스팬에 올해를 매칭하여 기존 작년/전년 표현과 겹치지 않게 함.
+  {
+    const re = /(전년|작년|지난해|재작년)\s*(대비)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const daeBiStart = m.index + m[0].length - m[2].length;
+      out.push({
+        text: m[2],
+        start: daeBiStart,
+        end: daeBiStart + m[2].length,
+        expression: { kind: "relative", unit: "year", offset: 0 },
+        priority: 79,
+      });
+    }
+  }
+
+  // 21. X 이후 (X부터 오늘까지)
+  //    매치된 날짜 표현(절대/상대) 뒤에 "이후"가 붙으면 range로 확장.
+  //    간단하게 "YYYY년 M월 이후" 형태만 우선 처리.
+  {
+    const re =
+      /(\d{4})\s*년\s*(\d{1,2})\s*월(?:\s*(\d{1,2})\s*일)?\s*이후(?!\s*에는|\s*에)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const y = Number(m[1]);
+      const mo = Number(m[2]);
+      const d = m[3] ? Number(m[3]) : undefined;
+      const startExpr: AbsoluteExpression = {
+        kind: "absolute",
+        year: y,
+        month: mo,
+        ...(d ? { day: d } : {}),
+      };
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: startExpr,
+          end: { kind: "named", name: "today" },
+        },
+        priority: 96,
+      });
+    }
+  }
+
   return out;
 }
 
@@ -406,6 +813,7 @@ const DATE_RESIDUAL_KEYWORDS = [
   "글피",
   "그저께",
   "엊그제",
+  "그제",
   "사흘",
   "나흘",
   "닷새",
@@ -420,6 +828,12 @@ const DATE_RESIDUAL_KEYWORDS = [
   "공휴일",
   "주말",
   "휴일",
+  "최근",
+  "상반기",
+  "하반기",
+  "일주일",
+  "한 달",
+  "한달",
   "yesterday",
   "today",
   "tomorrow",
