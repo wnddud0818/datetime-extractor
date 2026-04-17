@@ -223,6 +223,7 @@ export function findMatches(text: string): Match[] {
   // 5. 상대 연 표현
   const YEAR_RELATIVE: Array<{ word: string; offset: number }> = [
     { word: "재작년", offset: -2 },
+    { word: "제작년", offset: -2 },
     { word: "작년", offset: -1 },
     { word: "지난해", offset: -1 },
     { word: "전년", offset: -1 },
@@ -450,12 +451,12 @@ export function findMatches(text: string): Match[] {
 
   // 14b. (올해/작년/내년/재작년/지난해/금년) N분기
   {
-    const re = /(재작년|지난해|작년|올해|금년|내년|후년)\s*([1-4])\s*분기/g;
+    const re = /(재작년|제작년|지난해|작년|올해|금년|내년|후년)\s*([1-4])\s*분기/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const prefix = m[1];
       const yearOffset =
-        prefix === "재작년" ? -2
+        prefix === "재작년" || prefix === "제작년" ? -2
         : prefix === "작년" || prefix === "지난해" ? -1
         : prefix === "내년" ? 1
         : prefix === "후년" ? 2
@@ -524,12 +525,12 @@ export function findMatches(text: string): Match[] {
     }
   }
   {
-    const re = /(재작년|지난해|작년|올해|금년|내년|후년)\s*(상|하)\s*반기/g;
+    const re = /(재작년|제작년|지난해|작년|올해|금년|내년|후년)\s*(상|하)\s*반기/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const prefix = m[1];
       const yearOffset =
-        prefix === "재작년" ? -2
+        prefix === "재작년" || prefix === "제작년" ? -2
         : prefix === "작년" || prefix === "지난해" ? -1
         : prefix === "내년" ? 1
         : prefix === "후년" ? 2
@@ -563,7 +564,7 @@ export function findMatches(text: string): Match[] {
 
   // 16c. 단독 상/하반기 (올해 기준)
   {
-    const re = /(?<!(?:재작년|지난해|작년|올해|금년|내년|후년|지난)\s*)(상|하)\s*반기/g;
+    const re = /(?<!(?:재작년|제작년|지난해|작년|올해|금년|내년|후년|지난)\s*)(상|하)\s*반기/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const half = (m[1] === "상" ? 1 : 2) as 1 | 2;
@@ -680,6 +681,7 @@ export function findMatches(text: string): Match[] {
   {
     const PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
       { word: "올해", offset: 0 },
@@ -718,7 +720,7 @@ export function findMatches(text: string): Match[] {
   // 20b. (전년|작년|지난해|재작년) 대비 → 암묵적 "올해"도 함께 반환
   //      "대비" 스팬에 올해를 매칭하여 기존 작년/전년 표현과 겹치지 않게 함.
   {
-    const re = /(전년|작년|지난해|재작년)\s*(대비)/g;
+    const re = /(전년|작년|지난해|재작년|제작년)\s*(대비)/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const daeBiStart = m.index + m[0].length - m[2].length;
@@ -806,6 +808,7 @@ const DATE_RESIDUAL_KEYWORDS = [
   "작년",
   "내년",
   "재작년",
+  "제작년",
   "어제",
   "오늘",
   "내일",
