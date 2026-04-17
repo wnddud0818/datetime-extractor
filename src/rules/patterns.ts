@@ -226,6 +226,7 @@ export function findMatches(text: string): Match[] {
     { word: "제작년", offset: -2 },
     { word: "작년", offset: -1 },
     { word: "지난해", offset: -1 },
+    { word: "지난 해", offset: -1 },
     { word: "전년", offset: -1 },
     { word: "올해", offset: 0 },
     { word: "금년", offset: 0 },
@@ -311,6 +312,7 @@ export function findMatches(text: string): Match[] {
   }
 
   // 8. 수치 상대 (7일 전, 3일 후, 2주 전, 3개월 뒤)
+  //    "N일 전" = 단일 일. "N주/N개월/N년 전"도 point-in-time = 단일 일 해석.
   {
     const re = /(\d+)\s*(일|주|개월|달|년|년도|주일)\s*(전|뒤|후)/g;
     let m: RegExpExecArray | null;
@@ -323,11 +325,17 @@ export function findMatches(text: string): Match[] {
       else if (unitWord === "개월" || unitWord === "달") unit = "month";
       else if (unitWord === "년" || unitWord === "년도") unit = "year";
       const sign = dirWord === "전" ? -1 : 1;
+      const singleDay = unit !== "day";
       out.push({
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
-        expression: { kind: "relative", unit, offset: sign * n },
+        expression: {
+          kind: "relative",
+          unit,
+          offset: sign * n,
+          ...(singleDay ? { singleDay: true } : {}),
+        },
         priority: 80,
       });
     }
@@ -613,32 +621,89 @@ export function findMatches(text: string): Match[] {
     }
   }
 
-  // 17b. 일주일/한 달/한 해 + 전/뒤/후 (point-in-time; 단일 날짜)
+  // 17b. 일주일/한 달/한 해/일년 + 전/뒤/후 (point-in-time; 단일 날짜)
   {
-    const re = /(일주일|한\s*달|한\s*해|한\s*주)\s*(전|뒤|후)/g;
+    const re = /(일주일|한\s*달|한\s*해|한\s*주|일\s*년)\s*(전|뒤|후)/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const word = m[1].replace(/\s+/g, "");
       const sign = m[2] === "전" ? -1 : 1;
-      let unit: "day" | "month" = "day";
+      let unit: "day" | "month" | "year" = "day";
       let offset = 0;
+      let singleDay = false;
       if (word === "일주일" || word === "한주") {
         unit = "day";
         offset = sign * 7;
       } else if (word === "한달") {
         unit = "month";
         offset = sign * 1;
-      } else {
-        // 한 해
-        unit = "day";
-        offset = sign * 365;
+        singleDay = true;
+      } else if (word === "한해" || word === "일년") {
+        unit = "year";
+        offset = sign * 1;
+        singleDay = true;
       }
       out.push({
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
-        expression: { kind: "relative", unit, offset },
+        expression: { kind: "relative", unit, offset, ...(singleDay ? { singleDay: true } : {}) },
         priority: 82,
+      });
+    }
+  }
+
+  // 17c. 최근/지난 + 일주일/한 주/한 달/한 해 (기간; 시작=N 전, 끝=오늘)
+  {
+    const re = /(최근|지난)\s*(일주일|한\s*주|한\s*달|한\s*해|일\s*년)(?!\s*(전|뒤|후))/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const word = m[2].replace(/\s+/g, "");
+      let unit: "day" | "month" | "year" = "day";
+      let amount = 1;
+      if (word === "일주일" || word === "한주") {
+        unit = "day";
+        amount = 7;
+      } else if (word === "한달") {
+        unit = "month";
+        amount = 1;
+      } else if (word === "한해" || word === "일년") {
+        unit = "year";
+        amount = 1;
+      }
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit, amount, direction: "past" },
+        priority: 84,
+      });
+    }
+  }
+
+  // 17d. 최근/지난 + N일/N주/N개월/N년 (간|동안 suffix 없이도 duration으로 해석)
+  {
+    const KOREAN_NUM: Record<string, number> = {
+      한: 1, 두: 2, 세: 3, 네: 4, 다섯: 5,
+      여섯: 6, 일곱: 7, 여덟: 8, 아홉: 9, 열: 10,
+    };
+    const re =
+      /(최근|지난)\s*(\d+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\s*(일|주일|주|개월|달|년|해)(?!\s*(전|뒤|후))/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const numStr = m[2];
+      const amount = /^\d+$/.test(numStr) ? Number(numStr) : KOREAN_NUM[numStr] ?? 1;
+      const unitWord = m[3];
+      let unit: "day" | "week" | "month" | "year" = "day";
+      if (unitWord === "주" || unitWord === "주일") unit = "week";
+      else if (unitWord === "개월" || unitWord === "달") unit = "month";
+      else if (unitWord === "년" || unitWord === "해") unit = "year";
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit, amount, direction: "past" },
+        priority: 84,
       });
     }
   }
@@ -717,6 +782,104 @@ export function findMatches(text: string): Match[] {
     }
   }
 
+  // 20c. (재작년|작년|올해|내년|후년|지난해|지난 해|금년) 초/말
+  //      "YYYY년 초/말" (rule 2d)의 상대형 버전.
+  {
+    const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "지난 해", offset: -1 },
+      { word: "전년", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of YEAR_PREFIXES) {
+      const re = new RegExp(`${word}\\s*(초|말)(?!\\s*\\d)`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: {
+            kind: "absolute",
+            yearOffset: offset,
+            yearPart: m[1] === "초" ? "early" : "late",
+          },
+          priority: 89,
+        });
+      }
+    }
+  }
+
+  // 20d. (이번|지난|다음|저번|지지난) 달 + 초/중/말
+  {
+    const MONTH_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "지지난\\s*달", offset: -2 },
+      { word: "저번\\s*달", offset: -1 },
+      { word: "지난\\s*달", offset: -1 },
+      { word: "이번\\s*달", offset: 0 },
+      { word: "금월", offset: 0 },
+      { word: "다음\\s*달", offset: 1 },
+      { word: "내달", offset: 1 },
+    ];
+    for (const { word, offset } of MONTH_PREFIXES) {
+      const re = new RegExp(`${word}\\s*(초|중|말)(?!\\s*\\d)`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const part = m[1];
+        const monthPart =
+          part === "초" ? ("early" as const)
+          : part === "중" ? ("mid" as const)
+          : ("late" as const);
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: {
+            kind: "absolute",
+            monthOffset: offset,
+            monthPart,
+          },
+          priority: 89,
+        });
+      }
+    }
+  }
+
+  // 20e. (이번|지난|다음|지지난|저번) 분기 + 초/말
+  //      quarterOffset으로 전달하여 resolver가 기준일 기준 분기 계산.
+  {
+    const QTR_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "지지난", offset: -2 },
+      { word: "저번", offset: -1 },
+      { word: "지난", offset: -1 },
+      { word: "이번", offset: 0 },
+      { word: "다음", offset: 1 },
+    ];
+    for (const { word, offset } of QTR_PREFIXES) {
+      const re = new RegExp(`${word}\\s*분기\\s*(초|말)(?!\\s*\\d)`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: {
+            kind: "quarter",
+            quarterOffset: offset,
+            part: m[1] === "초" ? "early" : "late",
+          },
+          priority: 89,
+        });
+      }
+    }
+  }
+
   // 20b. (전년|작년|지난해|재작년) 대비 → 암묵적 "올해"도 함께 반환
   //      "대비" 스팬에 올해를 매칭하여 기존 작년/전년 표현과 겹치지 않게 함.
   {
@@ -730,6 +893,301 @@ export function findMatches(text: string): Match[] {
         end: daeBiStart + m[2].length,
         expression: { kind: "relative", unit: "year", offset: 0 },
         priority: 79,
+      });
+    }
+  }
+
+  // 22. 공휴일 고유명 (설날, 추석, 어린이날, 크리스마스, 삼일절, ...)
+  //     yearOffset=0 으로 지정 → 기준 연도 고정, ambiguity shift 건너뜀.
+  {
+    const NAMED_HOLIDAYS: Array<{ word: string; expr: AbsoluteExpression }> = [
+      { word: "설날", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 1, lunar: true } },
+      { word: "구정", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 1, lunar: true } },
+      { word: "추석", expr: { kind: "absolute", yearOffset: 0, month: 8, day: 15, lunar: true } },
+      { word: "한가위", expr: { kind: "absolute", yearOffset: 0, month: 8, day: 15, lunar: true } },
+      { word: "어린이날", expr: { kind: "absolute", yearOffset: 0, month: 5, day: 5 } },
+      { word: "크리스마스", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 25 } },
+      { word: "성탄절", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 25 } },
+      { word: "삼일절", expr: { kind: "absolute", yearOffset: 0, month: 3, day: 1 } },
+      { word: "3·1절", expr: { kind: "absolute", yearOffset: 0, month: 3, day: 1 } },
+      { word: "광복절", expr: { kind: "absolute", yearOffset: 0, month: 8, day: 15 } },
+      { word: "현충일", expr: { kind: "absolute", yearOffset: 0, month: 6, day: 6 } },
+      { word: "한글날", expr: { kind: "absolute", yearOffset: 0, month: 10, day: 9 } },
+      { word: "개천절", expr: { kind: "absolute", yearOffset: 0, month: 10, day: 3 } },
+      { word: "제헌절", expr: { kind: "absolute", yearOffset: 0, month: 7, day: 17 } },
+      { word: "신정", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 1 } },
+      { word: "부처님오신날", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
+      { word: "부처님 오신 날", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
+      { word: "정월 대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
+      { word: "정월대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
+      { word: "대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
+    ];
+    for (const { word, expr } of NAMED_HOLIDAYS) {
+      let idx = 0;
+      while ((idx = text.indexOf(word, idx)) !== -1) {
+        const base: Match = {
+          text: word,
+          start: idx,
+          end: idx + word.length,
+          expression: { ...expr },
+          priority: 96,
+        };
+        const withFilter = tryAttachFilter(text, base.end, base);
+        out.push(withFilter ?? base);
+        idx += word.length;
+      }
+    }
+  }
+
+  // 23. 월말/월초/연말/연초 (단일 날짜)
+  //     "월말" = 이번달 말일, "연말" = 올해 12/31
+  {
+    const MONTH_YEAR_EDGE: Array<{ word: string; expr: AbsoluteExpression }> = [
+      { word: "월말", expr: { kind: "absolute", monthOffset: 0, monthPart: "end" } },
+      { word: "월초", expr: { kind: "absolute", monthOffset: 0, monthPart: "start" } },
+      { word: "연말", expr: { kind: "absolute", yearOffset: 0, yearPart: "end" } },
+      { word: "연초", expr: { kind: "absolute", yearOffset: 0, yearPart: "start" } },
+      { word: "년말", expr: { kind: "absolute", yearOffset: 0, yearPart: "end" } },
+      { word: "년초", expr: { kind: "absolute", yearOffset: 0, yearPart: "start" } },
+    ];
+    for (const { word, expr } of MONTH_YEAR_EDGE) {
+      const re = new RegExp(`(?<![가-힣])${word}(?![가-힣])`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { ...expr },
+          priority: 86,
+        });
+      }
+    }
+  }
+
+  // 24. 주 + 요일 (이번주 월요일, 지난주 금요일, 다음주 수요일 등)
+  //     WeekdayInWeekExpression 으로 emit. rule+llm 폴백보다 높은 우선순위로 단일 룰 매칭.
+  {
+    const KO_WEEKDAYS: Array<{ word: string; weekday: number }> = [
+      { word: "일요일", weekday: 0 },
+      { word: "월요일", weekday: 1 },
+      { word: "화요일", weekday: 2 },
+      { word: "수요일", weekday: 3 },
+      { word: "목요일", weekday: 4 },
+      { word: "금요일", weekday: 5 },
+      { word: "토요일", weekday: 6 },
+    ];
+    const WEEK_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "지지난\\s*주", offset: -2 },
+      { word: "저번\\s*주", offset: -1 },
+      { word: "지난\\s*주", offset: -1 },
+      { word: "이번\\s*주", offset: 0 },
+      { word: "금주", offset: 0 },
+      { word: "다음\\s*주", offset: 1 },
+    ];
+    for (const { word: pw, offset } of WEEK_PREFIXES) {
+      for (const { word: dw, weekday } of KO_WEEKDAYS) {
+        const re = new RegExp(`${pw}\\s*${dw}`, "g");
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(text))) {
+          out.push({
+            text: m[0],
+            start: m.index,
+            end: m.index + m[0].length,
+            expression: { kind: "weekday_in_week", weekOffset: offset, weekday },
+            priority: 94,
+          });
+        }
+      }
+    }
+  }
+
+  // 24b. 영어 last/next/this + weekday
+  {
+    const EN_WEEKDAYS: Array<{ word: string; weekday: number }> = [
+      { word: "sunday", weekday: 0 },
+      { word: "monday", weekday: 1 },
+      { word: "tuesday", weekday: 2 },
+      { word: "wednesday", weekday: 3 },
+      { word: "thursday", weekday: 4 },
+      { word: "friday", weekday: 5 },
+      { word: "saturday", weekday: 6 },
+    ];
+    const re = /\b(last|next|this|previous)\s+(sun|mon|tues?|wed(?:nes)?|thur?s?|fri|sat(?:ur)?)(?:day)?\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const dirWord = m[1].toLowerCase();
+      const dayWord = m[2].toLowerCase();
+      const offset =
+        dirWord === "last" || dirWord === "previous" ? -1
+        : dirWord === "next" ? 1
+        : 0;
+      const wd = EN_WEEKDAYS.find((w) => w.word.startsWith(dayWord.replace(/s$/, "")))?.weekday;
+      if (wd === undefined) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "weekday_in_week", weekOffset: offset, weekday: wd },
+        priority: 92,
+      });
+    }
+  }
+
+  // 25. (재작년|작년|올해|내년|후년|지난해|금년|...) + 오늘/어제/내일/모레/그저께/글피
+  //     "작년 오늘" = 1년 전 이맘때 (같은 월/일).
+  //     NamedExpression.yearOffset 으로 emit하여 resolveNamed가 처리.
+  {
+    const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "전년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    const DAY_WORDS: Array<{ word: string; token: NamedToken }> = [
+      { word: "오늘", token: "today" },
+      { word: "어제", token: "yesterday" },
+      { word: "내일", token: "tomorrow" },
+      { word: "모레", token: "모레" },
+      { word: "글피", token: "글피" },
+      { word: "그저께", token: "그저께" },
+    ];
+    for (const { word: pw, offset } of YEAR_PREFIXES) {
+      for (const { word: dw, token } of DAY_WORDS) {
+        const re = new RegExp(`${pw}\\s*${dw}`, "g");
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(text))) {
+          out.push({
+            text: m[0],
+            start: m.index,
+            end: m.index + m[0].length,
+            expression: { kind: "named", name: token, yearOffset: offset },
+            priority: 93,
+          });
+        }
+      }
+    }
+  }
+
+  // 26. (prefix) M월 D일 — "내년 1월 1일", "작년 3월 15일"
+  //     기존 rule 20은 "일" 없는 경우만 처리. 여기서는 D일 포함.
+  {
+    const PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of PREFIXES) {
+      const re = new RegExp(
+        `${word}\\s*(\\d{1,2})\\s*월\\s*(\\d{1,2})\\s*일`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: {
+            kind: "absolute",
+            yearOffset: offset,
+            month: Number(m[1]),
+            day: Number(m[2]),
+          },
+          priority: 97,
+        });
+      }
+    }
+  }
+
+  // 26b. 음력 M월 D일 — "음력 1월 1일" = 설날
+  {
+    const re = /음력\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          yearOffset: 0,
+          month: Number(m[1]),
+          day: Number(m[2]),
+          lunar: true,
+        },
+        priority: 97,
+      });
+    }
+  }
+
+  // 26c. 음력 M월 — "음력 1월" (day 없음)
+  {
+    const re = /음력\s*(\d{1,2})\s*월(?!\s*\d+\s*일)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          yearOffset: 0,
+          month: Number(m[1]),
+          lunar: true,
+        },
+        priority: 93,
+      });
+    }
+  }
+
+  // 27. <date>부터 <date>까지  범위 연결자
+  //     지원 형태: "M월 D일부터 M월 D일까지", "YYYY년 M월 D일부터 ~ 까지" 등
+  {
+    const datePat = "(?:(\\d{4})\\s*년\\s*)?(\\d{1,2})\\s*월\\s*(\\d{1,2})\\s*일";
+    const re = new RegExp(`${datePat}\\s*부터\\s*${datePat}\\s*까지`, "g");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const y1 = m[1] ? Number(m[1]) : undefined;
+      const mo1 = Number(m[2]);
+      const d1 = Number(m[3]);
+      const y2 = m[4] ? Number(m[4]) : undefined;
+      const mo2 = Number(m[5]);
+      const d2 = Number(m[6]);
+      // 연도 생략 시 yearOffset=0 고정 → ambiguity shift가 range 끝을
+      // 작년으로 밀어 범위가 뒤집히는 현상 방지.
+      const startExpr: AbsoluteExpression = {
+        kind: "absolute",
+        ...(y1 !== undefined ? { year: y1 } : { yearOffset: 0 }),
+        month: mo1,
+        day: d1,
+      };
+      const endExpr: AbsoluteExpression = {
+        kind: "absolute",
+        ...(y2 !== undefined ? { year: y2 } : { yearOffset: 0 }),
+        month: mo2,
+        day: d2,
+      };
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: startExpr,
+          end: endExpr,
+        },
+        priority: 98,
       });
     }
   }

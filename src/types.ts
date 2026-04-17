@@ -6,7 +6,8 @@ export type DateExpression =
   | NamedExpression
   | QuarterExpression
   | HalfExpression
-  | DurationExpression;
+  | DurationExpression
+  | WeekdayInWeekExpression;
 
 export interface AbsoluteExpression {
   kind: "absolute";
@@ -14,23 +15,31 @@ export interface AbsoluteExpression {
   /** year 대신 사용: 기준일 연도 + yearOffset. 작년/올해/내년 + M월 조합. */
   yearOffset?: number;
   month?: number;
+  /** month 대신 사용: 기준일 월 + monthOffset. 이번달/지난달/다음달 + 초/중/말 조합. */
+  monthOffset?: number;
   day?: number;
   lunar?: boolean;
   hour?: number;
   minute?: number;
   // 초(1-10), 중(11-20), 말(21-end) of month
-  monthPart?: "early" | "mid" | "late";
+  // start = 1일 단일, end = 말일 단일 (월초/월말)
+  monthPart?: "early" | "mid" | "late" | "start" | "end";
   // 첫 주 (day 1-7 of month)
   firstWeek?: boolean;
   // YYYY년 초(Q1) / YYYY년 말(Q4)
-  yearPart?: "early" | "late";
+  // start = 1/1 단일, end = 12/31 단일 (연초/연말)
+  yearPart?: "early" | "late" | "start" | "end";
 }
 
 export interface QuarterExpression {
   kind: "quarter";
-  quarter: 1 | 2 | 3 | 4;
+  /** quarter가 없고 quarterOffset만 있으면 기준일의 현재 분기 + offset으로 resolver가 계산. */
+  quarter?: 1 | 2 | 3 | 4;
+  quarterOffset?: number;
   year?: number;
   yearOffset?: number;
+  /** 분기의 부분 선택: 초(첫 월 1-10일) / 말(마지막 월 21일-말일) */
+  part?: "early" | "late";
 }
 
 export interface HalfExpression {
@@ -52,6 +61,8 @@ export interface RelativeExpression {
   kind: "relative";
   unit: "day" | "week" | "month" | "quarter" | "half" | "year";
   offset: number;
+  /** true면 기간이 아닌 단일 시점(point-in-time)으로 해석. 예: "2주 전" = 14일 전 당일. */
+  singleDay?: boolean;
 }
 
 export interface RangeExpression {
@@ -99,6 +110,17 @@ export interface NamedExpression {
   kind: "named";
   name: NamedToken;
   direction?: "past" | "future";
+  /** "작년 오늘" 같은 prefix 조합: yearOffset만큼 연 이동 후 같은 월일 */
+  yearOffset?: number;
+}
+
+/** "이번주 월요일", "지난주 금요일", "next Friday" 같은 주+요일 지정 */
+export interface WeekdayInWeekExpression {
+  kind: "weekday_in_week";
+  /** -2=지지난주, -1=지난주, 0=이번주, 1=다음주 */
+  weekOffset: number;
+  /** 0=일, 1=월, 2=화, ..., 6=토 (JS getDay 규약) */
+  weekday: number;
 }
 
 export type OutputMode =

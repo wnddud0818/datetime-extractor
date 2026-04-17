@@ -30,6 +30,26 @@ function now(): number {
   return performance.now();
 }
 
+/**
+ * 사용자가 기간의 특정 부분을 명시적으로 선택한 표현인지 판별.
+ * 예: "올해 말"(yearPart=late), "이번 분기 말"(quarter.part=late),
+ *     "이번달 초"(monthPart=early), "3월 첫 주"(firstWeek) 등.
+ * 이런 표현은 presentRangeEnd="today" 클램프에서 제외해야 한다
+ * (사용자가 미래 구간을 명시한 것이므로).
+ */
+function isExplicitSubset(expr: DateExpression): boolean {
+  if (expr.kind === "absolute") {
+    return !!(expr.yearPart || expr.monthPart || expr.firstWeek);
+  }
+  if (expr.kind === "quarter") {
+    return !!expr.part;
+  }
+  if (expr.kind === "filter") {
+    return isExplicitSubset(expr.base);
+  }
+  return false;
+}
+
 async function buildResponse(
   expressions: Array<{ text: string; expression: DateExpression; confidence?: number }>,
   req: ExtractRequest,
@@ -58,6 +78,7 @@ async function buildResponse(
     const range = resolveExpression(e.expression, ctx);
     if (
       clampToToday &&
+      !isExplicitSubset(e.expression) &&
       range.start <= referenceDate &&
       range.end > referenceDate
     ) {

@@ -26,6 +26,7 @@ import type {
   QuarterExpression,
   HalfExpression,
   DurationExpression,
+  WeekdayInWeekExpression,
   OutputMode,
   ResolvedValue,
   AllModes,
@@ -85,18 +86,36 @@ function resolveAbsolute(
   let month = expr.month;
   let day = expr.day;
 
+  // monthOffset: 기준월 + offset (월 경계 넘어가면 연도도 조정)
+  if (month === undefined && expr.monthOffset !== undefined) {
+    const refMonth0 = ref.getMonth(); // 0-indexed
+    const abs = refMonth0 + expr.monthOffset;
+    const yearShift = Math.floor(abs / 12);
+    const m0 = ((abs % 12) + 12) % 12;
+    month = m0 + 1;
+    // yearOffset/year가 명시된 경우는 그대로 두고, 그 외에만 yearShift 적용
+    if (expr.year === undefined && expr.yearOffset === undefined) {
+      year = refYear + yearShift;
+    }
+  }
+
   // 연도 생략 시 모호성 해결 (yearOffset이 지정된 경우는 위에서 이미 계산됨)
-  // contextDate가 있으면 그 연도를 우선 사용. 명시적 "future" 전략일 때만 미래로 shift.
+  // contextDate가 있으면 그 연도를 우선 사용.
+  // past(기본): 후보 날짜가 기준일 이후(미래)면 작년으로 shift → "가장 최근 과거" 선택
+  // future:   후보 날짜가 기준일 이전(과거)이면 내년으로 shift → "가장 가까운 미래" 선택
   if (
     expr.year === undefined &&
     expr.yearOffset === undefined &&
     month !== undefined
   ) {
     year = ctx.contextDate ? baseYear : refYear;
-    if (strategy === "future" && !ctx.contextDate) {
+    if (!ctx.contextDate) {
       const candidate = new Date(year, month - 1, day ?? 1);
-      if (candidate < startOfDay(ref)) {
+      const refStart = startOfDay(ref);
+      if (strategy === "future" && candidate < refStart) {
         year += 1;
+      } else if (strategy === "past" && candidate > refStart) {
+        year -= 1;
       }
     }
   }
@@ -110,17 +129,33 @@ function resolveAbsolute(
   }
 
   // yearPart: YYYY년 초(Q1) / 말(Q4) — day/month 없을 때만
+  // start/end 는 단일 날짜 (연초=1/1, 연말=12/31)
   if (expr.yearPart && month === undefined && day === undefined) {
+    if (expr.yearPart === "start") {
+      const d = new Date(year, 0, 1);
+      return { start: d, end: d, granularity: "day" };
+    }
+    if (expr.yearPart === "end") {
+      const d = new Date(year, 11, 31);
+      return { start: d, end: d, granularity: "day" };
+    }
     const q = expr.yearPart === "early" ? 0 : 9;
     const start = new Date(year, q, 1);
     const end = endOfMonth(new Date(year, q + 2, 1));
     return { start, end, granularity: "quarter" };
   }
 
-  // monthPart: M월 초/중/말
+  // monthPart: M월 초/중/말, start(1일)/end(말일)
   if (expr.monthPart && month !== undefined && day === undefined) {
     const monthStart = new Date(year, month - 1, 1);
     const lastDay = endOfMonth(monthStart).getDate();
+    if (expr.monthPart === "start") {
+      return { start: monthStart, end: monthStart, granularity: "day" };
+    }
+    if (expr.monthPart === "end") {
+      const d = new Date(year, month - 1, lastDay);
+      return { start: d, end: d, granularity: "day" };
+    }
     let sd: number;
     let ed: number;
     if (expr.monthPart === "early") {
@@ -187,14 +222,46 @@ function resolveQuarter(
   ctx: ResolveContext,
 ): ResolvedRange {
   const refYear = ctx.referenceDate.getFullYear();
-  const year = expr.year ?? refYear + (expr.yearOffset ?? 0);
   const fyStart = (ctx.fiscalYearStart ?? 1) - 1; // 0-indexed
-  const startMonthAbs = fyStart + (expr.quarter - 1) * 3;
+  // quarterOffset이 있으면 기준일의 분기 + offset으로 계산. 연도 넘어가면 yearShift.
+  let quarter: number;
+  let year: number;
+  if (expr.quarter !== undefined) {
+    quarter = expr.quarter;
+    year = expr.year ?? refYear + (expr.yearOffset ?? 0);
+  } else {
+    const refMonth0 = ctx.referenceDate.getMonth(); // 0-indexed
+    // 현재 분기 (fiscalYearStart 고려)
+    const monthsFromFy = ((refMonth0 - fyStart) + 12) % 12;
+    const currentQ0 = Math.floor(monthsFromFy / 3); // 0~3
+    const targetQ0 = currentQ0 + (expr.quarterOffset ?? 0);
+    const yearShift = Math.floor(targetQ0 / 4);
+    quarter = (((targetQ0 % 4) + 4) % 4) + 1;
+    year = refYear + yearShift + (expr.yearOffset ?? 0);
+  }
+  const startMonthAbs = fyStart + (quarter - 1) * 3;
   const startYear = year + Math.floor(startMonthAbs / 12);
   const startMonth = ((startMonthAbs % 12) + 12) % 12;
   const endAbs = startMonthAbs + 2;
   const endYear = year + Math.floor(endAbs / 12);
   const endMonth = ((endAbs % 12) + 12) % 12;
+  if (expr.part === "early") {
+    // 분기 첫 월 1-10일
+    return {
+      start: new Date(startYear, startMonth, 1),
+      end: new Date(startYear, startMonth, 10),
+      granularity: "day",
+    };
+  }
+  if (expr.part === "late") {
+    // 분기 마지막 월 21일-말일
+    const lastDay = endOfMonth(new Date(endYear, endMonth, 1)).getDate();
+    return {
+      start: new Date(endYear, endMonth, 21),
+      end: new Date(endYear, endMonth, lastDay),
+      granularity: "day",
+    };
+  }
   return {
     start: new Date(startYear, startMonth, 1),
     end: endOfMonth(new Date(endYear, endMonth, 1)),
@@ -272,7 +339,29 @@ function resolveRelative(
   ctx: ResolveContext,
 ): ResolvedRange {
   const ref = ctx.referenceDate;
-  const { unit, offset } = expr;
+  const { unit, offset, singleDay } = expr;
+
+  // singleDay: "N주 전", "한 달 전", "일년 전" 등 점-시점 해석
+  if (singleDay) {
+    let d: Date;
+    switch (unit) {
+      case "day":
+        d = addDays(ref, offset);
+        break;
+      case "week":
+        d = addDays(ref, offset * 7);
+        break;
+      case "month":
+        d = addMonths(ref, offset);
+        break;
+      case "year":
+        d = addYears(ref, offset);
+        break;
+      default:
+        d = addDays(ref, offset);
+    }
+    return { start: startOfDay(d), end: startOfDay(d), granularity: "day" };
+  }
 
   switch (unit) {
     case "day": {
@@ -333,8 +422,25 @@ function resolveNamed(
       ? offset
       : -offset
     : offset;
-  const d = addDays(ctx.referenceDate, effectiveOffset);
+  let d = addDays(ctx.referenceDate, effectiveOffset);
+  if (expr.yearOffset !== undefined && expr.yearOffset !== 0) {
+    d = addYears(d, expr.yearOffset);
+  }
   return { start: startOfDay(d), end: startOfDay(d), granularity: "day" };
+}
+
+function resolveWeekdayInWeek(
+  expr: WeekdayInWeekExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const ref = ctx.referenceDate;
+  const wso = ctx.weekStartsOn ?? 1;
+  const weekRef = addDays(ref, expr.weekOffset * 7);
+  const start = startOfWeek(weekRef, { weekStartsOn: wso });
+  // start의 요일 = wso. weekday까지의 일수 오프셋 계산.
+  const daysFromStart = (expr.weekday - wso + 7) % 7;
+  const target = addDays(start, daysFromStart);
+  return { start: startOfDay(target), end: startOfDay(target), granularity: "day" };
 }
 
 function resolveRange(
@@ -370,6 +476,8 @@ export function resolveExpression(
       return resolveHalf(expr, ctx);
     case "duration":
       return resolveDuration(expr, ctx);
+    case "weekday_in_week":
+      return resolveWeekdayInWeek(expr, ctx);
     case "filter":
       // filter 자체는 base의 range를 그대로 사용. 출력 단계에서 필터 적용.
       return resolveExpression(expr.base, ctx);
