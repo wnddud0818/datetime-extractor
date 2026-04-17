@@ -51,6 +51,10 @@ export interface ResolvedRange {
 export interface ResolveContext {
   referenceDate: Date;
   timezone: string;
+  ambiguityStrategy?: "past" | "future" | "both";
+  fiscalYearStart?: number;
+  weekStartsOn?: 0 | 1;
+  contextDate?: Date;
 }
 
 function lunarToSolar(
@@ -69,31 +73,32 @@ function resolveAbsolute(
   ctx: ResolveContext,
 ): ResolvedRange {
   const ref = ctx.referenceDate;
+  const baseDate = ctx.contextDate ?? ref;
   const refYear = ref.getFullYear();
-  const refMonth = ref.getMonth() + 1;
+  const baseYear = baseDate.getFullYear();
+  const baseMonth = baseDate.getMonth() + 1;
+  const strategy = ctx.ambiguityStrategy ?? "past";
 
   let year =
     expr.year ??
-    (expr.yearOffset !== undefined ? refYear + expr.yearOffset : refYear);
+    (expr.yearOffset !== undefined ? refYear + expr.yearOffset : baseYear);
   let month = expr.month;
   let day = expr.day;
 
   // 연도 생략 시 모호성 해결 (yearOffset이 지정된 경우는 위에서 이미 계산됨)
+  // contextDate가 있으면 그 연도를 우선 사용. 명시적 "future" 전략일 때만 미래로 shift.
   if (
     expr.year === undefined &&
     expr.yearOffset === undefined &&
-    month !== undefined &&
-    day === undefined
+    month !== undefined
   ) {
-    year = refYear;
-  }
-  if (
-    expr.year === undefined &&
-    expr.yearOffset === undefined &&
-    month !== undefined &&
-    day !== undefined
-  ) {
-    year = refYear;
+    year = ctx.contextDate ? baseYear : refYear;
+    if (strategy === "future" && !ctx.contextDate) {
+      const candidate = new Date(year, month - 1, day ?? 1);
+      if (candidate < startOfDay(ref)) {
+        year += 1;
+      }
+    }
   }
 
   // 음력 → 양력 변환
@@ -144,14 +149,20 @@ function resolveAbsolute(
     };
   }
 
-  // day만 있고 month/year 모두 없는 경우 → 기준일의 현재 월 사용
+  // day만 있고 month/year 모두 없는 경우 → contextDate 또는 기준일의 현재 월 사용
   if (
     day !== undefined &&
     month === undefined &&
     expr.year === undefined &&
     expr.yearOffset === undefined
   ) {
-    month = refMonth;
+    month = baseMonth;
+    if (ctx.contextDate) {
+      year = baseYear;
+    } else if (strategy === "future") {
+      const refDay = ref.getDate();
+      if (day < refDay) month = ref.getMonth() + 2;
+    }
   }
 
   // 구체성에 따라 range 구성
@@ -177,10 +188,16 @@ function resolveQuarter(
 ): ResolvedRange {
   const refYear = ctx.referenceDate.getFullYear();
   const year = expr.year ?? refYear + (expr.yearOffset ?? 0);
-  const startMonth = (expr.quarter - 1) * 3;
+  const fyStart = (ctx.fiscalYearStart ?? 1) - 1; // 0-indexed
+  const startMonthAbs = fyStart + (expr.quarter - 1) * 3;
+  const startYear = year + Math.floor(startMonthAbs / 12);
+  const startMonth = ((startMonthAbs % 12) + 12) % 12;
+  const endAbs = startMonthAbs + 2;
+  const endYear = year + Math.floor(endAbs / 12);
+  const endMonth = ((endAbs % 12) + 12) % 12;
   return {
-    start: new Date(year, startMonth, 1),
-    end: endOfMonth(new Date(year, startMonth + 2, 1)),
+    start: new Date(startYear, startMonth, 1),
+    end: endOfMonth(new Date(endYear, endMonth, 1)),
     granularity: "quarter",
   };
 }
@@ -190,6 +207,7 @@ function resolveHalf(
   ctx: ResolveContext,
 ): ResolvedRange {
   const ref = ctx.referenceDate;
+  const fyStart = (ctx.fiscalYearStart ?? 1) - 1; // 0-indexed
   let year: number;
   if (expr.year !== undefined) {
     year = expr.year;
@@ -197,20 +215,24 @@ function resolveHalf(
     const refYear = ref.getFullYear();
     const refMonth = ref.getMonth() + 1;
     if (expr.half === 1) {
-      // 상반기 끝 = 6월. refMonth > 6이면 current year, 아니면 last year
-      year = refMonth > 6 ? refYear : refYear - 1;
+      // 상반기 끝 = 상반기 마지막 월. refMonth > (fyStart+6) → current year.
+      const h1EndMonth = fyStart + 6;
+      year = refMonth > h1EndMonth ? refYear : refYear - 1;
     } else {
-      // 하반기: 항상 가장 최근 과거 하반기 = 작년 (올해 하반기는 진행 중이거나 미래)
       year = refYear - 1;
     }
   } else {
     year = ref.getFullYear() + (expr.yearOffset ?? 0);
   }
-  const startMonth = expr.half === 1 ? 0 : 6;
-  const endMonth = expr.half === 1 ? 5 : 11;
+  const startAbs = fyStart + (expr.half === 1 ? 0 : 6);
+  const endAbs = startAbs + 5;
+  const startYear = year + Math.floor(startAbs / 12);
+  const startMonth = ((startAbs % 12) + 12) % 12;
+  const endYear = year + Math.floor(endAbs / 12);
+  const endMonth = ((endAbs % 12) + 12) % 12;
   return {
-    start: new Date(year, startMonth, 1),
-    end: endOfMonth(new Date(year, endMonth, 1)),
+    start: new Date(startYear, startMonth, 1),
+    end: endOfMonth(new Date(endYear, endMonth, 1)),
     granularity: "half",
   };
 }
@@ -259,9 +281,10 @@ function resolveRelative(
     }
     case "week": {
       const d = addWeeks(ref, offset);
+      const wso = ctx.weekStartsOn ?? 1;
       return {
-        start: startOfWeek(d, { weekStartsOn: 1 }),
-        end: endOfWeek(d, { weekStartsOn: 1 }),
+        start: startOfWeek(d, { weekStartsOn: wso }),
+        end: endOfWeek(d, { weekStartsOn: wso }),
         granularity: "week",
       };
     }
@@ -446,4 +469,16 @@ function enumerateDays(start: Date, end: Date): string[] {
 export function parseReferenceDate(iso?: string): Date {
   if (!iso) return new Date();
   return parseISO(iso);
+}
+
+export function computeTemporality(
+  range: ResolvedRange,
+  referenceDate: Date,
+): "past" | "present" | "future" {
+  const ref = startOfDay(referenceDate);
+  const start = startOfDay(range.start);
+  const end = startOfDay(range.end);
+  if (end < ref) return "past";
+  if (start > ref) return "future";
+  return "present";
 }

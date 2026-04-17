@@ -7,6 +7,10 @@ export interface CacheKey {
   timezone: string;
   locale: string;
   outputModes: string;
+  ambiguityStrategy?: string;
+  fiscalYearStart?: number;
+  weekStartsOn?: number;
+  contextDate?: string;
 }
 
 const cache = new LRUCache<string, ExtractResponse>({
@@ -15,7 +19,7 @@ const cache = new LRUCache<string, ExtractResponse>({
 });
 
 function keyOf(k: CacheKey): string {
-  return `${k.text}|${k.referenceDate}|${k.timezone}|${k.locale}|${k.outputModes}`;
+  return `${k.text}|${k.referenceDate}|${k.timezone}|${k.locale}|${k.outputModes}|${k.ambiguityStrategy ?? "past"}|${k.fiscalYearStart ?? 1}|${k.weekStartsOn ?? 1}|${k.contextDate ?? ""}`;
 }
 
 export function cacheGet(k: CacheKey): ExtractResponse | undefined {

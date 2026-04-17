@@ -78,6 +78,61 @@ const res = await extract({
 
 "날짜 미지정 = 현재 시점"이 관습인 환경에서 사용. 명시적 날짜가 있으면 이 옵션은 무시됨.
 
+## 요청 옵션 (`ExtractRequest`)
+
+| 필드 | 타입 | 기본값 | 설명 |
+|---|---|---|---|
+| `text` | `string` | — | 추출 대상 자연어 (필수) |
+| `referenceDate` | `string` (ISO) | 오늘 | 상대 표현의 기준일 |
+| `timezone` | `string` | `"Asia/Seoul"` | 타임존 |
+| `locale` | `"ko" \| "en" \| "auto"` | `"auto"` | 언어 힌트 |
+| `outputModes` | `OutputMode[]` | `["range","single"]` | 결과 포맷 조합 |
+| `forceLLM` | `boolean` | `false` | 룰 스킵하고 LLM만 사용 |
+| `defaultToToday` | `boolean` | `false` | 날짜 미감지 시 오늘로 폴백 |
+| `ambiguityStrategy` | `"past" \| "future" \| "both"` | `"past"` | 연/월 생략 표현의 해석 방향 |
+| `fiscalYearStart` | `number` (1~12) | `1` | 회계연도 시작월 (분기/반기 해석) |
+| `weekStartsOn` | `0 \| 1` | `1` | 주 시작 요일 (0=일, 1=월) |
+| `contextDate` | `string` (ISO) | — | 직전 문맥 기준일 (연/월 보간) |
+
+### `ambiguityStrategy`
+
+기준일 2025-11-17에서 "3월"이 주어졌을 때:
+- `"past"`(기본): 2025-03 (올해 유지)
+- `"future"`: 이미 지난 월이므로 2026-03
+- `"both"`: `"past"`와 동일 (향후 확장)
+
+### `fiscalYearStart`
+
+`7`로 설정하면 1분기 = 7~9월, 상반기 = 7~12월. 기본값 1은 캘린더 연도.
+
+### `contextDate`
+
+앞선 문장에서 "2025년 6월"이 언급되었다면 후속 문장의 "15일"을 `contextDate: "2025-06-01"`로 넘겨 2025-06-15로 해석.
+
+```typescript
+await extract({
+  text: "15일 잔액",
+  referenceDate: "2025-11-17",
+  contextDate: "2025-06-01",
+});
+// → 2025-06-15
+```
+
+## 응답 필드 (`ExtractedExpression`)
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| `text` | `string` | 매칭된 원문 구간 |
+| `expression` | `DateExpression` | 중간 DSL |
+| `results` | `ResolvedValue[]` | 요청한 `outputModes`별 계산 결과 |
+| `confidence` | `number` | 0~1 (룰 full=1.0, 폴백=0.85, defaultToToday=0) |
+| `temporality` | `"past" \| "present" \| "future"` | 기준일 대비 위치 |
+
+`temporality` 계산 규칙:
+- range 전체가 기준일보다 이전 → `past`
+- range 전체가 기준일보다 이후 → `future`
+- 기준일을 포함하거나 걸침 → `present`
+
 ## 아키텍처
 
 ```
@@ -151,7 +206,7 @@ HOLIDAY_API_KEY=발급키 npx tsx scripts/sync-holidays.ts 2024 2030
 
 - **LLM 경로 검증 미완료**: 룰 엔진이 80%+를 커버하지만, 복잡한 자연어(예: "3개월 전부터 보름 동안의 평일")는 Ollama LLM 폴백이 필요합니다. `ollama pull qwen2.5:3b-instruct` 후 테스트 페이지에서 실제 동작을 확인하세요. Zod 스키마 검증은 `npm run test:all`로 오프라인 확인됩니다.
 - **timezone 파라미터**: 현재는 meta 반영만. 실제 날짜 연산은 로컬 TZ(개발 환경 KST 가정)에서 수행. UTC 컨테이너 배포 시 `date-fns-tz`의 `toZonedTime` 호출 추가 필요.
-- **ambiguity 규칙**: "지난 3월" 같은 연도 해석 규칙은 pass-through. 추후 `src/resolver/ambiguity.ts`에 확장 가능.
+- **ambiguity 규칙**: 연/월 생략 표현은 `ambiguityStrategy`·`contextDate`로 제어. "지난 3월" 같은 지시어 + 월 복합 표현은 일부만 지원.
 
 ## 환경변수
 

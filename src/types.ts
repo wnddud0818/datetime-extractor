@@ -124,7 +124,32 @@ export interface ExtractRequest {
    * 금융·운영 도메인처럼 "날짜 미지정 = 현재 시점"이 관습인 환경에서 사용.
    */
   defaultToToday?: boolean;
+  /**
+   * 연도/월이 생략된 표현("5일", "3월")의 해석 방향.
+   * - "past": 가장 가까운 과거로 해석 (기본값; 예: 11/17 기준 "3월" → 올해 3월이 과거라 올해 3월)
+   * - "future": 가장 가까운 미래로 해석
+   * - "both": 모호성을 유지 (현재는 past와 동일하게 동작)
+   * 기본값: "past"
+   */
+  ambiguityStrategy?: "past" | "future" | "both";
+  /**
+   * 회계연도 시작월 (1~12). 기본값 1.
+   * 분기/반기 해석에 영향. 예: 7이면 7~9월이 1분기, 7~12월이 상반기.
+   */
+  fiscalYearStart?: number;
+  /**
+   * 주의 시작 요일. 0=일요일, 1=월요일. 기본값 1.
+   */
+  weekStartsOn?: 0 | 1;
+  /**
+   * 직전 문맥의 기준 날짜(ISO). 연/월이 생략된 표현을 이 날짜 기준으로 보간.
+   * 예: contextDate="2025-06-01"일 때 "15일" → 2025-06-15.
+   */
+  contextDate?: string;
 }
+
+/** 기준일 대비 표현의 시간적 위치. */
+export type Temporality = "past" | "present" | "future";
 
 export type ResolvedValue =
   | { mode: "single"; value: string }
@@ -149,6 +174,8 @@ export interface ExtractedExpression {
   expression: DateExpression;
   results: ResolvedValue[];
   confidence?: number;
+  /** 기준일 대비 이 표현이 과거/현재/미래 중 어디에 해당하는지. */
+  temporality?: Temporality;
 }
 
 export interface LatencyBreakdown {

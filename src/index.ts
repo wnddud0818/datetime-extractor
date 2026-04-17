@@ -15,6 +15,7 @@ import {
   formatRange,
   parseReferenceDate,
   getFilterKind,
+  computeTemporality,
 } from "./resolver/resolve.js";
 import { cacheGet, cacheSet } from "./cache/lru.js";
 import { callLLMWithRetry, getModelName, warmUp } from "./extractor/ollama-client.js";
@@ -41,7 +42,14 @@ async function buildResponse(
   error?: string,
 ): Promise<ExtractResponse> {
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
-  const ctx = { referenceDate, timezone };
+  const ctx = {
+    referenceDate,
+    timezone,
+    ambiguityStrategy: req.ambiguityStrategy,
+    fiscalYearStart: req.fiscalYearStart,
+    weekStartsOn: req.weekStartsOn,
+    contextDate: req.contextDate ? parseReferenceDate(req.contextDate) : undefined,
+  };
   const resolverStart = now();
 
   const result: ExtractedExpression[] = [];
@@ -58,6 +66,7 @@ async function buildResponse(
       expression: e.expression,
       results,
       confidence: e.confidence,
+      temporality: computeTemporality(range, referenceDate),
     });
   }
   latencyBreakdown.resolver = now() - resolverStart;
@@ -97,6 +106,10 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     timezone,
     locale,
     outputModes: outputModes.join(","),
+    ambiguityStrategy: req.ambiguityStrategy ?? "past",
+    fiscalYearStart: req.fiscalYearStart ?? 1,
+    weekStartsOn: req.weekStartsOn ?? 1,
+    contextDate: req.contextDate ?? "",
   };
   const cached = cacheGet(cacheKey);
   breakdown.cache = now() - cacheStart;
