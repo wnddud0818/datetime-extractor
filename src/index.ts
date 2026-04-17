@@ -182,6 +182,18 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     ruleConfidence = 0;
   }
 
+  // defaultToToday 폴백: 날짜를 하나도 못 찾았는데 옵션이 켜져 있으면 오늘로 기본 처리
+  if (expressions.length === 0 && req.defaultToToday) {
+    expressions = [
+      {
+        text: "",
+        expression: { kind: "named", name: "today" },
+        confidence: 0,
+      },
+    ];
+    error = undefined; // LLM 에러가 있더라도 기본값으로 대체했으므로 클리어
+  }
+
   const response = await buildResponse(
     expressions,
     req,

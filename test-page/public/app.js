@@ -59,6 +59,7 @@ async function doExtract() {
     locale: $("#locale").value,
     outputModes: selectedModes(),
     forceLLM: $("#forceLLM").checked,
+    defaultToToday: $("#defaultToToday").checked,
   };
 
   const t0 = performance.now();

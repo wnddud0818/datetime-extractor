@@ -86,6 +86,11 @@ export interface ExtractRequest {
   locale?: "ko" | "en" | "auto";
   outputModes?: OutputMode[];
   forceLLM?: boolean;
+  /**
+   * true이면 룰/LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 기본값으로 반환.
+   * 금융·운영 도메인처럼 "날짜 미지정 = 현재 시점"이 관습인 환경에서 사용.
+   */
+  defaultToToday?: boolean;
 }
 
 export type ResolvedValue =

@@ -63,6 +63,21 @@ const res = await extract({ text: "안녕하세요" });
 // res.expressions === []
 ```
 
+`defaultToToday` 옵션 (금융/운영 도메인):
+
+```typescript
+const res = await extract({
+  text: "증권 계좌 잔액",      // 날짜 표현 없음
+  referenceDate: "2025-11-17",
+  defaultToToday: true,
+});
+// res.hasDate === true
+// res.expressions[0].results → { single: "2025-11-17" }
+// confidence === 0  (기본값 폴백임을 시그널링)
+```
+
+"날짜 미지정 = 현재 시점"이 관습인 환경에서 사용. 명시적 날짜가 있으면 이 옵션은 무시됨.
+
 ## 아키텍처
 
 ```

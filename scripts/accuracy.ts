@@ -11,8 +11,10 @@ import { extract, cacheClear } from "../src/index.js";
  *  - 날짜 포맷: CSV는 "YYYY.M.D" → 비교 시 "YYYY-MM-DD"로 정규화
  */
 
-const CSV = process.argv[2] ?? "C:/Users/first/Downloads/test_results.csv";
+const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const CSV = args[0] ?? "C:/Users/first/Downloads/test_results.csv";
 const REFERENCE_DATE = "2025-11-17";
+const DEFAULT_TO_TODAY = process.argv.includes("--default-to-today");
 
 interface Row {
   text: string;
@@ -143,6 +145,7 @@ async function main() {
       text,
       referenceDate: REFERENCE_DATE,
       outputModes: ["range", "single"],
+      defaultToToday: DEFAULT_TO_TODAY,
     });
     const actualRanges = res.expressions
       .map((e) => pickBestRange(e.results))
