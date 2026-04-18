@@ -7,231 +7,384 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header>
-      <h1>datetime-extractor</h1>
-      <p class="sub">한국어/영어 자연어에서 날짜·시간 추출 (룰 + 선택적 LLM)</p>
+    <header class="app-header">
+      <div class="app-header__brand">
+        <h1>datetime-extractor</h1>
+        <p class="app-header__sub">
+          한국어/영어 자연어에서 날짜·시간 추출 · 룰 + 선택적 LLM
+        </p>
+      </div>
+      <div class="app-header__meta">
+        <kbd class="kbd">⌘</kbd><span class="plus">/</span
+        ><kbd class="kbd">Ctrl</kbd><span class="plus">+</span
+        ><kbd class="kbd">Enter</kbd>
+        <span class="app-header__meta-label">추출</span>
+      </div>
     </header>
 
-    <main>
-      <section class="panel input-panel">
-        <label>
-          <span>자연어 질의</span>
-          <textarea
-            id="text"
-            rows="3"
-            placeholder="예: 저번달 영업일, 3월 4월 잔액, 사흘 전 날씨..."
-          ></textarea>
-        </label>
+    <main class="workspace">
+      <aside class="workspace__inputs" aria-label="입력 패널">
+        <div class="workspace__inputs-inner">
+          <section class="card card--primary">
+            <label class="field field--textarea">
+              <span class="field__label">자연어 질의</span>
+              <textarea
+                id="text"
+                rows="4"
+                placeholder="예: 저번달 영업일, 3월 4월 잔액, 사흘 전 날씨, tomorrow 3pm meeting..."
+              ></textarea>
+            </label>
+            <div class="actions">
+              <button id="extract-btn" class="btn btn--primary" type="button">
+                추출
+              </button>
+              <button
+                id="clear-cache-btn"
+                class="btn btn--ghost"
+                type="button"
+              >
+                캐시 비우기
+              </button>
+            </div>
+          </section>
 
-        <div class="row">
-          <label>
-            <span
-              >기준 날짜 (referenceDate)<i
+          <section class="card">
+            <h2 class="card__title">기본 설정</h2>
+            <div class="grid grid--3">
+              <label class="field">
+                <span class="field__label"
+                  >기준 날짜<i
+                    class="info"
+                    data-tip="'어제', '다음주', '저번달' 같은 상대 표현의 기준이 되는 오늘 날짜. 비워두면 서버의 현재 시각 사용."
+                    >?</i
+                  ></span
+                >
+                <input id="refDate" type="date" />
+              </label>
+              <label class="field">
+                <span class="field__label"
+                  >타임존<i
+                    class="info"
+                    data-tip="날짜 계산에 사용할 IANA 타임존. 기준일을 이 타임존의 하루 경계로 해석."
+                    >?</i
+                  ></span
+                >
+                <select id="tz">
+                  <option value="Asia/Seoul" selected>Asia/Seoul</option>
+                  <option value="UTC">UTC</option>
+                  <option value="America/New_York">America/New_York</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label"
+                  >로케일<i
+                    class="info"
+                    data-tip="입력 언어. auto면 텍스트에서 자동 감지, ko/en이면 해당 로케일 규칙만 적용."
+                    >?</i
+                  ></span
+                >
+                <select id="locale">
+                  <option value="auto" selected>auto</option>
+                  <option value="ko">ko</option>
+                  <option value="en">en</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">
+              출력 모드<i
                 class="info"
-                data-tip="'어제', '다음주', '저번달' 같은 상대 표현의 기준이 되는 오늘 날짜. 비워두면 서버의 현재 시각 사용."
+                data-tip="반환할 결과 형태. single=단일일, range={시작,끝}, list=개별 날짜 배열, business_days=영업일(주말·공휴일 제외), weekdays=평일, holidays=공휴일, all=모두 포함, datetime=시간 포함."
                 >?</i
-              ></span
-            >
-            <input id="refDate" type="date" />
-          </label>
-          <label>
-            <span
-              >timezone<i
-                class="info"
-                data-tip="날짜 계산에 사용할 IANA 타임존. 기준일을 이 타임존의 하루 경계로 해석."
-                >?</i
-              ></span
-            >
-            <select id="tz">
-              <option value="Asia/Seoul" selected>Asia/Seoul</option>
-              <option value="UTC">UTC</option>
-              <option value="America/New_York">America/New_York</option>
-            </select>
-          </label>
-          <label>
-            <span
-              >locale<i
-                class="info"
-                data-tip="입력 언어. auto면 텍스트에서 자동 감지, ko/en이면 해당 로케일 규칙만 적용."
-                >?</i
-              ></span
-            >
-            <select id="locale">
-              <option value="auto" selected>auto</option>
-              <option value="ko">ko</option>
-              <option value="en">en</option>
-            </select>
-          </label>
+              >
+            </h2>
+            <div id="modes" class="chips">
+              <label class="chip"
+                ><input type="checkbox" value="single" /><span>single</span></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="range" checked /><span
+                  >range</span
+                ></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="list" /><span>list</span></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="business_days" /><span
+                  >business_days</span
+                ></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="weekdays" /><span
+                  >weekdays</span
+                ></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="holidays" /><span
+                  >holidays</span
+                ></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="all" /><span>all</span></label
+              >
+              <label class="chip"
+                ><input type="checkbox" value="datetime" /><span
+                  >datetime</span
+                ></label
+              >
+            </div>
+          </section>
+
+          <details class="card card--collapsible">
+            <summary class="card__summary">고급 옵션</summary>
+            <div class="card__body">
+              <div class="grid grid--2">
+                <label class="field">
+                  <span class="field__label"
+                    >defaultMeridiem<i
+                      class="info"
+                      data-tip="오전/오후 없이 숫자 시(예: '3시')만 나온 경우의 기본 해석. 기본=없음. am이면 오전, pm이면 오후로 간주."
+                      >?</i
+                    ></span
+                  >
+                  <select id="defaultMeridiem">
+                    <option value="" selected>(없음)</option>
+                    <option value="am">am</option>
+                    <option value="pm">pm</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="field__label"
+                    >ambiguityStrategy<i
+                      class="info"
+                      data-tip="연/월이 생략된 표현('5일', '3월')의 해석 방향. past=가장 가까운 과거(기본), future=가장 가까운 미래, both=모호성 유지."
+                      >?</i
+                    ></span
+                  >
+                  <select id="ambiguityStrategy">
+                    <option value="past" selected>past (기본)</option>
+                    <option value="future">future</option>
+                    <option value="both">both</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="field__label"
+                    >fiscalYearStart (1~12)<i
+                      class="info"
+                      data-tip="회계연도 시작월. 분기/반기 계산에 영향. 예: 7이면 7~9월이 1분기, 7~12월이 상반기. 기본값 1(=달력연도)."
+                      >?</i
+                    ></span
+                  >
+                  <input
+                    id="fiscalYearStart"
+                    type="number"
+                    min="1"
+                    max="12"
+                    value="1"
+                  />
+                </label>
+                <label class="field">
+                  <span class="field__label"
+                    >weekStartsOn<i
+                      class="info"
+                      data-tip="주의 시작 요일. '이번주/지난주' 같은 주 단위 범위 계산에 사용. 1=월요일(기본), 0=일요일."
+                      >?</i
+                    ></span
+                  >
+                  <select id="weekStartsOn">
+                    <option value="1" selected>월요일 (1)</option>
+                    <option value="0">일요일 (0)</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="field__label"
+                    >contextDate (선택)<i
+                      class="info"
+                      data-tip="직전 대화/문맥의 기준 날짜. 연/월이 생략된 표현을 이 날짜 기준으로 보간. 예: contextDate=2025-06-01일 때 '15일' → 2025-06-15."
+                      >?</i
+                    ></span
+                  >
+                  <input id="contextDate" type="date" />
+                </label>
+                <label class="field">
+                  <span class="field__label"
+                    >현재 기간 끝<i
+                      class="info"
+                      data-tip="기준일을 포함하는 기간(이번달·이번분기·올해·하반기·이번주)의 종료일 처리. 'today'는 기준일까지 잘라 반환."
+                      >?</i
+                    ></span
+                  >
+                  <select id="presentRangeEnd">
+                    <option value="period">기간 전체</option>
+                    <option value="today">기준일까지</option>
+                  </select>
+                </label>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="dateOnlyForDateModes" checked />
+                <span
+                  >single/range는 날짜만<i
+                    class="info"
+                    data-tip="체크 시(기본), 시간 포함 표현의 single/range 출력은 날짜만 반환. 해제하면 ISO datetime 문자열이 들어감. datetime 모드에는 영향 없음."
+                    >?</i
+                  ></span
+                >
+              </label>
+            </div>
+          </details>
+
+          <details class="card card--collapsible">
+            <summary class="card__summary">LLM &amp; 폴백</summary>
+            <div class="card__body toggle-stack">
+              <label class="toggle">
+                <input type="checkbox" id="enableLLM" />
+                <span
+                  >LLM 폴백 사용<i
+                    class="info"
+                    data-tip="기본값은 꺼짐. 체크하면 룰 기반 파서가 부분 매칭하거나 놓친 경우에만 LLM을 추가로 사용."
+                    >?</i
+                  ></span
+                >
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="forceLLM" />
+                <span
+                  >LLM 경로 강제 (룰 스킵)<i
+                    class="info"
+                    data-tip="LLM 폴백 토글과 무관하게 룰 기반 파서를 건너뛰고 LLM으로만 추출. 룰 커버리지 비교/디버깅용."
+                    >?</i
+                  ></span
+                >
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="defaultToToday" />
+                <span
+                  >날짜 미감지 시 오늘로 기본값<i
+                    class="info"
+                    data-tip="룰·(선택 시)LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 반환."
+                    >?</i
+                  ></span
+                >
+              </label>
+            </div>
+          </details>
+
+          <section class="card">
+            <h2 class="card__title">골든 예제</h2>
+            <div id="examples" class="examples"></div>
+          </section>
         </div>
+      </aside>
 
-        <div class="row modes">
-          <span
-            >outputModes (여러 개 선택 가능)<i
-              class="info"
-              data-tip="반환할 결과 형태. single=단일일, range={시작,끝}, list=개별 날짜 배열, business_days=영업일(주말·공휴일 제외), weekdays=평일, holidays=공휴일, all=모두 포함."
-              >?</i
-            ></span
-          >
-          <label><input type="checkbox" value="single" /> single</label>
-          <label><input type="checkbox" value="range" checked /> range</label>
-          <label><input type="checkbox" value="list" /> list</label>
-          <label
-            ><input type="checkbox" value="business_days" /> business_days</label
-          >
-          <label><input type="checkbox" value="weekdays" /> weekdays</label>
-          <label><input type="checkbox" value="holidays" /> holidays</label>
-          <label><input type="checkbox" value="all" /> all</label>
-          <label><input type="checkbox" value="datetime" /> datetime</label>
-        </div>
-
-        <div class="row">
-          <label>
-            <span
-              >defaultMeridiem<i
-                class="info"
-                data-tip="오전/오후 없이 숫자 시(예: '3시')만 나온 경우의 기본 해석. 기본=없음(룰이 생략). am이면 오전, pm이면 오후로 간주."
-                >?</i
-              ></span
-            >
-            <select id="defaultMeridiem">
-              <option value="" selected>(없음)</option>
-              <option value="am">am</option>
-              <option value="pm">pm</option>
-            </select>
-          </label>
-          <label
-            ><input type="checkbox" id="dateOnlyForDateModes" checked /> single/range는 날짜만<i
-              class="info"
-              data-tip="체크 시(기본), 시간 포함 표현의 single/range 출력은 날짜만 반환. 해제하면 ISO datetime 문자열이 들어감. datetime 모드에는 영향 없음."
-              >?</i
-            ></label
-          >
-        </div>
-
-        <div class="row">
-          <label>
-            <span
-              >ambiguityStrategy<i
-                class="info"
-                data-tip="연/월이 생략된 표현('5일', '3월')의 해석 방향. past=가장 가까운 과거(기본), future=가장 가까운 미래, both=모호성 유지(현재는 past와 동일)."
-                >?</i
-              ></span
-            >
-            <select id="ambiguityStrategy">
-              <option value="past" selected>past (기본)</option>
-              <option value="future">future</option>
-              <option value="both">both</option>
-            </select>
-          </label>
-          <label>
-            <span
-              >fiscalYearStart (1~12)<i
-                class="info"
-                data-tip="회계연도 시작월. 분기/반기 계산에 영향. 예: 7이면 7~9월이 1분기, 7~12월이 상반기. 기본값 1(=달력연도)."
-                >?</i
-              ></span
-            >
-            <input
-              id="fiscalYearStart"
-              type="number"
-              min="1"
-              max="12"
-              value="1"
-            />
-          </label>
-          <label>
-            <span
-              >weekStartsOn<i
-                class="info"
-                data-tip="주의 시작 요일. '이번주/지난주' 같은 주 단위 범위 계산에 사용. 1=월요일(기본), 0=일요일."
-                >?</i
-              ></span
-            >
-            <select id="weekStartsOn">
-              <option value="1" selected>월요일 (1)</option>
-              <option value="0">일요일 (0)</option>
-            </select>
-          </label>
-          <label>
-            <span
-              >contextDate (선택)<i
-                class="info"
-                data-tip="직전 대화/문맥의 기준 날짜. 연/월이 생략된 표현을 이 날짜 기준으로 보간. 예: contextDate=2025-06-01일 때 '15일' → 2025-06-15."
-                >?</i
-              ></span
-            >
-            <input id="contextDate" type="date" />
-          </label>
-        </div>
-
-        <div class="row">
-          <label
-            ><input type="checkbox" id="enableLLM" /> LLM 폴백 사용<i
-              class="info"
-              data-tip="기본값은 꺼짐. 체크하면 룰 기반 파서가 부분 매칭하거나 놓친 경우에만 LLM을 추가로 사용."
-              >?</i
-            ></label
-          >
-          <label
-            ><input type="checkbox" id="forceLLM" /> LLM 경로 강제 (룰
-            스킵)<i
-              class="info"
-              data-tip="LLM 폴백 토글과 무관하게 룰 기반 파서를 건너뛰고 LLM으로만 추출. 룰 커버리지 비교/디버깅용."
-              >?</i
-            ></label
-          >
-          <label
-            ><input type="checkbox" id="defaultToToday" /> 날짜 미감지 시 오늘로
-            기본값<i
-              class="info"
-              data-tip="룰·(선택 시)LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 반환. 금융·운영 도메인처럼 '날짜 미지정 = 현재 시점'이 관습인 환경용."
-              >?</i
-            ></label
-          >
-          <label>
-            현재 기간 끝:
-            <select id="presentRangeEnd">
-              <option value="period">기간 전체 (예: 이번달 → 1~30일)</option>
-              <option value="today">기준일까지 (예: 이번달 → 1일~오늘)</option>
-            </select>
-            <i
-              class="info"
-              data-tip="기준일을 포함하는 기간(이번달·이번분기·올해·하반기·이번주)의 종료일 처리. 'today'는 기준일까지 잘라 반환. 단일 시점이나 과거·미래 기간엔 영향 없음."
-              >?</i
-            >
-          </label>
-          <button id="extract-btn">추출</button>
-          <button id="clear-cache-btn" type="button">캐시 비우기</button>
-        </div>
-      </section>
-
-      <section class="panel examples-panel">
-        <h3>골든 예제 (원클릭)</h3>
-        <div id="examples"></div>
-      </section>
-
-      <section class="panel result-panel">
-        <h3>
-          결과
-          <span id="path-badge" class="badge" hidden></span>
-          <span id="latency-badge" class="latency" hidden></span>
-          <span id="hasdate-badge" class="badge" hidden></span>
-        </h3>
-        <div id="latency-breakdown" class="latency-breakdown"></div>
-
-        <div class="result-grid">
-          <div>
-            <h4>입력 (매치 하이라이트)</h4>
-            <div id="highlighted"></div>
+      <section class="workspace__results" aria-label="결과 패널">
+        <header class="results__header">
+          <div class="results__badges">
+            <span id="path-badge" class="badge" hidden></span>
+            <span id="hasdate-badge" class="badge" hidden></span>
+            <span id="latency-badge" class="latency" hidden></span>
           </div>
-          <div>
-            <h4>1단계 DSL</h4>
-            <pre id="dsl"></pre>
+          <div id="latency-breakdown" class="latency-breakdown"></div>
+        </header>
+
+        <div
+          id="results-empty"
+          class="results__empty"
+        >
+          <p>텍스트를 입력하고 <strong>추출</strong>을 누르면 결과가 이곳에 표시됩니다.</p>
+          <p class="results__empty-hint">
+            아래 골든 예제를 클릭하면 빠르게 테스트할 수 있습니다.
+          </p>
+        </div>
+
+        <div
+          id="results-content"
+          class="results__content"
+          hidden
+        >
+          <div
+            class="tabs"
+            role="tablist"
+            aria-label="결과 보기"
+          >
+            <button
+              class="tab is-active"
+              role="tab"
+              type="button"
+              data-tab="highlight"
+              aria-selected="true"
+              aria-controls="panel-highlight"
+            >
+              하이라이트
+            </button>
+            <button
+              class="tab"
+              role="tab"
+              type="button"
+              data-tab="dsl"
+              aria-selected="false"
+              aria-controls="panel-dsl"
+            >
+              1단계 DSL
+            </button>
+            <button
+              class="tab"
+              role="tab"
+              type="button"
+              data-tab="resolved"
+              aria-selected="false"
+              aria-controls="panel-resolved"
+            >
+              2단계 리졸버
+            </button>
           </div>
-          <div>
-            <h4>2단계 리졸버 결과</h4>
-            <pre id="resolved"></pre>
-          </div>
+
+          <article
+            id="panel-highlight"
+            class="tab-panel is-active"
+            role="tabpanel"
+            aria-labelledby="tab-highlight"
+          >
+            <div id="highlighted" class="highlighted"></div>
+          </article>
+
+          <article
+            id="panel-dsl"
+            class="tab-panel"
+            role="tabpanel"
+            hidden
+          >
+            <div class="code-toolbar">
+              <button
+                class="btn btn--mini copy-btn"
+                type="button"
+                data-target="dsl"
+              >
+                복사
+              </button>
+            </div>
+            <pre id="dsl" class="code"></pre>
+          </article>
+
+          <article
+            id="panel-resolved"
+            class="tab-panel"
+            role="tabpanel"
+            hidden
+          >
+            <div class="code-toolbar">
+              <button
+                class="btn btn--mini copy-btn"
+                type="button"
+                data-target="resolved"
+              >
+                복사
+              </button>
+            </div>
+            <pre id="resolved" class="code"></pre>
+          </article>
         </div>
       </section>
     </main>

@@ -22,6 +22,10 @@ const BASE: Record<NamedToken, number> = {
   아흐레: 9,
   열흘: 10,
   보름: 15,
+  // business-day 토큰은 resolveNamed에서 별도 경로로 처리. 여기 값은 placeholder.
+  next_business_day: 0,
+  prev_business_day: 0,
+  today_or_next_business_day: 0,
 };
 
 export const KOREAN_NUMERAL_OFFSETS = BASE;

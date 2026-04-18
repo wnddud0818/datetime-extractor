@@ -1,4 +1,7 @@
 const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+const TAB_STORAGE_KEY = "datetime-extractor:active-tab";
 
 function todayIso() {
   const d = new Date();
@@ -12,12 +15,12 @@ $("#refDate").value = todayIso();
 
 function selectedModes() {
   return Array.from(
-    document.querySelectorAll('.modes input[type="checkbox"]:checked'),
+    document.querySelectorAll('#modes input[type="checkbox"]:checked'),
   ).map((el) => el.value);
 }
 
 function setModes(modes) {
-  document.querySelectorAll('.modes input[type="checkbox"]').forEach((el) => {
+  document.querySelectorAll('#modes input[type="checkbox"]').forEach((el) => {
     el.checked = modes.includes(el.value);
   });
 }
@@ -57,6 +60,11 @@ function renderHighlight(text, expressions) {
   return out || escapeHtml(text);
 }
 
+function showResults() {
+  $("#results-empty").hidden = true;
+  $("#results-content").hidden = false;
+}
+
 async function doExtract() {
   const text = $("#text").value.trim();
   if (!text) return;
@@ -80,33 +88,42 @@ async function doExtract() {
     dateOnlyForDateModes: $("#dateOnlyForDateModes").checked,
   };
 
-  const t0 = performance.now();
-  const res = await fetch("/api/extract", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const clientMs = Math.round(performance.now() - t0);
-  const data = await res.json();
+  const extractBtn = $("#extract-btn");
+  extractBtn.disabled = true;
+  extractBtn.textContent = "추출 중...";
 
-  // Path badge
+  const t0 = performance.now();
+  let data;
+  try {
+    const res = await fetch("/api/extract", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    data = await res.json();
+  } catch (err) {
+    data = { meta: { error: String(err) }, hasDate: false, expressions: [] };
+  }
+  const clientMs = Math.round(performance.now() - t0);
+  extractBtn.disabled = false;
+  extractBtn.textContent = "추출";
+
+  showResults();
+
   const pathBadge = $("#path-badge");
   pathBadge.hidden = false;
   pathBadge.className = `badge path-${data.meta?.path ?? "rule"}`;
   pathBadge.textContent = data.meta?.path ?? "?";
 
-  // Latency badge
   const latencyBadge = $("#latency-badge");
   latencyBadge.hidden = false;
   latencyBadge.textContent = `${data.meta?.latencyMs ?? clientMs}ms (서버) / ${clientMs}ms (클라이언트)`;
 
-  // hasDate badge
   const hdBadge = $("#hasdate-badge");
   hdBadge.hidden = false;
   hdBadge.className = `badge hasdate-${data.hasDate}`;
   hdBadge.textContent = `hasDate: ${data.hasDate}`;
 
-  // Breakdown
   const bd = data.meta?.latencyBreakdown;
   if (bd) {
     const parts = Object.entries(bd)
@@ -143,6 +160,64 @@ async function doExtract() {
   }
 }
 
+function activateTab(name) {
+  $$(".tab").forEach((btn) => {
+    const active = btn.dataset.tab === name;
+    btn.classList.toggle("is-active", active);
+    btn.setAttribute("aria-selected", active ? "true" : "false");
+  });
+  $$(".tab-panel").forEach((panel) => {
+    const active = panel.id === `panel-${name}`;
+    panel.classList.toggle("is-active", active);
+    panel.hidden = !active;
+  });
+  try {
+    localStorage.setItem(TAB_STORAGE_KEY, name);
+  } catch {
+    /* ignore storage errors */
+  }
+}
+
+function initTabs() {
+  $$(".tab").forEach((btn) => {
+    btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+  });
+  let saved = null;
+  try {
+    saved = localStorage.getItem(TAB_STORAGE_KEY);
+  } catch {
+    /* ignore */
+  }
+  if (saved && ["highlight", "dsl", "resolved"].includes(saved)) {
+    activateTab(saved);
+  }
+}
+
+function initCopyButtons() {
+  $$(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const target = $(`#${btn.dataset.target}`);
+      if (!target) return;
+      const text = target.textContent ?? "";
+      try {
+        await navigator.clipboard.writeText(text);
+        const prev = btn.textContent;
+        btn.textContent = "✓ 복사됨";
+        btn.classList.add("is-success");
+        setTimeout(() => {
+          btn.textContent = prev;
+          btn.classList.remove("is-success");
+        }, 1600);
+      } catch {
+        btn.textContent = "실패";
+        setTimeout(() => {
+          btn.textContent = "복사";
+        }, 1600);
+      }
+    });
+  });
+}
+
 $("#extract-btn").addEventListener("click", doExtract);
 $("#text").addEventListener("keydown", (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === "Enter") doExtract();
@@ -150,7 +225,12 @@ $("#text").addEventListener("keydown", (e) => {
 
 $("#clear-cache-btn").addEventListener("click", async () => {
   await fetch("/api/cache/clear", { method: "POST" });
-  alert("캐시를 비웠습니다");
+  const btn = $("#clear-cache-btn");
+  const prev = btn.textContent;
+  btn.textContent = "✓ 비워짐";
+  setTimeout(() => {
+    btn.textContent = prev;
+  }, 1400);
 });
 
 async function loadExamples() {
@@ -170,4 +250,7 @@ async function loadExamples() {
     container.appendChild(btn);
   }
 }
+
+initTabs();
+initCopyButtons();
 loadExamples();

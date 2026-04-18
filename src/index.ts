@@ -19,6 +19,7 @@ import {
   computeTemporality,
   projectTimeField,
 } from "./resolver/resolve.js";
+import { getHolidays } from "./calendar/korean-holidays.js";
 import { cacheGet, cacheSet } from "./cache/lru.js";
 import { callLLMWithRetry, getModelName, warmUp } from "./extractor/ollama-client.js";
 
@@ -65,6 +66,11 @@ async function buildResponse(
 ): Promise<ExtractResponse> {
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
   const userSpecifiedModes = req.outputModes !== undefined;
+  const refYear = referenceDate.getFullYear();
+  const holidaysByYear: Record<number, Record<string, string>> = {};
+  for (const y of [refYear - 1, refYear, refYear + 1]) {
+    holidaysByYear[y] = await getHolidays(y);
+  }
   const ctx = {
     referenceDate,
     timezone,
@@ -76,6 +82,7 @@ async function buildResponse(
     timePeriodBounds: req.timePeriodBounds,
     monthBoundaryMode: req.monthBoundaryMode,
     fuzzyDayWindow: req.fuzzyDayWindow,
+    holidaysByYear,
   };
   const resolverStart = now();
   const clampToToday = req.presentRangeEnd === "today";

@@ -271,6 +271,22 @@ export function tryAttachTime(
 const WEEK_OF_MONTH_RE_SRC =
   "(?:(?:첫째?|둘째|셋째|넷째|다섯째)\\s*주|[1-5]\\s*주\\s*차|(?:[1-5]|첫|두|세|네|다섯)\\s*번\\s*째\\s*주)";
 
+// 한국어 요일 alternation (full + 욜 축약). parseKoWeekday로 JS getDay 값 매핑.
+const KO_WEEKDAY_ALT =
+  "일요일|월요일|화요일|수요일|목요일|금요일|토요일|일욜|월욜|화욜|수욜|목욜|금욜|토욜";
+
+function parseKoWeekday(raw: string): number | undefined {
+  const s = raw.replace(/\s+/g, "");
+  if (s === "일요일" || s === "일욜") return 0;
+  if (s === "월요일" || s === "월욜") return 1;
+  if (s === "화요일" || s === "화욜") return 2;
+  if (s === "수요일" || s === "수욜") return 3;
+  if (s === "목요일" || s === "목욜") return 4;
+  if (s === "금요일" || s === "금욜") return 5;
+  if (s === "토요일" || s === "토욜") return 6;
+  return undefined;
+}
+
 function parseWeekOfMonth(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
   const s = raw.replace(/\s+/g, "");
   if (s === "첫주" || s === "첫째주" || s === "1주차" || s === "첫번째주" || s === "1번째주") return 1;
@@ -406,20 +422,51 @@ export function findMatchesKo(text: string): Match[] {
         : mp === "말" ? ("late" as const)
         : undefined;
       const weekOfMonth = wk ? parseWeekOfMonth(wk) : undefined;
-      const base: AbsoluteExpression = {
+      const baseExpr: AbsoluteExpression = {
         kind: "absolute",
         year: Number(m[1]),
         month: Number(m[2]),
       };
-      if (monthPart) base.monthPart = monthPart;
-      if (weekOfMonth) base.weekOfMonth = weekOfMonth;
-      out.push({
+      if (monthPart) baseExpr.monthPart = monthPart;
+      if (weekOfMonth) baseExpr.weekOfMonth = weekOfMonth;
+      const base: Match = {
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
-        expression: base,
+        expression: baseExpr,
         priority: 93,
-      });
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
+    }
+  }
+
+  // 2b-day. YYYY년 M월 N주차 + 요일 → 단일 날짜 (priority 96 > 2b의 93)
+  {
+    const re = new RegExp(
+      `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*(${KO_WEEKDAY_ALT})`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const wk = parseWeekOfMonth(m[3]);
+      const wd = parseKoWeekday(m[4]);
+      if (!wk || wd === undefined) continue;
+      const base: Match = {
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          year: Number(m[1]),
+          month: Number(m[2]),
+          weekOfMonth: wk,
+          weekday: wd,
+        },
+        priority: 96,
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
     }
   }
 
@@ -448,6 +495,34 @@ export function findMatchesKo(text: string): Match[] {
         end: m.index + m[0].length,
         expression: baseExpr,
         priority: 88,
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
+    }
+  }
+
+  // 2c-day. M월 N주차 + 요일 → 단일 날짜 (priority 91 > 2c의 88). 연도 없음 → 2c와 동일하게 baseYear.
+  {
+    const re = new RegExp(
+      `(?<!\\d)(\\d{1,2})\\s*월\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*(${KO_WEEKDAY_ALT})`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const wk = parseWeekOfMonth(m[2]);
+      const wd = parseKoWeekday(m[3]);
+      if (!wk || wd === undefined) continue;
+      const base: Match = {
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          month: Number(m[1]),
+          weekOfMonth: wk,
+          weekday: wd,
+        },
+        priority: 91,
       };
       const withFilter = tryAttachFilter(text, base.end, base);
       out.push(withFilter ?? base);
@@ -1017,7 +1092,7 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
   {
-    const re = /(\d{4})\s*년\s*(상|하)\s*반기\s*(?:와|과|및|,|\/)\s*(상|하)\s*반기/g;
+    const re = /(\d{4})\s*년\s*(상|하)\s*반기\s*(?:와|과|및|랑|하고|[,/])\s*(상|하)\s*반기/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const secondHalf = (m[3] === "상" ? 1 : 2) as 1 | 2;
@@ -1068,6 +1143,28 @@ export function findMatchesKo(text: string): Match[] {
         end: m.index + m[0].length,
         expression: { kind: "half", half, mostRecentPast: true },
         priority: 88,
+      });
+    }
+  }
+
+  // 16b-rel. 상대 반기: "다음 반기", "지난 반기", "이번 반기" (상/하 없음)
+  //     기준일의 현재 반기에 halfOffset을 더해 해석. 기존 "지난 상/하반기"와 구분하기 위해
+  //     "반기" 앞에 "상/하"가 없어야 함 (lookbehind).
+  {
+    const re = /(다음|다가오는|오는|지난|저번|이전|이번)\s*(?<![상하])반기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const word = m[1];
+      const halfOffset =
+        word === "이번" ? 0
+        : word === "지난" || word === "저번" || word === "이전" ? -1
+        : 1;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "half", half: 1, halfOffset },
+        priority: 89,
       });
     }
   }
@@ -2028,6 +2125,33 @@ export function findMatchesKo(text: string): Match[] {
             priority: 94,
           });
         }
+      }
+    }
+  }
+
+  // 24c. (다음|오는|다가오는|지난|저번|이전|이번) 영업일/업무일 — 업무형 상대 표현
+  //      기준일에서 주말/공휴일을 건너뛰며 다음/이전 business day를 단일 날짜로 반환.
+  {
+    const BIZ_RULES: Array<{ word: string; token: NamedToken }> = [
+      { word: "다가오는", token: "next_business_day" },
+      { word: "다음", token: "next_business_day" },
+      { word: "오는", token: "next_business_day" },
+      { word: "지난", token: "prev_business_day" },
+      { word: "저번", token: "prev_business_day" },
+      { word: "이전", token: "prev_business_day" },
+      { word: "이번", token: "today_or_next_business_day" },
+    ];
+    for (const { word, token } of BIZ_RULES) {
+      const re = new RegExp(`(?<![가-힣])${word}\\s*(영업일|업무일)`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "named", name: token },
+          priority: 90,
+        });
       }
     }
   }

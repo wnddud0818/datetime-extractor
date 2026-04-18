@@ -89,6 +89,8 @@ export interface HalfExpression {
   year?: number;
   yearOffset?: number;
   mostRecentPast?: boolean;
+  /** 기준일의 현재 반기 + offset. 설정 시 half/year/yearOffset/mostRecentPast는 무시. */
+  halfOffset?: number;
 }
 
 export interface DurationExpression {
@@ -148,7 +150,10 @@ export type NamedToken =
   | "여드레"
   | "아흐레"
   | "열흘"
-  | "보름";
+  | "보름"
+  | "next_business_day"
+  | "prev_business_day"
+  | "today_or_next_business_day";
 
 export interface NamedExpression {
   kind: "named";

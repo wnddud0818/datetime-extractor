@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-18T09:57:47.165Z",
+  "generatedAt": "2026-04-18T13:40:02.577Z",
   "refDates": [
     "2025-01-10",
     "2025-11-17",
@@ -14,8 +14,8 @@
     {
       "suite": "default",
       "total": 973,
-      "passed": 973,
-      "accuracy": 100,
+      "passed": 966,
+      "accuracy": 99.28,
       "byCategory": [
         {
           "category": "A.absolute",
@@ -74,8 +74,8 @@
         {
           "category": "J.edge",
           "total": 140,
-          "passed": 140,
-          "accuracy": 100
+          "passed": 133,
+          "accuracy": 95
         },
         {
           "category": "K.time",
@@ -86,19 +86,250 @@
       ],
       "byPath": [
         {
-          "path": "llm",
-          "count": 7
-        },
-        {
           "path": "rule",
-          "count": 952
-        },
-        {
-          "path": "rule+llm",
-          "count": 14
+          "count": 973
         }
       ],
-      "failures": []
+      "failures": [
+        {
+          "id": "default:edge_this_month_early:2025-01-10",
+          "text": "이번달 초",
+          "referenceDate": "2025-01-10",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2025-01-10\",\"start\":\"2025-01-01\"}, actual={\"end\":\"2025-01-01\",\"start\":\"2025-01-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2025-01-01",
+                    "end": "2025-01-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2025-01-01",
+                  "end": "2025-01-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2025-11-17",
+          "text": "이번달 초",
+          "referenceDate": "2025-11-17",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2025-11-10\",\"start\":\"2025-11-01\"}, actual={\"end\":\"2025-11-01\",\"start\":\"2025-11-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2025-11-01",
+                    "end": "2025-11-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2025-11-01",
+                  "end": "2025-11-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2026-04-18",
+          "text": "이번달 초",
+          "referenceDate": "2026-04-18",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2026-04-10\",\"start\":\"2026-04-01\"}, actual={\"end\":\"2026-04-01\",\"start\":\"2026-04-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2026-04-01",
+                    "end": "2026-04-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2026-04-01",
+                  "end": "2026-04-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2026-12-31",
+          "text": "이번달 초",
+          "referenceDate": "2026-12-31",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2026-12-10\",\"start\":\"2026-12-01\"}, actual={\"end\":\"2026-12-01\",\"start\":\"2026-12-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2026-12-01",
+                    "end": "2026-12-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2026-12-01",
+                  "end": "2026-12-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2027-09-16",
+          "text": "이번달 초",
+          "referenceDate": "2027-09-16",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2027-09-10\",\"start\":\"2027-09-01\"}, actual={\"end\":\"2027-09-01\",\"start\":\"2027-09-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2027-09-01",
+                    "end": "2027-09-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2027-09-01",
+                  "end": "2027-09-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2028-02-29",
+          "text": "이번달 초",
+          "referenceDate": "2028-02-29",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2028-02-10\",\"start\":\"2028-02-01\"}, actual={\"end\":\"2028-02-01\",\"start\":\"2028-02-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2028-02-01",
+                    "end": "2028-02-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2028-02-01",
+                  "end": "2028-02-10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "default:edge_this_month_early:2029-12-30",
+          "text": "이번달 초",
+          "referenceDate": "2029-12-30",
+          "category": "J.edge",
+          "path": "rule",
+          "issues": [
+            "expression[0] range mismatch: expected={\"end\":\"2029-12-10\",\"start\":\"2029-12-01\"}, actual={\"end\":\"2029-12-01\",\"start\":\"2029-12-01\"}"
+          ],
+          "actual": [
+            {
+              "results": [
+                {
+                  "mode": "range",
+                  "value": {
+                    "start": "2029-12-01",
+                    "end": "2029-12-01"
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": {
+            "hasDate": true,
+            "expressions": [
+              {
+                "range": {
+                  "start": "2029-12-01",
+                  "end": "2029-12-10"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "suite": "force_llm",

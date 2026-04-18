@@ -4666,6 +4666,8 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     category: string;
     text: string;
     mode: OutputMode;
+    referenceDate?: string;
+    presentRangeEnd?: "period" | "today";
     expectNone?: boolean;
     expectedRanges?: RangeExp[];
     expectedList?: string[];
@@ -4687,6 +4689,8 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
   const OFFSET = "+09:00";
   const REF = parseISO(`${REF_ISO}T00:00:00`);
   const REF_DATE = parseReferenceDate(REF_ISO);
+  const datasetPath = path.join(datasetsDir, "realistic-rule-benchmark.json");
+  const reportPath = path.join(reportsDir, "realistic-rule-benchmark-report.json");
 
   function fmt(date: Date): string {
     return format(date, "yyyy-MM-dd");
@@ -4843,7 +4847,7 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     return count;
   }
 
-  const cases: Case[] = [
+  const baseCases: Case[] = [
     // 1. 일상 단일일
     { id: 1, category: "1.named_day", text: "오늘 입금 내역 보여줘", mode: "range", expectedRanges: [dayRange(REF)] },
     { id: 2, category: "1.named_day", text: "어제 카드 승인건만 찾아줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -1))] },
@@ -5047,6 +5051,222 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     { id: 98, category: "10.mixed", text: "환율 알림 설정해줘", mode: "range", expectNone: true },
     { id: 99, category: "10.mixed", text: "미수금 많은 거래처만 보여줘", mode: "range", expectNone: true },
     { id: 100, category: "10.mixed", text: "로그인 안 되는 계정만 찾아줘", mode: "range", expectNone: true },
+
+    // 11. handmade simple
+    { id: 101, category: "11.handmade.simple", text: "오늘 매출 보여줘", mode: "range", expectedRanges: [dayRange(REF)] },
+    { id: 102, category: "11.handmade.simple", text: "어제 결제 내역 보여줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -1))] },
+    { id: 103, category: "11.handmade.simple", text: "그저께 통화 기록 찾아줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -2))] },
+    { id: 104, category: "11.handmade.simple", text: "모레 배송 예정일 알려줘", mode: "range", expectedRanges: [dayRange(addDays(REF, 2))] },
+    { id: 105, category: "11.handmade.simple", text: "사흘 전 방문 기록 보여줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -3))] },
+    { id: 106, category: "11.handmade.simple", text: "5일 뒤 예약 가능해?", mode: "range", expectedRanges: [dayRange(addDays(REF, 5))] },
+    { id: 107, category: "11.handmade.simple", text: "지난주 회의록 찾아줘", mode: "range", expectedRanges: [weekRange(-1)] },
+    { id: 108, category: "11.handmade.simple", text: "다음주 출장 일정 보여줘", mode: "range", expectedRanges: [weekRange(1)] },
+    { id: 109, category: "11.handmade.simple", text: "이번달 카드값 보여줘", mode: "range", expectedRanges: [monthRange(0)] },
+    { id: 110, category: "11.handmade.simple", text: "다음달 초에 시간 돼?", mode: "range", expectedRanges: [monthPartRange(2026, 5, "start")] },
+    { id: 111, category: "11.handmade.simple", text: "이달 말 정산해줘", mode: "range", expectedRanges: [monthPartRange(2026, 4, "end")] },
+    { id: 112, category: "11.handmade.simple", text: "2025년 12월 25일 휴무야?", mode: "range", expectedRanges: [exactDay(2025, 12, 25)] },
+    { id: 113, category: "11.handmade.simple", text: "0412 거래내역 보여줘", mode: "range", expectedRanges: [exactDay(2026, 4, 12)] },
+    { id: 114, category: "11.handmade.simple", text: "20260412 거래내역 보여줘", mode: "range", expectedRanges: [exactDay(2026, 4, 12)] },
+
+    // 12. handmade medium
+    { id: 115, category: "12.handmade.medium", text: "올해 2분기 실적 보여줘", mode: "range", expectedRanges: [quarterRange(2026, 2)] },
+    { id: 116, category: "12.handmade.medium", text: "작년 4분기 실적 보여줘", mode: "range", expectedRanges: [quarterRange(2025, 4)] },
+    {
+      id: 117,
+      category: "12.handmade.medium",
+      text: "4월 30일에 회의실 비어?",
+      mode: "range",
+      expectedRanges: [exactDay(2026, 4, 30)],
+      note: "ambiguityStrategy=past 기본값이면 2025-04-30으로 가지만, 일반 사용자 의도는 보통 다가오는 2026-04-30",
+    },
+    { id: 118, category: "12.handmade.medium", text: "다음주 월요일 오전 10시에 미팅 잡아줘", mode: "datetime", expectedRanges: [pointTime(2026, 4, 20, 10)] },
+    { id: 119, category: "12.handmade.medium", text: "내일 오후 3시 반에 치과 예약해줘", mode: "datetime", expectedRanges: [pointTime(2026, 4, 19, 15, 30)] },
+    { id: 120, category: "12.handmade.medium", text: "오늘 저녁에 통화 가능해?", mode: "datetime", expectedRanges: [dateTimeRange(2026, 4, 18, 18, 0, 21, 0)] },
+    {
+      id: 121,
+      category: "12.handmade.medium",
+      text: "4월 21일 14:30에 면접 잡아줘",
+      mode: "datetime",
+      expectedRanges: [pointTime(2026, 4, 21, 14, 30)],
+      note: "ambiguityStrategy=past 기본값이면 2025-04-21로 가지만, 일반 사용자 의도는 보통 다가오는 2026-04-21 14:30",
+    },
+    { id: 122, category: "12.handmade.medium", text: "오전 9시부터 11시까지 시간 비워줘", mode: "datetime", expectedRanges: [dateTimeRange(2026, 4, 18, 9, 0, 11, 0)] },
+    {
+      id: 123,
+      category: "12.handmade.medium",
+      text: "지난주 평일만 뽑아줘",
+      mode: "weekdays",
+      expectedList: ["2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10"],
+    },
+    {
+      id: 124,
+      category: "12.handmade.medium",
+      text: "이번주 영업일 알려줘",
+      mode: "business_days",
+      expectedList: ["2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17"],
+    },
+    {
+      id: 125,
+      category: "12.handmade.medium",
+      text: "지난주 주말 일정 보여줘",
+      mode: "list",
+      expectedList: ["2026-04-11", "2026-04-12"],
+    },
+    { id: 126, category: "12.handmade.medium", text: "2025년 2,3월 매출 비교해줘", mode: "range", expectedRanges: [explicitMonthRange(2025, 2), explicitMonthRange(2025, 3)] },
+    { id: 127, category: "12.handmade.medium", text: "올해 1,2분기 실적 비교해줘", mode: "range", expectedRanges: [quarterRange(2026, 1), quarterRange(2026, 2)] },
+    { id: 128, category: "12.handmade.medium", text: "이번주 월요일 보고서 찾아줘", mode: "range", expectedRanges: [exactDay(2026, 4, 13)] },
+    { id: 129, category: "12.handmade.medium", text: "지난주 금요일 주문건 찾아줘", mode: "range", expectedRanges: [exactDay(2026, 4, 10)] },
+    { id: 130, category: "12.handmade.medium", text: "다음주 화요일 저녁에 약속 가능해?", mode: "datetime", expectedRanges: [dateTimeRange(2026, 4, 21, 18, 0, 21, 0)] },
+    { id: 131, category: "12.handmade.medium", text: "내년 1분기 예산안 봐줘", mode: "range", expectedRanges: [quarterRange(2027, 1)] },
+    { id: 132, category: "12.handmade.medium", text: "재작년 오늘 매출 보여줘", mode: "range", expectedRanges: [dayRange(addYears(REF, -2))] },
+    { id: 133, category: "12.handmade.medium", text: "작년 오늘 사진 찾아줘", mode: "range", expectedRanges: [dayRange(addYears(REF, -1))] },
+    { id: 134, category: "12.handmade.medium", text: "다다음주 회의 잡자", mode: "range", expectedRanges: [weekRange(2)] },
+    { id: 135, category: "12.handmade.medium", text: "이번 분기 말까지 실적 알려줘", mode: "range", expectedRanges: [quarterPartRange(2026, 2, "late")] },
+    { id: 136, category: "12.handmade.medium", text: "다음달 둘째 주에 출장 갈 것 같아", mode: "range", expectedRanges: [weekOfMonthRange(2026, 5, 2)] },
+    { id: 137, category: "12.handmade.medium", text: "저번달 말 카드 명세서 보여줘", mode: "range", expectedRanges: [monthPartRange(2026, 3, "end")] },
+    { id: 138, category: "12.handmade.medium", text: "이번달 초 회의록 보여줘", mode: "range", expectedRanges: [monthPartRange(2026, 4, "start")] },
+    { id: 139, category: "12.handmade.medium", text: "돌아오는 월요일 오전 8시 출발하자", mode: "datetime", expectedRanges: [pointTime(2026, 4, 20, 8)] },
+    { id: 140, category: "12.handmade.medium", text: "15일 잔액 알려줘", mode: "range", expectedRanges: [exactDay(2026, 4, 15)] },
+    { id: 141, category: "12.handmade.medium", text: "지지난주 수요일 회의록", mode: "range", expectedRanges: [exactDay(2026, 4, 1)] },
+    { id: 142, category: "12.handmade.medium", text: "다음주 금요일 오후 6시에 만나자", mode: "datetime", expectedRanges: [pointTime(2026, 4, 24, 18)] },
+
+    // 13. handmade complex
+    {
+      id: 143,
+      category: "13.handmade.complex",
+      text: "2024년 상반기랑 하반기 매출 비교해줘",
+      mode: "range",
+      expectedRanges: [halfRange(2024, 1), halfRange(2024, 2)],
+      note: "두 번째 하반기에도 앞선 연도 2024가 carry-over 되어야 함",
+    },
+    {
+      id: 144,
+      category: "13.handmade.complex",
+      text: "3개월 전부터 보름 동안의 평일 보여줘",
+      mode: "weekdays",
+      expectedList: ["2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30"],
+      note: "시작점 + 기간 + 필터를 하나의 조합 표현으로 해석해야 함",
+    },
+    {
+      id: 145,
+      category: "13.handmade.complex",
+      text: "다음 영업일 알려줘",
+      mode: "range",
+      expectedRanges: [exactDay(2026, 4, 20)],
+      note: "상대 영업일 표현",
+    },
+    {
+      id: 146,
+      category: "13.handmade.complex",
+      text: "6월 셋째 주 금요일에 시간 돼?",
+      mode: "range",
+      expectedRanges: [exactDay(2026, 6, 19)],
+      note: "N주차 + 요일 결합",
+    },
+    {
+      id: 147,
+      category: "13.handmade.complex",
+      text: "2026년 5월 첫째 주 월요일 일정 보여줘",
+      mode: "range",
+      expectedRanges: [exactDay(2026, 5, 4)],
+      note: "연도/월/N주차 + 요일 결합",
+    },
+    {
+      id: 148,
+      category: "13.handmade.complex",
+      text: "다음 반기 실적 보여줘",
+      mode: "range",
+      expectedRanges: [halfRange(2026, 2)],
+      note: "상대 반기 표현",
+    },
+    {
+      id: 149,
+      category: "13.handmade.complex",
+      text: "2026년 6월 첫째 주 주말에 여행 갈래",
+      mode: "list",
+      expectedList: ["2026-06-06", "2026-06-07"],
+      note: "N주차 + 주말 필터 결합",
+    },
+    {
+      id: 150,
+      category: "13.handmade.complex",
+      text: "작년 오늘쯤 사진 찾아줘",
+      mode: "range",
+      expectedRanges: [explicitRange(2025, 4, 15, 2025, 4, 21)],
+      note: "fuzzy 범위 표현",
+    },
+  ];
+
+  function parseCsvLine(line: string): string[] {
+    const out: string[] = [];
+    let cur = "";
+    let inQuote = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (inQuote) {
+        if (ch === '"' && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else if (ch === '"') {
+          inQuote = false;
+        } else {
+          cur += ch;
+        }
+      } else if (ch === '"') {
+        inQuote = true;
+      } else if (ch === ",") {
+        out.push(cur);
+        cur = "";
+      } else {
+        cur += ch;
+      }
+    }
+    out.push(cur);
+    return out;
+  }
+
+  function loadCsvTemplateCases(startId: number): Case[] {
+    const csvPath = path.join(datasetsDir, "csv-style-mimic-1000.csv");
+    if (!fs.existsSync(csvPath)) {
+      throw new Error(
+        `Missing template dataset: ${csvPath}. Run 'npm run bench -- generate-csv-style' first.`,
+      );
+    }
+
+    const raw = fs.readFileSync(csvPath, "utf8");
+    const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+    lines.shift(); // header
+
+    const grouped = new Map<string, RangeExp[]>();
+    for (const line of lines) {
+      const cols = parseCsvLine(line);
+      const text = cols[0]?.trim();
+      const start = cols[1]?.trim();
+      const end = cols[2]?.trim();
+      if (!text || !start || !end) continue;
+      const ranges = grouped.get(text) ?? [];
+      ranges.push({ start, end });
+      grouped.set(text, ranges);
+    }
+
+    return [...grouped.entries()].map(([text, expectedRanges], idx) => ({
+      id: startId + idx,
+      category: "14.template.csv",
+      text,
+      mode: "range",
+      referenceDate: "2025-11-17",
+      presentRangeEnd: "today",
+      expectedRanges,
+      note:
+        expectedRanges.length > 1
+          ? "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
+          : undefined,
+    }));
+  }
+
+  const cases: Case[] = [
+    ...baseCases,
+    ...loadCsvTemplateCases(baseCases.length + 1),
   ];
 
   function summarizeRanges(items: RangeExp[]): string {
@@ -5062,6 +5282,22 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
   function classifyPath(confidence: number, count: number): "full" | "partial" | "no_match" {
     if (count === 0) return "no_match";
     return confidence >= 1 ? "full" : "partial";
+  }
+
+  function isExplicitSubset(expr: DateExpression): boolean {
+    if (expr.kind === "absolute") {
+      return !!(expr.yearPart || expr.monthPart || expr.weekOfMonth);
+    }
+    if (expr.kind === "quarter") {
+      return !!expr.part;
+    }
+    if (expr.kind === "filter") {
+      return isExplicitSubset(expr.base);
+    }
+    if (expr.kind === "datetime") {
+      return isExplicitSubset(expr.base);
+    }
+    return false;
   }
 
   function sameRanges(expected: RangeExp[], actual: RangeExp[]): boolean {
@@ -5090,6 +5326,8 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
   async function runOne(tc: Case): Promise<Result> {
     const rule = runRules(tc.text, "auto");
     const path = classifyPath(rule.confidence, rule.expressions.length);
+    const refIso = tc.referenceDate ?? REF_ISO;
+    const refDate = parseReferenceDate(refIso);
 
     if (tc.expectNone) {
       const pass = rule.expressions.length === 0;
@@ -5119,9 +5357,17 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
       const actuals: RangeExp[] = [];
       for (const expr of rule.expressions) {
         const resolved = resolveExpression(expr.expression, {
-          referenceDate: REF_DATE,
+          referenceDate: refDate,
           timezone: TZ,
         });
+        if (
+          tc.presentRangeEnd === "today" &&
+          !isExplicitSubset(expr.expression) &&
+          resolved.start <= refDate &&
+          resolved.end > refDate
+        ) {
+          resolved.end = refDate;
+        }
         const formatted = await formatRange(
           resolved,
           tc.mode,
@@ -5159,9 +5405,17 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
       const actual: string[] = [];
       for (const expr of rule.expressions) {
         const resolved = resolveExpression(expr.expression, {
-          referenceDate: REF_DATE,
+          referenceDate: refDate,
           timezone: TZ,
         });
+        if (
+          tc.presentRangeEnd === "today" &&
+          !isExplicitSubset(expr.expression) &&
+          resolved.start <= refDate &&
+          resolved.end > refDate
+        ) {
+          resolved.end = refDate;
+        }
         const formatted = await formatRange(
           resolved,
           tc.mode,
@@ -5238,8 +5492,9 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     const passed = results.filter((r) => r.pass).length;
     const failed = results.filter((r) => !r.pass);
 
-    console.log(`referenceDate=${REF_ISO} timezone=${TZ}`);
-    console.log(`rule-only realistic benchmark`);
+    console.log(`defaultReferenceDate=${REF_ISO} timezone=${TZ}`);
+    console.log(`templateCsvReferenceDate=2025-11-17`);
+    console.log(`rule-only realistic benchmark (${cases.length} cases)`);
     console.log(`overall: ${passed}/${total} (${((passed / total) * 100).toFixed(1)}%)`);
 
     const byCategory = new Map<string, { total: number; pass: number }>();
@@ -5250,10 +5505,19 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
       byCategory.set(result.tc.category, bucket);
     }
 
+    const byCategoryRows = [...byCategory.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, stat]) => ({
+        category,
+        total: stat.total,
+        passed: stat.pass,
+        accuracy: Number(((stat.pass / stat.total) * 100).toFixed(1)),
+      }));
+
     console.log(`\nby category:`);
-    for (const [category, stat] of [...byCategory.entries()].sort()) {
+    for (const row of byCategoryRows) {
       console.log(
-        `  ${category.padEnd(14)} ${String(stat.pass).padStart(2)}/${stat.total} (${((stat.pass / stat.total) * 100).toFixed(0)}%)`,
+        `  ${row.category.padEnd(14)} ${String(row.passed).padStart(2)}/${row.total} (${row.accuracy.toFixed(0)}%)`,
       );
     }
 
@@ -5265,10 +5529,19 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
       byPath.set(result.path, bucket);
     }
 
+    const byPathRows = [...byPath.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([path, stat]) => ({
+        path,
+        total: stat.total,
+        passed: stat.pass,
+        accuracy: Number(((stat.pass / stat.total) * 100).toFixed(1)),
+      }));
+
     console.log(`\nby path:`);
-    for (const [path, stat] of [...byPath.entries()].sort()) {
+    for (const row of byPathRows) {
       console.log(
-        `  ${path.padEnd(14)} ${String(stat.pass).padStart(2)}/${stat.total} (${((stat.pass / stat.total) * 100).toFixed(0)}%)`,
+        `  ${row.path.padEnd(14)} ${String(row.passed).padStart(2)}/${row.total} (${row.accuracy.toFixed(0)}%)`,
       );
     }
 
@@ -5283,6 +5556,52 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
         if (result.tc.note) console.log(`     note    : ${result.tc.note}`);
       }
     }
+
+    ensureBenchmarkDirs();
+    fs.writeFileSync(
+      datasetPath,
+      `${JSON.stringify(
+        {
+          name: "realistic-rule-benchmark",
+          defaultReferenceDate: REF_ISO,
+          timezone: TZ,
+          totalCases: cases.length,
+          cases,
+        },
+        null,
+        2,
+      )}\n`,
+      "utf8",
+    );
+    fs.writeFileSync(
+      reportPath,
+      `${JSON.stringify(
+        {
+          name: "realistic-rule-benchmark",
+          defaultReferenceDate: REF_ISO,
+          timezone: TZ,
+          total,
+          passed,
+          accuracy: Number(((passed / total) * 100).toFixed(1)),
+          byCategory: byCategoryRows,
+          byPath: byPathRows,
+          failures: failed.map((result) => ({
+            id: result.tc.id,
+            category: result.tc.category,
+            text: result.tc.text,
+            path: result.path,
+            reason: result.reason,
+            actualSummary: result.actualSummary,
+            note: result.tc.note,
+          })),
+        },
+        null,
+        2,
+      )}\n`,
+      "utf8",
+    );
+    console.log(`\ndataset: ${datasetPath}`);
+    console.log(`report:  ${reportPath}`);
   }
 
   await main();
@@ -5751,6 +6070,175 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
   await main();
 }
 
+async function runMergeQueryDatasets(cliArgs: string[]): Promise<void> {
+  const process = createProcessShim(cliArgs);
+  void process;
+
+  interface RawQueryEntry {
+    sourceFile: string;
+    sourceKind: "csv" | "json";
+    sourceId?: string;
+    text: string;
+    referenceDate?: string;
+    category?: string;
+    suite?: string;
+    outputMode?: string;
+  }
+
+  interface UniqueQueryEntry {
+    text: string;
+    occurrences: number;
+    sources: Array<{
+      sourceFile: string;
+      count: number;
+      ids: string[];
+    }>;
+  }
+
+  const inputFiles = [
+    "csv-style-mimic-1000.csv",
+    "date-diversity-500.json",
+    "datetime-eval-suite.json",
+    "humanlike-500.csv",
+    "humanlike-500.json",
+  ];
+  const outputPath = path.join(datasetsDir, "benchmark-query-corpus.json");
+
+  function parseCsvLine(line: string): string[] {
+    const out: string[] = [];
+    let cur = "";
+    let inQuote = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (inQuote) {
+        if (ch === '"' && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else if (ch === '"') {
+          inQuote = false;
+        } else {
+          cur += ch;
+        }
+      } else if (ch === '"') {
+        inQuote = true;
+      } else if (ch === ",") {
+        out.push(cur);
+        cur = "";
+      } else {
+        cur += ch;
+      }
+    }
+    out.push(cur);
+    return out;
+  }
+
+  function loadCsvEntries(filename: string): RawQueryEntry[] {
+    const fullPath = path.join(datasetsDir, filename);
+    const raw = fs.readFileSync(fullPath, "utf8");
+    const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
+    const headers = parseCsvLine(lines[0] ?? "");
+    const textIndex = headers.indexOf("text");
+    return lines.slice(1).map((line, idx) => {
+      const cols = parseCsvLine(line);
+      return {
+        sourceFile: filename,
+        sourceKind: "csv" as const,
+        sourceId: `${filename}:${idx + 1}`,
+        text: cols[textIndex] ?? "",
+      };
+    }).filter((entry) => entry.text.trim().length > 0);
+  }
+
+  function loadJsonEntries(filename: string): RawQueryEntry[] {
+    const fullPath = path.join(datasetsDir, filename);
+    const data = JSON.parse(fs.readFileSync(fullPath, "utf8")) as
+      | Array<Record<string, unknown>>
+      | { cases?: Array<Record<string, unknown>> };
+    const items = Array.isArray(data) ? data : (data.cases ?? []);
+    return items
+      .map((item, idx) => ({
+        sourceFile: filename,
+        sourceKind: "json" as const,
+        sourceId:
+          typeof item.id === "string" ? item.id : `${filename}:${idx + 1}`,
+        text: typeof item.text === "string" ? item.text : "",
+        referenceDate:
+          typeof item.referenceDate === "string" ? item.referenceDate : undefined,
+        category:
+          typeof item.category === "string" ? item.category : undefined,
+        suite: typeof item.suite === "string" ? item.suite : undefined,
+        outputMode: Array.isArray(item.outputModes)
+          ? item.outputModes.join(",")
+          : typeof item.outputMode === "string"
+            ? item.outputMode
+            : undefined,
+      }))
+      .filter((entry) => entry.text.trim().length > 0);
+  }
+
+  const rawEntries: RawQueryEntry[] = [];
+  for (const filename of inputFiles) {
+    if (filename.endsWith(".csv")) {
+      rawEntries.push(...loadCsvEntries(filename));
+    } else {
+      rawEntries.push(...loadJsonEntries(filename));
+    }
+  }
+
+  const byText = new Map<string, UniqueQueryEntry>();
+  for (const entry of rawEntries) {
+    const existing = byText.get(entry.text) ?? {
+      text: entry.text,
+      occurrences: 0,
+      sources: [],
+    };
+    existing.occurrences += 1;
+
+    const sourceBucket = existing.sources.find(
+      (source) => source.sourceFile === entry.sourceFile,
+    );
+    if (sourceBucket) {
+      sourceBucket.count += 1;
+      if (entry.sourceId) sourceBucket.ids.push(entry.sourceId);
+    } else {
+      existing.sources.push({
+        sourceFile: entry.sourceFile,
+        count: 1,
+        ids: entry.sourceId ? [entry.sourceId] : [],
+      });
+    }
+
+    byText.set(entry.text, existing);
+  }
+
+  const uniqueQueries = [...byText.values()].sort((a, b) =>
+    a.text.localeCompare(b.text, "ko"),
+  );
+
+  ensureBenchmarkDirs();
+  fs.writeFileSync(
+    outputPath,
+    `${JSON.stringify(
+      {
+        name: "benchmark-query-corpus",
+        sourceFiles: inputFiles,
+        totalRawEntries: rawEntries.length,
+        uniqueQueryCount: uniqueQueries.length,
+        rawEntries,
+        uniqueQueries,
+      },
+      null,
+      2,
+    )}\n`,
+    "utf8",
+  );
+
+  console.log(`written: ${outputPath}`);
+  console.log(`source files: ${inputFiles.length}`);
+  console.log(`raw entries: ${rawEntries.length}`);
+  console.log(`unique queries: ${uniqueQueries.length}`);
+}
+
 type CommandSpec = {
   description: string;
   run: (args: string[]) => Promise<void>;
@@ -5786,12 +6274,16 @@ const commands: Record<string, CommandSpec> = {
     run: runRealisticProbe,
   },
   "realistic-rule-100": {
-    description: "룰 전용 realistic 100 프로브",
+    description: "룰 전용 realistic benchmark (base 100 + handmade 50 + template csv)",
     run: runRealisticRule100,
   },
   "generate-csv-style": {
     description: "CSV 스타일 데이터셋 생성기",
     run: runGenerateCsvStyle,
+  },
+  "merge-query-datasets": {
+    description: "기존 benchmark 질의 파일들을 하나의 통합 코퍼스로 병합",
+    run: runMergeQueryDatasets,
   },
 };
 
@@ -5799,6 +6291,7 @@ const aliases: Record<string, string> = {
   humanlike: "humanlike-500",
   "date-diversity": "date-diversity-500",
   suite: "eval-suite",
+  "merge-queries": "merge-query-datasets",
 };
 
 function printHelp(): void {

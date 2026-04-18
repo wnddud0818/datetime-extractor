@@ -48,6 +48,7 @@ import {
   listSaturdays,
   listSundays,
   listHolidaysInRange,
+  isWeekend,
 } from "../calendar/business-days.js";
 import KoreanLunarCalendar from "korean-lunar-calendar";
 
@@ -82,6 +83,8 @@ export interface ResolveContext {
   monthBoundaryMode?: "single" | "range";
   /** 퍼지 표현("N일쯤")의 ± 일수 창. 기본 3. */
   fuzzyDayWindow?: number;
+  /** 미리 로드한 연도별 공휴일 맵. next/prev business day 같은 sync 해석에 사용. */
+  holidaysByYear?: Record<number, Record<string, unknown>>;
 }
 
 function lunarToSolar(
@@ -432,7 +435,20 @@ function resolveHalf(
   const ref = ctx.referenceDate;
   const fyStart = (ctx.fiscalYearStart ?? 1) - 1; // 0-indexed
   let year: number;
-  if (expr.year !== undefined) {
+  let half: 1 | 2 = expr.half;
+  if (expr.halfOffset !== undefined) {
+    // 기준일의 현재 반기 계산 (fiscal-year 기준).
+    const refYear = ref.getFullYear();
+    const refMonth0 = ref.getMonth();
+    const fiscalIndex = ((refMonth0 - fyStart) % 12 + 12) % 12;
+    const currentHalf: 1 | 2 = fiscalIndex < 6 ? 1 : 2;
+    const currentFiscalYear = refMonth0 < fyStart ? refYear - 1 : refYear;
+    // 반기 단위 절대 인덱스: fiscalYear*2 + (half===1?0:1)
+    const currentAbs = currentFiscalYear * 2 + (currentHalf === 1 ? 0 : 1);
+    const targetAbs = currentAbs + expr.halfOffset;
+    year = Math.floor(targetAbs / 2);
+    half = (targetAbs % 2 === 0 ? 1 : 2) as 1 | 2;
+  } else if (expr.year !== undefined) {
     year = expr.year;
   } else if (expr.mostRecentPast) {
     const refYear = ref.getFullYear();
@@ -447,7 +463,7 @@ function resolveHalf(
   } else {
     year = ref.getFullYear() + (expr.yearOffset ?? 0);
   }
-  const startAbs = fyStart + (expr.half === 1 ? 0 : 6);
+  const startAbs = fyStart + (half === 1 ? 0 : 6);
   const endAbs = startAbs + 5;
   const startYear = year + Math.floor(startAbs / 12);
   const startMonth = ((startAbs % 12) + 12) % 12;
@@ -567,10 +583,48 @@ function resolveRelative(
   }
 }
 
+function isBusinessDaySync(date: Date, ctx: ResolveContext): boolean {
+  if (isWeekend(date)) return false;
+  const iso = format(date, "yyyy-MM-dd");
+  const y = date.getFullYear();
+  const holidays = ctx.holidaysByYear?.[y];
+  if (holidays && iso in holidays) return false;
+  return true;
+}
+
+function scanBusinessDay(
+  start: Date,
+  step: 1 | -1,
+  ctx: ResolveContext,
+  includeStart: boolean,
+): Date {
+  let d = includeStart ? start : addDays(start, step);
+  for (let i = 0; i < 30; i++) {
+    if (isBusinessDaySync(d, ctx)) return d;
+    d = addDays(d, step);
+  }
+  return d;
+}
+
 function resolveNamed(
   expr: NamedExpression,
   ctx: ResolveContext,
 ): ResolvedRange {
+  if (
+    expr.name === "next_business_day" ||
+    expr.name === "prev_business_day" ||
+    expr.name === "today_or_next_business_day"
+  ) {
+    const ref = ctx.referenceDate;
+    const step = expr.name === "prev_business_day" ? -1 : 1;
+    const includeStart = expr.name === "today_or_next_business_day";
+    const d = scanBusinessDay(ref, step, ctx, includeStart);
+    return {
+      start: startOfDay(d),
+      end: startOfDay(d),
+      granularity: "day",
+    };
+  }
   const offset = KOREAN_NUMERAL_OFFSETS[expr.name] ?? 0;
   const directional = isDirectionalNumeral(expr.name);
   const effectiveOffset = directional
