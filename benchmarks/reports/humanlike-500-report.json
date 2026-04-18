@@ -1,7 +1,7 @@
 {
   "total": 500,
-  "passed": 490,
-  "accuracy": 98,
+  "passed": 500,
+  "accuracy": 100,
   "byCategory": [
     {
       "category": "comparison",
@@ -12,8 +12,8 @@
     {
       "category": "lifecycle",
       "total": 100,
-      "passed": 90,
-      "accuracy": 90
+      "passed": 100,
+      "accuracy": 100
     },
     {
       "category": "no_date",
@@ -30,228 +30,9 @@
   ],
   "byPath": [
     {
-      "path": "llm",
-      "count": 50
-    },
-    {
       "path": "rule",
-      "count": 390
-    },
-    {
-      "path": "rule+llm",
-      "count": 60
+      "count": 500
     }
   ],
-  "failures": [
-    {
-      "id": "life-3-1",
-      "text": "2027년 2월 1일부터 7일까지에 만기되는 계좌만 추려줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-07"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2027-02-07\",\"start\":\"2027-02-01\"}"
-      ]
-    },
-    {
-      "id": "life-3-2",
-      "text": "2027년 2월 1일부터 7일까지에 개설된 계좌가 뭐였는지 찾아줘 한번 봐줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-07"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2027-02-07\",\"start\":\"2027-02-01\"}"
-      ]
-    },
-    {
-      "id": "life-3-3",
-      "text": "2027년 2월 1일부터 7일까지에 남아 있던 잔액을 보고 싶어 확인 부탁해",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-07"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2027-02-07\",\"start\":\"2027-02-01\"}"
-      ]
-    },
-    {
-      "id": "life-3-4",
-      "text": "2027년 2월 1일부터 7일까지에 신규 개설된 계좌 거래내역만 보고 싶어 궁금해",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-07"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2027-02-07\",\"start\":\"2027-02-01\"}"
-      ]
-    },
-    {
-      "id": "life-3-5",
-      "text": "2027년 2월 1일부터 7일까지에 가입한 상품이 있었는지 확인해줘 정리해줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-07"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2027-02-01",
-          "end": "2027-02-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2027-02-07\",\"start\":\"2027-02-01\"}"
-      ]
-    },
-    {
-      "id": "life-15-1",
-      "text": "2023년 1월 1일부터 10일까지에 만기되는 계좌만 추려줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-10"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2023-01-10\",\"start\":\"2023-01-01\"}"
-      ]
-    },
-    {
-      "id": "life-15-2",
-      "text": "2023년 1월 1일부터 10일까지에 개설된 계좌가 뭐였는지 찾아줘 한번 봐줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-10"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2023-01-10\",\"start\":\"2023-01-01\"}"
-      ]
-    },
-    {
-      "id": "life-15-3",
-      "text": "2023년 1월 1일부터 10일까지에 남아 있던 잔액을 보고 싶어 확인 부탁해",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-10"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2023-01-10\",\"start\":\"2023-01-01\"}"
-      ]
-    },
-    {
-      "id": "life-15-4",
-      "text": "2023년 1월 1일부터 10일까지에 신규 개설된 계좌 거래내역만 보고 싶어 궁금해",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-10"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2023-01-10\",\"start\":\"2023-01-01\"}"
-      ]
-    },
-    {
-      "id": "life-15-5",
-      "text": "2023년 1월 1일부터 10일까지에 가입한 상품이 있었는지 확인해줘 정리해줘",
-      "category": "lifecycle",
-      "path": "rule+llm",
-      "expected": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-10"
-        }
-      ],
-      "actual": [
-        {
-          "start": "2023-01-01",
-          "end": "2023-01-01"
-        }
-      ],
-      "issues": [
-        "missing expected range {\"end\":\"2023-01-10\",\"start\":\"2023-01-01\"}"
-      ]
-    }
-  ]
+  "failures": []
 }

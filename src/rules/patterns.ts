@@ -777,7 +777,8 @@ export function findMatchesKo(text: string): Match[] {
   // 8. 수치 상대 (7일 전, 3일 후, 2주 전, 3개월 뒤)
   //    "N일 전" = 단일 일. "N주/N개월/N년 전"도 point-in-time = 단일 일 해석.
   {
-    const re = /(\d+)\s*(일|주|개월|달|년|년도|주일)\s*(전|뒤|후)/g;
+    const re =
+      /(\d+)\s*(일|주|개월|달|년|년도|주일)\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const n = Number(m[1]);
@@ -1222,7 +1223,8 @@ export function findMatchesKo(text: string): Match[] {
 
   // 17b. 일주일/한 달/한 해/일년 + 전/뒤/후 (point-in-time; 단일 날짜)
   {
-    const re = /(일주일|한\s*달|한\s*해|한\s*주|일\s*년)\s*(전|뒤|후)/g;
+    const re =
+      /(일주일|한\s*달|한\s*해|한\s*주|일\s*년)\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const word = m[1].replace(/\s+/g, "");
@@ -1936,12 +1938,16 @@ export function findMatchesKo(text: string): Match[] {
   }
 
   // 20b. (전년|작년|지난해|재작년) 대비 → 암묵적 "올해"도 함께 반환
-  //      "대비" 스팬에 올해를 매칭하여 기존 작년/전년 표현과 겹치지 않게 함.
+  //      단, "작년 대비 올해"처럼 뒤에 비교 대상이 명시되면 중복 보강하지 않는다.
   {
     const re = /(전년|작년|지난해|재작년|제작년)\s*(대비)/g;
+    const explicitComparatorRe =
+      /^\s*(?:전년|재작년|제작년|지난해|작년|올해|금년|내년|후년|\d{4}\s*년)/;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const daeBiStart = m.index + m[0].length - m[2].length;
+      const rest = text.slice(daeBiStart + m[2].length);
+      if (explicitComparatorRe.test(rest)) continue;
       out.push({
         text: m[2],
         start: daeBiStart,

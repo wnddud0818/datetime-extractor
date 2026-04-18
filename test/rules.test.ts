@@ -174,6 +174,46 @@ describe("rules engine", () => {
     });
   });
 
+  it("작년 대비 지출 증가율 → 암묵적 올해를 보강", () => {
+    const r = runRules("작년 대비 지출 증가율");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].text).toBe("작년");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "year",
+      offset: -1,
+    });
+    expect(r.expressions[1].text).toBe("대비");
+    expect(r.expressions[1].expression).toEqual({
+      kind: "relative",
+      unit: "year",
+      offset: 0,
+    });
+  });
+
+  it("작년 대비 올해 지출 증가율 → 명시적 올해가 있으면 중복 보강 안 함", () => {
+    const r = runRules("작년 대비 올해 지출 증가율");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions.map((expr) => expr.text)).toEqual(["작년", "올해"]);
+    expect(r.expressions.map((expr) => expr.expression)).toEqual([
+      { kind: "relative", unit: "year", offset: -1 },
+      { kind: "relative", unit: "year", offset: 0 },
+    ]);
+  });
+
+  it("재작년 대비 작년 지출 증가율 → 명시적 비교 대상만 유지", () => {
+    const r = runRules("재작년 대비 작년 지출 증가율");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions.map((expr) => expr.text)).toEqual(["재작년", "작년"]);
+    expect(r.expressions.map((expr) => expr.expression)).toEqual([
+      { kind: "relative", unit: "year", offset: -2 },
+      { kind: "relative", unit: "year", offset: -1 },
+    ]);
+  });
+
   it("2025-12-25 잔액 → ISO 절대 매치", () => {
     const r = runRules("2025-12-25 잔액");
     expect(r.confidence).toBe(1.0);

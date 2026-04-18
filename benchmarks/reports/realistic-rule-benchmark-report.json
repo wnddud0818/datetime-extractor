@@ -1,0 +1,145 @@
+{
+  "name": "realistic-rule-benchmark",
+  "defaultReferenceDate": "2026-04-18",
+  "timezone": "Asia/Seoul",
+  "total": 1150,
+  "passed": 1150,
+  "accuracy": 100,
+  "byCategory": [
+    {
+      "category": "1.named_day",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "10.mixed",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "11.handmade.simple",
+      "total": 14,
+      "passed": 14,
+      "accuracy": 100
+    },
+    {
+      "category": "12.handmade.medium",
+      "total": 28,
+      "passed": 28,
+      "accuracy": 100
+    },
+    {
+      "category": "13.handmade.complex",
+      "total": 8,
+      "passed": 8,
+      "accuracy": 100
+    },
+    {
+      "category": "14.template.csv",
+      "total": 900,
+      "passed": 900,
+      "accuracy": 100
+    },
+    {
+      "category": "15.userlike.relative",
+      "total": 20,
+      "passed": 20,
+      "accuracy": 100
+    },
+    {
+      "category": "16.userlike.week",
+      "total": 20,
+      "passed": 20,
+      "accuracy": 100
+    },
+    {
+      "category": "17.userlike.month",
+      "total": 20,
+      "passed": 20,
+      "accuracy": 100
+    },
+    {
+      "category": "18.userlike.absolute",
+      "total": 20,
+      "passed": 20,
+      "accuracy": 100
+    },
+    {
+      "category": "19.userlike.datetime",
+      "total": 20,
+      "passed": 20,
+      "accuracy": 100
+    },
+    {
+      "category": "2.offset",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "3.week",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "4.month_year",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "5.absolute",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "6.range",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "7.parts",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "8.filter",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    },
+    {
+      "category": "9.datetime",
+      "total": 10,
+      "passed": 10,
+      "accuracy": 100
+    }
+  ],
+  "byPath": [
+    {
+      "path": "full",
+      "total": 934,
+      "passed": 934,
+      "accuracy": 100
+    },
+    {
+      "path": "no_match",
+      "total": 5,
+      "passed": 5,
+      "accuracy": 100
+    },
+    {
+      "path": "partial",
+      "total": 211,
+      "passed": 211,
+      "accuracy": 100
+    }
+  ],
+  "failures": []
+}

@@ -79,11 +79,7 @@
   "byPath": [
     {
       "path": "rule",
-      "count": 469
-    },
-    {
-      "path": "rule+llm",
-      "count": 31
+      "count": 500
     }
   ],
   "failures": []
