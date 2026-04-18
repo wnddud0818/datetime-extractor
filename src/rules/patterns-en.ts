@@ -278,19 +278,31 @@ export function findMatchesEn(text: string): Match[] {
     }
   }
 
-  // 9. "first week of March"
+  // 9. "first/second/third/fourth/fifth week of March"
   {
-    const re = new RegExp(`\\bfirst\\s+week\\s+of\\s+(${MONTH_ALT})\\b`, "gi");
+    const WEEK_WORDS: Record<string, 1 | 2 | 3 | 4 | 5> = {
+      first: 1, "1st": 1,
+      second: 2, "2nd": 2,
+      third: 3, "3rd": 3,
+      fourth: 4, "4th": 4,
+      fifth: 5, "5th": 5,
+    };
+    const alt = Object.keys(WEEK_WORDS).join("|");
+    const re = new RegExp(
+      `\\b(${alt})\\s+week\\s+of\\s+(${MONTH_ALT})\\b`,
+      "gi",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
+      const n = WEEK_WORDS[m[1].toLowerCase()];
       out.push({
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
         expression: {
           kind: "absolute",
-          month: monthFromName(m[1]),
-          firstWeek: true,
+          month: monthFromName(m[2]),
+          weekOfMonth: n,
         },
         priority: 89,
       });

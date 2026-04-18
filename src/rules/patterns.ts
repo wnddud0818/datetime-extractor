@@ -266,6 +266,21 @@ export function tryAttachTime(
   return null;
 }
 
+// M월 뒤에 붙는 "N주차/N째 주/N번째 주/첫 주" 표기들.
+// 숫자 cardinals와 순서 한글(첫/둘째/세/네/다섯) 및 "첫/두/세/네/다섯 번째"를 모두 커버.
+const WEEK_OF_MONTH_RE_SRC =
+  "(?:(?:첫째?|둘째|셋째|넷째|다섯째)\\s*주|[1-5]\\s*주\\s*차|(?:[1-5]|첫|두|세|네|다섯)\\s*번\\s*째\\s*주)";
+
+function parseWeekOfMonth(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
+  const s = raw.replace(/\s+/g, "");
+  if (s === "첫주" || s === "첫째주" || s === "1주차" || s === "첫번째주" || s === "1번째주") return 1;
+  if (s === "둘째주" || s === "2주차" || s === "두번째주" || s === "2번째주") return 2;
+  if (s === "셋째주" || s === "3주차" || s === "세번째주" || s === "3번째주") return 3;
+  if (s === "넷째주" || s === "4주차" || s === "네번째주" || s === "4번째주") return 4;
+  if (s === "다섯째주" || s === "5주차" || s === "다섯번째주" || s === "5번째주") return 5;
+  return undefined;
+}
+
 /**
  * 한국어 매치 후보를 반환 (span overlap 허용, 이후 resolveOverlaps가 정리).
  */
@@ -375,46 +390,58 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
-  // 2b. YYYY년 M월 [초/중/말]? (일이 없을 때)
+  // 2b. YYYY년 M월 [초/중/말 | N주차]? (일이 없을 때)
   {
-    const re = /(\d{4})\s*년\s*(\d{1,2})\s*월(?!\s*\d+\s*일)(\s*(초|중|말))?/g;
+    const re = new RegExp(
+      `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?`,
+      "g",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const part = m[4];
+      const mp = m[3];
+      const wk = m[4];
       const monthPart =
-        part === "초" ? ("early" as const)
-        : part === "중" ? ("mid" as const)
-        : part === "말" ? ("late" as const)
+        mp === "초" ? ("early" as const)
+        : mp === "중" ? ("mid" as const)
+        : mp === "말" ? ("late" as const)
         : undefined;
+      const weekOfMonth = wk ? parseWeekOfMonth(wk) : undefined;
+      const base: AbsoluteExpression = {
+        kind: "absolute",
+        year: Number(m[1]),
+        month: Number(m[2]),
+      };
+      if (monthPart) base.monthPart = monthPart;
+      if (weekOfMonth) base.weekOfMonth = weekOfMonth;
       out.push({
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
-        expression: {
-          kind: "absolute",
-          year: Number(m[1]),
-          month: Number(m[2]),
-          ...(monthPart ? { monthPart } : {}),
-        },
+        expression: base,
         priority: 93,
       });
     }
   }
 
-  // 2c. M월 [초/중/말/첫 주] (연도 없음, 일 없음)
+  // 2c. M월 [초/중/말 | N주차] (연도 없음, 일 없음)
   {
-    const re = /(?<!\d)(\d{1,2})\s*월\s*(초|중|말|첫\s*주)(?!\s*\d+\s*일)/g;
+    const re = new RegExp(
+      `(?<!\\d)(\\d{1,2})\\s*월\\s*(?:(초|중|말)|(${WEEK_OF_MONTH_RE_SRC}))(?!\\s*\\d+\\s*일)`,
+      "g",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const part = m[2].replace(/\s+/g, "");
       const baseExpr: AbsoluteExpression = {
         kind: "absolute",
         month: Number(m[1]),
       };
-      if (part === "초") baseExpr.monthPart = "early";
-      else if (part === "중") baseExpr.monthPart = "mid";
-      else if (part === "말") baseExpr.monthPart = "late";
-      else if (part === "첫주") baseExpr.firstWeek = true;
+      if (m[2] === "초") baseExpr.monthPart = "early";
+      else if (m[2] === "중") baseExpr.monthPart = "mid";
+      else if (m[2] === "말") baseExpr.monthPart = "late";
+      else if (m[3]) {
+        const wk = parseWeekOfMonth(m[3]);
+        if (wk) baseExpr.weekOfMonth = wk;
+      }
       out.push({
         text: m[0],
         start: m.index,
@@ -1108,21 +1135,25 @@ export function findMatchesKo(text: string): Match[] {
     ];
     for (const { word, offset } of PREFIXES) {
       const re = new RegExp(
-        `${word}\\s*(\\d{1,2})\\s*월\\s*(초|중|말|첫\\s*주)?(?!\\s*\\d+\\s*일)`,
+        `${word}\\s*(\\d{1,2})\\s*월(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?(?!\\s*\\d+\\s*일)`,
         "g",
       );
       let m: RegExpExecArray | null;
       while ((m = re.exec(text))) {
-        const part = m[2]?.replace(/\s+/g, "");
+        const mp = m[2];
+        const wk = m[3];
         const baseExpr: AbsoluteExpression = {
           kind: "absolute",
           yearOffset: offset,
           month: Number(m[1]),
         };
-        if (part === "초") baseExpr.monthPart = "early";
-        else if (part === "중") baseExpr.monthPart = "mid";
-        else if (part === "말") baseExpr.monthPart = "late";
-        else if (part === "첫주") baseExpr.firstWeek = true;
+        if (mp === "초") baseExpr.monthPart = "early";
+        else if (mp === "중") baseExpr.monthPart = "mid";
+        else if (mp === "말") baseExpr.monthPart = "late";
+        else if (wk) {
+          const n = parseWeekOfMonth(wk);
+          if (n) baseExpr.weekOfMonth = n;
+        }
         out.push({
           text: m[0],
           start: m.index,

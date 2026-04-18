@@ -148,12 +148,12 @@ describe("English rules - absolute dates", () => {
     });
   });
 
-  it("first week of March → firstWeek", () => {
+  it("first week of March → weekOfMonth=1", () => {
     const r = runRules("first week of March", "en");
     expect(r.expressions[0].expression).toEqual({
       kind: "absolute",
       month: 3,
-      firstWeek: true,
+      weekOfMonth: 1,
     });
   });
 

@@ -59,8 +59,8 @@ export interface AbsoluteExpression {
   // 초(1-10), 중(11-20), 말(21-end) of month
   // start = 1일 단일, end = 말일 단일 (월초/월말)
   monthPart?: "early" | "mid" | "late" | "start" | "end";
-  // 첫 주 (day 1-7 of month)
-  firstWeek?: boolean;
+  // 월의 N주차 (1=1-7, 2=8-14, 3=15-21, 4=22-28, 5=29-말일)
+  weekOfMonth?: 1 | 2 | 3 | 4 | 5;
   // YYYY년 초(Q1) / YYYY년 말(Q4)
   // start = 1/1 단일, end = 12/31 단일 (연초/연말)
   yearPart?: "early" | "late" | "start" | "end";

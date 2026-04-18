@@ -197,11 +197,19 @@ function resolveAbsolute(
     };
   }
 
-  // firstWeek: M월 첫 주 (1-7)
-  if (expr.firstWeek && month !== undefined && day === undefined) {
+  // weekOfMonth: M월 N주차 (1:1-7, 2:8-14, 3:15-21, 4:22-28, 5:29-말일)
+  if (expr.weekOfMonth && month !== undefined && day === undefined) {
+    const n = expr.weekOfMonth;
+    const sd = (n - 1) * 7 + 1;
+    const monthStart = new Date(year, month - 1, 1);
+    const lastDay = endOfMonth(monthStart).getDate();
+    const ed = n === 5 ? lastDay : Math.min(sd + 6, lastDay);
+    if (sd > lastDay) {
+      return { start: monthStart, end: monthStart, granularity: "day" };
+    }
     return {
-      start: new Date(year, month - 1, 1),
-      end: new Date(year, month - 1, 7),
+      start: new Date(year, month - 1, sd),
+      end: new Date(year, month - 1, ed),
       granularity: "day",
     };
   }
