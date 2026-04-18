@@ -194,9 +194,17 @@ function resolveAbsolute(
     month = baseMonth;
     if (ctx.contextDate) {
       year = baseYear;
-    } else if (strategy === "future") {
+    } else {
       const refDay = ref.getDate();
-      if (day < refDay) month = ref.getMonth() + 2;
+      if (strategy === "future" && day < refDay) {
+        const d = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+        year = d.getFullYear();
+        month = d.getMonth() + 1;
+      } else if (strategy === "past" && day > refDay) {
+        const d = new Date(ref.getFullYear(), ref.getMonth() - 1, 1);
+        year = d.getFullYear();
+        month = d.getMonth() + 1;
+      }
     }
   }
 

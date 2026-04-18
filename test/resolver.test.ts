@@ -33,6 +33,67 @@ describe("resolver: absolute", () => {
   });
 });
 
+describe("resolver: ambiguityStrategy (day-only)", () => {
+  const ctxWith = (iso: string, strategy: "past" | "future" | "both") => ({
+    referenceDate: parseReferenceDate(iso),
+    timezone: "Asia/Seoul",
+    ambiguityStrategy: strategy,
+  });
+
+  it("past / day < refDay → same month", () => {
+    const expr: DateExpression = { kind: "absolute", day: 15 };
+    const r = resolveExpression(expr, ctxWith("2026-04-18", "past"));
+    expect(ymd(r.start)).toBe("2026-04-15");
+  });
+
+  it("past / day > refDay → previous month", () => {
+    const expr: DateExpression = { kind: "absolute", day: 25 };
+    const r = resolveExpression(expr, ctxWith("2026-04-18", "past"));
+    expect(ymd(r.start)).toBe("2026-03-25");
+  });
+
+  it("past / day > refDay in January → previous year December", () => {
+    const expr: DateExpression = { kind: "absolute", day: 25 };
+    const r = resolveExpression(expr, ctxWith("2026-01-10", "past"));
+    expect(ymd(r.start)).toBe("2025-12-25");
+  });
+
+  it("past / day == refDay → same day (today included)", () => {
+    const expr: DateExpression = { kind: "absolute", day: 18 };
+    const r = resolveExpression(expr, ctxWith("2026-04-18", "past"));
+    expect(ymd(r.start)).toBe("2026-04-18");
+  });
+
+  it("future / day > refDay → same month", () => {
+    const expr: DateExpression = { kind: "absolute", day: 25 };
+    const r = resolveExpression(expr, ctxWith("2026-04-18", "future"));
+    expect(ymd(r.start)).toBe("2026-04-25");
+  });
+
+  it("future / day < refDay → next month", () => {
+    const expr: DateExpression = { kind: "absolute", day: 15 };
+    const r = resolveExpression(expr, ctxWith("2026-04-18", "future"));
+    expect(ymd(r.start)).toBe("2026-05-15");
+  });
+
+  it("future / day < refDay in December → next year January", () => {
+    const expr: DateExpression = { kind: "absolute", day: 5 };
+    const r = resolveExpression(expr, ctxWith("2026-12-20", "future"));
+    expect(ymd(r.start)).toBe("2027-01-05");
+  });
+
+  it("contextDate overrides strategy (uses contextDate month/year)", () => {
+    const expr: DateExpression = { kind: "absolute", day: 25 };
+    const r = resolveExpression(expr, {
+      referenceDate: parseReferenceDate("2026-04-18"),
+      timezone: "Asia/Seoul",
+      ambiguityStrategy: "past",
+      contextDate: parseReferenceDate("2025-06-01"),
+    });
+    expect(ymd(r.start)).toBe("2025-06-25");
+  });
+});
+
 describe("resolver: relative", () => {
   it("relative month offset=-1 → 전월 range", async () => {
     const expr: DateExpression = { kind: "relative", unit: "month", offset: -1 };
