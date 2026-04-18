@@ -68,6 +68,7 @@ async function doExtract() {
     timezone: $("#tz").value,
     locale: $("#locale").value,
     outputModes: selectedModes(),
+    enableLLM: $("#enableLLM").checked,
     forceLLM: $("#forceLLM").checked,
     defaultToToday: $("#defaultToToday").checked,
     ambiguityStrategy: $("#ambiguityStrategy").value,

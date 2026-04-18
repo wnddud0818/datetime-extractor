@@ -1,7 +1,7 @@
 {
   "name": "datetime-extractor",
   "version": "0.1.0",
-  "description": "한국어/영어 자연어에서 날짜·시간을 정확하게 추출하는 하이브리드 라이브러리 (룰 fast-path + LLM 폴백 + LRU 캐시)",
+  "description": "한국어/영어 자연어에서 날짜·시간을 정확하게 추출하는 하이브리드 라이브러리 (룰 fast-path + 선택적 LLM 폴백 + LRU 캐시)",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -138,6 +138,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
 
   const timezone = req.timezone ?? "Asia/Seoul";
   const locale = req.locale ?? "auto";
+  const enableLLM = req.enableLLM ?? false;
   const referenceDateIso =
     req.referenceDate ?? format(new Date(), "yyyy-MM-dd");
   const referenceDate = parseReferenceDate(referenceDateIso);
@@ -151,6 +152,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     timezone,
     locale,
     outputModes: outputModes.join(","),
+    enableLLM,
     ambiguityStrategy: req.ambiguityStrategy ?? "past",
     fiscalYearStart: req.fiscalYearStart ?? 1,
     weekStartsOn: req.weekStartsOn ?? 1,
@@ -187,6 +189,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
   let expressions: Array<{ text: string; expression: DateExpression; confidence?: number }>;
   let ruleConfidence = ruleResult.confidence;
   let error: string | undefined;
+  const shouldUseLLM = enableLLM || req.forceLLM === true;
 
   if (ruleResult.confidence >= 1.0 && !req.forceLLM) {
     // full_match → LLM 스킵
@@ -197,39 +200,48 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
       confidence: 1.0,
     }));
   } else if (ruleResult.expressions.length > 0 && !req.forceLLM) {
-    // partial_match: 룰 결과에 LLM 결과 병합
-    const llmStart = now();
-    const llmRes = await callLLMWithRetry(req.text);
-    breakdown.llm = now() - llmStart;
-    path = "rule+llm";
-    if (llmRes.output) {
-      // LLM이 룰과 동일한 span을 리포트하면 중복. 간단 병합: 룰 우선, LLM의 고유 span만 추가.
-      const ruleSpans = new Set(ruleResult.expressions.map((e) => e.text));
-      const merged: Array<{ text: string; expression: DateExpression; confidence?: number }> =
-        ruleResult.expressions.map((e) => ({
-          text: e.text,
-          expression: e.expression,
-          confidence: 1.0,
-        }));
-      for (const e of llmRes.output.expressions) {
-        if (!ruleSpans.has(e.text)) {
-          merged.push({
-            text: e.text,
-            expression: e.expression as DateExpression,
-            confidence: e.confidence,
-          });
-        }
-      }
-      expressions = merged;
-    } else {
+    if (!enableLLM) {
+      path = "rule";
       expressions = ruleResult.expressions.map((e) => ({
         text: e.text,
         expression: e.expression,
-        confidence: 0.85,
+        confidence: 1.0,
       }));
-      error = llmRes.error;
+    } else {
+      // partial_match: 룰 결과에 LLM 결과 병합
+      const llmStart = now();
+      const llmRes = await callLLMWithRetry(req.text);
+      breakdown.llm = now() - llmStart;
+      path = "rule+llm";
+      if (llmRes.output) {
+        // LLM이 룰과 동일한 span을 리포트하면 중복. 간단 병합: 룰 우선, LLM의 고유 span만 추가.
+        const ruleSpans = new Set(ruleResult.expressions.map((e) => e.text));
+        const merged: Array<{ text: string; expression: DateExpression; confidence?: number }> =
+          ruleResult.expressions.map((e) => ({
+            text: e.text,
+            expression: e.expression,
+            confidence: 1.0,
+          }));
+        for (const e of llmRes.output.expressions) {
+          if (!ruleSpans.has(e.text)) {
+            merged.push({
+              text: e.text,
+              expression: e.expression as DateExpression,
+              confidence: e.confidence,
+            });
+          }
+        }
+        expressions = merged;
+      } else {
+        expressions = ruleResult.expressions.map((e) => ({
+          text: e.text,
+          expression: e.expression,
+          confidence: 0.85,
+        }));
+        error = llmRes.error;
+      }
     }
-  } else {
+  } else if (shouldUseLLM) {
     // no_match 또는 forceLLM → 전체 LLM
     const llmStart = now();
     const llmRes = await callLLMWithRetry(req.text);
@@ -246,6 +258,9 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
       error = llmRes.error ?? "llm_failed";
     }
     ruleConfidence = 0;
+  } else {
+    path = "rule";
+    expressions = [];
   }
 
   // defaultToToday 폴백: 날짜를 하나도 못 찾았는데 옵션이 켜져 있으면 오늘로 기본 처리

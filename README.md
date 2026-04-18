@@ -3,7 +3,7 @@
 한국어/영어 자연어 질의에서 **정확한 날짜·시간**을 추출하는 TypeScript 라이브러리.
 
 - **정확도 최우선**: LLM은 중간 DSL만 생성하고, 실제 날짜 계산은 결정론적 리졸버가 담당 → 할루시네이션이 실제 날짜에 섞이지 않음
-- **속도 최우선**: 룰 fast-path(<10ms) + LRU 캐시(<1ms) + LLM 폴백(~수백 ms)의 3단 파이프라인
+- **속도 최우선**: 기본은 룰 fast-path(<10ms) + LRU 캐시(<1ms), 필요할 때만 LLM 폴백(~수백 ms)
 - **한국 특화**: 공공데이터포털 공휴일 + 음력 변환 + 한국어 수사 (사흘, 보름 등)
 - **복수 표현**: "3월 4월 잔액" 같이 한 질의에서 여러 날짜 범위를 동시 반환
 - **outputMode 선택**: single / range / list / business_days / weekdays / holidays / all 을 호출 측에서 조합 가능
@@ -40,6 +40,17 @@ const res = await extract({
 // res.expressions[0].results[0].value === ["2026-03-03", "2026-03-04", ...]
 // res.meta.path === "rule"  (LLM 안 씀)
 // res.meta.latencyMs < 10
+```
+
+복잡한 표현에만 LLM을 opt-in:
+
+```typescript
+const res = await extract({
+  text: "3개월 전부터 보름 동안의 평일",
+  referenceDate: "2026-04-17",
+  outputModes: ["weekdays"],
+  enableLLM: true,
+});
 ```
 
 복수 표현:
@@ -87,6 +98,7 @@ const res = await extract({
 | `timezone` | `string` | `"Asia/Seoul"` | 타임존 |
 | `locale` | `"ko" \| "en" \| "auto"` | `"auto"` | 언어 힌트 |
 | `outputModes` | `OutputMode[]` | `["range","single"]` | 결과 포맷 조합 |
+| `enableLLM` | `boolean` | `false` | 룰이 부분 매칭/미매칭일 때만 LLM 폴백 허용 |
 | `forceLLM` | `boolean` | `false` | 룰 스킵하고 LLM만 사용 |
 | `defaultToToday` | `boolean` | `false` | 날짜 미감지 시 오늘로 폴백 |
 | `ambiguityStrategy` | `"past" \| "future" \| "both"` | `"past"` | 연/월 생략 표현의 해석 방향 |
@@ -136,14 +148,14 @@ await extract({
 ## 아키텍처
 
 ```
-입력 + referenceDate + outputModes
+입력 + referenceDate + outputModes + enableLLM?
   ↓
 [0] LRU 캐시 조회 ─ hit → 즉시 반환 (<1ms)
   ↓ miss
 [1a] 룰 엔진 (정규식 + 사전)
   ├ confidence 1.0 → LLM 스킵
-  ├ 0.85 → 잔여를 LLM로
-  └ 0.0 → 전체 LLM
+  ├ 0.85 → enableLLM=true면 잔여를 LLM로, 아니면 룰 결과만 반환
+  └ 0.0 → enableLLM=true면 전체 LLM, 아니면 hasDate=false
   ↓
 [1b] Ollama LLM (폴백) — format=JSON Schema 강제 + Zod 검증
   ↓
@@ -204,7 +216,7 @@ HOLIDAY_API_KEY=발급키 npx tsx scripts/sync-holidays.ts 2024 2030
 
 ## 알려진 한계 / TODO
 
-- **LLM 경로 검증 미완료**: 룰 엔진이 80%+를 커버하지만, 복잡한 자연어(예: "3개월 전부터 보름 동안의 평일")는 Ollama LLM 폴백이 필요합니다. `ollama pull qwen2.5:3b-instruct` 후 테스트 페이지에서 실제 동작을 확인하세요. Zod 스키마 검증은 `npm run test:all`로 오프라인 확인됩니다.
+- **LLM 경로 검증 미완료**: 기본값은 LLM 비활성화입니다. 룰 엔진이 80%+를 커버하지만, 복잡한 자연어(예: "3개월 전부터 보름 동안의 평일")는 `enableLLM: true`로 Ollama 폴백을 켜야 합니다. `ollama pull qwen2.5:3b-instruct` 후 테스트 페이지에서 실제 동작을 확인하세요. Zod 스키마 검증은 `npm run test:all`로 오프라인 확인됩니다.
 - **timezone 파라미터**: 현재는 meta 반영만. 실제 날짜 연산은 로컬 TZ(개발 환경 KST 가정)에서 수행. UTC 컨테이너 배포 시 `date-fns-tz`의 `toZonedTime` 호출 추가 필요.
 - **ambiguity 규칙**: 연/월 생략 표현은 `ambiguityStrategy`·`contextDate`로 제어. "지난 3월" 같은 지시어 + 월 복합 표현은 일부만 지원.
 
@@ -225,6 +237,7 @@ HOLIDAY_API_KEY=발급키 npx tsx scripts/sync-holidays.ts 2024 2030
 - 경로 배지 (🟢 cache / 🟡 rule / 🔴 llm / 🟠 rule+llm)
 - 지연 시간 breakdown (cache/rule/llm/resolver 단위)
 - 골든 예제 원클릭 버튼
+- "LLM 폴백 사용" 토글 — 기본 꺼짐
 - "LLM 경로 강제" 토글 — 룰 스킵하고 벤치마크
 - "캐시 비우기" 버튼
 

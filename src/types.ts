@@ -190,6 +190,11 @@ export interface ExtractRequest {
   timezone?: string;
   locale?: "ko" | "en" | "auto";
   outputModes?: OutputMode[];
+  /**
+   * true이면 룰 엔진이 부분 매칭/미매칭한 경우에만 LLM 폴백을 허용.
+   * 기본값은 false.
+   */
+  enableLLM?: boolean;
   forceLLM?: boolean;
   /**
    * true이면 룰/LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 기본값으로 반환.

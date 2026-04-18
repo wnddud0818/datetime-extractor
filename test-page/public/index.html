@@ -9,7 +9,7 @@
   <body>
     <header>
       <h1>datetime-extractor</h1>
-      <p class="sub">한국어/영어 자연어에서 날짜·시간 추출 (룰 + LLM 하이브리드)</p>
+      <p class="sub">한국어/영어 자연어에서 날짜·시간 추출 (룰 + 선택적 LLM)</p>
     </header>
 
     <main>
@@ -166,10 +166,17 @@
 
         <div class="row">
           <label
+            ><input type="checkbox" id="enableLLM" /> LLM 폴백 사용<i
+              class="info"
+              data-tip="기본값은 꺼짐. 체크하면 룰 기반 파서가 부분 매칭하거나 놓친 경우에만 LLM을 추가로 사용."
+              >?</i
+            ></label
+          >
+          <label
             ><input type="checkbox" id="forceLLM" /> LLM 경로 강제 (룰
             스킵)<i
               class="info"
-              data-tip="룰 기반 파서를 건너뛰고 LLM으로만 추출. 룰 커버리지 비교/디버깅용."
+              data-tip="LLM 폴백 토글과 무관하게 룰 기반 파서를 건너뛰고 LLM으로만 추출. 룰 커버리지 비교/디버깅용."
               >?</i
             ></label
           >
@@ -177,7 +184,7 @@
             ><input type="checkbox" id="defaultToToday" /> 날짜 미감지 시 오늘로
             기본값<i
               class="info"
-              data-tip="룰·LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 반환. 금융·운영 도메인처럼 '날짜 미지정 = 현재 시점'이 관습인 환경용."
+              data-tip="룰·(선택 시)LLM이 모두 날짜를 찾지 못했을 때 기준일(오늘)을 반환. 금융·운영 도메인처럼 '날짜 미지정 = 현재 시점'이 관습인 환경용."
               >?</i
             ></label
           >
