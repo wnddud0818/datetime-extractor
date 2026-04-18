@@ -19,9 +19,9 @@
     "test:golden": "vitest run test/golden.test.ts",
     "test:all": "vitest run",
     "bench": "tsx benchmarks/scripts/bench.ts",
-    "eval:suite": "tsx benchmarks/scripts/eval-suite.ts",
-    "bench:humanlike": "tsx benchmarks/scripts/humanlike-500.ts",
-    "bench:date-diversity": "tsx benchmarks/scripts/date-diversity-500.ts",
+    "eval:suite": "tsx benchmarks/scripts/bench.ts eval-suite",
+    "bench:humanlike": "tsx benchmarks/scripts/bench.ts humanlike-500",
+    "bench:date-diversity": "tsx benchmarks/scripts/bench.ts date-diversity-500",
     "sync-holidays": "tsx scripts/sync-holidays.ts",
     "verify:lunar": "tsx scripts/verify-lunar.ts"
   },

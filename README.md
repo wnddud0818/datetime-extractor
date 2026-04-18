@@ -15,7 +15,7 @@ npm install
 npm test          # 리졸버 단위 테스트 (15개)
 npm run test:rules    # 룰 엔진 테스트 (15개)
 npm run test:golden   # 골든 데이터셋 end-to-end (24개)
-npm run bench     # 성능 측정
+npm run bench     # 성능 측정 (통합 benchmark CLI)
 npm run dev       # 테스트 페이지 (http://localhost:3000)
 ```
 

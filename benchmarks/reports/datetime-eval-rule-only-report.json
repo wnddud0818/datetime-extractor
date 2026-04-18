@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-18T12:21:35.684Z",
+  "generatedAt": "2026-04-18T13:07:25.606Z",
   "refDates": [
     "2025-01-10",
     "2025-11-17",
@@ -9,7 +9,7 @@
     "2028-02-29",
     "2029-12-30"
   ],
-  "total": 973,
+  "total": 1043,
   "suites": [
     {
       "suite": "default",
@@ -338,6 +338,27 @@
           }
         }
       ]
+    },
+    {
+      "suite": "force_llm",
+      "total": 70,
+      "passed": 70,
+      "accuracy": 100,
+      "byCategory": [
+        {
+          "category": "LLM.forced",
+          "total": 70,
+          "passed": 70,
+          "accuracy": 100
+        }
+      ],
+      "byPath": [
+        {
+          "path": "rule_only:full",
+          "count": 70
+        }
+      ],
+      "failures": []
     }
   ]
 }
