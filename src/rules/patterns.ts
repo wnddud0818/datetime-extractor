@@ -1549,6 +1549,48 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 27a. <date>부터 D일까지  (끝 날짜에서 월 생략 → 시작 월 상속)
+  //      지원 형태: "YYYY년 M월 D일부터 D일까지", "M월 D일부터 D일까지",
+  //                 "M월 D일 ~ D일"
+  {
+    const datePat = "(?:(\\d{4})\\s*년\\s*)?(\\d{1,2})\\s*월\\s*(\\d{1,2})\\s*일";
+    const re = new RegExp(
+      `${datePat}\\s*(?:부터|~|-|에서)\\s*(\\d{1,2})\\s*일(?:\\s*까지)?`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const y1 = m[1] ? Number(m[1]) : undefined;
+      const mo1 = Number(m[2]);
+      const d1 = Number(m[3]);
+      const d2 = Number(m[4]);
+      if (d2 <= d1) continue; // invalid or reversed range — skip
+      const startExpr: AbsoluteExpression = {
+        kind: "absolute",
+        ...(y1 !== undefined ? { year: y1 } : { yearOffset: 0 }),
+        month: mo1,
+        day: d1,
+      };
+      const endExpr: AbsoluteExpression = {
+        kind: "absolute",
+        ...(y1 !== undefined ? { year: y1 } : { yearOffset: 0 }),
+        month: mo1,
+        day: d2,
+      };
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: startExpr,
+          end: endExpr,
+        },
+        priority: 98,
+      });
+    }
+  }
+
   // 27. <date>부터 <date>까지  범위 연결자
   //     지원 형태: "M월 D일부터 M월 D일까지", "YYYY년 M월 D일부터 ~ 까지" 등
   {
