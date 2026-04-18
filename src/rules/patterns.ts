@@ -79,6 +79,51 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 1b. 구분자 없는 YYYYMMDD (20250412). month/day 범위 엄격 검증으로 오탐 억제.
+  {
+    const re = /(?<!\d)(\d{4})(\d{2})(\d{2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo = Number(m[2]);
+      const d = Number(m[3]);
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          year: Number(m[1]),
+          month: mo,
+          day: d,
+        },
+        priority: 97,
+      });
+    }
+  }
+
+  // 1c. 구분자 없는 MMDD (0412 → 4월 12일). 연도는 ambiguityStrategy로 해석.
+  {
+    const re = /(?<!\d)(\d{2})(\d{2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo = Number(m[1]);
+      const d = Number(m[2]);
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          month: mo,
+          day: d,
+        },
+        priority: 83,
+      });
+    }
+  }
+
   // 2. 한국어 연월일 (2025년 3월 1일, 3월 1일)
   {
     const re = /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;

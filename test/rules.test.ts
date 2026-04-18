@@ -73,6 +73,54 @@ describe("rules engine", () => {
     });
   });
 
+  it("20250412 잔액 → 구분자 없는 YYYYMMDD", () => {
+    const r = runRules("20250412 잔액");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      year: 2025,
+      month: 4,
+      day: 12,
+    });
+  });
+
+  it("0412 잔액 → 구분자 없는 MMDD (연도 미상)", () => {
+    const r = runRules("0412 잔액");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      month: 4,
+      day: 12,
+    });
+  });
+
+  it("19991231 → 과거 연도 YYYYMMDD", () => {
+    const r = runRules("19991231");
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      year: 1999,
+      month: 12,
+      day: 31,
+    });
+  });
+
+  it("99999999 → 유효하지 않은 월/일은 매치 안 됨", () => {
+    const r = runRules("99999999");
+    expect(r.expressions).toHaveLength(0);
+  });
+
+  it("2025년 → 연도 단독 (YYYYMMDD/MMDD와 겹치지 않음)", () => {
+    const r = runRules("2025년");
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      year: 2025,
+    });
+  });
+
   it("2025년 3월 1일 → 한국 연월일", () => {
     const r = runRules("2025년 3월 1일");
     expect(r.confidence).toBe(1.0);

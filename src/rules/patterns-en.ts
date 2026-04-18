@@ -57,6 +57,51 @@ export function findMatchesEn(text: string): Match[] {
     }
   }
 
+  // 1b. 구분자 없는 YYYYMMDD (20250412). 언어 공통.
+  {
+    const re = /(?<!\d)(\d{4})(\d{2})(\d{2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo = Number(m[2]);
+      const d = Number(m[3]);
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          year: Number(m[1]),
+          month: mo,
+          day: d,
+        },
+        priority: 97,
+      });
+    }
+  }
+
+  // 1c. 구분자 없는 MMDD (0412 → April 12). 연도는 ambiguityStrategy로 해석.
+  {
+    const re = /(?<!\d)(\d{2})(\d{2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo = Number(m[1]);
+      const d = Number(m[2]);
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          month: mo,
+          day: d,
+        },
+        priority: 83,
+      });
+    }
+  }
+
   // 2. US M/D/Y — "3/15/2025" (M/D/Y 기본)
   {
     const re = /\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g;

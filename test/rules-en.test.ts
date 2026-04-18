@@ -57,6 +57,32 @@ describe("English rules - absolute dates", () => {
     });
   });
 
+  it("YYYYMMDD 20250412 → absolute", () => {
+    const r = runRules("20250412 balance", "en");
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      year: 2025,
+      month: 4,
+      day: 12,
+    });
+  });
+
+  it("MMDD 0412 → absolute without year", () => {
+    const r = runRules("0412 balance", "en");
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      month: 4,
+      day: 12,
+    });
+  });
+
+  it("MMDD with invalid month/day is ignored", () => {
+    const r = runRules("9999 balance", "en");
+    expect(r.expressions).toHaveLength(0);
+  });
+
   it("US M/D/Y 3/15/2025 → absolute", () => {
     const r = runRules("3/15/2025 balance", "en");
     expect(r.expressions[0].expression).toEqual({
