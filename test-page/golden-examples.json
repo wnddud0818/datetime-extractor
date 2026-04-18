@@ -19,5 +19,13 @@
   { "label": "복합 (LLM)", "text": "3개월 전부터 보름 동안의 평일", "modes": ["weekdays"] },
   { "label": "영어 yesterday", "text": "what was the balance yesterday", "modes": ["single"] },
   { "label": "영어 last month", "text": "last month sales", "modes": ["range"] },
+  { "label": "영어 Q2 2025", "text": "Q2 2025 revenue", "modes": ["range"] },
+  { "label": "영어 first half 2024", "text": "first half of 2024", "modes": ["range"] },
+  { "label": "영어 past 30 days", "text": "past 30 days", "modes": ["range"] },
+  { "label": "영어 March 15 2025", "text": "March 15, 2025 meeting", "modes": ["single"] },
+  { "label": "영어 3/15/2025", "text": "3/15/2025 balance", "modes": ["single"] },
+  { "label": "영어 next month business", "text": "next month business days", "modes": ["business_days"] },
+  { "label": "영어 day after tomorrow", "text": "day after tomorrow appointment", "modes": ["single"] },
+  { "label": "영어 next Monday", "text": "next Monday meeting", "modes": ["single"] },
   { "label": "날짜 없음", "text": "안녕하세요", "modes": ["single"] }
 ]

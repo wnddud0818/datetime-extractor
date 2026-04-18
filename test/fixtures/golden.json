@@ -12,6 +12,54 @@
     }
   },
   {
+    "id": "month_before_last_jeojeobeon",
+    "text": "저저번달 매출",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-02-01", "end": "2026-02-28" } }
+      ]
+    }
+  },
+  {
+    "id": "month_after_next_dadaeum",
+    "text": "다다음 달 일정",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-06-01", "end": "2026-06-30" } }
+      ]
+    }
+  },
+  {
+    "id": "week_before_last_jeojeobeon",
+    "text": "저저번주 회의록",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-03-30", "end": "2026-04-05" } }
+      ]
+    }
+  },
+  {
+    "id": "week_after_next_dadaeum",
+    "text": "다다음 주 일정",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-04-27", "end": "2026-05-03" } }
+      ]
+    }
+  },
+  {
     "id": "march_april_balance",
     "text": "3월 4월 잔액 알려줘",
     "referenceDate": "2026-04-17",
@@ -244,6 +292,107 @@
       "expressions": [
         { "range": { "start": "2026-03-01", "end": "2026-03-31" } }
       ]
+    }
+  },
+  {
+    "id": "english_q2_2025",
+    "text": "Q2 2025 revenue",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2025-04-01", "end": "2025-06-30" } }
+      ]
+    }
+  },
+  {
+    "id": "english_3_days_ago",
+    "text": "3 days ago",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-14" }]
+    }
+  },
+  {
+    "id": "english_march_15_2025",
+    "text": "March 15, 2025 meeting",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2025-03-15" }]
+    }
+  },
+  {
+    "id": "english_us_slash_date",
+    "text": "3/15/2025 balance",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2025-03-15" }]
+    }
+  },
+  {
+    "id": "english_first_half_2024",
+    "text": "first half of 2024",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2024-01-01", "end": "2024-06-30" } }
+      ]
+    }
+  },
+  {
+    "id": "english_past_30_days",
+    "text": "past 30 days",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        { "range": { "start": "2026-03-18", "end": "2026-04-17" } }
+      ]
+    }
+  },
+  {
+    "id": "english_next_month_business_days",
+    "text": "next month business days",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["business_days"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "business_days_include": ["2026-05-01", "2026-05-29"],
+          "business_days_count_min": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "english_tomorrow",
+    "text": "tomorrow weather",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-18" }]
+    }
+  },
+  {
+    "id": "english_day_after_tomorrow",
+    "text": "day after tomorrow appointment",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["single"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [{ "single": "2026-04-19" }]
     }
   }
 ]

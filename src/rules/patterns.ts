@@ -4,7 +4,7 @@ import type {
   FilterKind,
   NamedToken,
 } from "../types.js";
-import { KOREAN_DAY_NUMERALS, KOREAN_DAY_WORDS, ENGLISH_DAY_WORDS } from "./numerals.js";
+import { KOREAN_DAY_NUMERALS, KOREAN_DAY_WORDS } from "./numerals.js";
 
 export interface Match {
   text: string;
@@ -14,7 +14,9 @@ export interface Match {
   priority: number; // 높을수록 우선 (구체적 패턴 > 일반 패턴)
 }
 
-const FILTER_SUFFIX_MAP: Array<{ re: RegExp; filter: FilterKind }> = [
+export type FilterSuffixMap = Array<{ re: RegExp; filter: FilterKind }>;
+
+export const KOREAN_FILTER_SUFFIX_MAP: FilterSuffixMap = [
   { re: /^\s*영업일/, filter: "business_days" },
   { re: /^\s*평일/, filter: "weekdays" },
   { re: /^\s*공휴일/, filter: "holidays" },
@@ -24,13 +26,14 @@ const FILTER_SUFFIX_MAP: Array<{ re: RegExp; filter: FilterKind }> = [
   { re: /^\s*일요일/, filter: "sundays" },
 ];
 
-function tryAttachFilter(
+export function tryAttachFilter(
   text: string,
   afterIdx: number,
   baseMatch: Match,
+  suffixMap: FilterSuffixMap = KOREAN_FILTER_SUFFIX_MAP,
 ): Match | null {
   const rest = text.slice(afterIdx);
-  for (const { re, filter } of FILTER_SUFFIX_MAP) {
+  for (const { re, filter } of suffixMap) {
     const m = re.exec(rest);
     if (m) {
       const suffixLen = m[0].length;
@@ -51,9 +54,9 @@ function tryAttachFilter(
 }
 
 /**
- * 모든 매치 후보를 반환 (span overlap 허용, 이후 resolveOverlaps가 정리).
+ * 한국어 매치 후보를 반환 (span overlap 허용, 이후 resolveOverlaps가 정리).
  */
-export function findMatches(text: string): Match[] {
+export function findMatchesKo(text: string): Match[] {
   const out: Match[] = [];
 
   // 1. ISO 절대 (2025-12-25, 2025/12/25, 2025.12.25)
@@ -254,6 +257,8 @@ export function findMatches(text: string): Match[] {
   const MONTH_RELATIVE: Array<{ word: string; offset: number }> = [
     { word: "지지난달", offset: -2 },
     { word: "지지난 달", offset: -2 },
+    { word: "저저번달", offset: -2 },
+    { word: "저저번 달", offset: -2 },
     { word: "저번달", offset: -1 },
     { word: "저번 달", offset: -1 },
     { word: "지난달", offset: -1 },
@@ -261,6 +266,8 @@ export function findMatches(text: string): Match[] {
     { word: "이번달", offset: 0 },
     { word: "이번 달", offset: 0 },
     { word: "금월", offset: 0 },
+    { word: "다다음달", offset: 2 },
+    { word: "다다음 달", offset: 2 },
     { word: "다음달", offset: 1 },
     { word: "다음 달", offset: 1 },
     { word: "내달", offset: 1 },
@@ -285,6 +292,8 @@ export function findMatches(text: string): Match[] {
   const WEEK_RELATIVE: Array<{ word: string; offset: number }> = [
     { word: "지지난주", offset: -2 },
     { word: "지지난 주", offset: -2 },
+    { word: "저저번주", offset: -2 },
+    { word: "저저번 주", offset: -2 },
     { word: "지난주", offset: -1 },
     { word: "지난 주", offset: -1 },
     { word: "저번주", offset: -1 },
@@ -292,6 +301,8 @@ export function findMatches(text: string): Match[] {
     { word: "이번주", offset: 0 },
     { word: "이번 주", offset: 0 },
     { word: "금주", offset: 0 },
+    { word: "다다음주", offset: 2 },
+    { word: "다다음 주", offset: 2 },
     { word: "다음주", offset: 1 },
     { word: "다음 주", offset: 1 },
   ];
@@ -377,69 +388,7 @@ export function findMatches(text: string): Match[] {
     }
   }
 
-  // 11. 영어 일상어
-  for (const { word, token } of ENGLISH_DAY_WORDS) {
-    const re = new RegExp(`\\b${word}\\b`, "gi");
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(text))) {
-      out.push({
-        text: m[0],
-        start: m.index,
-        end: m.index + m[0].length,
-        expression: { kind: "named", name: token },
-        priority: 70,
-      });
-    }
-  }
-
-  // 12. 영어 상대 (last month, next year, last week)
-  {
-    const UNITS: Record<string, "day" | "week" | "month" | "year"> = {
-      day: "day",
-      week: "week",
-      month: "month",
-      quarter: "month", // approx
-      year: "year",
-    };
-    const re = /\b(last|next|this|previous)\s+(day|week|month|year|quarter)\b/gi;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(text))) {
-      const dirWord = m[1].toLowerCase();
-      const unitWord = m[2].toLowerCase();
-      const offset =
-        dirWord === "last" || dirWord === "previous"
-          ? -1
-          : dirWord === "next"
-            ? 1
-            : 0;
-      const unit = UNITS[unitWord] ?? "day";
-      const base: Match = {
-        text: m[0],
-        start: m.index,
-        end: m.index + m[0].length,
-        expression: { kind: "relative", unit, offset },
-        priority: 75,
-      };
-      out.push(base);
-    }
-  }
-
-  // 13. 영어 "N days/weeks/months/years ago"
-  {
-    const re = /\b(\d+)\s+(day|week|month|year)s?\s+ago\b/gi;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(text))) {
-      const n = Number(m[1]);
-      const unit = m[2].toLowerCase() as "day" | "week" | "month" | "year";
-      out.push({
-        text: m[0],
-        start: m.index,
-        end: m.index + m[0].length,
-        expression: { kind: "relative", unit, offset: -n },
-        priority: 80,
-      });
-    }
-  }
+  // (영어 일상어 / 상대 / "N ago"는 patterns-en.ts로 이동)
 
   // 14. N분기 (prefix 없는 N분기 = 올해 기준)
   {
@@ -820,10 +769,12 @@ export function findMatches(text: string): Match[] {
   {
     const MONTH_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "지지난\\s*달", offset: -2 },
+      { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
       { word: "금월", offset: 0 },
+      { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
     ];
@@ -979,10 +930,12 @@ export function findMatches(text: string): Match[] {
     ];
     const WEEK_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "지지난\\s*주", offset: -2 },
+      { word: "저저번\\s*주", offset: -2 },
       { word: "저번\\s*주", offset: -1 },
       { word: "지난\\s*주", offset: -1 },
       { word: "이번\\s*주", offset: 0 },
       { word: "금주", offset: 0 },
+      { word: "다다음\\s*주", offset: 2 },
       { word: "다음\\s*주", offset: 1 },
     ];
     for (const { word: pw, offset } of WEEK_PREFIXES) {
@@ -1002,37 +955,7 @@ export function findMatches(text: string): Match[] {
     }
   }
 
-  // 24b. 영어 last/next/this + weekday
-  {
-    const EN_WEEKDAYS: Array<{ word: string; weekday: number }> = [
-      { word: "sunday", weekday: 0 },
-      { word: "monday", weekday: 1 },
-      { word: "tuesday", weekday: 2 },
-      { word: "wednesday", weekday: 3 },
-      { word: "thursday", weekday: 4 },
-      { word: "friday", weekday: 5 },
-      { word: "saturday", weekday: 6 },
-    ];
-    const re = /\b(last|next|this|previous)\s+(sun|mon|tues?|wed(?:nes)?|thur?s?|fri|sat(?:ur)?)(?:day)?\b/gi;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(text))) {
-      const dirWord = m[1].toLowerCase();
-      const dayWord = m[2].toLowerCase();
-      const offset =
-        dirWord === "last" || dirWord === "previous" ? -1
-        : dirWord === "next" ? 1
-        : 0;
-      const wd = EN_WEEKDAYS.find((w) => w.word.startsWith(dayWord.replace(/s$/, "")))?.weekday;
-      if (wd === undefined) continue;
-      out.push({
-        text: m[0],
-        start: m.index,
-        end: m.index + m[0].length,
-        expression: { kind: "weekday_in_week", weekOffset: offset, weekday: wd },
-        priority: 92,
-      });
-    }
-  }
+  // (영어 last/next + weekday는 patterns-en.ts로 이동)
 
   // 25. (재작년|작년|올해|내년|후년|지난해|금년|...) + 오늘/어제/내일/모레/그저께/글피
   //     "작년 오늘" = 1년 전 이맘때 (같은 월/일).
@@ -1246,7 +1169,7 @@ export function resolveOverlaps(matches: Match[]): Match[] {
   return taken.sort((a, b) => a.start - b.start);
 }
 
-const DATE_RESIDUAL_KEYWORDS = [
+export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "년",
   "월",
   "일",
@@ -1295,22 +1218,17 @@ const DATE_RESIDUAL_KEYWORDS = [
   "일주일",
   "한 달",
   "한달",
-  "yesterday",
-  "today",
-  "tomorrow",
-  "last",
-  "next",
-  "previous",
-  "ago",
-  "before",
-  "after",
 ];
 
 /**
  * 매치된 스팬들을 제거한 잔여 텍스트에 날짜 관련 키워드가 남아있는지 확인.
  * 남아있으면 LLM 폴백 필요 (partial match).
  */
-export function hasResidualDateContent(text: string, matches: Match[]): boolean {
+export function hasResidualDateContent(
+  text: string,
+  matches: Match[],
+  keywords: readonly string[] = KOREAN_DATE_RESIDUAL_KEYWORDS,
+): boolean {
   let residual = "";
   let cursor = 0;
   const ordered = [...matches].sort((a, b) => a.start - b.start);
@@ -1321,7 +1239,7 @@ export function hasResidualDateContent(text: string, matches: Match[]): boolean 
   residual += text.slice(cursor);
 
   const lower = residual.toLowerCase();
-  for (const kw of DATE_RESIDUAL_KEYWORDS) {
+  for (const kw of keywords) {
     if (kw.length === 0) continue;
     // 한국어는 대소문자 구분 없음, 영어는 \b 경계
     if (/^[a-z]+$/i.test(kw)) {

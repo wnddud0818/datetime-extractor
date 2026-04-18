@@ -1,5 +1,15 @@
 import type { DateExpression } from "../types.js";
-import { findMatches, resolveOverlaps, hasResidualDateContent } from "./patterns.js";
+import {
+  findMatchesKo,
+  resolveOverlaps,
+  hasResidualDateContent,
+  KOREAN_DATE_RESIDUAL_KEYWORDS,
+} from "./patterns.js";
+import {
+  findMatchesEn,
+  ENGLISH_DATE_RESIDUAL_KEYWORDS,
+} from "./patterns-en.js";
+import { detectLocale } from "./detect-locale.js";
 
 export interface RuleResult {
   expressions: Array<{ text: string; expression: DateExpression }>;
@@ -7,8 +17,16 @@ export interface RuleResult {
   residualText: string;
 }
 
-export function runRules(text: string): RuleResult {
-  const all = findMatches(text);
+export function runRules(
+  text: string,
+  locale: "ko" | "en" | "auto" = "auto",
+): RuleResult {
+  const effectiveLocale = locale === "auto" ? detectLocale(text) : locale;
+  const all = effectiveLocale === "ko" ? findMatchesKo(text) : findMatchesEn(text);
+  const keywords =
+    effectiveLocale === "ko"
+      ? KOREAN_DATE_RESIDUAL_KEYWORDS
+      : ENGLISH_DATE_RESIDUAL_KEYWORDS;
   const resolved = resolveOverlaps(all);
   const expressions = resolved.map((m) => ({
     text: m.text,
@@ -28,7 +46,7 @@ export function runRules(text: string): RuleResult {
     return { expressions: [], confidence: 0, residualText: residual };
   }
 
-  const hasResidual = hasResidualDateContent(text, resolved);
+  const hasResidual = hasResidualDateContent(text, resolved, keywords);
   const confidence = hasResidual ? 0.85 : 1.0;
 
   return { expressions, confidence, residualText: residual };
