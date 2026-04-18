@@ -2351,17 +2351,52 @@ async function runHumanlike500(cliArgs: string[]): Promise<void> {
   }
 
   function loadSourceTexts(): Set<string> {
-    if (!fs.existsSync(sourceCsvPath)) {
-      throw new Error(`source CSV not found: ${sourceCsvPath}`);
+    if (fs.existsSync(sourceCsvPath)) {
+      const raw = fs.readFileSync(sourceCsvPath, "utf8").replace(/^\uFEFF/, "");
+      const lines = raw.trim().split(/\r?\n/).slice(1);
+      const out = new Set<string>();
+      for (const line of lines) {
+        const [text] = parseCsvLine(line);
+        if (text) out.add(text);
+      }
+      return out;
     }
-    const raw = fs.readFileSync(sourceCsvPath, "utf8").replace(/^\uFEFF/, "");
-    const lines = raw.trim().split(/\r?\n/).slice(1);
-    const out = new Set<string>();
-    for (const line of lines) {
-      const [text] = parseCsvLine(line);
-      if (text) out.add(text);
+
+    const fallback = new Set<string>();
+
+    if (fs.existsSync(csvPath)) {
+      const raw = fs.readFileSync(csvPath, "utf8").replace(/^\uFEFF/, "");
+      const lines = raw.trim().split(/\r?\n/).slice(1);
+      for (const line of lines) {
+        const [text] = parseCsvLine(line);
+        if (text) fallback.add(text);
+      }
     }
-    return out;
+
+    if (fallback.size === 0 && fs.existsSync(jsonPath)) {
+      try {
+        const parsed = JSON.parse(fs.readFileSync(jsonPath, "utf8")) as {
+          cases?: Array<{ text?: string }>;
+        };
+        for (const item of parsed.cases ?? []) {
+          if (item.text) fallback.add(item.text);
+        }
+      } catch {
+        // 기존 산출물 파싱 실패는 무시하고 최종적으로 빈 Set을 반환한다.
+      }
+    }
+
+    if (fallback.size > 0) {
+      console.log(
+        `source CSV not found: ${sourceCsvPath}; reusing ${fallback.size} existing humanlike texts for dedupe`,
+      );
+      return fallback;
+    }
+
+    console.log(
+      `source CSV not found: ${sourceCsvPath}; continuing without prior text dedupe`,
+    );
+    return fallback;
   }
 
   function parseCsvLine(line: string): string[] {

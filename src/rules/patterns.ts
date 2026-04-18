@@ -297,6 +297,90 @@ function parseWeekOfMonth(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
   return undefined;
 }
 
+const KOREAN_DURATION_DAYS: Record<string, number> = {
+  하루: 1,
+  이틀: 2,
+  사흘: 3,
+  나흘: 4,
+  닷새: 5,
+  엿새: 6,
+  이레: 7,
+  여드레: 8,
+  아흐레: 9,
+  열흘: 10,
+  보름: 15,
+  일주일: 7,
+  한주: 7,
+  한달: 30,
+  한해: 365,
+  일년: 365,
+};
+
+function parseWeekRelativeOffset(raw: string): number {
+  const s = raw.replace(/\s+/g, "");
+  if (s === "지지난" || s === "저저번") return -2;
+  if (s === "저번" || s === "지난" || s === "전") return -1;
+  if (s === "다다음") return 2;
+  if (s === "다음" || s === "담" || s === "차") return 1;
+  return 0;
+}
+
+function parseRelativeNumericExpression(
+  numStr: string,
+  unitWord: string,
+  dirWord: string,
+): DateExpression | null {
+  const n = Number(numStr);
+  const sign = dirWord === "전" ? -1 : 1;
+
+  if (unitWord === "영업일" || unitWord === "업무일") {
+    return {
+      kind: "relative",
+      unit: "business_day",
+      offset: sign * n,
+      singleDay: true,
+    };
+  }
+
+  let unit: "day" | "week" | "month" | "year" = "day";
+  if (unitWord === "주" || unitWord === "주일") unit = "week";
+  else if (unitWord === "개월" || unitWord === "달") unit = "month";
+  else if (unitWord === "년" || unitWord === "년도") unit = "year";
+
+  return {
+    kind: "relative",
+    unit,
+    offset: sign * n,
+    ...(unit !== "day" ? { singleDay: true } : {}),
+  };
+}
+
+function parseDurationDays(raw: string): number | null {
+  const normalized = raw.replace(/\s+/g, "");
+  if (normalized in KOREAN_DURATION_DAYS) {
+    return KOREAN_DURATION_DAYS[normalized];
+  }
+
+  const m = /^(\d+)(일|주일|주|개월|달|년)$/.exec(normalized);
+  if (!m) return null;
+
+  const amount = Number(m[1]);
+  const unit = m[2];
+  if (unit === "일") return amount;
+  if (unit === "주" || unit === "주일") return amount * 7;
+  if (unit === "개월" || unit === "달") return amount * 30;
+  return amount * 365;
+}
+
+function parseFilterWord(word: string): FilterKind {
+  if (word === "영업일") return "business_days";
+  if (word === "평일") return "weekdays";
+  if (word === "공휴일" || word === "휴일") return "holidays";
+  if (word === "토요일") return "saturdays";
+  if (word === "일요일") return "sundays";
+  return "weekends";
+}
+
 /**
  * 한국어 매치 후보를 반환 (span overlap 허용, 이후 resolveOverlaps가 정리).
  */
@@ -708,7 +792,96 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 6b. 전월 동월 비교 — 전월/당월을 각각 month-to-date로 해석
+  {
+    const re = /(전월)\s*(동월|당월|금월|이번달|이번\s*달|이달)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const secondRaw = m[2];
+      const firstStart = m.index;
+      const firstEnd = firstStart + m[1].length;
+      const gap = m[0].indexOf(secondRaw, m[1].length);
+      const secondStart = m.index + gap;
+      const secondEnd = secondStart + secondRaw.length;
+      out.push({
+        text: m[1],
+        start: firstStart,
+        end: firstEnd,
+        expression: { kind: "to_date", unit: "month", offset: -1 },
+        priority: 95,
+      });
+      out.push({
+        text: secondRaw,
+        start: secondStart,
+        end: secondEnd,
+        expression: { kind: "to_date", unit: "month", offset: 0 },
+        priority: 95,
+      });
+    }
+  }
+
+  // 6c. 연초부터 지금/현재/오늘까지 — year-to-date
+  {
+    const re = /연초\s*부터\s*(지금|현재|오늘)\s*까지/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "to_date", unit: "year", offset: 0 },
+        priority: 97,
+      });
+    }
+  }
+
+  // 6d. 작년/전년/재작년 동기 — 같은 시점까지의 year-to-date
+  {
+    const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "전년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of YEAR_PREFIXES) {
+      const re = new RegExp(`${word}\\s*동기`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "to_date", unit: "year", offset },
+          priority: 96,
+        });
+      }
+    }
+  }
+
   // 7. 상대 주 표현
+  {
+    const re = /(지지난|저저번|저번|지난|전|이번|금|다다음|다음|담|차)\s*주\s*(초|중)(?![가-힣])/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "week_part",
+          weekOffset: parseWeekRelativeOffset(m[1]),
+          part: m[2] === "초" ? "early" : "mid",
+        },
+        priority: 92,
+      });
+    }
+  }
+
   const WEEK_RELATIVE: Array<{ word: string; offset: number }> = [
     { word: "지지난주", offset: -2 },
     { word: "지지난 주", offset: -2 },
@@ -774,6 +947,52 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 7c. <상대 시작점>부터 <지속기간> 동안의 <필터>
+  //     예: "3개월 전부터 보름 동안의 평일"
+  {
+    const re =
+      /(\d+)\s*(일|주|개월|달|년|년도|주일|영업일|업무일)\s*(전|뒤|후)\s*부터\s*((?:\d+\s*(?:일|주일|주|개월|달|년))|일주일|한\s*주|한\s*달|한\s*해|일\s*년|하루|이틀|사흘|나흘|닷새|엿새|이레|여드레|아흐레|열흘|보름)\s*(?:간|동안)(?:의)?\s*(영업일|평일|공휴일|휴일|주말|토요일|일요일)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const startExpr = parseRelativeNumericExpression(m[1], m[2], m[3]);
+      const durationDays = parseDurationDays(m[4]);
+      if (!startExpr || durationDays === null || durationDays < 1) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "filter",
+          base: {
+            kind: "range",
+            start: startExpr,
+            durationDays,
+          },
+          filter: parseFilterWord(m[5]),
+        },
+        priority: 98,
+      });
+    }
+  }
+
+  // 7d. N영업일/N업무일 전/후 — business-day 기준 단일 시점
+  {
+    const re =
+      /(\d+)\s*(영업일|업무일)\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const expr = parseRelativeNumericExpression(m[1], m[2], m[3]);
+      if (!expr) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: expr,
+        priority: 84,
+      });
+    }
+  }
+
   // 8. 수치 상대 (7일 전, 3일 후, 2주 전, 3개월 뒤)
   //    "N일 전" = 단일 일. "N주/N개월/N년 전"도 point-in-time = 단일 일 해석.
   {
@@ -781,25 +1000,13 @@ export function findMatchesKo(text: string): Match[] {
       /(\d+)\s*(일|주|개월|달|년|년도|주일)\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const n = Number(m[1]);
-      const unitWord = m[2];
-      const dirWord = m[3];
-      let unit: "day" | "week" | "month" | "year" = "day";
-      if (unitWord === "주" || unitWord === "주일") unit = "week";
-      else if (unitWord === "개월" || unitWord === "달") unit = "month";
-      else if (unitWord === "년" || unitWord === "년도") unit = "year";
-      const sign = dirWord === "전" ? -1 : 1;
-      const singleDay = unit !== "day";
+      const expr = parseRelativeNumericExpression(m[1], m[2], m[3]);
+      if (!expr) continue;
       out.push({
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
-        expression: {
-          kind: "relative",
-          unit,
-          offset: sign * n,
-          ...(singleDay ? { singleDay: true } : {}),
-        },
+        expression: expr,
         priority: 80,
       });
     }

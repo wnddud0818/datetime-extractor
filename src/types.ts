@@ -4,8 +4,10 @@ export type DateExpression =
   | RangeExpression
   | FilterExpression
   | NamedExpression
+  | PeriodToDateExpression
   | QuarterExpression
   | HalfExpression
+  | WeekPartExpression
   | DurationExpression
   | WeekdayInWeekExpression
   | DateTimeExpression;
@@ -102,10 +104,24 @@ export interface DurationExpression {
 
 export interface RelativeExpression {
   kind: "relative";
-  unit: "day" | "week" | "month" | "quarter" | "half" | "year";
+  unit: "day" | "week" | "month" | "quarter" | "half" | "year" | "business_day";
   offset: number;
   /** true면 기간이 아닌 단일 시점(point-in-time)으로 해석. 예: "2주 전" = 14일 전 당일. */
   singleDay?: boolean;
+}
+
+/**
+ * 기준일 기준 동일 시점까지의 누적 구간.
+ * 예:
+ * - unit=year, offset=0  → 연초부터 오늘까지(YTD)
+ * - unit=year, offset=-1 → 작년 같은 시점까지
+ * - unit=month, offset=0 → 월초부터 오늘까지(MTD)
+ * - unit=month, offset=-1 → 전월 같은 날짜까지
+ */
+export interface PeriodToDateExpression {
+  kind: "to_date";
+  unit: "month" | "year";
+  offset: number;
 }
 
 export interface RangeExpression {
@@ -166,6 +182,14 @@ export interface NamedExpression {
   yearOffset?: number;
   /** 퍼지 표현 (작년 오늘쯤, 재작년 이맘때). ±fuzzyDayWindow 범위로 확장. */
   fuzzy?: boolean;
+}
+
+/** "이번주 초", "지난주 중반" 같은 주 내부 구간 선택 */
+export interface WeekPartExpression {
+  kind: "week_part";
+  /** -2=지지난주, -1=지난주, 0=이번주, 1=다음주 */
+  weekOffset: number;
+  part: "early" | "mid" | "late";
 }
 
 /** "이번주 월요일", "지난주 금요일", "next Friday" 같은 주+요일 지정 */

@@ -21,11 +21,13 @@ import type {
   AbsoluteExpression,
   RelativeExpression,
   NamedExpression,
+  PeriodToDateExpression,
   RangeExpression,
   FilterExpression,
   QuarterExpression,
   HalfExpression,
   DurationExpression,
+  WeekPartExpression,
   WeekdayInWeekExpression,
   DateTimeExpression,
   OutputMode,
@@ -506,6 +508,36 @@ function resolveDuration(
   };
 }
 
+function resolveToDate(
+  expr: PeriodToDateExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const ref = ctx.referenceDate;
+
+  if (expr.unit === "month") {
+    const target = addMonths(ref, expr.offset);
+    const year = target.getFullYear();
+    const month = target.getMonth();
+    const lastDay = endOfMonth(new Date(year, month, 1)).getDate();
+    const endDay = Math.min(ref.getDate(), lastDay);
+    return {
+      start: startOfDay(new Date(year, month, 1)),
+      end: startOfDay(new Date(year, month, endDay)),
+      granularity: "day",
+    };
+  }
+
+  const targetYear = ref.getFullYear() + expr.offset;
+  const targetMonth = ref.getMonth();
+  const lastDay = endOfMonth(new Date(targetYear, targetMonth, 1)).getDate();
+  const endDay = Math.min(ref.getDate(), lastDay);
+  return {
+    start: startOfDay(new Date(targetYear, 0, 1)),
+    end: startOfDay(new Date(targetYear, targetMonth, endDay)),
+    granularity: "day",
+  };
+}
+
 function resolveRelative(
   expr: RelativeExpression,
   ctx: ResolveContext,
@@ -528,6 +560,9 @@ function resolveRelative(
         break;
       case "year":
         d = addYears(ref, offset);
+        break;
+      case "business_day":
+        d = shiftBusinessDays(ref, offset, ctx);
         break;
       default:
         d = addDays(ref, offset);
@@ -580,6 +615,14 @@ function resolveRelative(
         granularity: "year",
       };
     }
+    case "business_day": {
+      const d = shiftBusinessDays(ref, offset, ctx);
+      return {
+        start: startOfDay(d),
+        end: startOfDay(d),
+        granularity: "day",
+      };
+    }
   }
 }
 
@@ -609,6 +652,25 @@ function scanBusinessDay(
   for (let i = 0; i < 30; i++) {
     if (isBusinessDaySync(d, ctx)) return d;
     d = addDays(d, step);
+  }
+  return d;
+}
+
+function shiftBusinessDays(
+  start: Date,
+  offset: number,
+  ctx: ResolveContext,
+): Date {
+  if (offset === 0) {
+    return isBusinessDaySync(start, ctx)
+      ? start
+      : scanBusinessDay(start, 1, ctx, true);
+  }
+
+  let d = start;
+  const step: 1 | -1 = offset > 0 ? 1 : -1;
+  for (let i = 0; i < Math.abs(offset); i++) {
+    d = scanBusinessDay(d, step, ctx, false);
   }
   return d;
 }
@@ -705,6 +767,32 @@ function resolveWeekdayInWeek(
   return { start: startOfDay(target), end: startOfDay(target), granularity: "day" };
 }
 
+function resolveWeekPart(
+  expr: WeekPartExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const ref = ctx.referenceDate;
+  const wso = ctx.weekStartsOn ?? 1;
+  const weekRef = addDays(ref, expr.weekOffset * 7);
+  const weekStart = startOfWeek(weekRef, { weekStartsOn: wso });
+
+  let startOffset = 0;
+  let endOffset = 2;
+  if (expr.part === "mid") {
+    startOffset = 2;
+    endOffset = 4;
+  } else if (expr.part === "late") {
+    startOffset = 4;
+    endOffset = 6;
+  }
+
+  return {
+    start: startOfDay(addDays(weekStart, startOffset)),
+    end: startOfDay(addDays(weekStart, endOffset)),
+    granularity: "day",
+  };
+}
+
 function resolveRange(
   expr: RangeExpression,
   ctx: ResolveContext,
@@ -759,6 +847,8 @@ export function resolveExpression(
       return resolveRelative(expr, ctx);
     case "named":
       return resolveNamed(expr, ctx);
+    case "to_date":
+      return resolveToDate(expr, ctx);
     case "range":
       return resolveRange(expr, ctx);
     case "quarter":
@@ -767,6 +857,8 @@ export function resolveExpression(
       return resolveHalf(expr, ctx);
     case "duration":
       return resolveDuration(expr, ctx);
+    case "week_part":
+      return resolveWeekPart(expr, ctx);
     case "weekday_in_week":
       return resolveWeekdayInWeek(expr, ctx);
     case "filter":

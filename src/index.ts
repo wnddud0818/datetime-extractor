@@ -47,6 +47,9 @@ function isExplicitSubset(expr: DateExpression): boolean {
   if (expr.kind === "quarter") {
     return !!expr.part;
   }
+  if (expr.kind === "week_part" || expr.kind === "to_date") {
+    return true;
+  }
   if (expr.kind === "filter") {
     return isExplicitSubset(expr.base);
   }
