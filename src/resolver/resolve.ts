@@ -125,9 +125,11 @@ function resolveAbsolute(
   // contextDate가 있으면 그 연도를 우선 사용.
   // past(기본): 후보 날짜가 기준일 이후(미래)면 작년으로 shift → "가장 최근 과거" 선택
   // future:   후보 날짜가 기준일 이전(과거)이면 내년으로 shift → "가장 가까운 미래" 선택
+  // monthOffset이 지정된 경우 month/year를 이미 고정했으므로 ambiguity shift 금지.
   if (
     expr.year === undefined &&
     expr.yearOffset === undefined &&
+    expr.monthOffset === undefined &&
     month !== undefined
   ) {
     year = ctx.contextDate ? baseYear : refYear;

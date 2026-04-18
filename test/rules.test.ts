@@ -79,6 +79,40 @@ describe("rules engine", () => {
     expect(r.expressions[1].expression).toEqual({ kind: "quarter", quarter: 4, year: 2025 });
   });
 
+  it("2024년 상반기와 하반기 → 두 반기 모두 2024년으로 해석", () => {
+    const r = runRules("2024년 상반기와 하반기 자금 상황을 비교해줘");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "half", half: 1, year: 2024 });
+    expect(r.expressions[1].expression).toEqual({ kind: "half", half: 2, year: 2024 });
+  });
+
+  it("혼합 언어: tomorrow morning ... 좀 자세히 → 영어 datetime 유지", () => {
+    const r = runRules("tomorrow morning cash movement 좀 자세히");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "datetime",
+      base: { kind: "named", name: "tomorrow" },
+      time: { type: "period", period: "morning" },
+    });
+  });
+
+  it("혼합 언어: from 9am to 5pm ... 바로 → 영어 시간 범위 유지", () => {
+    const r = runRules("from 9am to 5pm cash activity 바로");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "datetime",
+      base: { kind: "named", name: "today" },
+      time: {
+        type: "range",
+        start: { hour: 9, meridiem: "am" },
+        end: { hour: 5, meridiem: "pm" },
+      },
+    });
+  });
+
   it("사흘 전 날씨 → 1.0, named 사흘 past", () => {
     const r = runRules("사흘 전 날씨");
     expect(r.confidence).toBe(1.0);
@@ -248,5 +282,278 @@ describe("rules engine", () => {
     const r = runRules("매출 반기별로 보여줘");
     // 반기 키워드 있지만 매칭은 없음 → no_match이지만 residual에 '반기'
     expect(r.expressions).toHaveLength(0);
+  });
+
+  // --- (prefix) 공백 구분 월 목록 ---
+  it("작년 1월 2월 → yearOffset=-1 공백 구분 월 목록", () => {
+    const r = runRules("작년 1월 2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 2 });
+  });
+
+  it("내년 1월 2월 3월 → yearOffset=1 세 개 월", () => {
+    const r = runRules("내년 1월 2월 3월 자금 계획");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: 1, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: 1, month: 2 });
+    expect(r.expressions[2].expression).toEqual({ kind: "absolute", yearOffset: 1, month: 3 });
+  });
+
+  it("2025년 1월 2월 → year=2025 공백 구분 월 목록", () => {
+    const r = runRules("2025년 1월 2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", year: 2025, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", year: 2025, month: 2 });
+  });
+
+  // --- (month-prefix) + week-of-month (단일) ---
+  it("지난달 첫째주 → monthOffset=-1, weekOfMonth=1", () => {
+    const r = runRules("지난달 첫째주 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+  });
+
+  it("이번달 1주차 → monthOffset=0, weekOfMonth=1", () => {
+    const r = runRules("이번달 1주차 잔액");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      weekOfMonth: 1,
+    });
+  });
+
+  it("다음달 둘째주 → monthOffset=1, weekOfMonth=2", () => {
+    const r = runRules("다음달 둘째주 보고");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 1,
+      weekOfMonth: 2,
+    });
+  });
+
+  // --- (month-prefix) + week list ---
+  it("지난달 1,2주 → monthOffset=-1 두 개 주차", () => {
+    const r = runRules("지난달 1,2주 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+  });
+
+  it("이번달 1,2,3주차 → monthOffset=0 세 개 주차", () => {
+    const r = runRules("이번달 1,2,3주차 플랜");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      weekOfMonth: 2,
+    });
+    expect(r.expressions[2].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      weekOfMonth: 3,
+    });
+  });
+
+  it("지난달 첫째주, 둘째주 → 서수 주차 목록", () => {
+    const r = runRules("지난달 첫째주, 둘째주 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+  });
+
+  // --- (month-prefix) + 말일/초일 (단일 날짜) ---
+  it("지난달 말일 → monthOffset=-1, monthPart=end", () => {
+    const r = runRules("지난달 말일 잔액");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      monthPart: "end",
+    });
+  });
+
+  it("이번달 초일 → monthOffset=0, monthPart=start", () => {
+    const r = runRules("이번달 초일 조회");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      monthPart: "start",
+    });
+  });
+
+  it("다음달 마지막 날 → monthOffset=1, monthPart=end", () => {
+    const r = runRules("다음달 마지막 날 보고");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 1,
+      monthPart: "end",
+    });
+  });
+
+  // --- (year-prefix|YYYY년) + N분기 + 초/말 ---
+  it("작년 1분기 초 → yearOffset=-1, quarter=1, part=early", () => {
+    const r = runRules("작년 1분기 초 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "quarter",
+      quarter: 1,
+      yearOffset: -1,
+      part: "early",
+    });
+  });
+
+  it("내년 2분기 말 → yearOffset=1, quarter=2, part=late", () => {
+    const r = runRules("내년 2분기 말 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "quarter",
+      quarter: 2,
+      yearOffset: 1,
+      part: "late",
+    });
+  });
+
+  it("2025년 1분기 초 → year=2025, quarter=1, part=early", () => {
+    const r = runRules("2025년 1분기 초 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "quarter",
+      quarter: 1,
+      year: 2025,
+      part: "early",
+    });
+  });
+
+  // --- separator 변형: 무공백/쉼표 월 목록 ---
+  it("작년 1월2월 (공백 없음) → yearOffset=-1 두 개 월", () => {
+    const r = runRules("작년 1월2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 2 });
+  });
+
+  it("내년 1월, 2월 (쉼표+공백) → yearOffset=1 두 개 월", () => {
+    const r = runRules("내년 1월, 2월 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: 1, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: 1, month: 2 });
+  });
+
+  // --- separator 변형: 공백 구분 서수 주차 ---
+  it("지난달 첫째주 둘째주 (공백 구분) → 두 개의 주차", () => {
+    const r = runRules("지난달 첫째주 둘째주 보고");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+  });
+
+  // --- separator 변형: N주 토큰 반복 ---
+  it("지난달 1주 2주 (공백) → 두 개의 주차", () => {
+    const r = runRules("지난달 1주 2주 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+  });
+
+  it("지난달 1주, 2주 (쉼표+공백) → 두 개의 주차", () => {
+    const r = runRules("지난달 1주, 2주 보고");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+  });
+
+  it("지난달 1주차 2주차 3주차 → 세 개의 주차", () => {
+    const r = runRules("지난달 1주차 2주차 3주차 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 1,
+    });
+    expect(r.expressions[1].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 2,
+    });
+    expect(r.expressions[2].expression).toEqual({
+      kind: "absolute",
+      monthOffset: -1,
+      weekOfMonth: 3,
+    });
   });
 });
