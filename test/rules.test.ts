@@ -21,6 +21,64 @@ describe("rules engine", () => {
     expect(r.expressions[1].expression).toEqual({ kind: "absolute", month: 4 });
   });
 
+  it("2,3,4월 실적 → 세 개의 absolute month", () => {
+    const r = runRules("2,3,4월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", month: 2 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", month: 3 });
+    expect(r.expressions[2].expression).toEqual({ kind: "absolute", month: 4 });
+  });
+
+  it("2, 3월 실적 → 공백 포함 콤마도 처리", () => {
+    const r = runRules("2, 3월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", month: 2 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", month: 3 });
+  });
+
+  it("2,3분기 실적 → 두 개의 quarter", () => {
+    const r = runRules("2,3분기 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "quarter", quarter: 2, yearOffset: 0 });
+    expect(r.expressions[1].expression).toEqual({ kind: "quarter", quarter: 3, yearOffset: 0 });
+  });
+
+  it("작년 2,3,4월 → yearOffset=-1인 세 개의 absolute month", () => {
+    const r = runRules("작년 2,3,4월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 2 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 3 });
+    expect(r.expressions[2].expression).toEqual({ kind: "absolute", yearOffset: -1, month: 4 });
+  });
+
+  it("2025년 2,3월 → year=2025인 두 개의 absolute month", () => {
+    const r = runRules("2025년 2,3월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", year: 2025, month: 2 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", year: 2025, month: 3 });
+  });
+
+  it("올해 1,2분기 → yearOffset=0인 두 개의 quarter", () => {
+    const r = runRules("올해 1,2분기 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "quarter", quarter: 1, yearOffset: 0 });
+    expect(r.expressions[1].expression).toEqual({ kind: "quarter", quarter: 2, yearOffset: 0 });
+  });
+
+  it("2025년 3,4분기 → year=2025인 두 개의 quarter", () => {
+    const r = runRules("2025년 3,4분기 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "quarter", quarter: 3, year: 2025 });
+    expect(r.expressions[1].expression).toEqual({ kind: "quarter", quarter: 4, year: 2025 });
+  });
+
   it("사흘 전 날씨 → 1.0, named 사흘 past", () => {
     const r = runRules("사흘 전 날씨");
     expect(r.confidence).toBe(1.0);

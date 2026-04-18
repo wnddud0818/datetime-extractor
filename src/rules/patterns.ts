@@ -445,6 +445,60 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 3-list. 콤마 구분 월 목록 (2,3,4월) — 각 숫자를 별도 Match로 분리
+  {
+    const re = /(?<![\d년])(\d{1,2}(?:\s*,\s*\d{1,2})+)\s*월(?!\s*\d+\s*일)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const fullMatch = m[0];
+      const parts = m[1].split(/\s*,\s*/);
+      let cursor = 0;
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : absStart + num.length;
+        out.push({
+          text: num + "월",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "absolute", month: Number(num) },
+          priority: 71,
+        });
+        cursor = posInMatch + num.length;
+      }
+    }
+  }
+
+  // 3-list-year. YYYY년 콤마 구분 월 목록 (2025년 2,3,4월)
+  {
+    const re = /(\d{4})\s*년\s*(\d{1,2}(?:\s*,\s*\d{1,2})+)\s*월(?!\s*\d+\s*일)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const year = Number(m[1]);
+      const fullMatch = m[0];
+      const parts = m[2].split(/\s*,\s*/);
+      // 연도 부분(YYYY년)과 숫자가 겹치지 않도록 숫자 목록 시작 위치부터 탐색
+      let cursor = fullMatch.indexOf(m[2]);
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = i === 0 ? m.index : m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
+        out.push({
+          text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "월" : num + "월",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "absolute", year, month: Number(num) },
+          priority: 94,
+        });
+        cursor = posInMatch + num.length;
+      }
+    }
+  }
+
   // 3. 월 단독 (3월) — 연월일/월일 매치와 겹치면 priority 낮음
   //    뒤에 "N일"이 붙으면 월일 패턴이 이미 처리하므로 배제
   {
@@ -647,6 +701,97 @@ export function findMatchesKo(text: string): Match[] {
   }
 
   // (영어 일상어 / 상대 / "N ago"는 patterns-en.ts로 이동)
+
+  // 14-list. 콤마 구분 분기 목록 (2,3분기) — 각 숫자를 별도 Match로 분리
+  {
+    const re = /(?<![\d가-힣])([1-4](?:\s*,\s*[1-4])+)\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const fullMatch = m[0];
+      const parts = m[1].split(/\s*,\s*/);
+      let cursor = 0;
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : absStart + num.length;
+        const q = Number(num) as 1 | 2 | 3 | 4;
+        out.push({
+          text: num + "분기",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "quarter", quarter: q, yearOffset: 0 },
+          priority: 83,
+        });
+        cursor = posInMatch + num.length;
+      }
+    }
+  }
+
+  // 14-list-prefix. (prefix) 콤마 구분 분기 목록 (작년 2,3분기)
+  {
+    const re =
+      /(재작년|제작년|지난해|작년|올해|금년|내년|후년)\s*([1-4](?:\s*,\s*[1-4])+)\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const prefix = m[1];
+      const yearOffset =
+        prefix === "재작년" || prefix === "제작년" ? -2
+        : prefix === "작년" || prefix === "지난해" ? -1
+        : prefix === "내년" ? 1
+        : prefix === "후년" ? 2
+        : 0;
+      const fullMatch = m[0];
+      const parts = m[2].split(/\s*,\s*/);
+      let cursor = 0;
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = i === 0 ? m.index : m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
+        const q = Number(num) as 1 | 2 | 3 | 4;
+        out.push({
+          text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "분기" : num + "분기",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "quarter", quarter: q, yearOffset },
+          priority: 93,
+        });
+        cursor = posInMatch + num.length;
+      }
+    }
+  }
+
+  // 14-list-year. YYYY년 콤마 구분 분기 목록 (2025년 2,3분기)
+  {
+    const re = /(\d{4})\s*년\s*([1-4](?:\s*,\s*[1-4])+)\s*분기/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const year = Number(m[1]);
+      const fullMatch = m[0];
+      const parts = m[2].split(/\s*,\s*/);
+      // 연도 부분(YYYY년)과 숫자가 겹치지 않도록 숫자 목록 시작 위치부터 탐색
+      let cursor = fullMatch.indexOf(m[2]);
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = i === 0 ? m.index : m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
+        const q = Number(num) as 1 | 2 | 3 | 4;
+        out.push({
+          text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "분기" : num + "분기",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "quarter", quarter: q, year },
+          priority: 95,
+        });
+        cursor = posInMatch + num.length;
+      }
+    }
+  }
 
   // 14. N분기 (prefix 없는 N분기 = 올해 기준)
   {
@@ -985,6 +1130,47 @@ export function findMatchesKo(text: string): Match[] {
           expression: baseExpr,
           priority: 91,
         });
+      }
+    }
+  }
+
+  // 20-list. (prefix) 콤마 구분 월 목록 (작년 2,3,4월)
+  {
+    const PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of PREFIXES) {
+      const re = new RegExp(
+        `${word}\\s*(\\d{1,2}(?:\\s*,\\s*\\d{1,2})+)\\s*월(?!\\s*\\d+\\s*일)`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const fullMatch = m[0];
+        const parts = m[1].split(/\s*,\s*/);
+        let cursor = 0;
+        for (let i = 0; i < parts.length; i++) {
+          const num = parts[i];
+          const posInMatch = fullMatch.indexOf(num, cursor);
+          const absStart = i === 0 ? m.index : m.index + posInMatch;
+          const isLast = i === parts.length - 1;
+          const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
+          out.push({
+            text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "월" : num + "월",
+            start: absStart,
+            end: absEnd,
+            expression: { kind: "absolute", yearOffset: offset, month: Number(num) },
+            priority: 92,
+          });
+          cursor = posInMatch + num.length;
+        }
       }
     }
   }
