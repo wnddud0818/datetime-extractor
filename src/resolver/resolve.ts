@@ -134,6 +134,8 @@ function resolveAbsolute(
     expr.year === undefined &&
     expr.yearOffset === undefined &&
     expr.monthOffset === undefined &&
+    // weekOfMonth 표현은 "N월 K주차"처럼 미래를 지시하는 경우가 많아 past-shift 하지 않음.
+    expr.weekOfMonth === undefined &&
     month !== undefined
   ) {
     year = ctx.contextDate ? baseYear : refYear;
@@ -326,7 +328,8 @@ function resolveAbsolute(
 
   // 구체성에 따라 range 구성
   if (day !== undefined && month !== undefined) {
-    const d = new Date(year, month - 1, day);
+    let d = new Date(year, month - 1, day);
+    if (expr.dayOffset) d = addDays(d, expr.dayOffset);
     return applyFuzzy(
       { start: startOfDay(d), end: startOfDay(d), granularity: "day" },
       expr.fuzzy,
@@ -617,6 +620,18 @@ function resolveRange(
   ctx: ResolveContext,
 ): ResolvedRange {
   const s = resolveExpression(expr.start, ctx);
+  if (expr.durationDays !== undefined) {
+    // "오늘부터 일주일간" → start + (N-1) 일. 경계 포함.
+    const endDate = addDays(s.start, expr.durationDays - 1);
+    return {
+      start: s.start,
+      end: startOfDay(endDate),
+      granularity: "day",
+    };
+  }
+  if (!expr.end) {
+    return { start: s.start, end: s.end, granularity: "day" };
+  }
   const e = resolveExpression(expr.end, ctx);
   return {
     start: s.start,
@@ -830,6 +845,22 @@ export async function formatRange(
     case "range": {
       if (includeTime) {
         return { mode: "range", value: formatIsoDateTimeRange(range, tz) } as ResolvedValue;
+      }
+      // 필터가 붙은 주/월 단위 표현에서 range 모드는 조건에 맞는 첫/마지막 날짜로 축소.
+      // 예: "이번 주 주말" → 토-일 2일만, "6월 첫째 주 주말" → 해당 주차의 토-일.
+      if (filter === "weekends" || filter === "saturdays" || filter === "sundays") {
+        const days =
+          filter === "weekends"
+            ? listWeekends(range.start, range.end)
+            : filter === "saturdays"
+              ? listSaturdays(range.start, range.end)
+              : listSundays(range.start, range.end);
+        if (days.length > 0) {
+          return {
+            mode: "range",
+            value: { start: days[0], end: days[days.length - 1] },
+          };
+        }
       }
       return {
         mode: "range",

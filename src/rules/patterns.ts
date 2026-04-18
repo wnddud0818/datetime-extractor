@@ -442,13 +442,15 @@ export function findMatchesKo(text: string): Match[] {
         const wk = parseWeekOfMonth(m[3]);
         if (wk) baseExpr.weekOfMonth = wk;
       }
-      out.push({
+      const base: Match = {
         text: m[0],
         start: m.index,
         end: m.index + m[0].length,
         expression: baseExpr,
         priority: 88,
-      });
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
     }
   }
 
@@ -1887,16 +1889,32 @@ export function findMatchesKo(text: string): Match[] {
     for (const { word, expr } of NAMED_HOLIDAYS) {
       let idx = 0;
       while ((idx = text.indexOf(word, idx)) !== -1) {
+        const end = idx + word.length;
+        // 공휴일 ± 오프셋: "크리스마스 전날/다음날/이튿날/익일"
+        const offsetMatch = /^\s*(전날|다음날|이튿날|익일)/.exec(text.slice(end));
+        if (offsetMatch) {
+          const dayOffset = offsetMatch[1] === "전날" ? -1 : 1;
+          const offsetEnd = end + offsetMatch[0].length;
+          out.push({
+            text: text.slice(idx, offsetEnd),
+            start: idx,
+            end: offsetEnd,
+            expression: { ...expr, dayOffset },
+            priority: 98,
+          });
+          idx = offsetEnd;
+          continue;
+        }
         const base: Match = {
           text: word,
           start: idx,
-          end: idx + word.length,
+          end,
           expression: { ...expr },
           priority: 96,
         };
         const withFilter = tryAttachFilter(text, base.end, base);
         out.push(withFilter ?? base);
-        idx += word.length;
+        idx = end;
       }
     }
   }
@@ -2208,6 +2226,67 @@ export function findMatchesKo(text: string): Match[] {
           kind: "range",
           start: startExpr,
           end: endExpr,
+        },
+        priority: 98,
+      });
+    }
+  }
+
+  // 27c. <start>부터 N(일|주일|주|개월|달|년)간/동안 — 시작일 + 지속기간 → range
+  //      지원 start: 오늘/내일/어제/모레/그저께/엊그제/글피/그글피,
+  //              YYYY년 M월 D일, M월 D일.
+  //      지원 duration: 일주일/한 주/한 달/한 해/일년 (단일어),
+  //              또는 N(일|주일|주|개월|달|년).
+  {
+    const NAMED_START_MAP: Record<string, NamedToken> = {
+      오늘: "today",
+      내일: "tomorrow",
+      어제: "yesterday",
+      모레: "모레",
+      그저께: "그저께",
+      엊그제: "엊그제",
+      글피: "글피",
+      그글피: "그글피",
+    };
+    const re =
+      /(?:(오늘|내일|어제|모레|그저께|엊그제|글피|그글피)|(?:(\d{4})\s*년\s*)?(\d{1,2})\s*월\s*(\d{1,2})\s*일)\s*(?:부터|~|-)\s*(?:(일주일|한\s*주|한\s*달|한\s*해|일\s*년)|(\d+)\s*(일|주일|주|개월|달|년))\s*(?:간|동안)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      let startExpr: DateExpression;
+      if (m[1]) {
+        startExpr = { kind: "named", name: NAMED_START_MAP[m[1]] };
+      } else {
+        const y = m[2] ? Number(m[2]) : undefined;
+        startExpr = {
+          kind: "absolute",
+          ...(y !== undefined ? { year: y } : { yearOffset: 0 }),
+          month: Number(m[3]),
+          day: Number(m[4]),
+        };
+      }
+      let days: number | null = null;
+      if (m[5]) {
+        const w = m[5].replace(/\s+/g, "");
+        if (w === "일주일" || w === "한주") days = 7;
+        else if (w === "한달") days = 30;
+        else if (w === "한해" || w === "일년") days = 365;
+      } else {
+        const n = Number(m[6]);
+        const unit = m[7];
+        if (unit === "일") days = n;
+        else if (unit === "주" || unit === "주일") days = n * 7;
+        else if (unit === "개월" || unit === "달") days = n * 30;
+        else if (unit === "년") days = n * 365;
+      }
+      if (days === null || days < 1) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: startExpr,
+          durationDays: days,
         },
         priority: 98,
       });

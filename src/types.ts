@@ -68,6 +68,8 @@ export interface AbsoluteExpression {
   yearPart?: "early" | "late" | "start" | "end";
   /** 퍼지 표현 (N일쯤, 이달 말쯤 등). resolver가 fuzzyDayWindow만큼 범위로 확장. */
   fuzzy?: boolean;
+  /** 해결된 단일 날짜에 더할 일수 (크리스마스 전날 = -1, 추석 다음날 = +1). day가 확정된 경우에만 적용. */
+  dayOffset?: number;
 }
 
 export interface QuarterExpression {
@@ -107,7 +109,10 @@ export interface RelativeExpression {
 export interface RangeExpression {
   kind: "range";
   start: DateExpression;
-  end: DateExpression;
+  /** end가 start로부터 N일간 지속되는 경우에는 생략 가능. durationDays 사용. */
+  end?: DateExpression;
+  /** "오늘부터 일주일간"처럼 시작일 대비 지속 일수. end가 없거나 함께 있어도 이 값이 우선. */
+  durationDays?: number;
 }
 
 export type FilterKind =
