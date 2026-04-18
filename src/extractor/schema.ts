@@ -40,6 +40,40 @@ const relativeUnits = [
   "year",
 ] as const;
 
+const timePeriods = [
+  "dawn",
+  "morning",
+  "noon",
+  "afternoon",
+  "evening",
+  "night",
+  "midnight",
+] as const;
+
+const timeSpecSchema = z.object({
+  hour: z.number().int().min(0).max(23),
+  minute: z.number().int().min(0).max(59).optional(),
+  meridiem: z.enum(["am", "pm"]).optional(),
+});
+
+export const timeOfDaySchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("point"),
+    hour: z.number().int().min(0).max(23),
+    minute: z.number().int().min(0).max(59).optional(),
+    meridiem: z.enum(["am", "pm"]).optional(),
+  }),
+  z.object({
+    type: z.literal("range"),
+    start: timeSpecSchema,
+    end: timeSpecSchema,
+  }),
+  z.object({
+    type: z.literal("period"),
+    period: z.enum(timePeriods),
+  }),
+]);
+
 export const absoluteSchema = z.object({
   kind: z.literal("absolute"),
   year: z.number().int().optional(),
@@ -48,6 +82,9 @@ export const absoluteSchema = z.object({
   lunar: z.boolean().optional(),
   hour: z.number().int().min(0).max(23).optional(),
   minute: z.number().int().min(0).max(59).optional(),
+  endHour: z.number().int().min(0).max(24).optional(),
+  endMinute: z.number().int().min(0).max(59).optional(),
+  timePeriod: z.enum(timePeriods).optional(),
 });
 
 export const relativeSchema = z.object({
@@ -76,6 +113,11 @@ export const dateExpressionSchema: z.ZodType<unknown> = z.lazy(() =>
       kind: z.literal("filter"),
       base: dateExpressionSchema,
       filter: z.enum(filterKinds),
+    }),
+    z.object({
+      kind: z.literal("datetime"),
+      base: dateExpressionSchema,
+      time: timeOfDaySchema,
     }),
   ]),
 );

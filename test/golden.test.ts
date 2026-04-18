@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { extract, cacheClear } from "../src/index.js";
-import type { OutputMode } from "../src/types.js";
+import type { OutputMode, TimePeriod, TimePeriodBounds } from "../src/types.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +13,9 @@ interface GoldenCase {
   text: string;
   referenceDate: string;
   outputModes: OutputMode[];
+  defaultMeridiem?: "am" | "pm";
+  dateOnlyForDateModes?: boolean;
+  timePeriodBounds?: Partial<Record<TimePeriod, TimePeriodBounds>>;
   expected: {
     hasDate: boolean;
     expressions: Array<{
@@ -25,6 +28,8 @@ interface GoldenCase {
       business_days_count_min?: number;
       weekdays_count_min?: number;
       holidays_include?: string[];
+      datetime?: { start: string; end: string };
+      time?: { startTime: string; endTime: string; period?: TimePeriod };
     }>;
   };
 }
@@ -48,6 +53,9 @@ describe("golden dataset (rule-path end-to-end)", () => {
         text: c.text,
         referenceDate: c.referenceDate,
         outputModes: c.outputModes,
+        defaultMeridiem: c.defaultMeridiem,
+        dateOnlyForDateModes: c.dateOnlyForDateModes,
+        timePeriodBounds: c.timePeriodBounds,
       });
       expect(res.hasDate).toBe(c.expected.hasDate);
       if (!c.expected.hasDate) return;
@@ -104,6 +112,23 @@ describe("golden dataset (rule-path end-to-end)", () => {
           if (h?.mode === "holidays") {
             for (const d of exp.holidays_include) {
               expect(h.value).toContain(d);
+            }
+          }
+        }
+        if (exp.datetime) {
+          const dt = actual.results.find((r) => r.mode === "datetime");
+          expect(dt?.mode).toBe("datetime");
+          if (dt?.mode === "datetime") {
+            expect(dt.value).toEqual(exp.datetime);
+          }
+        }
+        if (exp.time) {
+          expect(actual.time).toBeDefined();
+          if (actual.time) {
+            expect(actual.time.startTime).toBe(exp.time.startTime);
+            expect(actual.time.endTime).toBe(exp.time.endTime);
+            if (exp.time.period) {
+              expect(actual.time.period).toBe(exp.time.period);
             }
           }
         }

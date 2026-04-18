@@ -75,6 +75,8 @@ async function doExtract() {
     weekStartsOn: parseInt($("#weekStartsOn").value, 10),
     contextDate: $("#contextDate").value || undefined,
     presentRangeEnd: $("#presentRangeEnd").value,
+    defaultMeridiem: $("#defaultMeridiem").value || undefined,
+    dateOnlyForDateModes: $("#dateOnlyForDateModes").checked,
   };
 
   const t0 = performance.now();
@@ -129,6 +131,7 @@ async function doExtract() {
       text: e.text,
       temporality: e.temporality,
       results: e.results,
+      ...(e.time ? { time: e.time } : {}),
     })),
     null,
     2,

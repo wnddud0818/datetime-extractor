@@ -81,6 +81,31 @@
           <label><input type="checkbox" value="weekdays" /> weekdays</label>
           <label><input type="checkbox" value="holidays" /> holidays</label>
           <label><input type="checkbox" value="all" /> all</label>
+          <label><input type="checkbox" value="datetime" /> datetime</label>
+        </div>
+
+        <div class="row">
+          <label>
+            <span
+              >defaultMeridiem<i
+                class="info"
+                data-tip="오전/오후 없이 숫자 시(예: '3시')만 나온 경우의 기본 해석. 기본=없음(룰이 생략). am이면 오전, pm이면 오후로 간주."
+                >?</i
+              ></span
+            >
+            <select id="defaultMeridiem">
+              <option value="" selected>(없음)</option>
+              <option value="am">am</option>
+              <option value="pm">pm</option>
+            </select>
+          </label>
+          <label
+            ><input type="checkbox" id="dateOnlyForDateModes" checked /> single/range는 날짜만<i
+              class="info"
+              data-tip="체크 시(기본), 시간 포함 표현의 single/range 출력은 날짜만 반환. 해제하면 ISO datetime 문자열이 들어감. datetime 모드에는 영향 없음."
+              >?</i
+            ></label
+          >
         </div>
 
         <div class="row">

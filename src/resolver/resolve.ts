@@ -27,12 +27,20 @@ import type {
   HalfExpression,
   DurationExpression,
   WeekdayInWeekExpression,
+  DateTimeExpression,
   OutputMode,
   ResolvedValue,
   AllModes,
+  TimeOfDay,
+  TimePeriod,
+  TimePeriodBounds,
 } from "../types.js";
 import { KOREAN_NUMERAL_OFFSETS, isDirectionalNumeral } from "./named.js";
 import { resolveAmbiguity } from "./ambiguity.js";
+import {
+  resolveTimeOfDay,
+  formatHm,
+} from "../rules/time-patterns.js";
 import {
   listBusinessDays,
   listWeekdays,
@@ -43,10 +51,22 @@ import {
 } from "../calendar/business-days.js";
 import KoreanLunarCalendar from "korean-lunar-calendar";
 
+export interface ResolvedTime {
+  startHour: number;
+  startMinute: number;
+  endHour: number;
+  endMinute: number;
+  period?: TimePeriod;
+  /** point (startHour===endHour && startMinute===endMinute) 여부. */
+  isPoint: boolean;
+}
+
 export interface ResolvedRange {
   start: Date;
   end: Date;
   granularity: "day" | "week" | "month" | "quarter" | "half" | "year";
+  /** DateTimeExpression을 통해 시간이 부여된 경우 설정됨. */
+  time?: ResolvedTime;
 }
 
 export interface ResolveContext {
@@ -56,6 +76,8 @@ export interface ResolveContext {
   fiscalYearStart?: number;
   weekStartsOn?: 0 | 1;
   contextDate?: Date;
+  defaultMeridiem?: "am" | "pm";
+  timePeriodBounds?: Partial<Record<TimePeriod, TimePeriodBounds>>;
 }
 
 function lunarToSolar(
@@ -464,6 +486,23 @@ function resolveRange(
   };
 }
 
+function resolveDateTime(
+  expr: DateTimeExpression,
+  ctx: ResolveContext,
+): ResolvedRange {
+  const baseRange = resolveExpression(expr.base, ctx);
+  const t = resolveTimeOfDay(expr.time, {
+    defaultMeridiem: ctx.defaultMeridiem,
+    periodBounds: ctx.timePeriodBounds,
+  });
+  const isPoint =
+    t.startHour === t.endHour && t.startMinute === t.endMinute;
+  return {
+    ...baseRange,
+    time: { ...t, isPoint },
+  };
+}
+
 export function resolveExpression(
   raw: DateExpression,
   ctx: ResolveContext,
@@ -489,32 +528,170 @@ export function resolveExpression(
     case "filter":
       // filter 자체는 base의 range를 그대로 사용. 출력 단계에서 필터 적용.
       return resolveExpression(expr.base, ctx);
+    case "datetime":
+      return resolveDateTime(expr, ctx);
   }
 }
 
 export function getFilterKind(expr: DateExpression): FilterExpression["filter"] | null {
   if (expr.kind === "filter") return expr.filter;
+  if (expr.kind === "datetime") return getFilterKind(expr.base);
   return null;
+}
+
+/**
+ * ResolvedRange + time을 ISO 8601 (오프셋 포함) 문자열 2개로 포맷한다.
+ * 시간이 없으면 날짜의 00:00 / 23:59:59로 fallback.
+ */
+export function formatIsoDateTimeRange(
+  range: ResolvedRange,
+  timezone: string,
+): { start: string; end: string } {
+  const t = range.time;
+  let startHour = 0;
+  let startMinute = 0;
+  let endHour = 23;
+  let endMinute = 59;
+  let endSecond = 59;
+
+  if (t) {
+    startHour = t.startHour;
+    startMinute = t.startMinute;
+    if (t.isPoint) {
+      endHour = t.endHour;
+      endMinute = t.endMinute;
+      endSecond = 0;
+    } else {
+      // 24시는 다음날 00:00이지만 여기서는 같은 날 23:59로 클램프
+      if (t.endHour === 24) {
+        endHour = 23;
+        endMinute = 59;
+        endSecond = 59;
+      } else {
+        endHour = t.endHour;
+        endMinute = t.endMinute;
+        endSecond = 0;
+      }
+    }
+  }
+
+  return {
+    start: formatIsoWithOffset(
+      range.start,
+      startHour,
+      startMinute,
+      0,
+      timezone,
+    ),
+    end: formatIsoWithOffset(range.end, endHour, endMinute, endSecond, timezone),
+  };
+}
+
+/**
+ * 주어진 날짜(로컬 날짜 정보만 사용)와 시/분/초를 받아 timezone 오프셋이 포함된 ISO 문자열을 반환.
+ * 예: "2026-04-18T15:30:00+09:00"
+ */
+export function formatIsoWithOffset(
+  date: Date,
+  hour: number,
+  minute: number,
+  second: number,
+  timezone: string,
+): string {
+  const y = date.getFullYear();
+  const mo = date.getMonth();
+  const d = date.getDate();
+  // 해당 로컬 시각의 UTC 등가를 만든 뒤, timezone의 해당 시점 offset을 조회.
+  const localAsUtc = new Date(Date.UTC(y, mo, d, hour, minute, second));
+  const offsetMin = getTimezoneOffsetMinutes(timezone, localAsUtc);
+  const actualUtcMs = localAsUtc.getTime() - offsetMin * 60 * 1000;
+  const actual = new Date(actualUtcMs);
+
+  // 출력은 로컬 시각(y/mo/d, hour/minute/second) + offset.
+  const yyyy = String(y).padStart(4, "0");
+  const mm = String(mo + 1).padStart(2, "0");
+  const dd = String(d).padStart(2, "0");
+  const hh = String(hour).padStart(2, "0");
+  const mi = String(minute).padStart(2, "0");
+  const ss = String(second).padStart(2, "0");
+  const sign = offsetMin >= 0 ? "+" : "-";
+  const absOff = Math.abs(offsetMin);
+  const offH = String(Math.floor(absOff / 60)).padStart(2, "0");
+  const offM = String(absOff % 60).padStart(2, "0");
+  void actual; // actual은 디버깅용, 현재는 오프셋 문자열만 사용
+  return `${yyyy}-${mm}-${dd}T${hh}:${mi}:${ss}${sign}${offH}:${offM}`;
+}
+
+/**
+ * Intl.DateTimeFormat을 이용해 지정 timezone의 주어진 UTC 시각에 대한 오프셋(분)을 계산.
+ */
+function getTimezoneOffsetMinutes(timezone: string, utcDate: Date): number {
+  try {
+    const dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    const parts = dtf.formatToParts(utcDate);
+    const map: Record<string, string> = {};
+    for (const p of parts) map[p.type] = p.value;
+    const asUtc = Date.UTC(
+      Number(map.year),
+      Number(map.month) - 1,
+      Number(map.day),
+      Number(map.hour === "24" ? "0" : map.hour),
+      Number(map.minute),
+      Number(map.second),
+    );
+    return Math.round((asUtc - utcDate.getTime()) / 60000);
+  } catch {
+    return 0; // fallback UTC
+  }
 }
 
 export async function formatRange(
   range: ResolvedRange,
   mode: OutputMode,
   filter: FilterExpression["filter"] | null,
+  opts: { timezone?: string; dateOnlyForDateModes?: boolean } = {},
 ): Promise<ResolvedValue | null> {
   const fmt = (d: Date) => format(d, "yyyy-MM-dd");
   const isSingle =
     range.granularity === "day" &&
     fmt(range.start) === fmt(range.end);
+  const tz = opts.timezone ?? "UTC";
+  const includeTime =
+    !!range.time && opts.dateOnlyForDateModes === false;
 
   switch (mode) {
-    case "single":
+    case "single": {
+      if (includeTime) {
+        const iso = formatIsoDateTimeRange(range, tz);
+        return { mode: "single", value: iso.start };
+      }
       return { mode: "single", value: fmt(range.start) };
-    case "range":
+    }
+    case "range": {
+      if (includeTime) {
+        return { mode: "range", value: formatIsoDateTimeRange(range, tz) } as ResolvedValue;
+      }
       return {
         mode: "range",
         value: { start: fmt(range.start), end: fmt(range.end) },
       };
+    }
+    case "datetime": {
+      // datetime 모드: 시간이 없어도 날짜 + 00:00 ~ 23:59로 fallback
+      return {
+        mode: "datetime",
+        value: formatIsoDateTimeRange(range, tz),
+      };
+    }
     case "list":
       if (filter === "business_days") {
         return { mode: "list", value: await listBusinessDays(range.start, range.end) };
@@ -564,9 +741,27 @@ export async function formatRange(
         all.weekdays = listWeekdays(range.start, range.end);
         all.holidays = await listHolidaysInRange(range.start, range.end);
       }
+      if (range.time) {
+        all.datetime = formatIsoDateTimeRange(range, tz);
+      }
       return { mode: "all", value: all };
     }
   }
+}
+
+/**
+ * ResolvedRange.time을 ExtractedExpression.time (flat HH:MM projection)으로 변환.
+ */
+export function projectTimeField(
+  range: ResolvedRange,
+): { startTime: string; endTime: string; period?: TimePeriod } | undefined {
+  if (!range.time) return undefined;
+  const t = range.time;
+  return {
+    startTime: formatHm(t.startHour, t.startMinute),
+    endTime: formatHm(t.endHour, t.endMinute),
+    period: t.period,
+  };
 }
 
 function enumerateDays(start: Date, end: Date): string[] {

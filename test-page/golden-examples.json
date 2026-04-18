@@ -27,5 +27,11 @@
   { "label": "영어 next month business", "text": "next month business days", "modes": ["business_days"] },
   { "label": "영어 day after tomorrow", "text": "day after tomorrow appointment", "modes": ["single"] },
   { "label": "영어 next Monday", "text": "next Monday meeting", "modes": ["single"] },
+  { "label": "시간 · 내일 오후 3시", "text": "내일 오후 3시 회의", "modes": ["datetime"] },
+  { "label": "시간 · 오늘 저녁", "text": "오늘 저녁에 만나자", "modes": ["datetime"] },
+  { "label": "시간 · 오전 9시부터 11시까지", "text": "오전 9시부터 11시까지 회의", "modes": ["datetime"] },
+  { "label": "시간 · 새벽 2시", "text": "새벽 2시에 알람", "modes": ["datetime"] },
+  { "label": "시간 · tomorrow 3pm", "text": "tomorrow 3pm meeting", "modes": ["datetime"] },
+  { "label": "시간 · tomorrow morning", "text": "tomorrow morning", "modes": ["datetime"] },
   { "label": "날짜 없음", "text": "안녕하세요", "modes": ["single"] }
 ]

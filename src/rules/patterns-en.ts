@@ -1,12 +1,17 @@
 import type {
   DateExpression,
   AbsoluteExpression,
+  TimeOfDay,
+  TimePeriod,
 } from "../types.js";
 import {
   type Match,
   type FilterSuffixMap,
+  type TimeMatch,
   tryAttachFilter,
+  tryAttachTime,
 } from "./patterns.js";
+import { ENGLISH_PERIOD_KEYWORDS } from "./time-patterns.js";
 import {
   ENGLISH_DAY_WORDS,
   ENGLISH_NAMED_ALIASES,
@@ -637,7 +642,169 @@ export function findMatchesEn(text: string): Match[] {
     }
   }
 
+  // --- Time matching ---
+  const timeMatches = findTimeMatchesEn(text);
+
+  // Attach time to existing date matches
+  const attached: Match[] = [];
+  for (const base of out) {
+    const a = tryAttachTime(text, base, timeMatches);
+    if (a) attached.push(a);
+  }
+  out.push(...attached);
+
+  // Emit standalone time matches (base=today)
+  for (const tm of timeMatches) {
+    out.push({
+      text: tm.text,
+      start: tm.start,
+      end: tm.end,
+      expression: {
+        kind: "datetime",
+        base: { kind: "named", name: "today" },
+        time: tm.time,
+      },
+      priority: tm.priority,
+    });
+  }
+
   return out;
+}
+
+/**
+ * 영어 시간 표현 매치 (standalone).
+ */
+export function findTimeMatchesEn(text: string): TimeMatch[] {
+  const out: TimeMatch[] = [];
+
+  // 1. 24h HH:MM (15:30)
+  {
+    const re = /\b(\d{1,2}):(\d{2})(?!\s*(?:am|pm|a\.m\.|p\.m\.))\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const hour = Number(m[1]);
+      const minute = Number(m[2]);
+      if (hour > 23 || minute > 59) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute },
+        priority: 82,
+      });
+    }
+  }
+
+  // 2. Range "from Xam to Ypm" / "X-Y pm" / "9am to 5pm"
+  {
+    const re =
+      /\b(?:from\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?\s*(?:to|-|–|~)\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const sMer = normalizeMeridiem(m[3]);
+      const eMer = normalizeMeridiem(m[6]);
+      // 둘 다 meridiem 없고 시각이 12 초과가 아니면 24h range가 아닐 수 있음 — skip
+      if (!sMer && !eMer && (Number(m[1]) > 23 || Number(m[4]) > 23)) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: {
+          type: "range",
+          start: {
+            hour: Number(m[1]),
+            minute: m[2] ? Number(m[2]) : undefined,
+            meridiem: sMer,
+          },
+          end: {
+            hour: Number(m[4]),
+            minute: m[5] ? Number(m[5]) : undefined,
+            meridiem: eMer ?? sMer, // end 가 생략되면 start meridiem 사용
+          },
+        },
+        priority: 84,
+      });
+    }
+  }
+
+  // 3. "N am/pm" or "N:M am/pm" or "at N" → point
+  {
+    const re =
+      /\b(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const hour = Number(m[1]);
+      if (hour > 12) continue; // 12h표기 초과는 무시
+      const minute = m[2] ? Number(m[2]) : undefined;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute, meridiem: normalizeMeridiem(m[3]) },
+        priority: 82,
+      });
+    }
+  }
+
+  // 4. "half past N" → N:30
+  {
+    const re = /\bhalf\s+past\s+(\d{1,2})\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour: Number(m[1]), minute: 30 },
+        priority: 80,
+      });
+    }
+  }
+
+  // 5. "quarter past/to N"
+  {
+    const re = /\bquarter\s+(past|to)\s+(\d{1,2})\b/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const hour = Number(m[2]);
+      const minute = m[1].toLowerCase() === "past" ? 15 : 45;
+      const adjustedHour = m[1].toLowerCase() === "to" ? hour - 1 : hour;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour: adjustedHour, minute },
+        priority: 80,
+      });
+    }
+  }
+
+  // 6. Fuzzy period words (noon, midnight, morning, etc.)
+  for (const entry of ENGLISH_PERIOD_KEYWORDS) {
+    const re = new RegExp(entry.re.source, "gi");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "period", period: entry.period },
+        priority: 55,
+      });
+    }
+  }
+
+  return out;
+}
+
+function normalizeMeridiem(
+  raw: string | undefined,
+): "am" | "pm" | undefined {
+  if (!raw) return undefined;
+  const s = raw.toLowerCase().replace(/\./g, "");
+  if (s === "am") return "am";
+  if (s === "pm") return "pm";
+  return undefined;
 }
 
 export const ENGLISH_DATE_RESIDUAL_KEYWORDS: readonly string[] = [
@@ -657,4 +824,7 @@ export const ENGLISH_DATE_RESIDUAL_KEYWORDS: readonly string[] = [
   "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sept", "sep", "oct", "nov", "dec",
   "quarter", "half", "weekday", "weekdays", "weekend", "weekends",
   "business", "holiday", "holidays",
+  // time-of-day residual (intentionally excluding bare "am"/"pm" to avoid
+  // false positives on the auxiliary verb "am")
+  "morning", "afternoon", "evening", "midnight", "noon", "dawn", "midday",
 ];

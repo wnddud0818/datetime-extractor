@@ -16,6 +16,7 @@ import {
   parseReferenceDate,
   getFilterKind,
   computeTemporality,
+  projectTimeField,
 } from "./resolver/resolve.js";
 import { cacheGet, cacheSet } from "./cache/lru.js";
 import { callLLMWithRetry, getModelName, warmUp } from "./extractor/ollama-client.js";
@@ -69,9 +70,12 @@ async function buildResponse(
     fiscalYearStart: req.fiscalYearStart,
     weekStartsOn: req.weekStartsOn,
     contextDate: req.contextDate ? parseReferenceDate(req.contextDate) : undefined,
+    defaultMeridiem: req.defaultMeridiem,
+    timePeriodBounds: req.timePeriodBounds,
   };
   const resolverStart = now();
   const clampToToday = req.presentRangeEnd === "today";
+  const dateOnlyForDateModes = req.dateOnlyForDateModes ?? true;
 
   const result: ExtractedExpression[] = [];
   for (const e of expressions) {
@@ -87,15 +91,20 @@ async function buildResponse(
     const filter = getFilterKind(e.expression);
     const results: ResolvedValue[] = [];
     for (const mode of outputModes) {
-      const v = await formatRange(range, mode, filter);
+      const v = await formatRange(range, mode, filter, {
+        timezone,
+        dateOnlyForDateModes,
+      });
       if (v) results.push(v);
     }
+    const time = projectTimeField(range);
     result.push({
       text: e.text,
       expression: e.expression,
       results,
       confidence: e.confidence,
       temporality: computeTemporality(range, referenceDate),
+      ...(time ? { time } : {}),
     });
   }
   latencyBreakdown.resolver = now() - resolverStart;
@@ -140,6 +149,11 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     weekStartsOn: req.weekStartsOn ?? 1,
     contextDate: req.contextDate ?? "",
     presentRangeEnd: req.presentRangeEnd ?? "period",
+    defaultMeridiem: req.defaultMeridiem ?? "",
+    dateOnlyForDateModes: req.dateOnlyForDateModes ?? true,
+    timePeriodBounds: req.timePeriodBounds
+      ? JSON.stringify(req.timePeriodBounds)
+      : "",
   };
   const cached = cacheGet(cacheKey);
   breakdown.cache = now() - cacheStart;

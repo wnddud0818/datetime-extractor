@@ -7,7 +7,37 @@ export type DateExpression =
   | QuarterExpression
   | HalfExpression
   | DurationExpression
-  | WeekdayInWeekExpression;
+  | WeekdayInWeekExpression
+  | DateTimeExpression;
+
+/** 시간대 지정자. 정밀 시각, 범위, 혹은 퍼지 구간(아침/저녁 등)을 표현. */
+export type TimePeriod =
+  | "dawn" // 새벽
+  | "morning" // 아침 / 오전 (일반)
+  | "noon" // 정오
+  | "afternoon" // 오후
+  | "evening" // 저녁
+  | "night" // 밤
+  | "midnight"; // 자정
+
+export interface TimeSpec {
+  hour: number; // 0-23 (meridiem 없을 땐 24h로 해석)
+  minute?: number; // 0-59
+  /** 12h 표기 힌트. resolver가 24h로 정규화한다. */
+  meridiem?: "am" | "pm";
+}
+
+export type TimeOfDay =
+  | { type: "point"; hour: number; minute?: number; meridiem?: "am" | "pm" }
+  | { type: "range"; start: TimeSpec; end: TimeSpec }
+  | { type: "period"; period: TimePeriod };
+
+/** 임의의 날짜 표현에 시간을 덧씌운 wrapper. */
+export interface DateTimeExpression {
+  kind: "datetime";
+  base: DateExpression;
+  time: TimeOfDay;
+}
 
 export interface AbsoluteExpression {
   kind: "absolute";
@@ -21,6 +51,11 @@ export interface AbsoluteExpression {
   lunar?: boolean;
   hour?: number;
   minute?: number;
+  /** 범위형 시각의 끝 (hour/minute가 시작, endHour/endMinute가 끝). */
+  endHour?: number;
+  endMinute?: number;
+  /** 퍼지 시간대 (새벽/아침/정오/오후/저녁/밤/자정). */
+  timePeriod?: TimePeriod;
   // 초(1-10), 중(11-20), 말(21-end) of month
   // start = 1일 단일, end = 말일 단일 (월초/월말)
   monthPart?: "early" | "mid" | "late" | "start" | "end";
@@ -130,7 +165,9 @@ export type OutputMode =
   | "business_days"
   | "weekdays"
   | "holidays"
-  | "all";
+  | "all"
+  /** ISO 8601 + 타임존. 시간 표현이 있을 때만 의미 있는 값을 반환. */
+  | "datetime";
 
 export type ExtractionPath = "cache" | "rule" | "llm" | "rule+llm";
 
@@ -164,6 +201,21 @@ export interface ExtractRequest {
    */
   weekStartsOn?: 0 | 1;
   /**
+   * 퍼지 시간대(아침/저녁 등)의 시/분 경계를 사용자가 오버라이드.
+   * 미지정 시 기본값 사용 (src/rules/time-patterns.ts DEFAULT_TIME_PERIOD_BOUNDS).
+   */
+  timePeriodBounds?: Partial<Record<TimePeriod, TimePeriodBounds>>;
+  /**
+   * 오전/오후가 생략된 "N시" 해석의 기본 meridiem. 기본값 없음(24시간 해석).
+   */
+  defaultMeridiem?: "am" | "pm";
+  /**
+   * true(기본)면 range/single 모드는 시간 표현이 있어도 YYYY-MM-DD만 반환(하위호환).
+   * false면 시간이 있을 때 ISO 8601 datetime으로 반환.
+   * 시간 없이는 항상 날짜만 반환되므로 동작 차이 없음.
+   */
+  dateOnlyForDateModes?: boolean;
+  /**
    * 직전 문맥의 기준 날짜(ISO). 연/월이 생략된 표현을 이 날짜 기준으로 보간.
    * 예: contextDate="2025-06-01"일 때 "15일" → 2025-06-15.
    */
@@ -187,6 +239,7 @@ export type ResolvedValue =
   | { mode: "business_days"; value: string[] }
   | { mode: "weekdays"; value: string[] }
   | { mode: "holidays"; value: string[] }
+  | { mode: "datetime"; value: { start: string; end: string } }
   | { mode: "all"; value: AllModes };
 
 export interface AllModes {
@@ -196,6 +249,15 @@ export interface AllModes {
   business_days?: string[];
   weekdays?: string[];
   holidays?: string[];
+  datetime?: { start: string; end: string };
+}
+
+/** 퍼지 시간대 경계. startMinute/endMinute 생략 시 0. */
+export interface TimePeriodBounds {
+  startHour: number;
+  startMinute?: number;
+  endHour: number; // 24 허용 (예: 밤 21-24)
+  endMinute?: number;
 }
 
 export interface ExtractedExpression {
@@ -205,6 +267,12 @@ export interface ExtractedExpression {
   confidence?: number;
   /** 기준일 대비 이 표현이 과거/현재/미래 중 어디에 해당하는지. */
   temporality?: Temporality;
+  /** 시간 표현이 포함된 경우의 flat 투영. point면 startTime===endTime. */
+  time?: {
+    startTime: string; // "HH:MM"
+    endTime: string; // "HH:MM"
+    period?: TimePeriod;
+  };
 }
 
 export interface LatencyBreakdown {

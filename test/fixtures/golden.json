@@ -394,5 +394,178 @@
       "hasDate": true,
       "expressions": [{ "single": "2026-04-19" }]
     }
+  },
+  {
+    "id": "time_tomorrow_3pm",
+    "text": "내일 오후 3시 회의",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-18T15:00:00+09:00",
+            "end": "2026-04-18T15:00:00+09:00"
+          },
+          "time": { "startTime": "15:00", "endTime": "15:00" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_today_evening_period",
+    "text": "오늘 저녁",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-17T18:00:00+09:00",
+            "end": "2026-04-17T21:00:00+09:00"
+          },
+          "time": {
+            "startTime": "18:00",
+            "endTime": "21:00",
+            "period": "evening"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_dawn_two_ko",
+    "text": "새벽 2시",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-17T02:00:00+09:00",
+            "end": "2026-04-17T02:00:00+09:00"
+          },
+          "time": { "startTime": "02:00", "endTime": "02:00" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_range_ko",
+    "text": "오전 9시부터 11시까지",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-17T09:00:00+09:00",
+            "end": "2026-04-17T11:00:00+09:00"
+          },
+          "time": { "startTime": "09:00", "endTime": "11:00" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_english_3pm",
+    "text": "meeting at 3pm",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-17T15:00:00+09:00",
+            "end": "2026-04-17T15:00:00+09:00"
+          },
+          "time": { "startTime": "15:00", "endTime": "15:00" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_tomorrow_morning_en",
+    "text": "tomorrow morning",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-18T06:00:00+09:00",
+            "end": "2026-04-18T12:00:00+09:00"
+          },
+          "time": {
+            "startTime": "06:00",
+            "endTime": "12:00",
+            "period": "morning"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_period_bounds_override",
+    "text": "오늘 아침",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["datetime"],
+    "timePeriodBounds": {
+      "morning": { "startHour": 7, "endHour": 10 }
+    },
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "datetime": {
+            "start": "2026-04-17T07:00:00+09:00",
+            "end": "2026-04-17T10:00:00+09:00"
+          },
+          "time": {
+            "startTime": "07:00",
+            "endTime": "10:00",
+            "period": "morning"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_backcompat_range_mode",
+    "text": "내일 오후 3시",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": { "start": "2026-04-18", "end": "2026-04-18" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "time_range_with_time_opt_in",
+    "text": "내일 오후 3시",
+    "referenceDate": "2026-04-17",
+    "outputModes": ["range"],
+    "dateOnlyForDateModes": false,
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-04-18T15:00:00+09:00",
+            "end": "2026-04-18T15:00:00+09:00"
+          }
+        }
+      ]
+    }
   }
 ]

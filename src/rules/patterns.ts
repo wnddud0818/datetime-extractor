@@ -3,8 +3,14 @@ import type {
   AbsoluteExpression,
   FilterKind,
   NamedToken,
+  TimeOfDay,
+  TimePeriod,
 } from "../types.js";
 import { KOREAN_DAY_NUMERALS, KOREAN_DAY_WORDS } from "./numerals.js";
+import {
+  KOREAN_PERIOD_KEYWORDS,
+  inferMeridiemFromPeriod,
+} from "./time-patterns.js";
 
 export interface Match {
   text: string;
@@ -49,6 +55,213 @@ export function tryAttachFilter(
         priority: baseMatch.priority + 1,
       };
     }
+  }
+  return null;
+}
+
+export interface TimeMatch {
+  text: string;
+  start: number;
+  end: number;
+  time: TimeOfDay;
+  priority: number;
+}
+
+/**
+ * 한국어 시간 표현 매치 (standalone).
+ * attach는 findMatchesKo 말미에서 기존 date 매치와 결합한다.
+ */
+export function findTimeMatchesKo(text: string): TimeMatch[] {
+  const out: TimeMatch[] = [];
+
+  // 1. HH:MM 24시간 표기 (15:30, 09:00)
+  {
+    const re = /\b(\d{1,2}):(\d{2})\b/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const hour = Number(m[1]);
+      const minute = Number(m[2]);
+      if (hour > 23 || minute > 59) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute },
+        priority: 82,
+      });
+    }
+  }
+
+  // 2. "오전/오후 N시부터 M시까지" 범위 (range; check before the single-hour pattern)
+  {
+    const re =
+      /(오전|오후)\s*(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?\s*(?:부터|~|-|에서)\s*(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?:\s*까지)?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const meridiem = m[1] === "오전" ? "am" : "pm";
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: {
+          type: "range",
+          start: {
+            hour: Number(m[2]),
+            minute: m[3] ? Number(m[3]) : undefined,
+            meridiem,
+          },
+          end: {
+            hour: Number(m[4]),
+            minute: m[5] ? Number(m[5]) : undefined,
+            meridiem,
+          },
+        },
+        priority: 84,
+      });
+    }
+  }
+
+  // 3. meridiem 없는 범위 "N시~M시", "N시부터 M시까지"
+  {
+    const re =
+      /\b(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?\s*(?:부터|~|-|에서)\s*(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?(?:\s*까지)?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: {
+          type: "range",
+          start: {
+            hour: Number(m[1]),
+            minute: m[2] ? Number(m[2]) : undefined,
+          },
+          end: {
+            hour: Number(m[3]),
+            minute: m[4] ? Number(m[4]) : undefined,
+          },
+        },
+        priority: 82,
+      });
+    }
+  }
+
+  // 4. "오전/오후 N시 (M분)" 또는 "오전/오후 N시 반"
+  {
+    const re =
+      /(오전|오후)\s*(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분|\s*반)?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const meridiem = m[1] === "오전" ? "am" : "pm";
+      const hour = Number(m[2]);
+      let minute: number | undefined;
+      if (m[3]) minute = Number(m[3]);
+      else if (/반$/.test(m[0])) minute = 30;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute, meridiem },
+        priority: 82,
+      });
+    }
+  }
+
+  // 5. "새벽/저녁/...(period) N시 (M분)" — period가 meridiem을 결정
+  {
+    const periodAlternation = KOREAN_PERIOD_KEYWORDS.map((p) => p.re.source).join(
+      "|",
+    );
+    const re = new RegExp(
+      `(${periodAlternation})\\s*(\\d{1,2})\\s*시(?:\\s*(\\d{1,2})\\s*분|\\s*반)?`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const matchedWord = m[1];
+      const entry = KOREAN_PERIOD_KEYWORDS.find((p) => p.re.test(matchedWord));
+      if (!entry) continue;
+      const meridiem = inferMeridiemFromPeriod(entry.period);
+      const hour = Number(m[2]);
+      let minute: number | undefined;
+      if (m[3]) minute = Number(m[3]);
+      else if (/반$/.test(m[0])) minute = 30;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute, meridiem },
+        priority: 83,
+      });
+    }
+  }
+
+  // 6. bare "N시 (M분)" 혹은 "N시 반" — meridiem은 없음 (resolver가 defaultMeridiem 적용)
+  {
+    const re = /\b(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분|\s*반)?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const hour = Number(m[1]);
+      if (hour > 23) continue;
+      let minute: number | undefined;
+      if (m[2]) minute = Number(m[2]);
+      else if (/반$/.test(m[0])) minute = 30;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "point", hour, minute },
+        priority: 76,
+      });
+    }
+  }
+
+  // 7. 퍼지 period만 (새벽/아침/점심/저녁/밤/자정/정오)
+  for (const entry of KOREAN_PERIOD_KEYWORDS) {
+    const re = new RegExp(entry.re.source, "g");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        time: { type: "period", period: entry.period },
+        priority: 55,
+      });
+    }
+  }
+
+  return out;
+}
+
+/**
+ * 기존 date 매치 뒤에 시간이 이어지면 datetime으로 래핑한 새 매치를 반환.
+ * 예: 내일(Match) + "오후 3시"(TimeMatch) → datetime(base=tomorrow, time=...).
+ */
+export function tryAttachTime(
+  text: string,
+  baseMatch: Match,
+  timeMatches: TimeMatch[],
+): Match | null {
+  const GAP_RE = /^\s*(에|에서)?\s*/;
+  for (const tm of timeMatches) {
+    if (tm.start < baseMatch.end) continue;
+    const gap = text.slice(baseMatch.end, tm.start);
+    if (!GAP_RE.test(gap)) continue;
+    // 갭은 최대 4자(공백+조사)로 제한 — 너무 멀면 결합하지 않음
+    if (gap.length > 4) continue;
+    return {
+      text: text.slice(baseMatch.start, tm.end),
+      start: baseMatch.start,
+      end: tm.end,
+      expression: {
+        kind: "datetime",
+        base: baseMatch.expression,
+        time: tm.time,
+      },
+      priority: Math.max(baseMatch.priority, tm.priority) + 3,
+    };
   }
   return null;
 }
@@ -1191,6 +1404,32 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // --- 시간 매칭 ---
+  const timeMatches = findTimeMatchesKo(text);
+
+  // 기존 date 매치에 시간 붙이기 (내일 오후 3시, 다음주 월요일 저녁)
+  const attached: Match[] = [];
+  for (const base of out) {
+    const a = tryAttachTime(text, base, timeMatches);
+    if (a) attached.push(a);
+  }
+  out.push(...attached);
+
+  // 독립 시간 매치 (오후 3시, 저녁, 15:30 → base=today)
+  for (const tm of timeMatches) {
+    out.push({
+      text: tm.text,
+      start: tm.start,
+      end: tm.end,
+      expression: {
+        kind: "datetime",
+        base: { kind: "named", name: "today" },
+        time: tm.time,
+      },
+      priority: tm.priority,
+    });
+  }
+
   return out;
 }
 
@@ -1263,6 +1502,15 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "일주일",
   "한 달",
   "한달",
+  // time-of-day residual keywords
+  "오전",
+  "오후",
+  "새벽",
+  "아침",
+  "점심",
+  "정오",
+  "저녁",
+  "자정",
 ];
 
 /**
