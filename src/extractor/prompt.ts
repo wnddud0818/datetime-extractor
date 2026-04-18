@@ -44,7 +44,22 @@ export const SYSTEM_PROMPT = `당신은 한국어/영어 자연어에서 날짜�
 "last month" → relative month offset=-1
 "next week" → relative week offset=1
 "3 days ago" → relative day offset=-3
-"Q2 2025" → range(absolute 2025-04, absolute 2025-06)
+"Q2 2025" → quarter q=2 year=2025
+"first half of 2024" → half 1 year=2024
+"H1 2025" → half 1 year=2025
+"past 30 days" → duration day amount=30 direction=past
+"March 15, 2025" → absolute year=2025 month=3 day=15
+"3/15/2025" → absolute year=2025 month=3 day=15 (미국식 M/D/Y)
+"in 5 days" → relative day offset=5
+"day after tomorrow" → named "모레"
+"day before yesterday" → named "그저께"
+"fortnight ago" → named "보름" direction=past
+"next Monday" → weekday_in_week weekOffset=1 weekday=1
+"business days" suffix → filter business_days
+"weekdays" suffix → filter weekdays
+"holidays" suffix → filter holidays
+
+날짜 형식이 모호한 "3/1"처럼 연도가 없는 슬래시 표기는 미국식(M/D)로 해석.
 `;
 
 export const FEW_SHOT_EXAMPLES = [
@@ -168,8 +183,94 @@ export const FEW_SHOT_EXAMPLES = [
       expressions: [
         {
           text: "last Monday",
-          expression: { kind: "relative", unit: "week", offset: -1 },
-          confidence: 0.85,
+          expression: { kind: "weekday_in_week", weekOffset: -1, weekday: 1 },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "Q2 2025 revenue",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "Q2 2025",
+          expression: { kind: "quarter", quarter: 2, year: 2025 },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "first half of 2024",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "first half of 2024",
+          expression: { kind: "half", half: 1, year: 2024 },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "past 30 days sales",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "past 30 days",
+          expression: {
+            kind: "duration",
+            unit: "day",
+            amount: 30,
+            direction: "past",
+          },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "March 15, 2025 meeting",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "March 15, 2025",
+          expression: {
+            kind: "absolute",
+            year: 2025,
+            month: 3,
+            day: 15,
+          },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "next month business days",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "next month business days",
+          expression: {
+            kind: "filter",
+            base: { kind: "relative", unit: "month", offset: 1 },
+            filter: "business_days",
+          },
+          confidence: 1.0,
+        },
+      ],
+    }),
+  },
+  {
+    user: "day after tomorrow appointment",
+    assistant: JSON.stringify({
+      expressions: [
+        {
+          text: "day after tomorrow",
+          expression: { kind: "named", name: "모레" },
+          confidence: 1.0,
         },
       ],
     }),

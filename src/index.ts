@@ -157,7 +157,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
 
   // 1a. 룰 엔진
   const ruleStart = now();
-  const ruleResult = runRules(req.text);
+  const ruleResult = runRules(req.text, locale);
   breakdown.rule = now() - ruleStart;
 
   let path: ExtractionPath;
