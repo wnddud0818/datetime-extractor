@@ -16,6 +16,7 @@ import {
   startOfWeek,
   startOfYear,
 } from "date-fns";
+import { datasetsDir, ensureBenchmarkDirs } from "./paths.js";
 
 type RangeSpec = {
   text: string;
@@ -32,9 +33,7 @@ type Row = {
 const REFERENCE_DATE = "2025-11-17";
 const ref = parseISO(`${REFERENCE_DATE}T00:00:00`);
 
-const projectRoot = process.cwd();
-const benchmarkDir = path.join(projectRoot, "benchmarks");
-const outputPath = path.join(benchmarkDir, "csv-style-mimic-1000.csv");
+const outputPath = path.join(datasetsDir, "csv-style-mimic-1000.csv");
 
 const products = [
   "예적금",
@@ -447,7 +446,7 @@ function buildRows(): Row[] {
 }
 
 function writeCsv(rows: Row[]) {
-  fs.mkdirSync(benchmarkDir, { recursive: true });
+  ensureBenchmarkDirs();
   const header = "text,final_start_date,final_end_date";
   const body = rows
     .map((row) =>

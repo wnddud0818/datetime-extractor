@@ -1,13 +1,15 @@
 import fs from "node:fs";
-import { extract, cacheClear } from "../src/index.js";
-import { runRules } from "../src/rules/engine.js";
+import path from "node:path";
+import { extract, cacheClear } from "../../src/index.js";
+import { runRules } from "../../src/rules/engine.js";
 import {
   formatRange,
   getFilterKind,
   parseReferenceDate,
   resolveExpression,
-} from "../src/resolver/resolve.js";
-import type { DateExpression } from "../src/types.js";
+} from "../../src/resolver/resolve.js";
+import type { DateExpression } from "../../src/types.js";
+import { sourceDatasetsDir } from "./paths.js";
 
 /**
  * test_results.csv에서 text/final_start_date/final_end_date를 읽어
@@ -20,7 +22,7 @@ import type { DateExpression } from "../src/types.js";
  */
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
-const CSV = args[0] ?? "C:/Users/first/Downloads/test_results.csv";
+const CSV = args[0] ?? path.join(sourceDatasetsDir, "test_results.csv");
 const REFERENCE_DATE = "2025-11-17";
 const DEFAULT_TO_TODAY = process.argv.includes("--default-to-today");
 const RULE_ONLY = process.argv.includes("--rule-only");

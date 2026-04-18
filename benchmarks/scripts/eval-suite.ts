@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import {
   addDays,
   addMonths,
@@ -19,21 +18,27 @@ import {
   startOfYear,
 } from "date-fns";
 import KoreanLunarCalendar from "korean-lunar-calendar";
-import { cacheClear, extract, warmUp } from "../src/index.js";
-import { runRules } from "../src/rules/engine.js";
+import { cacheClear, extract, warmUp } from "../../src/index.js";
+import { runRules } from "../../src/rules/engine.js";
 import {
   formatRange,
   getFilterKind,
   parseReferenceDate,
   resolveExpression,
-} from "../src/resolver/resolve.js";
+} from "../../src/resolver/resolve.js";
 import type {
   DateExpression,
   ExtractRequest,
   ExtractResponse,
   OutputMode,
   ResolvedValue,
-} from "../src/types.js";
+} from "../../src/types.js";
+import {
+  datasetsDir,
+  ensureBenchmarkDirs,
+  repoRoot,
+  reportsDir,
+} from "./paths.js";
 
 process.loadEnvFile?.(".env");
 
@@ -82,14 +87,10 @@ interface CaseResult {
   error?: string;
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const projectRoot = path.resolve(__dirname, "..");
-const benchmarkDir = path.join(projectRoot, "benchmarks");
-const datasetPath = path.join(benchmarkDir, "datetime-eval-suite.json");
+const datasetPath = path.join(datasetsDir, "datetime-eval-suite.json");
 const RULE_ONLY = process.argv.includes("--rule-only");
 const reportPath = path.join(
-  benchmarkDir,
+  reportsDir,
   RULE_ONLY ? "datetime-eval-rule-only-report.json" : "datetime-eval-report.json",
 );
 
@@ -105,7 +106,7 @@ const REF_DATES = [
 
 const HOLIDAY_DATA = JSON.parse(
   fs.readFileSync(
-    path.join(projectRoot, "src", "calendar", "holidays-fallback.json"),
+    path.join(repoRoot, "src", "calendar", "holidays-fallback.json"),
     "utf-8",
   ),
 ) as Record<string, Record<string, string>>;
@@ -1745,7 +1746,7 @@ async function main() {
       : "all";
   const writeOnly = args.has("--write-only");
 
-  fs.mkdirSync(benchmarkDir, { recursive: true });
+  ensureBenchmarkDirs();
   const dataset = buildDataset(suiteFilter);
   fs.writeFileSync(datasetPath, `${JSON.stringify(dataset, null, 2)}\n`, "utf-8");
 

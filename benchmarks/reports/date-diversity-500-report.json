@@ -1,0 +1,90 @@
+{
+  "total": 500,
+  "passed": 500,
+  "accuracy": 100,
+  "byCategory": [
+    {
+      "category": "absolute_calendar",
+      "total": 60,
+      "passed": 60,
+      "accuracy": 100
+    },
+    {
+      "category": "ambiguous_day",
+      "total": 32,
+      "passed": 32,
+      "accuracy": 100
+    },
+    {
+      "category": "english",
+      "total": 36,
+      "passed": 36,
+      "accuracy": 100
+    },
+    {
+      "category": "filters",
+      "total": 30,
+      "passed": 30,
+      "accuracy": 100
+    },
+    {
+      "category": "month_year_relative",
+      "total": 50,
+      "passed": 50,
+      "accuracy": 100
+    },
+    {
+      "category": "named_day",
+      "total": 48,
+      "passed": 48,
+      "accuracy": 100
+    },
+    {
+      "category": "named_holiday",
+      "total": 40,
+      "passed": 40,
+      "accuracy": 100
+    },
+    {
+      "category": "quarter_half_parts",
+      "total": 48,
+      "passed": 48,
+      "accuracy": 100
+    },
+    {
+      "category": "range_comparison",
+      "total": 36,
+      "passed": 36,
+      "accuracy": 100
+    },
+    {
+      "category": "relative_numeric",
+      "total": 40,
+      "passed": 40,
+      "accuracy": 100
+    },
+    {
+      "category": "time",
+      "total": 40,
+      "passed": 40,
+      "accuracy": 100
+    },
+    {
+      "category": "week_weekday",
+      "total": 40,
+      "passed": 40,
+      "accuracy": 100
+    }
+  ],
+  "byPath": [
+    {
+      "path": "rule",
+      "count": 469
+    },
+    {
+      "path": "rule+llm",
+      "count": 31
+    }
+  ],
+  "failures": []
+}

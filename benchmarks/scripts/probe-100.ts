@@ -1,11 +1,11 @@
-import { extract, cacheClear } from "../src/index.js";
-import type { ExtractRequest, OutputMode } from "../src/types.js";
+import { extract, cacheClear } from "../../src/index.js";
+import type { ExtractRequest, OutputMode } from "../../src/types.js";
 
 /**
  * 100개 하드 케이스 정확도 프로브.
  * 기준일: 2026-04-18 (Saturday).
  *
- * 실행: npx tsx scripts/probe-100.ts
+ * 실행: npx tsx benchmarks/scripts/probe-100.ts
  *   --verbose  모든 케이스 상세 출력
  *   --fails    실패한 케이스만 상세 출력
  */

@@ -1,4 +1,4 @@
-import { extract, cacheClear } from "../src/index.js";
+import { extract, cacheClear } from "../../src/index.js";
 
 const queries = [
   "저번 달 잔액 알려줘",

@@ -1,11 +1,11 @@
-import { runRules } from "../src/rules/engine.js";
+import { runRules } from "../../src/rules/engine.js";
 import {
   resolveExpression,
   formatRange,
   parseReferenceDate,
   getFilterKind,
-} from "../src/resolver/resolve.js";
-import type { OutputMode, ResolvedValue } from "../src/types.js";
+} from "../../src/resolver/resolve.js";
+import type { OutputMode, ResolvedValue } from "../../src/types.js";
 
 type Expected =
   | { mode: "single"; value: string }

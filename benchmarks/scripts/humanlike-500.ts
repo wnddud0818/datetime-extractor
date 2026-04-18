@@ -17,7 +17,13 @@ import {
   startOfYear,
 } from "date-fns";
 import { Ollama } from "ollama";
-import { cacheClear, extract, warmUp } from "../src/index.js";
+import { cacheClear, extract, warmUp } from "../../src/index.js";
+import {
+  datasetsDir,
+  ensureBenchmarkDirs,
+  reportsDir,
+  sourceDatasetsDir,
+} from "./paths.js";
 
 process.loadEnvFile?.(".env");
 
@@ -79,12 +85,13 @@ const ref = parseISO(`${REFERENCE_DATE}T00:00:00`);
 
 const client = new Ollama({ host: DEFAULT_HOST });
 
-const projectRoot = process.cwd();
-const benchmarkDir = path.join(projectRoot, "benchmarks");
-const jsonPath = path.join(benchmarkDir, "humanlike-500.json");
-const csvPath = path.join(benchmarkDir, "humanlike-500.csv");
-const reportPath = path.join(benchmarkDir, "humanlike-500-report.json");
-const sourceCsvPath = "/Users/parkjungyeong/Downloads/test_results11111.csv";
+const jsonPath = path.join(datasetsDir, "humanlike-500.json");
+const csvPath = path.join(datasetsDir, "humanlike-500.csv");
+const reportPath = path.join(reportsDir, "humanlike-500-report.json");
+const sourceCsvArg = process.argv.find((arg) => arg.startsWith("--source-csv="));
+const sourceCsvPath = sourceCsvArg
+  ? path.resolve(sourceCsvArg.slice("--source-csv=".length))
+  : path.join(sourceDatasetsDir, "test_results11111.csv");
 
 const outputSchema = {
   type: "object",
@@ -424,6 +431,9 @@ function buildSpecs(): Spec[] {
 }
 
 function loadSourceTexts(): Set<string> {
+  if (!fs.existsSync(sourceCsvPath)) {
+    throw new Error(`source CSV not found: ${sourceCsvPath}`);
+  }
   const raw = fs.readFileSync(sourceCsvPath, "utf8").replace(/^\uFEFF/, "");
   const lines = raw.trim().split(/\r?\n/).slice(1);
   const out = new Set<string>();
@@ -831,7 +841,7 @@ function composeHumanlikeText(spec: Spec, variant: number): string {
 }
 
 function writeArtifacts(cases: GeneratedCase[], report: EvalResult) {
-  fs.mkdirSync(benchmarkDir, { recursive: true });
+  ensureBenchmarkDirs();
   fs.writeFileSync(
     jsonPath,
     `${JSON.stringify(

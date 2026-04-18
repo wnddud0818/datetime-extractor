@@ -18,15 +18,21 @@ import {
   startOfYear,
 } from "date-fns";
 import KoreanLunarCalendar from "korean-lunar-calendar";
-import { cacheClear, extract } from "../src/index.js";
-import { runRules } from "../src/rules/engine.js";
+import { cacheClear, extract } from "../../src/index.js";
+import { runRules } from "../../src/rules/engine.js";
 import {
   formatRange,
   getFilterKind,
   parseReferenceDate,
   resolveExpression,
-} from "../src/resolver/resolve.js";
-import type { DateExpression, OutputMode } from "../src/types.js";
+} from "../../src/resolver/resolve.js";
+import type { DateExpression, OutputMode } from "../../src/types.js";
+import {
+  datasetsDir,
+  ensureBenchmarkDirs,
+  repoRoot,
+  reportsDir,
+} from "./paths.js";
 
 process.loadEnvFile?.(".env");
 
@@ -84,17 +90,15 @@ const REFERENCE_DATE = "2025-11-17";
 const CASE_TIMEOUT_MS = 15_000;
 const RULE_ONLY = process.argv.includes("--rule-only");
 const ref = parseISO(`${REFERENCE_DATE}T00:00:00`);
-const projectRoot = process.cwd();
-const benchmarkDir = path.join(projectRoot, "benchmarks");
-const jsonPath = path.join(benchmarkDir, "date-diversity-500.json");
+const jsonPath = path.join(datasetsDir, "date-diversity-500.json");
 const reportPath = path.join(
-  benchmarkDir,
+  reportsDir,
   RULE_ONLY ? "date-diversity-500-rule-only-report.json" : "date-diversity-500-report.json",
 );
 
 const HOLIDAY_DATA = JSON.parse(
   fs.readFileSync(
-    path.join(projectRoot, "src", "calendar", "holidays-fallback.json"),
+    path.join(repoRoot, "src", "calendar", "holidays-fallback.json"),
     "utf8",
   ),
 ) as Record<string, Record<string, string>>;
@@ -916,7 +920,7 @@ async function evaluate(cases: Case[]): Promise<EvalReport> {
 }
 
 function writeArtifacts(cases: Case[], report: EvalReport) {
-  fs.mkdirSync(benchmarkDir, { recursive: true });
+  ensureBenchmarkDirs();
   fs.writeFileSync(
     jsonPath,
     `${JSON.stringify(

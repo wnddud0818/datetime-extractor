@@ -14,14 +14,14 @@ import {
   startOfWeek,
   startOfYear,
 } from "date-fns";
-import { runRules } from "../src/rules/engine.js";
+import { runRules } from "../../src/rules/engine.js";
 import {
   formatRange,
   getFilterKind,
   parseReferenceDate,
   resolveExpression,
-} from "../src/resolver/resolve.js";
-import type { OutputMode } from "../src/types.js";
+} from "../../src/resolver/resolve.js";
+import type { OutputMode } from "../../src/types.js";
 
 type RangeExp = { start: string; end: string };
 
