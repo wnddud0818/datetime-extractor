@@ -602,14 +602,18 @@ export function findMatchesKo(text: string): Match[] {
     { word: "저번 달", offset: -1 },
     { word: "지난달", offset: -1 },
     { word: "지난 달", offset: -1 },
+    { word: "전월", offset: -1 },
     { word: "이번달", offset: 0 },
     { word: "이번 달", offset: 0 },
+    { word: "이달", offset: 0 },
+    { word: "당월", offset: 0 },
     { word: "금월", offset: 0 },
     { word: "다다음달", offset: 2 },
     { word: "다다음 달", offset: 2 },
     { word: "다음달", offset: 1 },
     { word: "다음 달", offset: 1 },
     { word: "내달", offset: 1 },
+    { word: "익월", offset: 1 },
   ];
   for (const { word, offset } of MONTH_RELATIVE) {
     let idx = 0;
@@ -637,6 +641,7 @@ export function findMatchesKo(text: string): Match[] {
     { word: "지난 주", offset: -1 },
     { word: "저번주", offset: -1 },
     { word: "저번 주", offset: -1 },
+    { word: "전주", offset: -1 },
     { word: "이번주", offset: 0 },
     { word: "이번 주", offset: 0 },
     { word: "금주", offset: 0 },
@@ -644,6 +649,8 @@ export function findMatchesKo(text: string): Match[] {
     { word: "다다음 주", offset: 2 },
     { word: "다음주", offset: 1 },
     { word: "다음 주", offset: 1 },
+    { word: "담주", offset: 1 },
+    { word: "차주", offset: 1 },
   ];
   for (const { word, offset } of WEEK_RELATIVE) {
     let idx = 0;
@@ -658,6 +665,35 @@ export function findMatchesKo(text: string): Match[] {
       const withFilter = tryAttachFilter(text, base.end, base);
       out.push(withFilter ?? base);
       idx += word.length;
+    }
+  }
+
+  // 7b. 주 + 주말 교집합 (이번주말, 다음주말, 이번 주말, 담주말 등)
+  //     기본 WEEK_RELATIVE + tryAttachFilter는 "이번주 주말" (공백 포함) 만 커버하고,
+  //     "이번주말" / "이번 주말" 은 잡지 못하므로 전용 룰을 둔다.
+  {
+    const re =
+      /(지지난|저저번|저번|지난|전|이번|금|다다음|다음|담|차)\s*주말/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const p = m[1];
+      const offset =
+        p === "지지난" || p === "저저번" ? -2
+        : p === "저번" || p === "지난" || p === "전" ? -1
+        : p === "다다음" ? 2
+        : p === "다음" || p === "담" || p === "차" ? 1
+        : 0;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "filter",
+          base: { kind: "relative", unit: "week", offset },
+          filter: "weekends",
+        },
+        priority: 92,
+      });
     }
   }
 
@@ -724,6 +760,21 @@ export function findMatchesKo(text: string): Match[] {
         priority: 72,
       });
       idx += word.length;
+    }
+  }
+
+  // 10b. "낼" 축약형 (내일). 보낼/낼름/오낼 등과의 오탐 방지 위해 한글/영문 경계 요구.
+  {
+    const re = /(?<![가-힣A-Za-z])낼(?![가-힣A-Za-z])/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "named", name: "tomorrow" },
+        priority: 72,
+      });
     }
   }
 
@@ -1174,9 +1225,10 @@ export function findMatchesKo(text: string): Match[] {
   }
 
   // 19. DD일 단독 (이번 달 D일) — 월/연 컨텍스트 없을 때
+  //     "N일치/짜리" 같은 집계/기간 접미사는 날짜가 아니므로 exclude.
   {
     const re =
-      /(?<![\d가-힣])(\d{1,2})\s*일(?!\s*(전|뒤|후|이상|이하|이내|동안|간|째|부터|까지))/g;
+      /(?<![\d가-힣])(\d{1,2})\s*일(?!\s*(전|뒤|후|이상|이하|이내|동안|간|째|부터|까지|치|짜리))/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const d = Number(m[1]);
@@ -1401,21 +1453,27 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     for (const { word, offset } of MONTH_PREFIXES) {
       const re = new RegExp(`${word}\\s*(초|중|말)(?!\\s*\\d|일)`, "g");
       let m: RegExpExecArray | null;
       while ((m = re.exec(text))) {
         const part = m[1];
+        // 초/말은 경계(월초일/월말일) 해석. monthBoundaryMode에 따라 단일/범위로 결정.
+        // 중은 단일 버전 없으므로 mid(상순/중순/하순의 "중순")로 유지.
         const monthPart =
-          part === "초" ? ("early" as const)
+          part === "초" ? ("start" as const)
           : part === "중" ? ("mid" as const)
-          : ("late" as const);
+          : ("end" as const);
         out.push({
           text: m[0],
           start: m.index,
@@ -1439,11 +1497,15 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     for (const { word, offset } of MONTH_PREFIXES) {
       const re = new RegExp(`${word}\\s*(초일|말일|마지막\\s*날|첫\\s*날|첫날)`, "g");
@@ -1476,11 +1538,15 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     for (const { word, offset } of MONTH_PREFIXES) {
       const re = new RegExp(`${word}\\s*(${WEEK_OF_MONTH_RE_SRC})`, "g");
@@ -1503,6 +1569,60 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 20f-day. (이번|지난|다음|...) 달 + N주차 + 요일 (단일 날짜)
+  //      "이달 둘째주 금요일", "이번달 셋째주 수욜", "다음달 1주차 월요일" 등.
+  {
+    const MONTH_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "지지난\\s*달", offset: -2 },
+      { word: "저저번\\s*달", offset: -2 },
+      { word: "저번\\s*달", offset: -1 },
+      { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
+      { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
+      { word: "금월", offset: 0 },
+      { word: "다다음\\s*달", offset: 2 },
+      { word: "다음\\s*달", offset: 1 },
+      { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
+    ];
+    const KO_WEEKDAYS_LOCAL: Array<{ word: string; weekday: number }> = [
+      { word: "일요일", weekday: 0 }, { word: "일욜", weekday: 0 },
+      { word: "월요일", weekday: 1 }, { word: "월욜", weekday: 1 },
+      { word: "화요일", weekday: 2 }, { word: "화욜", weekday: 2 },
+      { word: "수요일", weekday: 3 }, { word: "수욜", weekday: 3 },
+      { word: "목요일", weekday: 4 }, { word: "목욜", weekday: 4 },
+      { word: "금요일", weekday: 5 }, { word: "금욜", weekday: 5 },
+      { word: "토요일", weekday: 6 }, { word: "토욜", weekday: 6 },
+    ];
+    for (const { word, offset } of MONTH_PREFIXES) {
+      for (const { word: dw, weekday } of KO_WEEKDAYS_LOCAL) {
+        const re = new RegExp(
+          `${word}\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*${dw}`,
+          "g",
+        );
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(text))) {
+          const wk = parseWeekOfMonth(m[1]);
+          if (!wk) continue;
+          out.push({
+            text: m[0],
+            start: m.index,
+            end: m.index + m[0].length,
+            expression: {
+              kind: "absolute",
+              monthOffset: offset,
+              weekOfMonth: wk,
+              weekday,
+            },
+            priority: 95,
+          });
+        }
+      }
+    }
+  }
+
   // 20g. (이번|지난|다음|...) 달 + 콤마 구분 숫자 주차 목록
   //      "지난달 1,2주", "이번달 1,2,3주차" 등.
   {
@@ -1511,11 +1631,15 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     for (const { word, offset } of MONTH_PREFIXES) {
       const re = new RegExp(
@@ -1566,11 +1690,15 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     const ORDINAL_WEEK = "(?:첫째?주|둘째주|셋째주|넷째주|다섯째주)";
     const ORDINAL_SEP = "(?:\\s*,\\s*|\\s+)";
@@ -1625,11 +1753,15 @@ export function findMatchesKo(text: string): Match[] {
       { word: "저저번\\s*달", offset: -2 },
       { word: "저번\\s*달", offset: -1 },
       { word: "지난\\s*달", offset: -1 },
+      { word: "전월", offset: -1 },
       { word: "이번\\s*달", offset: 0 },
+      { word: "이달", offset: 0 },
+      { word: "당월", offset: 0 },
       { word: "금월", offset: 0 },
       { word: "다다음\\s*달", offset: 2 },
       { word: "다음\\s*달", offset: 1 },
       { word: "내달", offset: 1 },
+      { word: "익월", offset: 1 },
     ];
     const WEEK_NUM = "[1-5]\\s*주(?:\\s*차)?";
     const WEEK_SEP = "(?:\\s*,\\s*|\\s+)";
@@ -1730,6 +1862,9 @@ export function findMatchesKo(text: string): Match[] {
       { word: "추석", expr: { kind: "absolute", yearOffset: 0, month: 8, day: 15, lunar: true } },
       { word: "한가위", expr: { kind: "absolute", yearOffset: 0, month: 8, day: 15, lunar: true } },
       { word: "어린이날", expr: { kind: "absolute", yearOffset: 0, month: 5, day: 5 } },
+      // 크리스마스 이브 (12/24) — 반드시 크리스마스보다 먼저 등록하여 longer-match 우선권 확보.
+      { word: "크리스마스 이브", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 24 } },
+      { word: "크리스마스이브", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 24 } },
       { word: "크리스마스", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 25 } },
       { word: "성탄절", expr: { kind: "absolute", yearOffset: 0, month: 12, day: 25 } },
       { word: "삼일절", expr: { kind: "absolute", yearOffset: 0, month: 3, day: 1 } },
@@ -1742,6 +1877,9 @@ export function findMatchesKo(text: string): Match[] {
       { word: "신정", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 1 } },
       { word: "부처님오신날", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
       { word: "부처님 오신 날", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
+      { word: "석가탄신일", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
+      { word: "사월초파일", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
+      { word: "초파일", expr: { kind: "absolute", yearOffset: 0, month: 4, day: 8, lunar: true } },
       { word: "정월 대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
       { word: "정월대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
       { word: "대보름", expr: { kind: "absolute", yearOffset: 0, month: 1, day: 15, lunar: true } },
@@ -1800,16 +1938,27 @@ export function findMatchesKo(text: string): Match[] {
       { word: "목요일", weekday: 4 },
       { word: "금요일", weekday: 5 },
       { word: "토요일", weekday: 6 },
+      // 구어체 축약 (금욜/토욜/일욜 등)
+      { word: "일욜", weekday: 0 },
+      { word: "월욜", weekday: 1 },
+      { word: "화욜", weekday: 2 },
+      { word: "수욜", weekday: 3 },
+      { word: "목욜", weekday: 4 },
+      { word: "금욜", weekday: 5 },
+      { word: "토욜", weekday: 6 },
     ];
     const WEEK_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "지지난\\s*주", offset: -2 },
       { word: "저저번\\s*주", offset: -2 },
       { word: "저번\\s*주", offset: -1 },
       { word: "지난\\s*주", offset: -1 },
+      { word: "전주", offset: -1 },
       { word: "이번\\s*주", offset: 0 },
       { word: "금주", offset: 0 },
       { word: "다다음\\s*주", offset: 2 },
       { word: "다음\\s*주", offset: 1 },
+      { word: "담주", offset: 1 },
+      { word: "차주", offset: 1 },
     ];
     for (const { word: pw, offset } of WEEK_PREFIXES) {
       for (const { word: dw, weekday } of KO_WEEKDAYS) {
@@ -1829,6 +1978,41 @@ export function findMatchesKo(text: string): Match[] {
   }
 
   // (영어 last/next + weekday는 patterns-en.ts로 이동)
+
+  // 24b. (오는|돌아오는|다가오는) + 요일 → 기준일 이후 가장 가까운 해당 요일.
+  //      "오는 금요일", "돌아오는 월요일", "다가오는 화요일" 등. 당일이면 +7일(다음 해당 요일).
+  {
+    const KO_WEEKDAYS_LOCAL: Array<{ word: string; weekday: number }> = [
+      { word: "일요일", weekday: 0 }, { word: "일욜", weekday: 0 },
+      { word: "월요일", weekday: 1 }, { word: "월욜", weekday: 1 },
+      { word: "화요일", weekday: 2 }, { word: "화욜", weekday: 2 },
+      { word: "수요일", weekday: 3 }, { word: "수욜", weekday: 3 },
+      { word: "목요일", weekday: 4 }, { word: "목욜", weekday: 4 },
+      { word: "금요일", weekday: 5 }, { word: "금욜", weekday: 5 },
+      { word: "토요일", weekday: 6 }, { word: "토욜", weekday: 6 },
+    ];
+    const MODIFIERS = ["다가오는", "돌아오는", "오는"];
+    for (const mod of MODIFIERS) {
+      for (const { word: dw, weekday } of KO_WEEKDAYS_LOCAL) {
+        const re = new RegExp(`${mod}\\s*${dw}`, "g");
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(text))) {
+          out.push({
+            text: m[0],
+            start: m.index,
+            end: m.index + m[0].length,
+            expression: {
+              kind: "weekday_in_week",
+              weekOffset: 0,
+              weekday,
+              nearestFuture: true,
+            },
+            priority: 94,
+          });
+        }
+      }
+    }
+  }
 
   // 25. (재작년|작년|올해|내년|후년|지난해|금년|...) + 오늘/어제/내일/모레/그저께/글피
   //     "작년 오늘" = 1년 전 이맘때 (같은 월/일).
@@ -2030,6 +2214,77 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 28. M/D ~ M/D 날짜 범위 ("4/15~4/18", "3/1 - 3/31")
+  //     슬래시 구분 월/일 쌍을 tilde/dash로 연결한 형식. 연도 없으므로 yearOffset=0.
+  {
+    const re =
+      /(?<![\d./])(\d{1,2})\s*\/\s*(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*\/\s*(\d{1,2})(?!\s*[\/\d:])/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo1 = Number(m[1]);
+      const d1 = Number(m[2]);
+      const mo2 = Number(m[3]);
+      const d2 = Number(m[4]);
+      if (mo1 < 1 || mo1 > 12 || mo2 < 1 || mo2 > 12) continue;
+      if (d1 < 1 || d1 > 31 || d2 < 1 || d2 > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: { kind: "absolute", yearOffset: 0, month: mo1, day: d1 },
+          end: { kind: "absolute", yearOffset: 0, month: mo2, day: d2 },
+        },
+        priority: 97,
+      });
+    }
+  }
+
+  // 28b. M/D 단일 (슬래시 구분, 연도 없음). 예: "4/15" → 올해 4월 15일.
+  //      28 범위 규칙보다 priority 낮게 두어 "4/15~4/18" 내부 단일 매치는 묻히게 함.
+  {
+    const re = /(?<![\d./:])(\d{1,2})\s*\/\s*(\d{1,2})(?!\s*[\/\d:~\-])/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const mo = Number(m[1]);
+      const d = Number(m[2]);
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "absolute", month: mo, day: d },
+        priority: 82,
+      });
+    }
+  }
+
+  // 28c. D일 ~ D일 범위 ("15~18일", "15일 ~ 18일"). 시간 범위 "N시~M시"와 구분 위해 "일" 요구.
+  //      yearOffset=0, monthOffset=0 (기준월). priority를 "N시~M시"(~82)보다 높게.
+  {
+    const re =
+      /(?<![\d가-힣])(\d{1,2})\s*일?\s*[~\-]\s*(\d{1,2})\s*일(?!\s*(?:전|뒤|후|이상|이하|이내|동안|간|째|부터|까지|치))/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const d1 = Number(m[1]);
+      const d2 = Number(m[2]);
+      if (d1 < 1 || d1 > 31 || d2 < 1 || d2 > 31) continue;
+      if (d2 < d1) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "range",
+          start: { kind: "absolute", day: d1 },
+          end: { kind: "absolute", day: d2 },
+        },
+        priority: 90,
+      });
+    }
+  }
+
   // 21. X 이후 (X부터 오늘까지)
   //    매치된 날짜 표현(절대/상대) 뒤에 "이후"가 붙으면 range로 확장.
   //    간단하게 "YYYY년 M월 이후" 형태만 우선 처리.
@@ -2058,6 +2313,85 @@ export function findMatchesKo(text: string): Match[] {
         },
         priority: 96,
       });
+    }
+  }
+
+  // 29. "이맘때" 기준일 대비 (퍼지 표현)
+  //     "이맘때" 단독 → 오늘 ± fuzzy window.
+  //     "(재작년|작년|올해|내년|...) 이맘때" → NamedExpression.yearOffset + fuzzy.
+  {
+    const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "전년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word: pw, offset } of YEAR_PREFIXES) {
+      const re = new RegExp(`${pw}\\s*이맘때`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: {
+            kind: "named",
+            name: "today",
+            yearOffset: offset,
+            fuzzy: true,
+          },
+          priority: 93,
+        });
+      }
+    }
+    // 단독 "이맘때" — prefix 없음
+    {
+      const re = /(?<![가-힣])이맘때(?![가-힣])/g;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "named", name: "today", fuzzy: true },
+          priority: 75,
+        });
+      }
+    }
+  }
+
+  // 30. 퍼지 접미사 "쯤" / "경" — 기존 매치 뒤에 붙으면 해당 표현을 fuzzy=true로 확장.
+  //     Absolute/Named 표현에만 적용. 원본 매치는 그대로 두고, priority를 높인 확장 매치를 추가.
+  {
+    const fuzzyBase = [...out];
+    for (const base of fuzzyBase) {
+      if (base.end >= text.length) continue;
+      const rest = text.slice(base.end);
+      const fm = /^\s*(쯤|경)(?![가-힣])/.exec(rest);
+      if (!fm) continue;
+      const expr = base.expression;
+      if (expr.kind === "absolute") {
+        out.push({
+          text: text.slice(base.start, base.end + fm[0].length),
+          start: base.start,
+          end: base.end + fm[0].length,
+          expression: { ...expr, fuzzy: true },
+          priority: base.priority + 5,
+        });
+      } else if (expr.kind === "named") {
+        out.push({
+          text: text.slice(base.start, base.end + fm[0].length),
+          start: base.start,
+          end: base.end + fm[0].length,
+          expression: { ...expr, fuzzy: true },
+          priority: base.priority + 5,
+        });
+      }
     }
   }
 
@@ -2134,6 +2468,7 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "어제",
   "오늘",
   "내일",
+  "낼",
   "모레",
   "글피",
   "그저께",
@@ -2164,6 +2499,23 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "일주일",
   "한 달",
   "한달",
+  // 축약/구어 표현 안전망 (룰로 매칭되지 못하면 LLM 폴백)
+  "이달",
+  "전월",
+  "익월",
+  "당월",
+  "담주",
+  "차주",
+  "전주",
+  "금욜",
+  "토욜",
+  "일욜",
+  "월욜",
+  "화욜",
+  "수욜",
+  "목욜",
+  "이맘때",
+  "쯤",
   // time-of-day residual keywords
   "오전",
   "오후",

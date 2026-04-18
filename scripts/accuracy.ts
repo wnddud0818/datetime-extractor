@@ -1,5 +1,13 @@
 import fs from "node:fs";
 import { extract, cacheClear } from "../src/index.js";
+import { runRules } from "../src/rules/engine.js";
+import {
+  formatRange,
+  getFilterKind,
+  parseReferenceDate,
+  resolveExpression,
+} from "../src/resolver/resolve.js";
+import type { DateExpression } from "../src/types.js";
 
 /**
  * test_results.csv에서 text/final_start_date/final_end_date를 읽어
@@ -15,6 +23,7 @@ const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const CSV = args[0] ?? "C:/Users/first/Downloads/test_results.csv";
 const REFERENCE_DATE = "2025-11-17";
 const DEFAULT_TO_TODAY = process.argv.includes("--default-to-today");
+const RULE_ONLY = process.argv.includes("--rule-only");
 const PRESENT_RANGE_END: "period" | "today" = process.argv.includes(
   "--present-today",
 )
@@ -124,6 +133,66 @@ function pickBestRange(
   return null;
 }
 
+function isExplicitSubset(expr: DateExpression): boolean {
+  if (expr.kind === "absolute") {
+    return !!(expr.yearPart || expr.monthPart || expr.weekOfMonth);
+  }
+  if (expr.kind === "quarter") {
+    return !!expr.part;
+  }
+  if (expr.kind === "filter") {
+    return isExplicitSubset(expr.base);
+  }
+  return false;
+}
+
+async function evaluateRuleOnly(text: string): Promise<{
+  hasDate: boolean;
+  path: string;
+  actualRanges: Array<{ start: string; end: string }>;
+}> {
+  const timezone = "Asia/Seoul";
+  const referenceDate = parseReferenceDate(REFERENCE_DATE);
+  const ruleResult = runRules(text, "auto");
+  const actualRanges: Array<{ start: string; end: string }> = [];
+
+  for (const matched of ruleResult.expressions) {
+    const range = resolveExpression(matched.expression, {
+      referenceDate,
+      timezone,
+    });
+    if (
+      PRESENT_RANGE_END === "today" &&
+      !isExplicitSubset(matched.expression) &&
+      range.start <= referenceDate &&
+      range.end > referenceDate
+    ) {
+      range.end = referenceDate;
+    }
+    const filter = getFilterKind(matched.expression);
+    const formatted = await formatRange(range, "range", filter, {
+      timezone,
+      dateOnlyForDateModes: true,
+    });
+    if (formatted?.mode === "range") {
+      actualRanges.push(formatted.value);
+    }
+  }
+
+  const path =
+    ruleResult.expressions.length === 0
+      ? "rule_only:no_match"
+      : ruleResult.confidence >= 1
+        ? "rule_only:full"
+        : "rule_only:partial";
+
+  return {
+    hasDate: ruleResult.expressions.length > 0,
+    path,
+    actualRanges,
+  };
+}
+
 async function main() {
   const raw = fs.readFileSync(CSV, "utf-8");
   const rows = parseCSV(raw);
@@ -146,16 +215,22 @@ async function main() {
   for (const [text, expectedRows] of grouped) {
     idx++;
     cacheClear();
-    const res = await extract({
-      text,
-      referenceDate: REFERENCE_DATE,
-      outputModes: ["range", "single"],
-      defaultToToday: DEFAULT_TO_TODAY,
-      presentRangeEnd: PRESENT_RANGE_END,
-    });
-    const actualRanges = res.expressions
-      .map((e) => pickBestRange(e.results))
-      .filter(Boolean) as Array<{ start: string; end: string }>;
+    const evaluation = RULE_ONLY
+      ? await evaluateRuleOnly(text)
+      : await extract({
+          text,
+          referenceDate: REFERENCE_DATE,
+          outputModes: ["range", "single"],
+          defaultToToday: DEFAULT_TO_TODAY,
+          presentRangeEnd: PRESENT_RANGE_END,
+        }).then((res) => ({
+          hasDate: res.hasDate,
+          path: res.meta.path,
+          actualRanges: res.expressions
+            .map((e) => pickBestRange(e.results))
+            .filter(Boolean) as Array<{ start: string; end: string }>,
+        }));
+    const actualRanges = evaluation.actualRanges;
 
     const expectedHasDate = expectedRows.some((r) => r.start && r.end);
     if (!expectedHasDate) {
@@ -190,14 +265,18 @@ async function main() {
         text,
         expected: expectedRows.map((r) => ({ start: r.start, end: r.end })),
         actual: actualRanges,
-        hasDate: res.hasDate,
-        path: res.meta.path,
+        hasDate: evaluation.hasDate,
+        path: evaluation.path,
       });
+    }
+
+    if (idx % 100 === 0 || idx === grouped.size) {
+      console.log(`processed ${idx}/${grouped.size}`);
     }
   }
 
   const expectedDateRows = totalRows - noExpectedRows;
-  console.log(`\n=== 채점 결과 (refDate: ${REFERENCE_DATE}) ===`);
+  console.log(`\n=== 채점 결과 (refDate: ${REFERENCE_DATE}, mode: ${RULE_ONLY ? "rule-only" : "hybrid"}) ===`);
   console.log(`전체 행:            ${totalRows}`);
   console.log(`unique text:       ${grouped.size}`);
   console.log(`기대값 없는 행 (스킵): ${noExpectedRows}`);

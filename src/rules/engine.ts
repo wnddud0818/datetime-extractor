@@ -9,7 +9,6 @@ import {
   findMatchesEn,
   ENGLISH_DATE_RESIDUAL_KEYWORDS,
 } from "./patterns-en.js";
-import { detectLocale } from "./detect-locale.js";
 
 export interface RuleResult {
   expressions: Array<{ text: string; expression: DateExpression }>;
@@ -21,12 +20,18 @@ export function runRules(
   text: string,
   locale: "ko" | "en" | "auto" = "auto",
 ): RuleResult {
-  const effectiveLocale = locale === "auto" ? detectLocale(text) : locale;
-  const all = effectiveLocale === "ko" ? findMatchesKo(text) : findMatchesEn(text);
+  const all =
+    locale === "auto"
+      ? [...findMatchesKo(text), ...findMatchesEn(text)]
+      : locale === "ko"
+        ? findMatchesKo(text)
+        : findMatchesEn(text);
   const keywords =
-    effectiveLocale === "ko"
-      ? KOREAN_DATE_RESIDUAL_KEYWORDS
-      : ENGLISH_DATE_RESIDUAL_KEYWORDS;
+    locale === "auto"
+      ? [...new Set([...KOREAN_DATE_RESIDUAL_KEYWORDS, ...ENGLISH_DATE_RESIDUAL_KEYWORDS])]
+      : locale === "ko"
+        ? KOREAN_DATE_RESIDUAL_KEYWORDS
+        : ENGLISH_DATE_RESIDUAL_KEYWORDS;
   const resolved = resolveOverlaps(all);
   const expressions = resolved.map((m) => ({
     text: m.text,

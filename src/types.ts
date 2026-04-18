@@ -61,9 +61,13 @@ export interface AbsoluteExpression {
   monthPart?: "early" | "mid" | "late" | "start" | "end";
   // 월의 N주차 (1=1-7, 2=8-14, 3=15-21, 4=22-28, 5=29-말일)
   weekOfMonth?: 1 | 2 | 3 | 4 | 5;
+  /** weekOfMonth와 결합되면 그 주의 특정 요일을 지목. 0=일,1=월,...,6=토. */
+  weekday?: number;
   // YYYY년 초(Q1) / YYYY년 말(Q4)
   // start = 1/1 단일, end = 12/31 단일 (연초/연말)
   yearPart?: "early" | "late" | "start" | "end";
+  /** 퍼지 표현 (N일쯤, 이달 말쯤 등). resolver가 fuzzyDayWindow만큼 범위로 확장. */
+  fuzzy?: boolean;
 }
 
 export interface QuarterExpression {
@@ -147,6 +151,8 @@ export interface NamedExpression {
   direction?: "past" | "future";
   /** "작년 오늘" 같은 prefix 조합: yearOffset만큼 연 이동 후 같은 월일 */
   yearOffset?: number;
+  /** 퍼지 표현 (작년 오늘쯤, 재작년 이맘때). ±fuzzyDayWindow 범위로 확장. */
+  fuzzy?: boolean;
 }
 
 /** "이번주 월요일", "지난주 금요일", "next Friday" 같은 주+요일 지정 */
@@ -156,6 +162,8 @@ export interface WeekdayInWeekExpression {
   weekOffset: number;
   /** 0=일, 1=월, 2=화, ..., 6=토 (JS getDay 규약) */
   weekday: number;
+  /** true면 weekOffset을 무시하고 기준일 이후 가장 가까운 해당 요일로 해석. "오는 금요일", "돌아오는 월요일". */
+  nearestFuture?: boolean;
 }
 
 export type OutputMode =
@@ -227,6 +235,18 @@ export interface ExtractRequest {
    * 단일 시점(오늘/내일/어제 등)이나 과거·미래 기간에는 영향 없음.
    */
   presentRangeEnd?: "period" | "today";
+  /**
+   * "이달 말 / 전월 말 / 익월 초 / 월말 / 연말 / 연초" 등 기간 경계 표현의 해석.
+   * - "single": 월말=말일, 월초=1일 단일 날짜 (기본값)
+   * - "range":  월말=21일~말일, 월초=1~10일 범위. 연말=12/21~12/31, 연초=1/1~1/10.
+   * 연/월 내부에서 사용자가 "부근" 의미를 기대할 때 "range"로 설정.
+   */
+  monthBoundaryMode?: "single" | "range";
+  /**
+   * 퍼지 표현("N일쯤", "작년 오늘쯤", "재작년 이맘때")의 ± 일수 창.
+   * 기본값 3. 0이면 fuzzy 효과 없이 정확한 날짜로 해석.
+   */
+  fuzzyDayWindow?: number;
 }
 
 /** 기준일 대비 표현의 시간적 위치. */

@@ -78,6 +78,10 @@ export interface ResolveContext {
   contextDate?: Date;
   defaultMeridiem?: "am" | "pm";
   timePeriodBounds?: Partial<Record<TimePeriod, TimePeriodBounds>>;
+  /** "이달 말" 등 기간 경계의 해석 모드. "single" 기본, "range"면 하순/상순으로 확장. */
+  monthBoundaryMode?: "single" | "range";
+  /** 퍼지 표현("N일쯤")의 ± 일수 창. 기본 3. */
+  fuzzyDayWindow?: number;
 }
 
 function lunarToSolar(
@@ -153,15 +157,46 @@ function resolveAbsolute(
   }
 
   // yearPart: YYYY년 초(Q1) / 말(Q4) — day/month 없을 때만
-  // start/end 는 단일 날짜 (연초=1/1, 연말=12/31)
+  // start/end 는 단일 날짜 (연초=1/1, 연말=12/31); monthBoundaryMode=range면 1/1~1/10 / 12/21~12/31.
   if (expr.yearPart && month === undefined && day === undefined) {
+    const rangeMode = ctx.monthBoundaryMode === "range";
     if (expr.yearPart === "start") {
+      if (rangeMode) {
+        return applyFuzzy(
+          {
+            start: new Date(year, 0, 1),
+            end: new Date(year, 0, 10),
+            granularity: "day",
+          },
+          expr.fuzzy,
+          ctx,
+        );
+      }
       const d = new Date(year, 0, 1);
-      return { start: d, end: d, granularity: "day" };
+      return applyFuzzy(
+        { start: d, end: d, granularity: "day" },
+        expr.fuzzy,
+        ctx,
+      );
     }
     if (expr.yearPart === "end") {
+      if (rangeMode) {
+        return applyFuzzy(
+          {
+            start: new Date(year, 11, 21),
+            end: new Date(year, 11, 31),
+            granularity: "day",
+          },
+          expr.fuzzy,
+          ctx,
+        );
+      }
       const d = new Date(year, 11, 31);
-      return { start: d, end: d, granularity: "day" };
+      return applyFuzzy(
+        { start: d, end: d, granularity: "day" },
+        expr.fuzzy,
+        ctx,
+      );
     }
     const q = expr.yearPart === "early" ? 0 : 9;
     const start = new Date(year, q, 1);
@@ -173,12 +208,45 @@ function resolveAbsolute(
   if (expr.monthPart && month !== undefined && day === undefined) {
     const monthStart = new Date(year, month - 1, 1);
     const lastDay = endOfMonth(monthStart).getDate();
+    const rangeMode = ctx.monthBoundaryMode === "range";
     if (expr.monthPart === "start") {
-      return { start: monthStart, end: monthStart, granularity: "day" };
+      // single(기본): 1일 단일 / range: 1-10일
+      if (rangeMode) {
+        return applyFuzzy(
+          {
+            start: monthStart,
+            end: new Date(year, month - 1, Math.min(10, lastDay)),
+            granularity: "day",
+          },
+          expr.fuzzy,
+          ctx,
+        );
+      }
+      return applyFuzzy(
+        { start: monthStart, end: monthStart, granularity: "day" },
+        expr.fuzzy,
+        ctx,
+      );
     }
     if (expr.monthPart === "end") {
+      // single(기본): 말일 단일 / range: 21-말일
+      if (rangeMode) {
+        return applyFuzzy(
+          {
+            start: new Date(year, month - 1, 21),
+            end: new Date(year, month - 1, lastDay),
+            granularity: "day",
+          },
+          expr.fuzzy,
+          ctx,
+        );
+      }
       const d = new Date(year, month - 1, lastDay);
-      return { start: d, end: d, granularity: "day" };
+      return applyFuzzy(
+        { start: d, end: d, granularity: "day" },
+        expr.fuzzy,
+        ctx,
+      );
     }
     let sd: number;
     let ed: number;
@@ -192,14 +260,19 @@ function resolveAbsolute(
       sd = 21;
       ed = lastDay;
     }
-    return {
-      start: new Date(year, month - 1, sd),
-      end: new Date(year, month - 1, ed),
-      granularity: "day",
-    };
+    return applyFuzzy(
+      {
+        start: new Date(year, month - 1, sd),
+        end: new Date(year, month - 1, ed),
+        granularity: "day",
+      },
+      expr.fuzzy,
+      ctx,
+    );
   }
 
   // weekOfMonth: M월 N주차 (1:1-7, 2:8-14, 3:15-21, 4:22-28, 5:29-말일)
+  // + weekday가 같이 주어지면 그 주차 내 특정 요일을 단일 날짜로 선택.
   if (expr.weekOfMonth && month !== undefined && day === undefined) {
     const n = expr.weekOfMonth;
     const sd = (n - 1) * 7 + 1;
@@ -208,6 +281,17 @@ function resolveAbsolute(
     const ed = n === 5 ? lastDay : Math.min(sd + 6, lastDay);
     if (sd > lastDay) {
       return { start: monthStart, end: monthStart, granularity: "day" };
+    }
+    if (expr.weekday !== undefined) {
+      for (let dd = sd; dd <= ed; dd++) {
+        const candidate = new Date(year, month - 1, dd);
+        if (candidate.getDay() === expr.weekday) {
+          return { start: candidate, end: candidate, granularity: "day" };
+        }
+      }
+      // 해당 주차에 target weekday가 없으면 주차의 시작일로 fallback.
+      const fb = new Date(year, month - 1, sd);
+      return { start: fb, end: fb, granularity: "day" };
     }
     return {
       start: new Date(year, month - 1, sd),
@@ -243,18 +327,47 @@ function resolveAbsolute(
   // 구체성에 따라 range 구성
   if (day !== undefined && month !== undefined) {
     const d = new Date(year, month - 1, day);
-    return { start: startOfDay(d), end: startOfDay(d), granularity: "day" };
+    return applyFuzzy(
+      { start: startOfDay(d), end: startOfDay(d), granularity: "day" },
+      expr.fuzzy,
+      ctx,
+    );
   }
   if (month !== undefined) {
     const d = new Date(year, month - 1, 1);
-    return {
-      start: startOfMonth(d),
-      end: endOfMonth(d),
-      granularity: "month",
-    };
+    return applyFuzzy(
+      {
+        start: startOfMonth(d),
+        end: endOfMonth(d),
+        granularity: "month",
+      },
+      expr.fuzzy,
+      ctx,
+    );
   }
   const d = new Date(year, 0, 1);
-  return { start: startOfYear(d), end: endOfYear(d), granularity: "year" };
+  return applyFuzzy(
+    { start: startOfYear(d), end: endOfYear(d), granularity: "year" },
+    expr.fuzzy,
+    ctx,
+  );
+}
+
+/** 퍼지 플래그가 켜진 표현의 범위를 ± fuzzyDayWindow 일수 만큼 확장. */
+function applyFuzzy(
+  range: ResolvedRange,
+  fuzzy: boolean | undefined,
+  ctx: ResolveContext,
+): ResolvedRange {
+  if (!fuzzy) return range;
+  const w = ctx.fuzzyDayWindow ?? 3;
+  if (w <= 0) return range;
+  return {
+    ...range,
+    start: startOfDay(addDays(range.start, -w)),
+    end: startOfDay(addDays(range.end, w)),
+    granularity: "day",
+  };
 }
 
 function resolveQuarter(
@@ -466,7 +579,11 @@ function resolveNamed(
   if (expr.yearOffset !== undefined && expr.yearOffset !== 0) {
     d = addYears(d, expr.yearOffset);
   }
-  return { start: startOfDay(d), end: startOfDay(d), granularity: "day" };
+  return applyFuzzy(
+    { start: startOfDay(d), end: startOfDay(d), granularity: "day" },
+    expr.fuzzy,
+    ctx,
+  );
 }
 
 function resolveWeekdayInWeek(
@@ -474,6 +591,18 @@ function resolveWeekdayInWeek(
   ctx: ResolveContext,
 ): ResolvedRange {
   const ref = ctx.referenceDate;
+  // nearestFuture: "오는/돌아오는/다가오는 X요일" — 기준일 이후 가장 가까운 해당 요일.
+  // 기준일이 target 요일과 같으면 7일 뒤(다음 해당 요일)로 해석 (strictly future).
+  if (expr.nearestFuture) {
+    const refWeekday = ref.getDay();
+    const daysAhead = ((expr.weekday - refWeekday + 6) % 7) + 1;
+    const target = addDays(ref, daysAhead);
+    return {
+      start: startOfDay(target),
+      end: startOfDay(target),
+      granularity: "day",
+    };
+  }
   const wso = ctx.weekStartsOn ?? 1;
   const weekRef = addDays(ref, expr.weekOffset * 7);
   const start = startOfWeek(weekRef, { weekStartsOn: wso });

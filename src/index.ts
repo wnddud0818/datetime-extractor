@@ -74,6 +74,8 @@ async function buildResponse(
     contextDate: req.contextDate ? parseReferenceDate(req.contextDate) : undefined,
     defaultMeridiem: req.defaultMeridiem,
     timePeriodBounds: req.timePeriodBounds,
+    monthBoundaryMode: req.monthBoundaryMode,
+    fuzzyDayWindow: req.fuzzyDayWindow,
   };
   const resolverStart = now();
   const clampToToday = req.presentRangeEnd === "today";
@@ -156,6 +158,8 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     presentRangeEnd: req.presentRangeEnd ?? "period",
     defaultMeridiem: req.defaultMeridiem ?? "",
     dateOnlyForDateModes: req.dateOnlyForDateModes ?? true,
+    monthBoundaryMode: req.monthBoundaryMode ?? "single",
+    fuzzyDayWindow: req.fuzzyDayWindow ?? 3,
     timePeriodBounds: req.timePeriodBounds
       ? JSON.stringify(req.timePeriodBounds)
       : "",
