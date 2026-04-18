@@ -20,6 +20,12 @@ const namedTokens = [
   "아흐레",
   "열흘",
   "보름",
+  "next_business_day",
+  "prev_business_day",
+  "today_or_next_business_day",
+  "next_holiday",
+  "prev_holiday",
+  "today_or_next_holiday",
 ] as const;
 
 const filterKinds = [

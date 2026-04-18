@@ -26,6 +26,9 @@ const BASE: Record<NamedToken, number> = {
   next_business_day: 0,
   prev_business_day: 0,
   today_or_next_business_day: 0,
+  next_holiday: 0,
+  prev_holiday: 0,
+  today_or_next_holiday: 0,
 };
 
 export const KOREAN_NUMERAL_OFFSETS = BASE;

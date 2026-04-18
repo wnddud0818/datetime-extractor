@@ -2156,6 +2156,32 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 24d. (다음|오는|다가오는|지난|저번|이전|이번) 공휴일/휴일 — 가장 가까운 공휴일 단일 날짜
+  {
+    const HOLIDAY_RULES: Array<{ word: string; token: NamedToken }> = [
+      { word: "다가오는", token: "next_holiday" },
+      { word: "다음", token: "next_holiday" },
+      { word: "오는", token: "next_holiday" },
+      { word: "지난", token: "prev_holiday" },
+      { word: "저번", token: "prev_holiday" },
+      { word: "이전", token: "prev_holiday" },
+      { word: "이번", token: "today_or_next_holiday" },
+    ];
+    for (const { word, token } of HOLIDAY_RULES) {
+      const re = new RegExp(`(?<![가-힣])${word}\\s*(공휴일|휴일)`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "named", name: token },
+          priority: 90,
+        });
+      }
+    }
+  }
+
   // 25. (재작년|작년|올해|내년|후년|지난해|금년|...) + 오늘/어제/내일/모레/그저께/글피
   //     "작년 오늘" = 1년 전 이맘때 (같은 월/일).
   //     NamedExpression.yearOffset 으로 emit하여 resolveNamed가 처리.

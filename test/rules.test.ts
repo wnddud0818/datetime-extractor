@@ -154,6 +154,26 @@ describe("rules engine", () => {
     });
   });
 
+  it("다음 공휴일 → named next_holiday", () => {
+    const r = runRules("다음 공휴일");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "named",
+      name: "next_holiday",
+    });
+  });
+
+  it("이번 휴일 → named today_or_next_holiday", () => {
+    const r = runRules("이번 휴일");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "named",
+      name: "today_or_next_holiday",
+    });
+  });
+
   it("2025-12-25 잔액 → ISO 절대 매치", () => {
     const r = runRules("2025-12-25 잔액");
     expect(r.confidence).toBe(1.0);

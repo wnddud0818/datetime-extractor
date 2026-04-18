@@ -173,6 +173,47 @@ describe("resolver: named (Korean numerals)", () => {
       expect(out).toEqual({ mode: "single", value: expected });
     }
   });
+
+  it("next/prev/current holiday tokens resolve against holiday calendar", async () => {
+    const cases: Array<[DateExpression, string]> = [
+      [{ kind: "named", name: "next_holiday" }, "2026-05-05"],
+      [{ kind: "named", name: "prev_holiday" }, "2026-03-02"],
+      [{ kind: "named", name: "today_or_next_holiday" }, "2026-05-05"],
+    ];
+    for (const [expr, expected] of cases) {
+      const r = resolveExpression(expr, {
+        ...ctx("2026-04-17"),
+        holidaysByYear: {
+          2025: {
+            "2025-12-25": "성탄절",
+          },
+          2026: {
+            "2026-03-02": "대체공휴일",
+            "2026-05-05": "어린이날",
+          },
+        },
+      });
+      const out = await formatRange(r, "single", null);
+      expect(out).toEqual({ mode: "single", value: expected });
+    }
+  });
+
+  it("today_or_next_holiday includes today when reference date is a holiday", async () => {
+    const r = resolveExpression(
+      { kind: "named", name: "today_or_next_holiday" },
+      {
+        ...ctx("2026-05-05"),
+        holidaysByYear: {
+          2026: {
+            "2026-05-05": "어린이날",
+            "2026-05-25": "대체공휴일",
+          },
+        },
+      },
+    );
+    const out = await formatRange(r, "single", null);
+    expect(out).toEqual({ mode: "single", value: "2026-05-05" });
+  });
 });
 
 describe("resolver: filter", () => {

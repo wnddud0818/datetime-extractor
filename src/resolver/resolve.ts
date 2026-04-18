@@ -592,6 +592,13 @@ function isBusinessDaySync(date: Date, ctx: ResolveContext): boolean {
   return true;
 }
 
+function isHolidaySync(date: Date, ctx: ResolveContext): boolean {
+  const iso = format(date, "yyyy-MM-dd");
+  const y = date.getFullYear();
+  const holidays = ctx.holidaysByYear?.[y];
+  return !!holidays && iso in holidays;
+}
+
 function scanBusinessDay(
   start: Date,
   step: 1 | -1,
@@ -601,6 +608,20 @@ function scanBusinessDay(
   let d = includeStart ? start : addDays(start, step);
   for (let i = 0; i < 30; i++) {
     if (isBusinessDaySync(d, ctx)) return d;
+    d = addDays(d, step);
+  }
+  return d;
+}
+
+function scanHoliday(
+  start: Date,
+  step: 1 | -1,
+  ctx: ResolveContext,
+  includeStart: boolean,
+): Date {
+  let d = includeStart ? start : addDays(start, step);
+  for (let i = 0; i < 370; i++) {
+    if (isHolidaySync(d, ctx)) return d;
     d = addDays(d, step);
   }
   return d;
@@ -619,6 +640,21 @@ function resolveNamed(
     const step = expr.name === "prev_business_day" ? -1 : 1;
     const includeStart = expr.name === "today_or_next_business_day";
     const d = scanBusinessDay(ref, step, ctx, includeStart);
+    return {
+      start: startOfDay(d),
+      end: startOfDay(d),
+      granularity: "day",
+    };
+  }
+  if (
+    expr.name === "next_holiday" ||
+    expr.name === "prev_holiday" ||
+    expr.name === "today_or_next_holiday"
+  ) {
+    const ref = ctx.referenceDate;
+    const step = expr.name === "prev_holiday" ? -1 : 1;
+    const includeStart = expr.name === "today_or_next_holiday";
+    const d = scanHoliday(ref, step, ctx, includeStart);
     return {
       start: startOfDay(d),
       end: startOfDay(d),
