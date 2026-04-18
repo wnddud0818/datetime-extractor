@@ -15,6 +15,7 @@ import {
   formatRange,
   parseReferenceDate,
   getFilterKind,
+  getFilterOutputMode,
   computeTemporality,
   projectTimeField,
 } from "./resolver/resolve.js";
@@ -63,6 +64,7 @@ async function buildResponse(
   error?: string,
 ): Promise<ExtractResponse> {
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
+  const userSpecifiedModes = req.outputModes !== undefined;
   const ctx = {
     referenceDate,
     timezone,
@@ -89,8 +91,11 @@ async function buildResponse(
       range.end = referenceDate;
     }
     const filter = getFilterKind(e.expression);
+    const filterMode = getFilterOutputMode(filter);
+    const modesForExpr =
+      !userSpecifiedModes && filterMode ? [filterMode] : outputModes;
     const results: ResolvedValue[] = [];
-    for (const mode of outputModes) {
+    for (const mode of modesForExpr) {
       const v = await formatRange(range, mode, filter, {
         timezone,
         dateOnlyForDateModes,

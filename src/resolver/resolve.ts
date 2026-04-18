@@ -539,6 +539,18 @@ export function getFilterKind(expr: DateExpression): FilterExpression["filter"] 
   return null;
 }
 
+export function getFilterOutputMode(
+  filter: FilterExpression["filter"] | null,
+): OutputMode | null {
+  if (filter === "weekdays") return "weekdays";
+  if (filter === "business_days") return "business_days";
+  if (filter === "holidays") return "holidays";
+  if (filter === "weekends" || filter === "saturdays" || filter === "sundays") {
+    return "list";
+  }
+  return null;
+}
+
 /**
  * ResolvedRange + time을 ISO 8601 (오프셋 포함) 문자열 2개로 포맷한다.
  * 시간이 없으면 날짜의 00:00 / 23:59:59로 fallback.
