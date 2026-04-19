@@ -2067,6 +2067,14 @@ export function findMatchesKo(text: string): Match[] {
       { word: "목욜", weekday: 4 },
       { word: "금욜", weekday: 5 },
       { word: "토욜", weekday: 6 },
+      // 한 글자 약어 (저번주 목, 이번주 금 등) — 뒤에 한글이 오면 오탐 방지
+      { word: "일(?![가-힣])", weekday: 0 },
+      { word: "월(?![가-힣])", weekday: 1 },
+      { word: "화(?![가-힣])", weekday: 2 },
+      { word: "수(?![가-힣])", weekday: 3 },
+      { word: "목(?![가-힣])", weekday: 4 },
+      { word: "금(?![가-힣])", weekday: 5 },
+      { word: "토(?![가-힣])", weekday: 6 },
     ];
     const WEEK_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "지지난\\s*주", offset: -2 },
@@ -2080,6 +2088,12 @@ export function findMatchesKo(text: string): Match[] {
       { word: "다음\\s*주", offset: 1 },
       { word: "담주", offset: 1 },
       { word: "차주", offset: 1 },
+      // 주(週) 없이 바로 수식하는 형태 (저번 목요일, 지난 금요일 등)
+      // (?!\s*주)로 "저번주…" 패턴과 중복 방지
+      { word: "저저번(?!\\s*주)", offset: -2 },
+      { word: "지지난(?!\\s*주)", offset: -2 },
+      { word: "저번(?!\\s*주)", offset: -1 },
+      { word: "지난(?!\\s*주)", offset: -1 },
     ];
     for (const { word: pw, offset } of WEEK_PREFIXES) {
       for (const { word: dw, weekday } of KO_WEEKDAYS) {
@@ -2183,6 +2197,40 @@ export function findMatchesKo(text: string): Match[] {
           end: m.index + m[0].length,
           expression: { kind: "named", name: token },
           priority: 90,
+        });
+      }
+    }
+  }
+
+  // 24e. 단독 요일 (prefix 없음) — nearestFuture=true로 가장 가까운 해당 요일.
+  //      "목요일", "금욜" 등 prefix 없이 쓴 경우. 우선순위 60으로 prefix 규칙에 양보.
+  {
+    const KO_WEEKDAYS_STANDALONE: Array<{ word: string; weekday: number }> = [
+      { word: "일요일", weekday: 0 },
+      { word: "월요일", weekday: 1 },
+      { word: "화요일", weekday: 2 },
+      { word: "수요일", weekday: 3 },
+      { word: "목요일", weekday: 4 },
+      { word: "금요일", weekday: 5 },
+      { word: "토요일", weekday: 6 },
+      { word: "일욜", weekday: 0 },
+      { word: "월욜", weekday: 1 },
+      { word: "화욜", weekday: 2 },
+      { word: "수욜", weekday: 3 },
+      { word: "목욜", weekday: 4 },
+      { word: "금욜", weekday: 5 },
+      { word: "토욜", weekday: 6 },
+    ];
+    for (const { word, weekday } of KO_WEEKDAYS_STANDALONE) {
+      const re = new RegExp(`(?<![가-힣])${word}`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "weekday_in_week", weekOffset: 0, weekday, nearest: true },
+          priority: 60,
         });
       }
     }

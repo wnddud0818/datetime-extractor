@@ -616,4 +616,123 @@ describe("rules engine", () => {
       weekOfMonth: 3,
     });
   });
+
+  it("저번주 목 → weekday_in_week -1/4", () => {
+    const r = runRules("저번주 목 회의");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 4,
+    });
+  });
+
+  it("저번주 금 → weekday_in_week -1/5", () => {
+    const r = runRules("저번주 금 실적");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 5,
+    });
+  });
+
+  it("이번주 월 → weekday_in_week 0/1", () => {
+    const r = runRules("이번주 월 기준");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: 0,
+      weekday: 1,
+    });
+  });
+
+  it("다음주 수 → weekday_in_week 1/3", () => {
+    const r = runRules("다음주 수 미팅");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: 1,
+      weekday: 3,
+    });
+  });
+
+  it("목요일 단독 → weekday_in_week nearestFuture/4", () => {
+    const r = runRules("목요일 회의");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: 0,
+      weekday: 4,
+      nearest: true,
+    });
+  });
+
+  it("금요일 단독 → weekday_in_week nearestFuture/5", () => {
+    const r = runRules("금요일 실적");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: 0,
+      weekday: 5,
+      nearest: true,
+    });
+  });
+
+  it("금욜 단독 → weekday_in_week nearestFuture/5", () => {
+    const r = runRules("금욜 미팅");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: 0,
+      weekday: 5,
+      nearest: true,
+    });
+  });
+
+  it("저번주 목요일 → prefix 규칙이 단독 규칙보다 우선", () => {
+    const r = runRules("저번주 목요일");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 4,
+    });
+  });
+
+  it("저번 목요일 → weekday_in_week -1/4 (주 없는 형태)", () => {
+    const r = runRules("저번 목요일 회의");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 4,
+    });
+  });
+
+  it("지난 금요일 → weekday_in_week -1/5 (주 없는 형태)", () => {
+    const r = runRules("지난 금요일 실적");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 5,
+    });
+  });
+
+  it("지난 월요일 → weekday_in_week -1/1", () => {
+    const r = runRules("지난 월요일 기준");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 1,
+    });
+  });
+
+  it("저번 목 → weekday_in_week -1/4 (주+한글자 조합)", () => {
+    const r = runRules("저번 목 회의");
+    expect(r.expressions[0].expression).toEqual({
+      kind: "weekday_in_week",
+      weekOffset: -1,
+      weekday: 4,
+    });
+  });
+
+  it("저번주 목이 아파 → 목을 목요일로 오탐하지 않음", () => {
+    const r = runRules("저번주 목이 아파");
+    const hasWeekdayExpr = r.expressions.some(
+      (e) => e.expression.kind === "weekday_in_week"
+    );
+    expect(hasWeekdayExpr).toBe(false);
+  });
 });

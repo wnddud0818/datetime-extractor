@@ -696,6 +696,22 @@ function resolveWeekdayInWeek(
       granularity: "day",
     };
   }
+  // nearest: 단독 요일("목요일") — ambiguityStrategy에 따라 과거/미래 결정.
+  // future: 오늘 포함 가장 가까운 해당 요일(오늘이 해당 요일이면 오늘).
+  // past(기본): 오늘 포함 가장 최근 해당 요일.
+  if (expr.nearest) {
+    const strategy = ctx.ambiguityStrategy ?? "past";
+    const refWeekday = ref.getDay();
+    let target: Date;
+    if (strategy === "future") {
+      const daysAhead = (expr.weekday - refWeekday + 7) % 7;
+      target = addDays(ref, daysAhead);
+    } else {
+      const daysBehind = (refWeekday - expr.weekday + 7) % 7;
+      target = addDays(ref, -daysBehind);
+    }
+    return { start: startOfDay(target), end: startOfDay(target), granularity: "day" };
+  }
   const wso = ctx.weekStartsOn ?? 1;
   const weekRef = addDays(ref, expr.weekOffset * 7);
   const start = startOfWeek(weekRef, { weekStartsOn: wso });

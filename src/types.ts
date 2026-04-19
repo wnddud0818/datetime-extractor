@@ -177,6 +177,8 @@ export interface WeekdayInWeekExpression {
   weekday: number;
   /** true면 weekOffset을 무시하고 기준일 이후 가장 가까운 해당 요일로 해석. "오는 금요일", "돌아오는 월요일". */
   nearestFuture?: boolean;
+  /** true면 ambiguityStrategy에 따라 가장 가까운 과거 또는 미래 요일로 해석. 단독 요일 "목요일" 등. */
+  nearest?: boolean;
 }
 
 export type OutputMode =
