@@ -1180,6 +1180,20 @@ async function runEvalSuite(cliArgs: string[]): Promise<void> {
       }),
     },
     {
+      key: "edge_relative_year_multi_months_comma",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => ({
+        text: "2년전 1,2,3월 실적",
+        outputModes: ["range"],
+        expected: rangeExpressions([
+          monthRange(ref.getFullYear() - 2, 1),
+          monthRange(ref.getFullYear() - 2, 2),
+          monthRange(ref.getFullYear() - 2, 3),
+        ]),
+      }),
+    },
+    {
       key: "edge_multi_quarters",
       suite: "default",
       category: "J.edge",
@@ -1260,6 +1274,45 @@ async function runEvalSuite(cliArgs: string[]): Promise<void> {
         const resolved = monthConnectorRange(ref, 10, 12);
         return {
           text: "10월부터 12월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_shorthand_month_span_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = monthConnectorRange(ref, 1, 2);
+        return {
+          text: "1~2월",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_shorthand_last_year_month_span_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = yearOffsetMonthConnectorRange(ref, -1, 1, 2);
+        return {
+          text: "작년 1~2월",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_shorthand_past_month_span_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = monthConnectorRange(ref, 1, 2);
+        return {
+          text: "지난 1~2월",
           outputModes: ["range"],
           expected: rangeExpression(resolved.start, resolved.end),
         };
@@ -5031,6 +5084,20 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
       text: "3월이랑 4월 매출 비교해줘",
       mode: "range",
       expectedRanges: [explicitMonthRange(2026, 3), explicitMonthRange(2026, 4)],
+    },
+    {
+      id: 401,
+      category: "4.month_year",
+      text: "지난 1~2월 거래내역 알려줘",
+      mode: "range",
+      expectedRanges: [explicitRange(2026, 1, 1, 2026, 2, 28)],
+    },
+    {
+      id: 402,
+      category: "4.month_year",
+      text: "작년 1~2월 거래내역 알려줘",
+      mode: "range",
+      expectedRanges: [explicitRange(2025, 1, 1, 2025, 2, 28)],
     },
 
     // 5. 절대 날짜

@@ -310,6 +310,17 @@ describe("rules engine", () => {
     });
   });
 
+  it("23년 4월 → 2자리 연도 월 표현", () => {
+    const r = runRules("23년 4월");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      year: 2023,
+      month: 4,
+    });
+  });
+
   it("7일 전 → relative day offset=-7", () => {
     const r = runRules("7일 전");
     expect(r.confidence).toBe(1.0);
@@ -549,6 +560,68 @@ describe("rules engine", () => {
     expect(r.expressions).toHaveLength(2);
     expect(r.expressions[0].expression).toEqual({ kind: "absolute", year: 2025, month: 1 });
     expect(r.expressions[1].expression).toEqual({ kind: "absolute", year: 2025, month: 2 });
+  });
+
+  it("2년전 1월 → yearOffset=-2 단일 월", () => {
+    const r = runRules("2년전 1월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 1 });
+  });
+
+  it("2년전 1,2,3월 → yearOffset=-2 콤마 구분 월 목록", () => {
+    const r = runRules("2년전 1,2,3월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(3);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 2 });
+    expect(r.expressions[2].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 3 });
+  });
+
+  it("2년 전 1월 2월 → yearOffset=-2 공백 구분 월 목록", () => {
+    const r = runRules("2년 전 1월 2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 2 });
+  });
+
+  it("삼년전 1월2월 → yearOffset=-3 무공백 월 목록", () => {
+    const r = runRules("삼년전 1월2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(2);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -3, month: 1 });
+    expect(r.expressions[1].expression).toEqual({ kind: "absolute", yearOffset: -3, month: 2 });
+  });
+
+  it("2년후 1~2월 → yearOffset=2 월 범위", () => {
+    const r = runRules("2년후 1~2월 실적");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "range",
+      start: { kind: "absolute", yearOffset: 2, month: 1 },
+      end: { kind: "absolute", yearOffset: 2, month: 2 },
+    });
+  });
+
+  it("2년후 4월 평일 → relative year + month + filter", () => {
+    const r = runRules("2년후 4월 평일");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "filter",
+      base: { kind: "absolute", yearOffset: 2, month: 4 },
+      filter: "weekdays",
+    });
+  });
+
+  it("2년전 월별 → yearOffset=-2 12개월 확장", () => {
+    const r = runRules("2년전 월별 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(12);
+    expect(r.expressions[0].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 1 });
+    expect(r.expressions[11].expression).toEqual({ kind: "absolute", yearOffset: -2, month: 12 });
   });
 
   // --- (month-prefix) + week-of-month (단일) ---

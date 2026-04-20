@@ -43,6 +43,14 @@ function inheritAbsoluteContext(
   return inherited;
 }
 
+function canStartDurationRange(expr: DateExpression): boolean {
+  return (
+    expr.kind !== "duration" &&
+    expr.kind !== "filter" &&
+    expr.kind !== "datetime"
+  );
+}
+
 /**
  * resolveOverlaps 이후 인접 매치 사이에 "부터~까지" 연결어가 있으면
  * 두 매치를 단일 RangeExpression으로 병합한다.
@@ -58,6 +66,28 @@ function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
       const between = text.slice(a.end, b.start);
       const afterB = text.slice(b.end, b.end + 6);
       const isConnector = /^\s*부터\s*$/.test(between) || /^\s*에서\s*$/.test(between);
+      if (
+        isConnector &&
+        canStartDurationRange(a.expression) &&
+        b.expression.kind === "duration"
+      ) {
+        result.push({
+          text: text.slice(a.start, b.end),
+          start: a.start,
+          end: b.end,
+          expression: {
+            kind: "range",
+            start: a.expression,
+            duration: {
+              unit: b.expression.unit,
+              amount: b.expression.amount,
+            },
+          },
+          priority: Math.max(a.priority, b.priority) + 1,
+        });
+        i += 2;
+        continue;
+      }
       const kajiMatch = /^\s*까지/.exec(afterB);
       if (isConnector && kajiMatch) {
         const rangeEnd = b.end + kajiMatch[0].length;

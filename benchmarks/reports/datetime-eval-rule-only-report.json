@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-20T08:01:11.369Z",
+  "generatedAt": "2026-04-20T08:44:43.300Z",
   "refDates": [
     "2025-01-10",
     "2025-11-17",
@@ -9,12 +9,12 @@
     "2028-02-29",
     "2029-12-30"
   ],
-  "total": 1099,
+  "total": 1127,
   "suites": [
     {
       "suite": "default",
-      "total": 1029,
-      "passed": 1029,
+      "total": 1057,
+      "passed": 1057,
       "accuracy": 100,
       "byCategory": [
         {
@@ -73,8 +73,8 @@
         },
         {
           "category": "J.edge",
-          "total": 196,
-          "passed": 196,
+          "total": 224,
+          "passed": 224,
           "accuracy": 100
         },
         {
@@ -87,7 +87,7 @@
       "byPath": [
         {
           "path": "rule_only:full",
-          "count": 1008
+          "count": 1036
         },
         {
           "path": "rule_only:no_match",

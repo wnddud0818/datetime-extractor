@@ -16230,6 +16230,244 @@
     }
   },
   {
+    "id": "default:edge_relative_year_multi_months_comma:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2023-01-01",
+            "end": "2023-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2023-02-01",
+            "end": "2023-02-28"
+          }
+        },
+        {
+          "range": {
+            "start": "2023-03-01",
+            "end": "2023-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2023-01-01",
+            "end": "2023-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2023-02-01",
+            "end": "2023-02-28"
+          }
+        },
+        {
+          "range": {
+            "start": "2023-03-01",
+            "end": "2023-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2024-02-01",
+            "end": "2024-02-29"
+          }
+        },
+        {
+          "range": {
+            "start": "2024-03-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2024-02-01",
+            "end": "2024-02-29"
+          }
+        },
+        {
+          "range": {
+            "start": "2024-03-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2025-02-01",
+            "end": "2025-02-28"
+          }
+        },
+        {
+          "range": {
+            "start": "2025-03-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2026-02-01",
+            "end": "2026-02-28"
+          }
+        },
+        {
+          "range": {
+            "start": "2026-03-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_relative_year_multi_months_comma:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "2년전 1,2,3월 실적",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-01-31"
+          }
+        },
+        {
+          "range": {
+            "start": "2027-02-01",
+            "end": "2027-02-28"
+          }
+        },
+        {
+          "range": {
+            "start": "2027-03-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
     "id": "default:edge_multi_quarters:2025-01-10",
     "suite": "default",
     "category": "J.edge",
@@ -17512,6 +17750,468 @@
           "range": {
             "start": "2029-10-01",
             "end": "2029-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-02-29"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_month_span_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-01-01",
+            "end": "2029-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-02-29"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-02-29"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_last_year_month_span_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-02-29"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-02-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-02-29"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_shorthand_past_month_span_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "지난 1~2월",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-01-01",
+            "end": "2029-02-28"
           }
         }
       ]

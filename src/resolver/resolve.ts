@@ -745,11 +745,34 @@ function resolveWeekdayInWeek(
   return { start: startOfDay(target), end: startOfDay(target), granularity: "day" };
 }
 
+function resolveAnchoredDurationEnd(
+  start: Date,
+  duration: NonNullable<RangeExpression["duration"]>,
+): Date {
+  switch (duration.unit) {
+    case "day":
+      return startOfDay(addDays(start, duration.amount - 1));
+    case "week":
+      return startOfDay(addDays(start, duration.amount * 7 - 1));
+    case "month":
+      return startOfDay(addDays(addMonthsWithFraction(start, duration.amount), -1));
+    case "year":
+      return startOfDay(addDays(addYearsWithFraction(start, duration.amount), -1));
+  }
+}
+
 function resolveRange(
   expr: RangeExpression,
   ctx: ResolveContext,
 ): ResolvedRange {
   const s = resolveExpression(expr.start, ctx);
+  if (expr.duration !== undefined) {
+    return {
+      start: s.start,
+      end: resolveAnchoredDurationEnd(s.start, expr.duration),
+      granularity: "day",
+    };
+  }
   if (expr.durationDays !== undefined) {
     // "오늘부터 일주일간" → start + (N-1) 일. 경계 포함.
     const endDate = addDays(s.start, expr.durationDays - 1);

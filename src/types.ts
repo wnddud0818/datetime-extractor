@@ -115,6 +115,8 @@ export interface RangeExpression {
   start: DateExpression;
   /** end가 start로부터 N일간 지속되는 경우에는 생략 가능. durationDays 사용. */
   end?: DateExpression;
+  /** end가 start로부터 특정 기간 지속되는 경우. 월/년 단위는 달력 기준으로 계산한다. */
+  duration?: Pick<DurationExpression, "unit" | "amount">;
   /** "오늘부터 일주일간"처럼 시작일 대비 지속 일수. end가 없거나 함께 있어도 이 값이 우선. */
   durationDays?: number;
 }

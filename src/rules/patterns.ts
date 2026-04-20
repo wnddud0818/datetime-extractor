@@ -39,6 +39,30 @@ export const KOREAN_FILTER_SUFFIX_MAP: FilterSuffixMap = [
 ];
 
 const KOREAN_COUNT_RE_SRC = `\\d+|${KOREAN_COUNT_NUMERAL_ALT}`;
+const RELATIVE_YEAR_FIXED_PREFIXES: Array<{ pattern: string; normalized: string; offset: number }> = [
+  { pattern: "재작년", normalized: "재작년", offset: -2 },
+  { pattern: "제작년", normalized: "제작년", offset: -2 },
+  { pattern: "지난년도", normalized: "지난년도", offset: -1 },
+  { pattern: "지난해", normalized: "지난해", offset: -1 },
+  { pattern: "지난\\s*해", normalized: "지난해", offset: -1 },
+  { pattern: "작년", normalized: "작년", offset: -1 },
+  { pattern: "전년도", normalized: "전년도", offset: -1 },
+  { pattern: "전년", normalized: "전년", offset: -1 },
+  { pattern: "올해", normalized: "올해", offset: 0 },
+  { pattern: "금년", normalized: "금년", offset: 0 },
+  { pattern: "내년", normalized: "내년", offset: 1 },
+  { pattern: "명년", normalized: "명년", offset: 1 },
+  { pattern: "후년", normalized: "후년", offset: 2 },
+];
+const RELATIVE_YEAR_FIXED_PREFIX_ALT = RELATIVE_YEAR_FIXED_PREFIXES.map((item) => item.pattern).join("|");
+const RELATIVE_YEAR_FIXED_PREFIX_OFFSET = new Map(
+  RELATIVE_YEAR_FIXED_PREFIXES.map((item) => [item.normalized, item.offset]),
+);
+const RELATIVE_YEAR_PREFIX_SOURCE =
+  `(?:${RELATIVE_YEAR_FIXED_PREFIX_ALT}|(?:${KOREAN_COUNT_RE_SRC})\\s*(?:년|년도|해)\\s*(?:전|뒤|후))`;
+const NUMERIC_RELATIVE_YEAR_PREFIX_RE = new RegExp(
+  `^((?:${KOREAN_COUNT_RE_SRC}))(?:년|년도|해)(전|뒤|후)$`,
+);
 
 function parseYearMonthTotalMonths(
   yearsRaw: string,
@@ -48,6 +72,20 @@ function parseYearMonthTotalMonths(
   const months = parseKoreanCountNumeral(monthsRaw);
   if (years === undefined || months === undefined) return undefined;
   return years * 12 + months;
+}
+
+function parseRelativeYearPrefix(prefixRaw: string): number | undefined {
+  const normalized = prefixRaw.replace(/\s+/g, "");
+  const fixedOffset = RELATIVE_YEAR_FIXED_PREFIX_OFFSET.get(normalized);
+  if (fixedOffset !== undefined) return fixedOffset;
+
+  const numericMatch = NUMERIC_RELATIVE_YEAR_PREFIX_RE.exec(normalized);
+  if (!numericMatch) return undefined;
+
+  const amount = parseKoreanCountNumeral(numericMatch[1]);
+  if (amount === undefined) return undefined;
+
+  return numericMatch[2] === "전" ? -amount : amount;
 }
 
 export function tryAttachFilter(
@@ -519,6 +557,43 @@ export function findMatchesKo(text: string): Match[] {
         end: m.index + m[0].length,
         expression: baseExpr,
         priority: 93,
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
+    }
+  }
+
+  // 2b-yy. YY년 M월 [초/중/말 | N주차]? (일이 없을 때)
+  {
+    const re = new RegExp(
+      `(?<!\\d)(\\d{2})\\s*년\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yy = Number(m[1]);
+      const year = yy >= 50 ? 1900 + yy : 2000 + yy;
+      const mp = m[3];
+      const wk = m[4];
+      const monthPart =
+        mp === "초" ? ("early" as const)
+        : mp === "중" ? ("mid" as const)
+        : mp === "말" ? ("late" as const)
+        : undefined;
+      const weekOfMonth = wk ? parseWeekOfMonth(wk) : undefined;
+      const baseExpr: AbsoluteExpression = {
+        kind: "absolute",
+        year,
+        month: Number(m[2]),
+      };
+      if (monthPart) baseExpr.monthPart = monthPart;
+      if (weekOfMonth) baseExpr.weekOfMonth = weekOfMonth;
+      const base: Match = {
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: baseExpr,
+        priority: 94,
       };
       const withFilter = tryAttachFilter(text, base.end, base);
       out.push(withFilter ?? base);
@@ -1626,91 +1701,67 @@ export function findMatchesKo(text: string): Match[] {
 
   // 20. (prefix) M월 [초/중/말/첫주]? — 작년 12월, 올해 3월 등
   {
-    const PREFIXES: Array<{ word: string; offset: number }> = [
-      { word: "재작년", offset: -2 },
-      { word: "제작년", offset: -2 },
-      { word: "지난년도", offset: -1 },
-      { word: "지난해", offset: -1 },
-      { word: "작년", offset: -1 },
-      { word: "전년도", offset: -1 },
-      { word: "전년", offset: -1 },
-      { word: "올해", offset: 0 },
-      { word: "금년", offset: 0 },
-      { word: "내년", offset: 1 },
-      { word: "후년", offset: 2 },
-    ];
-    for (const { word, offset } of PREFIXES) {
-      const re = new RegExp(
-        `${word}\\s*(\\d{1,2})\\s*월(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?(?!\\s*\\d+\\s*일)`,
-        "g",
-      );
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(text))) {
-        const mp = m[2];
-        const wk = m[3];
-        const baseExpr: AbsoluteExpression = {
-          kind: "absolute",
-          yearOffset: offset,
-          month: Number(m[1]),
-        };
-        if (mp === "초") baseExpr.monthPart = "early";
-        else if (mp === "중") baseExpr.monthPart = "mid";
-        else if (mp === "말") baseExpr.monthPart = "late";
-        else if (wk) {
-          const n = parseWeekOfMonth(wk);
-          if (n) baseExpr.weekOfMonth = n;
-        }
-        out.push({
-          text: m[0],
-          start: m.index,
-          end: m.index + m[0].length,
-          expression: baseExpr,
-          priority: 91,
-        });
+    const re = new RegExp(
+      `(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*(\\d{1,2})\\s*월(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?(?!\\s*\\d+\\s*일)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yearOffset = parseRelativeYearPrefix(m[1]);
+      if (yearOffset === undefined) continue;
+      const mp = m[3];
+      const wk = m[4];
+      const baseExpr: AbsoluteExpression = {
+        kind: "absolute",
+        yearOffset,
+        month: Number(m[2]),
+      };
+      if (mp === "초") baseExpr.monthPart = "early";
+      else if (mp === "중") baseExpr.monthPart = "mid";
+      else if (mp === "말") baseExpr.monthPart = "late";
+      else if (wk) {
+        const n = parseWeekOfMonth(wk);
+        if (n) baseExpr.weekOfMonth = n;
       }
+      const base: Match = {
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: baseExpr,
+        priority: 91,
+      };
+      const withFilter = tryAttachFilter(text, base.end, base);
+      out.push(withFilter ?? base);
     }
   }
 
   // 20-list. (prefix) 콤마 구분 월 목록 (작년 2,3,4월)
   {
-    const PREFIXES: Array<{ word: string; offset: number }> = [
-      { word: "재작년", offset: -2 },
-      { word: "제작년", offset: -2 },
-      { word: "지난년도", offset: -1 },
-      { word: "지난해", offset: -1 },
-      { word: "작년", offset: -1 },
-      { word: "전년도", offset: -1 },
-      { word: "전년", offset: -1 },
-      { word: "올해", offset: 0 },
-      { word: "금년", offset: 0 },
-      { word: "내년", offset: 1 },
-      { word: "후년", offset: 2 },
-    ];
-    for (const { word, offset } of PREFIXES) {
-      const re = new RegExp(
-        `${word}\\s*(\\d{1,2}(?:\\s*,\\s*\\d{1,2})+)\\s*월(?!\\s*\\d+\\s*일)`,
-        "g",
-      );
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(text))) {
-        const fullMatch = m[0];
-        const parts = m[1].split(/\s*,\s*/);
-        let cursor = 0;
-        for (let i = 0; i < parts.length; i++) {
-          const num = parts[i];
-          const posInMatch = fullMatch.indexOf(num, cursor);
-          const absStart = i === 0 ? m.index : m.index + posInMatch;
-          const isLast = i === parts.length - 1;
-          const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
-          out.push({
-            text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "월" : num + "월",
-            start: absStart,
-            end: absEnd,
-            expression: { kind: "absolute", yearOffset: offset, month: Number(num) },
-            priority: 92,
-          });
-          cursor = posInMatch + num.length;
-        }
+    const re = new RegExp(
+      `(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*(\\d{1,2}(?:\\s*,\\s*\\d{1,2})+)\\s*월(?!\\s*\\d+\\s*일)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yearOffset = parseRelativeYearPrefix(m[1]);
+      if (yearOffset === undefined) continue;
+      const fullMatch = m[0];
+      const parts = m[2].split(/\s*,\s*/);
+      let cursor = fullMatch.indexOf(m[2]);
+      for (let i = 0; i < parts.length; i++) {
+        const num = parts[i];
+        const posInMatch = fullMatch.indexOf(num, cursor);
+        const absStart = i === 0 ? m.index : m.index + posInMatch;
+        const isLast = i === parts.length - 1;
+        const absEnd = isLast ? m.index + fullMatch.length : m.index + posInMatch + num.length;
+        out.push({
+          text: i === 0 ? fullMatch.slice(0, posInMatch + num.length) + "월" : num + "월",
+          start: absStart,
+          end: absEnd,
+          expression: { kind: "absolute", yearOffset, month: Number(num) },
+          priority: 92,
+        });
+        cursor = posInMatch + num.length;
       }
     }
   }
@@ -1719,83 +1770,183 @@ export function findMatchesKo(text: string): Match[] {
   //   예: "작년 1월 2월", "내년 3월 4월 5월", "작년 1월2월", "작년 1월, 2월"
   // 각 N월 뒤에는 N일이 올 수 없음 (그럼 개별 월일 패턴이 처리).
   {
-    const PREFIXES: Array<{ word: string; offset: number }> = [
-      { word: "재작년", offset: -2 },
-      { word: "제작년", offset: -2 },
-      { word: "지난년도", offset: -1 },
-      { word: "지난해", offset: -1 },
-      { word: "작년", offset: -1 },
-      { word: "전년도", offset: -1 },
-      { word: "전년", offset: -1 },
-      { word: "올해", offset: 0 },
-      { word: "금년", offset: 0 },
-      { word: "내년", offset: 1 },
-      { word: "후년", offset: 2 },
-    ];
-    for (const { word, offset } of PREFIXES) {
+    const re = new RegExp(
+      `(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*(\\d{1,2}\\s*월(?!\\s*\\d+\\s*일)(?:\\s*,?\\s*\\d{1,2}\\s*월(?!\\s*\\d+\\s*일))+)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yearOffset = parseRelativeYearPrefix(m[1]);
+      if (yearOffset === undefined) continue;
+      const list = m[2]; // "1월 2월 3월"
+      const fullStart = m.index;
+      const listStart = fullStart + (m[0].length - list.length);
+      const tokenRe = /(\d{1,2})\s*월/g;
+      let tm: RegExpExecArray | null;
+      const tokens: Array<{ num: number; start: number; end: number; text: string }> = [];
+      while ((tm = tokenRe.exec(list))) {
+        tokens.push({
+          num: Number(tm[1]),
+          start: listStart + tm.index,
+          end: listStart + tm.index + tm[0].length,
+          text: tm[0],
+        });
+      }
+      for (let i = 0; i < tokens.length; i++) {
+        const t = tokens[i];
+        out.push({
+          text: i === 0 ? text.slice(fullStart, t.end) : t.text,
+          start: i === 0 ? fullStart : t.start,
+          end: t.end,
+          expression: { kind: "absolute", yearOffset, month: t.num },
+          priority: 92,
+        });
+      }
+    }
+  }
+
+  // 20-range. 월 범위 축약형
+  //   예: "1~2월", "1월~2월", "작년 1~2월", "2025년 1월-2월", "지난 1~2월"
+  {
+    const MONTH_RANGE_SEP = "(?:~|〜|～|-|–)";
+
+    const pushMonthRange = (
+      matchText: string,
+      start: number,
+      end: number,
+      startExpr: AbsoluteExpression,
+      endExpr: AbsoluteExpression,
+      priority: number,
+    ) => {
+      out.push({
+        text: matchText,
+        start,
+        end,
+        expression: {
+          kind: "range",
+          start: startExpr,
+          end: endExpr,
+        },
+        priority,
+      });
+    };
+
+    {
       const re = new RegExp(
-        `${word}\\s*(\\d{1,2}\\s*월(?!\\s*\\d+\\s*일)(?:\\s*,?\\s*\\d{1,2}\\s*월(?!\\s*\\d+\\s*일))+)`,
+        `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
         "g",
       );
       let m: RegExpExecArray | null;
       while ((m = re.exec(text))) {
-        const list = m[1]; // "1월 2월 3월"
-        const fullStart = m.index;
-        const listStart = fullStart + (m[0].length - list.length);
-        const tokenRe = /(\d{1,2})\s*월/g;
-        let tm: RegExpExecArray | null;
-        const tokens: Array<{ num: number; start: number; end: number; text: string }> = [];
-        while ((tm = tokenRe.exec(list))) {
-          tokens.push({
-            num: Number(tm[1]),
-            start: listStart + tm.index,
-            end: listStart + tm.index + tm[0].length,
-            text: tm[0],
-          });
-        }
-        for (let i = 0; i < tokens.length; i++) {
-          const t = tokens[i];
-          out.push({
-            text: i === 0 ? text.slice(fullStart, t.end) : t.text,
-            start: i === 0 ? fullStart : t.start,
-            end: t.end,
-            expression: { kind: "absolute", yearOffset: offset, month: t.num },
-            priority: 92,
-          });
-        }
+        const year = Number(m[1]);
+        const startMonth = Number(m[2]);
+        const endMonth = Number(m[3]);
+        if (
+          startMonth < 1 || startMonth > 12 ||
+          endMonth < 1 || endMonth > 12
+        ) continue;
+        pushMonthRange(
+          m[0],
+          m.index,
+          m.index + m[0].length,
+          { kind: "absolute", year, month: startMonth },
+          { kind: "absolute", year, month: endMonth },
+          96,
+        );
+      }
+    }
+
+    {
+      const re = new RegExp(
+        `(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const yearOffset = parseRelativeYearPrefix(m[1]);
+        if (yearOffset === undefined) continue;
+        const startMonth = Number(m[2]);
+        const endMonth = Number(m[3]);
+        if (
+          startMonth < 1 || startMonth > 12 ||
+          endMonth < 1 || endMonth > 12
+        ) continue;
+        pushMonthRange(
+          m[0],
+          m.index,
+          m.index + m[0].length,
+          { kind: "absolute", yearOffset, month: startMonth },
+          { kind: "absolute", yearOffset, month: endMonth },
+          95,
+        );
+      }
+    }
+
+    {
+      const re = new RegExp(
+        `(?:지난|저번|직전)\\s*(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const startMonth = Number(m[1]);
+        const endMonth = Number(m[2]);
+        if (
+          startMonth < 1 || startMonth > 12 ||
+          endMonth < 1 || endMonth > 12
+        ) continue;
+        pushMonthRange(
+          m[0],
+          m.index,
+          m.index + m[0].length,
+          { kind: "absolute", month: startMonth },
+          { kind: "absolute", month: endMonth },
+          94,
+        );
+      }
+    }
+
+    {
+      const re = new RegExp(
+        `(?<![\\d년])(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
+        "g",
+      );
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const startMonth = Number(m[1]);
+        const endMonth = Number(m[2]);
+        if (
+          startMonth < 1 || startMonth > 12 ||
+          endMonth < 1 || endMonth > 12
+        ) continue;
+        pushMonthRange(
+          m[0],
+          m.index,
+          m.index + m[0].length,
+          { kind: "absolute", month: startMonth },
+          { kind: "absolute", month: endMonth },
+          93,
+        );
       }
     }
   }
 
   // 20-monthly. (prefix) 월별/월별로 → 1월~12월 확장
   {
-    const PREFIXES: Array<{ word: string; offset: number }> = [
-      { word: "재작년", offset: -2 },
-      { word: "제작년", offset: -2 },
-      { word: "지난년도", offset: -1 },
-      { word: "지난해", offset: -1 },
-      { word: "작년", offset: -1 },
-      { word: "전년도", offset: -1 },
-      { word: "전년", offset: -1 },
-      { word: "올해", offset: 0 },
-      { word: "금년", offset: 0 },
-      { word: "내년", offset: 1 },
-      { word: "후년", offset: 2 },
-    ];
-    for (const { word, offset } of PREFIXES) {
-      const re = new RegExp(`${word}\\s*월\\s*별(?:로)?`, "g");
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(text))) {
-        const matchEnd = m.index + m[0].length;
-        for (let month = 1; month <= 12; month++) {
-          out.push({
-            text: month === 1 ? m[0] : `${month}월`,
-            start: month === 1 ? m.index : matchEnd,
-            end: month === 1 ? matchEnd : matchEnd,
-            expression: { kind: "absolute", yearOffset: offset, month },
-            priority: 92,
-          });
-        }
+    const re = new RegExp(`(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*월\\s*별(?:로)?`, "g");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yearOffset = parseRelativeYearPrefix(m[1]);
+      if (yearOffset === undefined) continue;
+      const matchEnd = m.index + m[0].length;
+      for (let month = 1; month <= 12; month++) {
+        out.push({
+          text: month === 1 ? m[0] : `${month}월`,
+          start: month === 1 ? m.index : matchEnd,
+          end: month === 1 ? matchEnd : matchEnd,
+          expression: { kind: "absolute", yearOffset, month },
+          priority: 92,
+        });
       }
     }
   }
@@ -1857,36 +2008,22 @@ export function findMatchesKo(text: string): Match[] {
   // 20c. (재작년|작년|올해|내년|후년|지난해|지난 해|금년) 초/말
   //      "YYYY년 초/말" (rule 2d)의 상대형 버전.
   {
-    const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
-      { word: "재작년", offset: -2 },
-      { word: "제작년", offset: -2 },
-      { word: "지난년도", offset: -1 },
-      { word: "지난해", offset: -1 },
-      { word: "지난 해", offset: -1 },
-      { word: "전년도", offset: -1 },
-      { word: "전년", offset: -1 },
-      { word: "작년", offset: -1 },
-      { word: "올해", offset: 0 },
-      { word: "금년", offset: 0 },
-      { word: "내년", offset: 1 },
-      { word: "후년", offset: 2 },
-    ];
-    for (const { word, offset } of YEAR_PREFIXES) {
-      const re = new RegExp(`${word}\\s*(초|말)(?!\\s*\\d)`, "g");
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(text))) {
-        out.push({
-          text: m[0],
-          start: m.index,
-          end: m.index + m[0].length,
-          expression: {
-            kind: "absolute",
-            yearOffset: offset,
-            yearPart: m[1] === "초" ? "early" : "late",
-          },
-          priority: 89,
-        });
-      }
+    const re = new RegExp(`(${RELATIVE_YEAR_PREFIX_SOURCE})\\s*(초|말)(?!\\s*\\d)`, "g");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yearOffset = parseRelativeYearPrefix(m[1]);
+      if (yearOffset === undefined) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "absolute",
+          yearOffset,
+          yearPart: m[2] === "초" ? "early" : "late",
+        },
+        priority: 89,
+      });
     }
   }
 
@@ -2906,21 +3043,26 @@ export function findMatchesKo(text: string): Match[] {
           day: Number(m[4]),
         };
       }
-      let days: number | null = null;
+      let duration:
+        | {
+            unit: "day" | "week" | "month" | "year";
+            amount: number;
+          }
+        | null = null;
       if (m[5]) {
         const w = m[5].replace(/\s+/g, "");
-        if (w === "일주일" || w === "한주") days = 7;
-        else if (w === "한달") days = 30;
-        else if (w === "한해" || w === "일년") days = 365;
+        if (w === "일주일" || w === "한주") duration = { unit: "week", amount: 1 };
+        else if (w === "한달") duration = { unit: "month", amount: 1 };
+        else if (w === "한해" || w === "일년") duration = { unit: "year", amount: 1 };
       } else {
         const n = Number(m[6]);
         const unit = m[7];
-        if (unit === "일") days = n;
-        else if (unit === "주" || unit === "주일") days = n * 7;
-        else if (unit === "개월" || unit === "달") days = n * 30;
-        else if (unit === "년") days = n * 365;
+        if (unit === "일") duration = { unit: "day", amount: n };
+        else if (unit === "주" || unit === "주일") duration = { unit: "week", amount: n };
+        else if (unit === "개월" || unit === "달") duration = { unit: "month", amount: n };
+        else if (unit === "년") duration = { unit: "year", amount: n };
       }
-      if (days === null || days < 1) continue;
+      if (duration === null || duration.amount < 1) continue;
       out.push({
         text: m[0],
         start: m.index,
@@ -2928,7 +3070,7 @@ export function findMatchesKo(text: string): Match[] {
         expression: {
           kind: "range",
           start: startExpr,
-          durationDays: days,
+          duration,
         },
         priority: 98,
       });
