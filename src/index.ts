@@ -10,6 +10,7 @@ import type {
   OutputMode,
   ResolvedValue,
 } from "./types.js";
+import { ExtractValidationError } from "./errors.js";
 import { runRules } from "./rules/engine.js";
 import {
   resolveExpression,
@@ -25,13 +26,84 @@ import { cacheGet, cacheSet } from "./cache/lru.js";
 import { callLLMWithRetry, getModelName, warmUp } from "./extractor/ollama-client.js";
 
 export * from "./types.js";
+export * from "./errors.js";
 export { cacheClear, cacheSize } from "./cache/lru.js";
 export { warmUp } from "./extractor/ollama-client.js";
 
 const DEFAULT_OUTPUT_MODES: OutputMode[] = ["range", "single"];
+const HOLIDAY_CONTEXT_NAMES = new Set([
+  "next_business_day",
+  "prev_business_day",
+  "today_or_next_business_day",
+  "next_holiday",
+  "prev_holiday",
+  "today_or_next_holiday",
+]);
 
 function now(): number {
   return performance.now();
+}
+
+function assertValidTimezone(timezone: string): void {
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone: timezone }).format(new Date());
+  } catch {
+    throw new ExtractValidationError(
+      "timezone",
+      timezone,
+      `Invalid timezone: expected a valid IANA timezone, received "${timezone}".`,
+    );
+  }
+}
+
+function collectHolidayContextYears(
+  expr: DateExpression,
+  referenceYear: number,
+  years: Set<number>,
+): void {
+  switch (expr.kind) {
+    case "named":
+      if (HOLIDAY_CONTEXT_NAMES.has(expr.name)) {
+        years.add(referenceYear - 1);
+        years.add(referenceYear);
+        years.add(referenceYear + 1);
+      }
+      return;
+    case "range":
+      collectHolidayContextYears(expr.start, referenceYear, years);
+      if (expr.end) {
+        collectHolidayContextYears(expr.end, referenceYear, years);
+      }
+      return;
+    case "filter":
+      collectHolidayContextYears(expr.base, referenceYear, years);
+      return;
+    case "datetime":
+      collectHolidayContextYears(expr.base, referenceYear, years);
+      return;
+    default:
+      return;
+  }
+}
+
+async function loadHolidayContext(
+  expressions: Array<{ text: string; expression: DateExpression; confidence?: number }>,
+  referenceDate: Date,
+): Promise<Record<number, Record<string, string>>> {
+  const years = new Set<number>();
+  for (const expression of expressions) {
+    collectHolidayContextYears(
+      expression.expression,
+      referenceDate.getFullYear(),
+      years,
+    );
+  }
+
+  const holidaysByYear: Record<number, Record<string, string>> = {};
+  for (const year of years) {
+    holidaysByYear[year] = await getHolidays(year);
+  }
+  return holidaysByYear;
 }
 
 /**
@@ -58,6 +130,7 @@ async function buildResponse(
   expressions: Array<{ text: string; expression: DateExpression; confidence?: number }>,
   req: ExtractRequest,
   referenceDate: Date,
+  contextDate: Date | undefined,
   timezone: string,
   path: ExtractionPath,
   latencyBreakdown: LatencyBreakdown,
@@ -67,18 +140,14 @@ async function buildResponse(
 ): Promise<ExtractResponse> {
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
   const userSpecifiedModes = req.outputModes !== undefined;
-  const refYear = referenceDate.getFullYear();
-  const holidaysByYear: Record<number, Record<string, string>> = {};
-  for (const y of [refYear - 1, refYear, refYear + 1]) {
-    holidaysByYear[y] = await getHolidays(y);
-  }
+  const holidaysByYear = await loadHolidayContext(expressions, referenceDate);
   const ctx = {
     referenceDate,
     timezone,
     ambiguityStrategy: req.ambiguityStrategy,
     fiscalYearStart: req.fiscalYearStart,
     weekStartsOn: req.weekStartsOn,
-    contextDate: req.contextDate ? parseReferenceDate(req.contextDate) : undefined,
+    contextDate,
     defaultMeridiem: req.defaultMeridiem,
     timePeriodBounds: req.timePeriodBounds,
     monthBoundaryMode: req.monthBoundaryMode,
@@ -149,11 +218,15 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
   const breakdown: LatencyBreakdown = {};
 
   const timezone = req.timezone ?? "Asia/Seoul";
+  assertValidTimezone(timezone);
   const locale = req.locale ?? "auto";
   const enableLLM = req.enableLLM ?? false;
   const referenceDateIso =
     req.referenceDate ?? formatInTimeZone(new Date(), timezone, "yyyy-MM-dd");
-  const referenceDate = parseReferenceDate(referenceDateIso);
+  const referenceDate = parseReferenceDate(referenceDateIso, "referenceDate");
+  const contextDate = req.contextDate
+    ? parseReferenceDate(req.contextDate, "contextDate")
+    : undefined;
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
 
   // 0. 캐시 조회
@@ -163,8 +236,10 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     referenceDate: referenceDateIso,
     timezone,
     locale,
-    outputModes: outputModes.join(","),
+    outputModes,
     enableLLM,
+    forceLLM: req.forceLLM === true,
+    defaultToToday: req.defaultToToday ?? false,
     ambiguityStrategy: req.ambiguityStrategy ?? "past",
     fiscalYearStart: req.fiscalYearStart ?? 1,
     weekStartsOn: req.weekStartsOn ?? 1,
@@ -174,9 +249,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     dateOnlyForDateModes: req.dateOnlyForDateModes ?? true,
     monthBoundaryMode: req.monthBoundaryMode ?? "single",
     fuzzyDayWindow: req.fuzzyDayWindow ?? 3,
-    timePeriodBounds: req.timePeriodBounds
-      ? JSON.stringify(req.timePeriodBounds)
-      : "",
+    timePeriodBounds: req.timePeriodBounds ?? null,
   };
   const cached = cacheGet(cacheKey);
   breakdown.cache = now() - cacheStart;
@@ -291,6 +364,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
     expressions,
     req,
     referenceDate,
+    contextDate,
     timezone,
     path,
     breakdown,

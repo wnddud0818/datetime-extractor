@@ -15,6 +15,7 @@ import {
   startOfYear,
   format,
   parseISO,
+  isValid,
 } from "date-fns";
 import type {
   DateExpression,
@@ -35,6 +36,8 @@ import type {
   TimePeriod,
   TimePeriodBounds,
 } from "../types.js";
+import type { ExtractValidationField } from "../errors.js";
+import { ExtractValidationError } from "../errors.js";
 import { KOREAN_NUMERAL_OFFSETS, isDirectionalNumeral } from "./named.js";
 import { resolveAmbiguity } from "./ambiguity.js";
 import {
@@ -1140,9 +1143,20 @@ function enumerateDays(start: Date, end: Date): string[] {
   return out;
 }
 
-export function parseReferenceDate(iso?: string): Date {
+export function parseReferenceDate(
+  iso?: string,
+  field: ExtractValidationField = "referenceDate",
+): Date {
   if (!iso) return new Date();
-  return parseISO(iso);
+  const parsed = parseISO(iso);
+  if (!isValid(parsed)) {
+    throw new ExtractValidationError(
+      field,
+      iso,
+      `Invalid ${field}: expected a valid ISO date string, received "${iso}".`,
+    );
+  }
+  return parsed;
 }
 
 export function computeTemporality(

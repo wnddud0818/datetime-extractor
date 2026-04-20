@@ -7,6 +7,8 @@ import {
   cacheClear,
   cacheSize,
   warmUp,
+  ExtractValidationError,
+  HolidayDataUnavailableError,
 } from "../src/index.js";
 import type { ExtractRequest } from "../src/types.js";
 
@@ -28,6 +30,14 @@ app.post("/api/extract", async (req, res) => {
     res.json(result);
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    if (e instanceof ExtractValidationError) {
+      res.status(400).json({ error: msg, code: e.code, field: e.field });
+      return;
+    }
+    if (e instanceof HolidayDataUnavailableError) {
+      res.status(503).json({ error: msg, code: e.code, year: e.year });
+      return;
+    }
     res.status(500).json({ error: msg });
   }
 });

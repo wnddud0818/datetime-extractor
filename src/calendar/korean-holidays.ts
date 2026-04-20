@@ -3,6 +3,7 @@ import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
 import { XMLParser } from "fast-xml-parser";
+import { HolidayDataUnavailableError } from "../errors.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -102,7 +103,10 @@ export async function getHolidays(year: number): Promise<YearHolidays> {
   }
 
   const bundle = loadFallback();
-  const fallback = bundle[String(year)] ?? {};
+  const fallback = bundle[String(year)];
+  if (!fallback) {
+    throw new HolidayDataUnavailableError(year);
+  }
   memoryCache.set(year, fallback);
   return fallback;
 }

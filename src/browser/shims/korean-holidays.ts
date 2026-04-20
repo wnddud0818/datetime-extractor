@@ -1,4 +1,5 @@
 import fallbackBundle from "../../calendar/holidays-fallback.json";
+import { HolidayDataUnavailableError } from "../../errors.js";
 
 type YearHolidays = Record<string, string>;
 type HolidayBundle = Record<string, YearHolidays>;
@@ -27,6 +28,11 @@ function writeStorage(year: number, data: YearHolidays): void {
 }
 
 export async function getHolidays(year: number): Promise<YearHolidays> {
+  const bundled = bundle[String(year)];
+  if (!bundled) {
+    throw new HolidayDataUnavailableError(year);
+  }
+
   if (memoryCache.has(year)) {
     return memoryCache.get(year)!;
   }
@@ -37,7 +43,6 @@ export async function getHolidays(year: number): Promise<YearHolidays> {
     return cached;
   }
 
-  const bundled = bundle[String(year)] ?? {};
   memoryCache.set(year, bundled);
   writeStorage(year, bundled);
   return bundled;
