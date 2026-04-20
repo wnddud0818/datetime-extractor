@@ -363,6 +363,33 @@ async function runEvalSuite(cliArgs: string[]): Promise<void> {
     return ymd(new Date(year, month - 1, day));
   }
 
+  function monthConnectorRange(
+    ref: Date,
+    startMonth: number,
+    endMonth: number,
+  ): { start: string; end: string } {
+    const resolvedStart = monthOnlyPast(startMonth, ref);
+    const startYear = Number(resolvedStart.start.slice(0, 4));
+    const endYear = endMonth < startMonth ? startYear + 1 : startYear;
+    return {
+      start: monthRange(startYear, startMonth).start,
+      end: monthRange(endYear, endMonth).end,
+    };
+  }
+
+  function yearOffsetMonthConnectorRange(
+    ref: Date,
+    yearOffset: number,
+    startMonth: number,
+    endMonth: number,
+  ): { start: string; end: string } {
+    const year = ref.getFullYear() + yearOffset;
+    return {
+      start: monthRange(year, startMonth).start,
+      end: monthRange(year, endMonth).end,
+    };
+  }
+
   function quarterRangeCurrentYear(
     ref: Date,
     quarter: 1 | 2 | 3 | 4,
@@ -1211,6 +1238,110 @@ async function runEvalSuite(cliArgs: string[]): Promise<void> {
           `${ref.getFullYear()}-05-31`,
         ),
       }),
+    },
+    {
+      key: "edge_connector_month_span_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = monthConnectorRange(ref, 1, 3);
+        return {
+          text: "1월부터 3월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_month_span_q4",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = monthConnectorRange(ref, 10, 12);
+        return {
+          text: "10월부터 12월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_this_week_monday_to_friday",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => ({
+        text: "이번주 월요일부터 금요일까지",
+        outputModes: ["range"],
+        expected: rangeExpression(
+          ymd(nthWeekdayInOffsetWeek(ref, 0, 1)),
+          ymd(nthWeekdayInOffsetWeek(ref, 0, 5)),
+        ),
+      }),
+    },
+    {
+      key: "edge_connector_today_to_next_week",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const nextWeek = weekOffsetRange(ref, 1);
+        return {
+          text: "오늘부터 다음주까지",
+          outputModes: ["range"],
+          expected: rangeExpression(ymd(ref), nextWeek.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_last_year_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = yearOffsetMonthConnectorRange(ref, -1, 1, 3);
+        return {
+          text: "작년 1월부터 3월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_previous_year_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = yearOffsetMonthConnectorRange(ref, -1, 1, 3);
+        return {
+          text: "지난해 1월부터 3월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_prior_year_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = yearOffsetMonthConnectorRange(ref, -1, 1, 3);
+        return {
+          text: "전년 1월부터 3월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
+    },
+    {
+      key: "edge_connector_last_year_alias_q1",
+      suite: "default",
+      category: "J.edge",
+      build: (ref) => {
+        const resolved = yearOffsetMonthConnectorRange(ref, -1, 1, 3);
+        return {
+          text: "지난년도 1월부터 3월까지",
+          outputModes: ["range"],
+          expected: rangeExpression(resolved.start, resolved.end),
+        };
+      },
     },
     {
       key: "edge_month_end",

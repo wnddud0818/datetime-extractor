@@ -29,6 +29,18 @@ describe("range connectors", () => {
         value: { start: "2025-10-01", end: "2025-12-31" },
       },
     ]);
+
+    const edgeRefResult = await extract({
+      text: "10월부터 12월까지",
+      referenceDate: "2025-11-17",
+      outputModes: ["range"],
+    });
+    expect(edgeRefResult.expressions[0].results).toEqual([
+      {
+        mode: "range",
+        value: { start: "2025-10-01", end: "2025-12-31" },
+      },
+    ]);
   });
 
   it("이번주 월요일부터 금요일까지 → same-week weekday range", async () => {
@@ -113,5 +125,54 @@ describe("range connectors", () => {
         value: { start: "2026-01-01", end: "2026-03-31" },
       },
     ]);
+
+    const edgeRefResult = await extract({
+      text: "1월부터 3월까지",
+      referenceDate: "2025-01-10",
+      outputModes: ["range"],
+    });
+    expect(edgeRefResult.expressions[0].results).toEqual([
+      {
+        mode: "range",
+        value: { start: "2025-01-01", end: "2025-03-31" },
+      },
+    ]);
+  });
+
+  it("연도 prefix가 붙은 1월부터 3월까지 → 같은 연도 범위로 고정", async () => {
+    const cases = [
+      "작년 1월부터 3월까지",
+      "지난해 1월부터 3월까지",
+      "전년 1월부터 3월까지",
+      "지난년도 1월부터 3월까지",
+    ];
+
+    for (const text of cases) {
+      const parsed = runRules(text);
+      expect(parsed.confidence).toBe(1.0);
+      expect(parsed.expressions).toEqual([
+        {
+          text,
+          expression: {
+            kind: "range",
+            start: { kind: "absolute", yearOffset: -1, month: 1 },
+            end: { kind: "absolute", yearOffset: -1, month: 3 },
+          },
+        },
+      ]);
+
+      const result = await extract({
+        text,
+        referenceDate: "2026-04-20",
+        outputModes: ["range"],
+      });
+      expect(result.hasDate).toBe(true);
+      expect(result.expressions[0].results).toEqual([
+        {
+          mode: "range",
+          value: { start: "2025-01-01", end: "2025-03-31" },
+        },
+      ]);
+    }
   });
 });
