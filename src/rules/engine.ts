@@ -4,11 +4,56 @@ import {
   resolveOverlaps,
   hasResidualDateContent,
   KOREAN_DATE_RESIDUAL_KEYWORDS,
+  type Match,
 } from "./patterns.js";
 import {
   findMatchesEn,
   ENGLISH_DATE_RESIDUAL_KEYWORDS,
 } from "./patterns-en.js";
+
+/**
+ * resolveOverlaps 이후 인접 매치 사이에 "부터~까지" 연결어가 있으면
+ * 두 매치를 단일 RangeExpression으로 병합한다.
+ */
+function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
+  if (matches.length < 2) return matches;
+  const result: Match[] = [];
+  let i = 0;
+  while (i < matches.length) {
+    const a = matches[i];
+    const b = matches[i + 1];
+    if (b !== undefined) {
+      const between = text.slice(a.end, b.start);
+      const afterB = text.slice(b.end, b.end + 6);
+      const isConnector = /^\s*부터\s*$/.test(between) || /^\s*에서\s*$/.test(between);
+      const kajiMatch = /^\s*까지/.exec(afterB);
+      if (isConnector && kajiMatch) {
+        const rangeEnd = b.end + kajiMatch[0].length;
+        let endExpr = b.expression;
+        // 이번주 월요일부터 금요일까지: 단독 요일을 시작 표현의 주 offset으로 맞춤
+        if (
+          a.expression.kind === "weekday_in_week" &&
+          b.expression.kind === "weekday_in_week" &&
+          b.expression.nearest
+        ) {
+          endExpr = { kind: "weekday_in_week", weekOffset: a.expression.weekOffset, weekday: b.expression.weekday };
+        }
+        result.push({
+          text: text.slice(a.start, rangeEnd),
+          start: a.start,
+          end: rangeEnd,
+          expression: { kind: "range", start: a.expression, end: endExpr },
+          priority: Math.max(a.priority, b.priority) + 1,
+        });
+        i += 2;
+        continue;
+      }
+    }
+    result.push(a);
+    i++;
+  }
+  return result;
+}
 
 export interface RuleResult {
   expressions: Array<{ text: string; expression: DateExpression }>;
@@ -32,7 +77,7 @@ export function runRules(
       : locale === "ko"
         ? KOREAN_DATE_RESIDUAL_KEYWORDS
         : ENGLISH_DATE_RESIDUAL_KEYWORDS;
-  const resolved = resolveOverlaps(all);
+  const resolved = mergeRangeConnectors(text, resolveOverlaps(all));
   const expressions = resolved.map((m) => ({
     text: m.text,
     expression: m.expression,

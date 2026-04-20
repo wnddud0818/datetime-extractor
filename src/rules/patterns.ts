@@ -324,6 +324,25 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 1a. 2자리 연도 구분자 날짜 (99-05-12, 98/08/18, 99.05.12)
+  //     00~49 → 2000~2049, 50~99 → 1950~1999
+  {
+    const re = /(?<!\d)(\d{2})[-./](\d{1,2})[-./](\d{1,2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yy = Number(m[1]);
+      const mo = Number(m[2]);
+      const dd = Number(m[3]);
+      if (mo < 1 || mo > 12 || dd < 1 || dd > 31) continue;
+      const year = yy >= 50 ? 1900 + yy : 2000 + yy;
+      out.push({
+        text: m[0], start: m.index, end: m.index + m[0].length,
+        expression: { kind: "absolute", year, month: mo, day: dd },
+        priority: 95,
+      });
+    }
+  }
+
   // 1b. 구분자 없는 YYYYMMDD (20250412). month/day 범위 엄격 검증으로 오탐 억제.
   {
     const re = /(?<!\d)(\d{4})(\d{2})(\d{2})(?!\d)/g;
@@ -343,6 +362,25 @@ export function findMatchesKo(text: string): Match[] {
           day: d,
         },
         priority: 97,
+      });
+    }
+  }
+
+  // 1b-2. 구분자 없는 YYMMDD (990512). month/day 범위 검증.
+  //       00~49 → 2000~2049, 50~99 → 1950~1999
+  {
+    const re = /(?<!\d)(\d{2})(\d{2})(\d{2})(?!\d)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yy = Number(m[1]);
+      const mo = Number(m[2]);
+      const dd = Number(m[3]);
+      if (mo < 1 || mo > 12 || dd < 1 || dd > 31) continue;
+      const year = yy >= 50 ? 1900 + yy : 2000 + yy;
+      out.push({
+        text: m[0], start: m.index, end: m.index + m[0].length,
+        expression: { kind: "absolute", year, month: mo, day: dd },
+        priority: 90,
       });
     }
   }
@@ -388,6 +426,25 @@ export function findMatchesKo(text: string): Match[] {
       });
     }
   }
+  // 2a. 2자리 연도 한국어 연월일 (99년05월12일, 98년 8월 18일)
+  //     00~49 → 2000~2049, 50~99 → 1950~1999
+  {
+    const re = /(?<!\d)(\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const yy = Number(m[1]);
+      const mo = Number(m[2]);
+      const dd = Number(m[3]);
+      if (mo < 1 || mo > 12 || dd < 1 || dd > 31) continue;
+      const year = yy >= 50 ? 1900 + yy : 2000 + yy;
+      out.push({
+        text: m[0], start: m.index, end: m.index + m[0].length,
+        expression: { kind: "absolute", year, month: mo, day: dd },
+        priority: 98,
+      });
+    }
+  }
+
   {
     const re = /(?<!\d)(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
     let m: RegExpExecArray | null;
