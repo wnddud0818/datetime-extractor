@@ -279,6 +279,10 @@ export function tryAttachTime(
 const WEEK_OF_MONTH_RE_SRC =
   "(?:(?:첫째?|둘째|셋째|넷째|다섯째)\\s*주|[1-5]\\s*주\\s*차|(?:[1-5]|첫|두|세|네|다섯)\\s*번\\s*째\\s*주)";
 
+// "둘째 화요일", "2번째 수요일"처럼 "주" 없이 바로 요일이 붙는 서수 표현.
+const NTH_OF_MONTH_RE_SRC =
+  "(?:(?:첫째?|둘째|셋째|넷째|다섯째)|[1-5]\\s*번째|(?:[1-5]|첫|두|세|네|다섯)\\s*번\\s*째)";
+
 // 한국어 요일 alternation (full + 욜 축약). parseKoWeekday로 JS getDay 값 매핑.
 const KO_WEEKDAY_ALT =
   "일요일|월요일|화요일|수요일|목요일|금요일|토요일|일욜|월욜|화욜|수욜|목욜|금욜|토욜";
@@ -295,14 +299,19 @@ function parseKoWeekday(raw: string): number | undefined {
   return undefined;
 }
 
-function parseWeekOfMonth(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
+function parseOrdinalOccurrence(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
   const s = raw.replace(/\s+/g, "");
-  if (s === "첫주" || s === "첫째주" || s === "1주차" || s === "첫번째주" || s === "1번째주") return 1;
-  if (s === "둘째주" || s === "2주차" || s === "두번째주" || s === "2번째주") return 2;
-  if (s === "셋째주" || s === "3주차" || s === "세번째주" || s === "3번째주") return 3;
-  if (s === "넷째주" || s === "4주차" || s === "네번째주" || s === "4번째주") return 4;
-  if (s === "다섯째주" || s === "5주차" || s === "다섯번째주" || s === "5번째주") return 5;
+  if (s === "첫" || s === "1" || s === "첫째" || s === "첫번째" || s === "1번째") return 1;
+  if (s === "둘째" || s === "2" || s === "두번째" || s === "2번째") return 2;
+  if (s === "셋째" || s === "3" || s === "세번째" || s === "3번째") return 3;
+  if (s === "넷째" || s === "4" || s === "네번째" || s === "4번째") return 4;
+  if (s === "다섯째" || s === "5" || s === "다섯번째" || s === "5번째") return 5;
   return undefined;
+}
+
+function parseWeekOfMonth(raw: string): 1 | 2 | 3 | 4 | 5 | undefined {
+  const normalized = raw.replace(/\s+/g, "").replace(/주(?:차)?$/, "");
+  return parseOrdinalOccurrence(normalized);
 }
 
 /**
@@ -509,13 +518,13 @@ export function findMatchesKo(text: string): Match[] {
   // 2b-day. YYYY년 M월 N주차 + 요일 → 단일 날짜 (priority 96 > 2b의 93)
   {
     const re = new RegExp(
-      `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*(${KO_WEEKDAY_ALT})`,
+      `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월\\s*(?:(${WEEK_OF_MONTH_RE_SRC})|(${NTH_OF_MONTH_RE_SRC}))\\s*(${KO_WEEKDAY_ALT})`,
       "g",
     );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const wk = parseWeekOfMonth(m[3]);
-      const wd = parseKoWeekday(m[4]);
+      const wk = parseWeekOfMonth(m[3] ?? m[4]);
+      const wd = parseKoWeekday(m[5]);
       if (!wk || wd === undefined) continue;
       const base: Match = {
         text: m[0],
@@ -569,13 +578,13 @@ export function findMatchesKo(text: string): Match[] {
   // 2c-day. M월 N주차 + 요일 → 단일 날짜 (priority 91 > 2c의 88). 연도 없음 → 2c와 동일하게 baseYear.
   {
     const re = new RegExp(
-      `(?<!\\d)(\\d{1,2})\\s*월\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*(${KO_WEEKDAY_ALT})`,
+      `(?<!\\d)(\\d{1,2})\\s*월\\s*(?:(${WEEK_OF_MONTH_RE_SRC})|(${NTH_OF_MONTH_RE_SRC}))\\s*(${KO_WEEKDAY_ALT})`,
       "g",
     );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const wk = parseWeekOfMonth(m[2]);
-      const wd = parseKoWeekday(m[3]);
+      const wk = parseWeekOfMonth(m[2] ?? m[3]);
+      const wd = parseKoWeekday(m[4]);
       if (!wk || wd === undefined) continue;
       const base: Match = {
         text: m[0],
@@ -1346,10 +1355,10 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
-  // 17. 최근/지난 N 일/주/개월/달/년 (간|동안|내) — duration
+  // 17. 최근/지난/저번/직전 N 일/주/개월/달/년 (간|동안|내) — duration
   {
     const re = new RegExp(
-      `(최근|지난|요)?\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)\\s*(간|동안|내|째)`,
+      `(최근|지난|저번|직전|요)?\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)\\s*(간|동안|내|째)`,
       "g",
     );
     let m: RegExpExecArray | null;
@@ -1367,6 +1376,44 @@ export function findMatchesKo(text: string): Match[] {
         end: m.index + m[0].length,
         expression: { kind: "duration", unit, amount, direction: "past" },
         priority: 83,
+      });
+    }
+  }
+
+  // 17a. N년 반 / N달 반 (간|동안|내) — duration
+  {
+    const re = new RegExp(
+      `(${KOREAN_COUNT_RE_SRC})\\s*(년|해|개월|달)\\s*반\\s*(간|동안|내)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const whole = parseKoreanCountNumeral(m[1]);
+      if (whole === undefined) continue;
+      const unitWord = m[2];
+      const unit: "month" | "year" =
+        unitWord === "년" || unitWord === "해" ? "year" : "month";
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit, amount: whole + 0.5, direction: "past" },
+        priority: 84,
+      });
+    }
+  }
+
+  // 17a-2. 반년 (간|동안|내) — duration 6개월
+  {
+    const re = /반\s*년\s*(간|동안|내)/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit: "year", amount: 0.5, direction: "past" },
+        priority: 84,
       });
     }
   }
@@ -1404,9 +1451,9 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
-  // 17c. 최근/지난 + 일주일/한 주/한 달/한 해 (기간; 시작=N 전, 끝=오늘)
+  // 17c. 최근/지난/저번/직전 + 일주일/한 주/한 달/한 해 (기간; 시작=N 전, 끝=오늘)
   {
-    const re = /(최근|지난)\s*(일주일|한\s*주|한\s*달|한\s*해|일\s*년)(?!\s*(전|뒤|후))/g;
+    const re = /(최근|지난|저번|직전)\s*(일주일|한\s*주|한\s*달|한\s*해|일\s*년)(?!\s*(전|뒤|후))/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const word = m[2].replace(/\s+/g, "");
@@ -1432,10 +1479,10 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
-  // 17d. 최근/지난 + N일/N주/N개월/N년 (간|동안 suffix 없이도 duration으로 해석)
+  // 17d. 최근/지난/저번/직전 + N일/N주/N개월/N년 (간|동안 suffix 없이도 duration으로 해석)
   {
     const re = new RegExp(
-      `(최근|지난)\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)(?!\\s*(전|뒤|후))`,
+      `(최근|지난|저번|직전)\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)(?!\\s*(전|뒤|후))`,
       "g",
     );
     let m: RegExpExecArray | null;
@@ -1454,6 +1501,35 @@ export function findMatchesKo(text: string): Match[] {
         expression: { kind: "duration", unit, amount, direction: "past" },
         priority: 84,
       });
+    }
+  }
+
+  // 17e. 작년/올해/내년 + 한 해 (동안/간/내) — 해당 연도 전체
+  {
+    const YEAR_PREFIXES: Array<{ word: string; yearOffset: number }> = [
+      { word: "재작년", yearOffset: -2 },
+      { word: "제작년", yearOffset: -2 },
+      { word: "지난해", yearOffset: -1 },
+      { word: "작년", yearOffset: -1 },
+      { word: "전년도", yearOffset: -1 },
+      { word: "전년", yearOffset: -1 },
+      { word: "올해", yearOffset: 0 },
+      { word: "금년", yearOffset: 0 },
+      { word: "내년", yearOffset: 1 },
+      { word: "후년", yearOffset: 2 },
+    ];
+    for (const { word, yearOffset } of YEAR_PREFIXES) {
+      const re = new RegExp(`${word}\\s*(?:한\\s*해|한해)(?:\\s*(?:간|동안|내))?`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        out.push({
+          text: m[0],
+          start: m.index,
+          end: m.index + m[0].length,
+          expression: { kind: "absolute", yearOffset },
+          priority: 90,
+        });
+      }
     }
   }
 
@@ -1886,7 +1962,8 @@ export function findMatchesKo(text: string): Match[] {
   }
 
   // 20f-day. (이번|지난|다음|...) 달 + N주차 + 요일 (단일 날짜)
-  //      "이달 둘째주 금요일", "이번달 셋째주 수욜", "다음달 1주차 월요일" 등.
+  //      "이달 둘째주 금요일", "이번달 셋째주 수욜", "다음달 1주차 월요일",
+  //      "이번달 둘째 화요일", "다음 달 첫째 목요일" 등.
   {
     const MONTH_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "지지난\\s*달", offset: -2 },
@@ -1916,12 +1993,12 @@ export function findMatchesKo(text: string): Match[] {
     for (const { word, offset } of MONTH_PREFIXES) {
       for (const { word: dw, weekday } of KO_WEEKDAYS_LOCAL) {
         const re = new RegExp(
-          `${word}\\s*(${WEEK_OF_MONTH_RE_SRC})\\s*${dw}`,
+          `${word}\\s*(?:(${WEEK_OF_MONTH_RE_SRC})|(${NTH_OF_MONTH_RE_SRC}))\\s*${dw}`,
           "g",
         );
         let m: RegExpExecArray | null;
         while ((m = re.exec(text))) {
-          const wk = parseWeekOfMonth(m[1]);
+          const wk = parseWeekOfMonth(m[1] ?? m[2]);
           if (!wk) continue;
           out.push({
             text: m[0],

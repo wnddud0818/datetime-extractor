@@ -87,6 +87,22 @@ export interface ResolveContext {
   holidaysByYear?: Record<number, Record<string, unknown>>;
 }
 
+function addMonthsWithFraction(date: Date, amount: number): Date {
+  const wholeMonths = Math.trunc(amount);
+  const fractionalMonths = amount - wholeMonths;
+  let shifted = addMonths(date, wholeMonths);
+  if (fractionalMonths !== 0) {
+    // "반 달"은 달력 월 길이와 별도로 15일로 해석한다.
+    shifted = addDays(shifted, Math.round(fractionalMonths * 30));
+  }
+  return shifted;
+}
+
+function addYearsWithFraction(date: Date, amount: number): Date {
+  if (Number.isInteger(amount)) return addYears(date, amount);
+  return addMonthsWithFraction(date, amount * 12);
+}
+
 function lunarToSolar(
   year: number,
   month: number,
@@ -499,10 +515,10 @@ function resolveDuration(
       other = addWeeks(ref, amt);
       break;
     case "month":
-      other = addMonths(ref, amt);
+      other = addMonthsWithFraction(ref, amt);
       break;
     case "year":
-      other = addYears(ref, amt);
+      other = addYearsWithFraction(ref, amt);
       break;
   }
   const start = expr.direction === "past" ? other : ref;

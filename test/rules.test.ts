@@ -353,6 +353,52 @@ describe("rules engine", () => {
     });
   });
 
+  it("1년 반동안 → duration year amount=1.5", () => {
+    const r = runRules("1년 반동안");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "year",
+      amount: 1.5,
+      direction: "past",
+    });
+  });
+
+  it("두달 반동안 → duration month amount=2.5", () => {
+    const r = runRules("두달 반동안");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "month",
+      amount: 2.5,
+      direction: "past",
+    });
+  });
+
+  it("작년 한해동안 → absolute yearOffset=-1", () => {
+    const r = runRules("작년 한해동안");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      yearOffset: -1,
+    });
+  });
+
+  it("저번 한달동안 / 직전한달 → duration month amount=1", () => {
+    for (const text of ["저번 한달동안", "직전한달"]) {
+      const r = runRules(text);
+      expect(r.confidence).toBe(1.0);
+      expect(r.expressions).toHaveLength(1);
+      expect(r.expressions[0].expression).toEqual({
+        kind: "duration",
+        unit: "month",
+        amount: 1,
+        direction: "past",
+      });
+    }
+  });
+
   it("사개월/오개월/육개월/칠개월/팔개월/구개월 전 → month relative를 모두 지원", () => {
     const cases: Array<[string, number]> = [
       ["사개월전", -4],
@@ -514,6 +560,29 @@ describe("rules engine", () => {
       kind: "absolute",
       monthOffset: 1,
       weekOfMonth: 2,
+    });
+  });
+
+  it("이번달 둘째 화요일 → monthOffset=0, weekOfMonth=2, weekday=2", () => {
+    const r = runRules("이번달 둘째 화요일 회의");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      weekOfMonth: 2,
+      weekday: 2,
+    });
+  });
+
+  it("3월 둘째 화요일 → absolute month + weekOfMonth + weekday", () => {
+    const r = runRules("3월 둘째 화요일");
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "absolute",
+      month: 3,
+      weekOfMonth: 2,
+      weekday: 2,
     });
   });
 
