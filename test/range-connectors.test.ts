@@ -139,6 +139,80 @@ describe("range connectors", () => {
     ]);
   });
 
+  it("explicit symbolic day ranges → merge into a single range", async () => {
+    const cases = [
+      {
+        text: "2025-04-12 ~ 2025-05-15",
+        expectedText: "2025-04-12 ~ 2025-05-15",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+      {
+        text: "2025-04-12~2025-05-15",
+        expectedText: "2025-04-12~2025-05-15",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+      {
+        text: "2025/04/12 ~ 2025/05/15",
+        expectedText: "2025/04/12 ~ 2025/05/15",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+      {
+        text: "2025.04.12 ~ 2025.05.15",
+        expectedText: "2025.04.12 ~ 2025.05.15",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+      {
+        text: "20250412~20250515",
+        expectedText: "20250412~20250515",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+      {
+        text: "25-04-12 ~ 25-05-15",
+        expectedText: "25-04-12 ~ 25-05-15",
+        expected: { start: "2025-04-12", end: "2025-05-15" },
+      },
+    ] as const;
+
+    for (const { text, expectedText, expected } of cases) {
+      const parsed = runRules(text);
+      expect(parsed.confidence).toBe(1.0);
+      expect(parsed.residualText).toBe("");
+      expect(parsed.expressions).toEqual([
+        {
+          text: expectedText,
+          expression: {
+            kind: "range",
+            start: {
+              kind: "absolute",
+              year: Number(expected.start.slice(0, 4)),
+              month: Number(expected.start.slice(5, 7)),
+              day: Number(expected.start.slice(8, 10)),
+            },
+            end: {
+              kind: "absolute",
+              year: Number(expected.end.slice(0, 4)),
+              month: Number(expected.end.slice(5, 7)),
+              day: Number(expected.end.slice(8, 10)),
+            },
+          },
+        },
+      ]);
+
+      const result = await extract({
+        text,
+        referenceDate: "2026-04-20",
+        outputModes: ["range"],
+      });
+      expect(result.hasDate).toBe(true);
+      expect(result.expressions[0].results).toEqual([
+        {
+          mode: "range",
+          value: expected,
+        },
+      ]);
+    }
+  });
+
   it("1~2월 → shorthand month range", async () => {
     const parsed = runRules("1~2월 거래내역 알려줘");
     expect(parsed.confidence).toBe(1.0);

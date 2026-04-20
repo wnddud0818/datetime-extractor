@@ -51,6 +51,12 @@ function canStartDurationRange(expr: DateExpression): boolean {
   );
 }
 
+function isAbsoluteDayLevel(
+  expr: DateExpression,
+): expr is Extract<DateExpression, { kind: "absolute" }> {
+  return expr.kind === "absolute" && expr.day !== undefined;
+}
+
 /**
  * resolveOverlaps 이후 인접 매치 사이에 "부터~까지" 연결어가 있으면
  * 두 매치를 단일 RangeExpression으로 병합한다.
@@ -66,6 +72,7 @@ function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
       const between = text.slice(a.end, b.start);
       const afterB = text.slice(b.end, b.end + 6);
       const isConnector = /^\s*부터\s*$/.test(between) || /^\s*에서\s*$/.test(between);
+      const isSymbolicConnector = /^\s*(?:~|〜|～|-|–)\s*$/.test(between);
       if (
         isConnector &&
         canStartDurationRange(a.expression) &&
@@ -82,6 +89,25 @@ function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
               unit: b.expression.unit,
               amount: b.expression.amount,
             },
+          },
+          priority: Math.max(a.priority, b.priority) + 1,
+        });
+        i += 2;
+        continue;
+      }
+      if (
+        isSymbolicConnector &&
+        isAbsoluteDayLevel(a.expression) &&
+        isAbsoluteDayLevel(b.expression)
+      ) {
+        result.push({
+          text: text.slice(a.start, b.end),
+          start: a.start,
+          end: b.end,
+          expression: {
+            kind: "range",
+            start: a.expression,
+            end: inheritAbsoluteContext(a.expression, b.expression),
           },
           priority: Math.max(a.priority, b.priority) + 1,
         });

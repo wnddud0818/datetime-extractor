@@ -1254,6 +1254,66 @@ async function runEvalSuite(cliArgs: string[]): Promise<void> {
       }),
     },
     {
+      key: "edge_symbolic_explicit_day_range_iso_spaced",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "2025-04-12 ~ 2025-05-15",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
+      key: "edge_symbolic_explicit_day_range_iso_compact",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "2025-04-12~2025-05-15",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
+      key: "edge_symbolic_explicit_day_range_slash",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "2025/04/12 ~ 2025/05/15",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
+      key: "edge_symbolic_explicit_day_range_dot",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "2025.04.12 ~ 2025.05.15",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
+      key: "edge_symbolic_explicit_day_range_compact_digits",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "20250412~20250515",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
+      key: "edge_symbolic_explicit_day_range_short_year",
+      suite: "default",
+      category: "J.edge",
+      build: () => ({
+        text: "25-04-12 ~ 25-05-15",
+        outputModes: ["range"],
+        expected: rangeExpression("2025-04-12", "2025-05-15"),
+      }),
+    },
+    {
       key: "edge_connector_month_span_q1",
       suite: "default",
       category: "J.edge",
@@ -5137,6 +5197,12 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     { id: 58, category: "6.range", text: "2026년 2월 1일부터 7일까지 휴가", mode: "range", expectedRanges: [explicitRange(2026, 2, 1, 2026, 2, 7)] },
     { id: 59, category: "6.range", text: "2026년 11월 29일부터 12월 3일까지", mode: "range", expectedRanges: [explicitRange(2026, 11, 29, 2026, 12, 3)] },
     { id: 60, category: "6.range", text: "2025년 1월 1일부터 2025년 12월 31일까지", mode: "range", expectedRanges: [explicitRange(2025, 1, 1, 2025, 12, 31)] },
+    { id: 403, category: "6.range", text: "2025-04-12 ~ 2025-05-15 예약 현황 보여줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
+    { id: 404, category: "6.range", text: "2025-04-12~2025-05-15 주문 데이터 보여줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
+    { id: 405, category: "6.range", text: "2025/04/12 ~ 2025/05/15 결제 내역 조회해줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
+    { id: 406, category: "6.range", text: "2025.04.12 ~ 2025.05.15 일정 비교해줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
+    { id: 407, category: "6.range", text: "20250412~20250515 로그 찾아줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
+    { id: 408, category: "6.range", text: "25-04-12 ~ 25-05-15 휴가 기록 보여줘", mode: "range", expectedRanges: [explicitRange(2025, 4, 12, 2025, 5, 15)] },
 
     // 7. 기간 일부 / 분기 / 반기
     { id: 61, category: "7.parts", text: "이번달 초 매출", mode: "range", expectedRanges: [monthPartRange(2026, 4, "start")] },
