@@ -342,6 +342,17 @@ describe("rules engine", () => {
     });
   });
 
+  it("2년 3개월전 → relative month offset=-27 singleDay", () => {
+    const r = runRules("2년 3개월전");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "month",
+      offset: -27,
+      singleDay: true,
+    });
+  });
+
   it("최근 삼개월 → duration month amount=3", () => {
     const r = runRules("최근 삼개월 매출");
     expect(r.confidence).toBe(1.0);
@@ -349,6 +360,17 @@ describe("rules engine", () => {
       kind: "duration",
       unit: "month",
       amount: 3,
+      direction: "past",
+    });
+  });
+
+  it("1년 2개월간 → duration month amount=14", () => {
+    const r = runRules("1년 2개월간");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "month",
+      amount: 14,
       direction: "past",
     });
   });

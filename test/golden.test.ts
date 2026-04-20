@@ -209,6 +209,7 @@ describe("golden dataset (rule-path end-to-end)", () => {
 
   it("반 단위와 변형 기간 표현도 안정적으로 추출된다", async () => {
     const cases: Array<[string, { start: string; end: string }]> = [
+      ["1년 2개월간", { start: "2025-02-17", end: "2026-04-17" }],
       ["1년 반동안", { start: "2024-10-17", end: "2026-04-17" }],
       ["두달 반동안", { start: "2026-02-02", end: "2026-04-17" }],
       ["작년 한해동안", { start: "2025-01-01", end: "2025-12-31" }],
@@ -227,6 +228,18 @@ describe("golden dataset (rule-path end-to-end)", () => {
       expect(r.expressions).toHaveLength(1);
       expect(r.expressions[0].results.find((result) => result.mode === "range")?.value).toEqual(expected);
     }
+  });
+
+  it("연+월 복합 상대 시점도 단일 날짜로 추출된다", async () => {
+    cacheClear();
+    const r = await extract({
+      text: "2년 3개월전",
+      referenceDate: "2026-04-17",
+      outputModes: ["single"],
+    });
+    expect(r.hasDate).toBe(true);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].results.find((result) => result.mode === "single")?.value).toBe("2024-01-17");
   });
 
   it("사개월~구개월, 삼일전/사일전, 삼년전/사년전도 한글 수사 상대 표현으로 해석된다", async () => {

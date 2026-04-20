@@ -40,6 +40,16 @@ export const KOREAN_FILTER_SUFFIX_MAP: FilterSuffixMap = [
 
 const KOREAN_COUNT_RE_SRC = `\\d+|${KOREAN_COUNT_NUMERAL_ALT}`;
 
+function parseYearMonthTotalMonths(
+  yearsRaw: string,
+  monthsRaw: string,
+): number | undefined {
+  const years = parseKoreanCountNumeral(yearsRaw);
+  const months = parseKoreanCountNumeral(monthsRaw);
+  if (years === undefined || months === undefined) return undefined;
+  return years * 12 + months;
+}
+
 export function tryAttachFilter(
   text: string,
   afterIdx: number,
@@ -900,6 +910,32 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 8a. N년 M개월 전/뒤/후 (= total months, point-in-time)
+  {
+    const re = new RegExp(
+      `(${KOREAN_COUNT_RE_SRC})\\s*(?:년|해)\\s*(${KOREAN_COUNT_RE_SRC})\\s*(?:개월|달)\\s*(전|뒤|후)(?=$|\\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const totalMonths = parseYearMonthTotalMonths(m[1], m[2]);
+      if (totalMonths === undefined) continue;
+      const sign = m[3] === "전" ? -1 : 1;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: {
+          kind: "relative",
+          unit: "month",
+          offset: sign * totalMonths,
+          singleDay: true,
+        },
+        priority: 81,
+      });
+    }
+  }
+
   // 8b. 반년 전/뒤 (= 6개월 전/뒤, point-in-time)
   {
     const re = /반년\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
@@ -1376,6 +1412,26 @@ export function findMatchesKo(text: string): Match[] {
         end: m.index + m[0].length,
         expression: { kind: "duration", unit, amount, direction: "past" },
         priority: 83,
+      });
+    }
+  }
+
+  // 17-ym. (optional prefix) N년 M개월 (간|동안|내|째) — duration
+  {
+    const re = new RegExp(
+      `(최근|지난|저번|직전|요)?\\s*(${KOREAN_COUNT_RE_SRC})\\s*(?:년|해)\\s*(${KOREAN_COUNT_RE_SRC})\\s*(?:개월|달)\\s*(간|동안|내|째)`,
+      "g",
+    );
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const totalMonths = parseYearMonthTotalMonths(m[2], m[3]);
+      if (totalMonths === undefined) continue;
+      out.push({
+        text: m[0],
+        start: m.index,
+        end: m.index + m[0].length,
+        expression: { kind: "duration", unit: "month", amount: totalMonths, direction: "past" },
+        priority: 85,
       });
     }
   }
