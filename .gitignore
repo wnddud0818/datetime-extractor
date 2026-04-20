@@ -12,3 +12,4 @@ coverage/
 debug.ts
 .claude/
 web-preview.png
+.vercel
