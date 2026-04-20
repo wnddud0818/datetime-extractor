@@ -2169,6 +2169,38 @@ export function findMatchesKo(text: string): Match[] {
     }
   }
 
+  // 23c. {기간} 마지막/첫 영업일|평일|공휴일
+  {
+    const PERIOD_MAP: Array<{ word: string; base: DateExpression }> = [
+      { word: "이번달|이번 달|이달|당월|금월", base: { kind: "relative", unit: "month", offset: 0 } },
+      { word: "지난달|지난 달|저번달|저번 달|전월", base: { kind: "relative", unit: "month", offset: -1 } },
+      { word: "지지난달|저저번달|전전월", base: { kind: "relative", unit: "month", offset: -2 } },
+      { word: "다음달|다음 달|내달|익월", base: { kind: "relative", unit: "month", offset: 1 } },
+      { word: "이번주|이번 주|금주", base: { kind: "relative", unit: "week", offset: 0 } },
+      { word: "지난주|지난 주|저번주|저번 주|전주", base: { kind: "relative", unit: "week", offset: -1 } },
+      { word: "다음주|다음 주|담주|차주", base: { kind: "relative", unit: "week", offset: 1 } },
+    ];
+    const FILTER_MAP: Array<{ word: string; filter: FilterKind }> = [
+      { word: "영업일|업무일", filter: "business_days" },
+      { word: "평일|주중", filter: "weekdays" },
+      { word: "공휴일|휴일", filter: "holidays" },
+    ];
+    for (const { word: pw, base } of PERIOD_MAP) {
+      for (const { word: fw, filter } of FILTER_MAP) {
+        const re = new RegExp(`(?:${pw})\\s*(마지막|첫|첫번째|첫째)\\s*(?:${fw})`, "g");
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(text))) {
+          const sel = m[1] === "마지막" ? "last" : "first";
+          out.push({
+            text: m[0], start: m.index, end: m.index + m[0].length,
+            expression: { kind: "filter", base, filter, select: sel } as DateExpression,
+            priority: 92,
+          });
+        }
+      }
+    }
+  }
+
   // 24. 주 + 요일 (이번주 월요일, 지난주 금요일, 다음주 수요일 등)
   //     WeekdayInWeekExpression 으로 emit. rule+llm 폴백보다 높은 우선순위로 단일 룰 매칭.
   {
@@ -2951,6 +2983,8 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "동기",
   "전년",
   "마지막 주",
+  "마지막 영업일",
+  "첫 영업일",
   "금욜",
   "토욜",
   "일욜",

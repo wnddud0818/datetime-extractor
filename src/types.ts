@@ -131,6 +131,8 @@ export interface FilterExpression {
   kind: "filter";
   base: DateExpression;
   filter: FilterKind;
+  /** 필터링된 날짜 목록에서 특정 위치 선택. "last"=마지막, "first"=첫번째. */
+  select?: "last" | "first";
 }
 
 export type NamedToken =

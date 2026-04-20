@@ -938,7 +938,7 @@ export async function formatRange(
   range: ResolvedRange,
   mode: OutputMode,
   filter: FilterExpression["filter"] | null,
-  opts: { timezone?: string; dateOnlyForDateModes?: boolean } = {},
+  opts: { timezone?: string; dateOnlyForDateModes?: boolean; select?: "last" | "first" } = {},
 ): Promise<ResolvedValue | null> {
   const fmt = (d: Date) => format(d, "yyyy-MM-dd");
   const isSingle =
@@ -953,6 +953,19 @@ export async function formatRange(
       if (includeTime) {
         const iso = formatIsoDateTimeRange(range, tz);
         return { mode: "single", value: iso.start };
+      }
+      // select: "last"/"first" — 필터링 결과에서 마지막/첫 날짜를 단일 값으로 반환.
+      if (opts.select && filter) {
+        let days: string[];
+        if (filter === "business_days") days = await listBusinessDays(range.start, range.end);
+        else if (filter === "weekdays") days = listWeekdays(range.start, range.end);
+        else if (filter === "weekends") days = listWeekends(range.start, range.end);
+        else if (filter === "holidays") days = await listHolidaysInRange(range.start, range.end);
+        else if (filter === "saturdays") days = listSaturdays(range.start, range.end);
+        else if (filter === "sundays") days = listSundays(range.start, range.end);
+        else days = [];
+        if (days.length === 0) return null;
+        return { mode: "single", value: opts.select === "last" ? days[days.length - 1] : days[0] };
       }
       return { mode: "single", value: fmt(range.start) };
     }

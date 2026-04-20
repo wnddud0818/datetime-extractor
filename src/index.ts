@@ -101,14 +101,18 @@ async function buildResponse(
       range.end = referenceDate;
     }
     const filter = getFilterKind(e.expression);
+    const select = e.expression.kind === "filter" ? e.expression.select : undefined;
     const filterMode = getFilterOutputMode(filter);
     const modesForExpr =
-      !userSpecifiedModes && filterMode ? [filterMode] : outputModes;
+      !userSpecifiedModes && filterMode
+        ? select ? (["single"] as OutputMode[]) : [filterMode]
+        : outputModes;
     const results: ResolvedValue[] = [];
     for (const mode of modesForExpr) {
       const v = await formatRange(range, mode, filter, {
         timezone,
         dateOnlyForDateModes,
+        select,
       });
       if (v) results.push(v);
     }
