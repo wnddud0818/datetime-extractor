@@ -1,5 +1,6 @@
 node_modules/
 dist/
+web-dist/
 .env
 .env.local
 *.log
@@ -10,3 +11,4 @@ dist/
 coverage/
 debug.ts
 .claude/
+web-preview.png

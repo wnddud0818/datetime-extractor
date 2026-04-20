@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>datetime-extractor Rule Playground</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">Rule-only browser page</p>
+        <div class="hero__row">
+          <div>
+            <h1>datetime-extractor playground</h1>
+            <p class="hero__lede">
+              Static page for Vercel. No backend, no API route, no Ollama.
+            </p>
+          </div>
+          <div class="hero__badge-group">
+            <span class="hero__badge">Browser runtime</span>
+            <span class="hero__badge hero__badge--muted">LLM disabled</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel panel--controls">
+          <div class="callout">
+            <strong>LLM is intentionally unavailable on this page.</strong>
+            <p>
+              This page runs only the deterministic rule engine in the browser.
+              Any feature that used Ollama fallback is shown as disabled.
+            </p>
+            <p>
+              Holiday and business-day calculations use bundled holiday data for
+              2024-2030.
+            </p>
+          </div>
+
+          <label class="field">
+            <span class="field__label">Text</span>
+            <textarea
+              id="text"
+              rows="5"
+              placeholder="Examples: next Friday 5pm, last month sales, next month business days"
+            ></textarea>
+          </label>
+
+          <div class="button-row">
+            <button id="extract-btn" class="btn btn--primary" type="button">
+              Extract
+            </button>
+            <button id="clear-cache-btn" class="btn btn--secondary" type="button">
+              Clear cache
+            </button>
+          </div>
+
+          <div class="grid grid--triple">
+            <label class="field">
+              <span class="field__label">Reference date</span>
+              <input id="refDate" type="date" />
+            </label>
+            <label class="field">
+              <span class="field__label">Timezone</span>
+              <select id="tz">
+                <option value="Asia/Seoul" selected>Asia/Seoul</option>
+                <option value="UTC">UTC</option>
+                <option value="America/New_York">America/New_York</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__label">Locale</span>
+              <select id="locale">
+                <option value="auto" selected>auto</option>
+                <option value="ko">ko</option>
+                <option value="en">en</option>
+              </select>
+            </label>
+          </div>
+
+          <section class="subpanel">
+            <div class="subpanel__header">
+              <h2>Output modes</h2>
+              <p>Select one or more response shapes.</p>
+            </div>
+            <div id="modes" class="chip-grid">
+              <label class="chip"><input type="checkbox" value="single" /><span>single</span></label>
+              <label class="chip"><input type="checkbox" value="range" checked /><span>range</span></label>
+              <label class="chip"><input type="checkbox" value="list" /><span>list</span></label>
+              <label class="chip"><input type="checkbox" value="business_days" /><span>business_days</span></label>
+              <label class="chip"><input type="checkbox" value="weekdays" /><span>weekdays</span></label>
+              <label class="chip"><input type="checkbox" value="holidays" /><span>holidays</span></label>
+              <label class="chip"><input type="checkbox" value="all" /><span>all</span></label>
+              <label class="chip"><input type="checkbox" value="datetime" /><span>datetime</span></label>
+            </div>
+          </section>
+
+          <section class="subpanel">
+            <div class="subpanel__header">
+              <h2>Supported options</h2>
+              <p>These continue to work on the static page.</p>
+            </div>
+            <div class="grid grid--double">
+              <label class="field">
+                <span class="field__label">Ambiguity strategy</span>
+                <select id="ambiguityStrategy">
+                  <option value="past" selected>past</option>
+                  <option value="future">future</option>
+                  <option value="both">both</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">Default meridiem</span>
+                <select id="defaultMeridiem">
+                  <option value="" selected>(none)</option>
+                  <option value="am">am</option>
+                  <option value="pm">pm</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">Fiscal year start</span>
+                <input id="fiscalYearStart" type="number" min="1" max="12" value="1" />
+              </label>
+              <label class="field">
+                <span class="field__label">Week starts on</span>
+                <select id="weekStartsOn">
+                  <option value="1" selected>Monday</option>
+                  <option value="0">Sunday</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">Context date</span>
+                <input id="contextDate" type="date" />
+              </label>
+              <label class="field">
+                <span class="field__label">Present range end</span>
+                <select id="presentRangeEnd">
+                  <option value="period" selected>full period</option>
+                  <option value="today">today only</option>
+                </select>
+              </label>
+            </div>
+            <div class="toggle-list">
+              <label class="toggle">
+                <input type="checkbox" id="dateOnlyForDateModes" checked />
+                <span>Keep single/range outputs date-only</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="defaultToToday" />
+                <span>Default to today if no date is detected</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="subpanel">
+            <div class="subpanel__header">
+              <h2>Unavailable on this page</h2>
+              <p>Shown disabled on purpose to make the limitation explicit.</p>
+            </div>
+            <div class="toggle-list">
+              <label class="toggle toggle--disabled">
+                <input type="checkbox" id="enableLLM" disabled />
+                <span>Enable LLM fallback</span>
+              </label>
+              <label class="toggle toggle--disabled">
+                <input type="checkbox" id="forceLLM" disabled />
+                <span>Force LLM path</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="subpanel">
+            <div class="subpanel__header">
+              <h2>Examples</h2>
+              <p>Disabled examples are ones that used to depend on LLM.</p>
+            </div>
+            <div id="examples" class="examples"></div>
+          </section>
+        </section>
+
+        <section class="panel panel--results">
+          <div class="status-bar">
+            <div class="status-bar__badges">
+              <span id="path-badge" class="pill" hidden></span>
+              <span id="hasdate-badge" class="pill pill--soft" hidden></span>
+              <span id="latency-badge" class="status-copy" hidden></span>
+            </div>
+            <div id="cache-meta" class="status-copy"></div>
+          </div>
+
+          <div id="runtime-note" class="runtime-note">
+            Browser-only runtime. Expect only <code>rule</code> or <code>cache</code> paths here.
+          </div>
+
+          <div id="latency-breakdown" class="status-copy status-copy--dim"></div>
+
+          <div id="results-empty" class="empty-state">
+            <p>Enter a phrase and run extraction to inspect the rule engine output.</p>
+          </div>
+
+          <div id="results-content" hidden>
+            <div class="tabs" role="tablist" aria-label="Result views">
+              <button class="tab is-active" type="button" data-tab="highlight" aria-selected="true">
+                Highlight
+              </button>
+              <button class="tab" type="button" data-tab="dsl" aria-selected="false">
+                DSL
+              </button>
+              <button class="tab" type="button" data-tab="resolved" aria-selected="false">
+                Resolved
+              </button>
+            </div>
+
+            <section id="panel-highlight" class="tab-panel is-active">
+              <div id="highlighted" class="highlight-box"></div>
+            </section>
+
+            <section id="panel-dsl" class="tab-panel" hidden>
+              <div class="toolbar">
+                <button class="btn btn--mini copy-btn" type="button" data-target="dsl">Copy</button>
+              </div>
+              <pre id="dsl" class="code-block"></pre>
+            </section>
+
+            <section id="panel-resolved" class="tab-panel" hidden>
+              <div class="toolbar">
+                <button class="btn btn--mini copy-btn" type="button" data-target="resolved">Copy</button>
+              </div>
+              <pre id="resolved" class="code-block"></pre>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

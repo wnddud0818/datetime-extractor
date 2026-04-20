@@ -13,8 +13,11 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "build:web": "vite build --config vite.config.ts",
     "postbuild": "node scripts/postbuild.mjs",
     "dev": "tsx --env-file=.env test-page/server.ts",
+    "dev:web": "vite --config vite.config.ts",
+    "preview:web": "vite preview --config vite.config.ts",
     "test": "vitest run test/resolver.test.ts test/korean-numerals.test.ts",
     "test:rules": "vitest run test/rules.test.ts",
     "test:golden": "vitest run test/golden.test.ts",
