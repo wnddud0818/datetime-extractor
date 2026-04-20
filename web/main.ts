@@ -115,12 +115,12 @@ function initCopyButtons(): void {
       const target = document.getElementById(targetId);
       if (!target) return;
 
-      const previous = button.textContent ?? "Copy";
+      const previous = button.textContent ?? "복사";
       try {
         await navigator.clipboard.writeText(target.textContent ?? "");
-        button.textContent = "Copied";
+        button.textContent = "복사됨";
       } catch {
-        button.textContent = "Copy failed";
+        button.textContent = "복사 실패";
       }
 
       window.setTimeout(() => {
@@ -131,18 +131,18 @@ function initCopyButtons(): void {
 }
 
 function updateCacheMeta(extraMessage = ""): void {
-  const message = `Cache size: ${cacheSize()}${extraMessage ? ` | ${extraMessage}` : ""}`;
+  const message = `캐시 크기: ${cacheSize()}${extraMessage ? ` | ${extraMessage}` : ""}`;
   $("#cache-meta").textContent = message;
 }
 
 function buildRuntimeNote(response: ExtractResponse, request: ExtractRequest): string {
   const notes = [
-    "Rule-only browser runtime. LLM fallback is intentionally disabled.",
+    "브라우저에서 룰 엔진만 실행하는 정적 페이지입니다. LLM 폴백은 의도적으로 비활성화되어 있습니다.",
   ];
 
   if ((response.meta.ruleConfidence ?? 1) < 1) {
     notes.push(
-      "Partial rule confidence detected. The old API page could optionally fall back to LLM here, but this page stays deterministic.",
+      "룰 신뢰도가 완전 일치보다 낮습니다. 기존 API 페이지라면 여기서 LLM 보완 경로를 선택할 수 있었지만, 이 페이지는 결정론적 동작만 유지합니다.",
     );
   }
 
@@ -151,7 +151,7 @@ function buildRuntimeNote(response: ExtractResponse, request: ExtractRequest): s
       ["holidays", "business_days", "all"].includes(mode),
     )
   ) {
-    notes.push("Holiday and business-day outputs rely on bundled holiday data for 2024-2030.");
+    notes.push("공휴일과 영업일 결과는 2024년부터 2030년까지 번들된 공휴일 데이터를 기준으로 계산합니다.");
   }
 
   return notes.join(" ");
@@ -171,21 +171,21 @@ function renderResponse(
 
   const pathBadge = $("#path-badge");
   pathBadge.hidden = false;
-  pathBadge.textContent = response.meta.path;
+  pathBadge.textContent = `경로: ${response.meta.path}`;
 
   const hasDateBadge = $("#hasdate-badge");
   hasDateBadge.hidden = false;
-  hasDateBadge.textContent = `hasDate: ${response.hasDate}`;
+  hasDateBadge.textContent = response.hasDate ? "날짜 감지됨" : "날짜를 찾지 못함";
 
   const latencyBadge = $("#latency-badge");
   latencyBadge.hidden = false;
-  latencyBadge.textContent = `${response.meta.latencyMs}ms in browser`;
+  latencyBadge.textContent = `브라우저 처리 시간 ${response.meta.latencyMs}ms`;
 
   const breakdown = response.meta.latencyBreakdown
     ? Object.entries(response.meta.latencyBreakdown)
         .filter(([, value]) => value !== undefined)
         .map(([key, value]) => `${key}=${Math.round(value as number)}ms`)
-        .join(" | ")
+        .join(" · ")
     : "";
   $("#latency-breakdown").textContent = breakdown;
 
@@ -221,7 +221,7 @@ async function doExtract(): Promise<void> {
 
   const extractButton = $("#extract-btn") as HTMLButtonElement;
   extractButton.disabled = true;
-  extractButton.textContent = "Extracting...";
+  extractButton.textContent = "추출 중...";
 
   const fiscalYearStart = Number.parseInt(
     ($("#fiscalYearStart") as HTMLInputElement).value,
@@ -273,7 +273,7 @@ async function doExtract(): Promise<void> {
   }
 
   extractButton.disabled = false;
-  extractButton.textContent = "Extract";
+  extractButton.textContent = "추출 실행";
   renderResponse(text, request, response);
 }
 
@@ -282,14 +282,13 @@ function loadExamples(): void {
   container.innerHTML = "";
 
   browserExamples.forEach((example) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "example-item";
     const button = document.createElement("button");
     button.className = `example-btn${example.disabled ? " example-btn--disabled" : ""}`;
     button.type = "button";
     button.textContent = example.label;
     button.disabled = !!example.disabled;
-    if (example.disabledReason) {
-      button.title = example.disabledReason;
-    }
 
     button.addEventListener("click", () => {
       ($("#text") as HTMLTextAreaElement).value = example.text;
@@ -297,11 +296,30 @@ function loadExamples(): void {
       void doExtract();
     });
 
-    container.appendChild(button);
+    wrapper.appendChild(button);
+
+    if (example.disabledReason) {
+      const help = document.createElement("span");
+      help.className = "help-tip";
+      help.tabIndex = 0;
+      help.setAttribute("aria-label", `${example.label} 도움말`);
+      help.dataset.tip = example.disabledReason;
+      help.textContent = "?";
+      wrapper.appendChild(help);
+    }
+
+    container.appendChild(wrapper);
   });
 }
 
 function wireEvents(): void {
+  $$(".help-tip").forEach((tip) => {
+    tip.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    });
+  });
+
   ($("#extract-btn") as HTMLButtonElement).addEventListener("click", () => {
     void doExtract();
   });
@@ -315,7 +333,7 @@ function wireEvents(): void {
 
   ($("#clear-cache-btn") as HTMLButtonElement).addEventListener("click", () => {
     cacheClear();
-    updateCacheMeta("Cleared");
+    updateCacheMeta("캐시를 비웠습니다");
   });
 }
 

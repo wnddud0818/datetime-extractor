@@ -179,6 +179,9 @@ textarea {
   color: var(--text-soft);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 textarea,
@@ -296,6 +299,9 @@ select:focus {
 .subpanel__header h2 {
   margin: 0;
   font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .subpanel__header p {
@@ -315,6 +321,7 @@ select:focus {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  gap: 6px;
 }
 
 .chip input {
@@ -353,6 +360,84 @@ select:focus {
   color: var(--accent-strong);
 }
 
+.help-tip {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 107, 82, 0.18);
+  background: rgba(31, 107, 82, 0.1);
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: help;
+}
+
+.help-tip::after,
+.help-tip::before {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.help-tip::after {
+  content: attr(data-tip);
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 4px);
+  width: min(280px, 70vw);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(29, 36, 33, 0.96);
+  color: #fffdf8;
+  box-shadow: 0 14px 34px rgba(22, 27, 24, 0.24);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  text-transform: none;
+  letter-spacing: normal;
+  text-align: left;
+  white-space: normal;
+  z-index: 20;
+}
+
+.help-tip::before {
+  content: "";
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translate(-50%, 4px);
+  border: 6px solid transparent;
+  border-top-color: rgba(29, 36, 33, 0.96);
+  z-index: 21;
+}
+
+.help-tip:hover::after,
+.help-tip:hover::before,
+.help-tip:focus-visible::after,
+.help-tip:focus-visible::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.help-tip:focus-visible {
+  outline: 2px solid rgba(31, 107, 82, 0.42);
+  outline-offset: 2px;
+}
+
+.help-tip--chip {
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+}
+
 .toggle-list {
   display: flex;
   flex-direction: column;
@@ -373,6 +458,12 @@ select:focus {
   width: 16px;
   height: 16px;
   accent-color: var(--accent);
+}
+
+.toggle span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .toggle--disabled {
@@ -415,6 +506,13 @@ select:focus {
   color: var(--warning);
   background: var(--warning-soft);
   border-color: rgba(138, 59, 18, 0.2);
+}
+
+.example-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .status-bar {
@@ -542,7 +640,7 @@ select:focus {
 }
 
 .highlight-box:empty::before {
-  content: "No matched expressions.";
+  content: "감지된 날짜 표현이 없습니다.";
   color: var(--text-soft);
 }
 
