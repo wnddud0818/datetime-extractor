@@ -23,6 +23,8 @@ export const KOREAN_DAY_WORDS: Array<{ word: string; token: NamedToken }> = [
   { word: "전일", token: "yesterday" },
   { word: "오늘", token: "today" },
   { word: "금일", token: "today" },
+  // 내일모레는 반드시 내일보다 먼저 등록해야 indexOf 기반 탐색에서 긴 표현이 먼저 등록됨
+  { word: "내일모레", token: "모레" },
   { word: "내일", token: "tomorrow" },
   { word: "명일", token: "tomorrow" },
   { word: "익일", token: "tomorrow" },

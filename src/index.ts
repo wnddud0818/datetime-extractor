@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import type {
   DateExpression,
   ExtractRequest,
@@ -147,7 +148,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
   const locale = req.locale ?? "auto";
   const enableLLM = req.enableLLM ?? false;
   const referenceDateIso =
-    req.referenceDate ?? format(new Date(), "yyyy-MM-dd");
+    req.referenceDate ?? formatInTimeZone(new Date(), timezone, "yyyy-MM-dd");
   const referenceDate = parseReferenceDate(referenceDateIso);
   const outputModes = req.outputModes ?? DEFAULT_OUTPUT_MODES;
 
@@ -212,7 +213,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
       expressions = ruleResult.expressions.map((e) => ({
         text: e.text,
         expression: e.expression,
-        confidence: 1.0,
+        confidence: ruleResult.confidence,
       }));
     } else {
       // partial_match: 룰 결과에 LLM 결과 병합
@@ -227,7 +228,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
           ruleResult.expressions.map((e) => ({
             text: e.text,
             expression: e.expression,
-            confidence: 1.0,
+            confidence: ruleResult.confidence,
           }));
         for (const e of llmRes.output.expressions) {
           if (!ruleSpans.has(e.text)) {
@@ -243,7 +244,7 @@ export async function extract(req: ExtractRequest): Promise<ExtractResponse> {
         expressions = ruleResult.expressions.map((e) => ({
           text: e.text,
           expression: e.expression,
-          confidence: 0.85,
+          confidence: ruleResult.confidence,
         }));
         error = llmRes.error;
       }

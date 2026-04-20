@@ -66,6 +66,8 @@ export interface AbsoluteExpression {
   // YYYY년 초(Q1) / YYYY년 말(Q4)
   // start = 1/1 단일, end = 12/31 단일 (연초/연말)
   yearPart?: "early" | "late" | "start" | "end";
+  /** 해당 연도의 특정 주. "last"면 12/31 기준 해당 주 월요일~12/31로 해석. */
+  weekOfYear?: "last";
   /** 퍼지 표현 (N일쯤, 이달 말쯤 등). resolver가 fuzzyDayWindow만큼 범위로 확장. */
   fuzzy?: boolean;
   /** 해결된 단일 날짜에 더할 일수 (크리스마스 전날 = -1, 추석 다음날 = +1). day가 확정된 경우에만 적용. */

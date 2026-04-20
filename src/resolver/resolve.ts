@@ -209,6 +209,14 @@ function resolveAbsolute(
     return { start, end, granularity: "quarter" };
   }
 
+  // weekOfYear: 해당 연도의 마지막 주 (12/31 기준 주 시작 ~ 12/31, 연도 내로 클램프)
+  if (expr.weekOfYear === "last" && month === undefined && day === undefined) {
+    const wso = (ctx.weekStartsOn ?? 1) as 0 | 1;
+    const yearEnd = new Date(year, 11, 31);
+    const weekStart = startOfWeek(yearEnd, { weekStartsOn: wso });
+    return { start: startOfDay(weekStart), end: startOfDay(yearEnd), granularity: "week" };
+  }
+
   // monthPart: M월 초/중/말, start(1일)/end(말일)
   if (expr.monthPart && month !== undefined && day === undefined) {
     const monthStart = new Date(year, month - 1, 1);

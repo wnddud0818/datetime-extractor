@@ -1,6 +1,6 @@
 import { Ollama } from "ollama";
 import { SYSTEM_PROMPT, FEW_SHOT_EXAMPLES } from "./prompt.js";
-import { llmOutputSchema, ollamaJsonSchema, type LLMOutput } from "./schema.js";
+import { llmOutputSchema, type LLMOutput } from "./schema.js";
 
 const DEFAULT_MODEL = process.env.OLLAMA_MODEL ?? "qwen2.5:3b-instruct";
 const DEFAULT_HOST = process.env.OLLAMA_HOST ?? "http://localhost:11434";
@@ -42,7 +42,7 @@ export async function callLLM(
     const res = await client().chat({
       model,
       messages: buildMessages(userText),
-      format: ollamaJsonSchema as object,
+      format: "json",
       options: {
         temperature,
         seed: 42,
