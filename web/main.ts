@@ -7,6 +7,7 @@ import type {
   ExtractRequest,
   ExtractResponse,
   OutputMode,
+  ResolvedValue,
 } from "../src/types.ts";
 
 const $ = <T extends Element>(selector: string): T => {
@@ -19,6 +20,26 @@ const $ = <T extends Element>(selector: string): T => {
 
 const $$ = <T extends Element>(selector: string): T[] =>
   Array.from(document.querySelectorAll<T>(selector));
+
+const MODE_LABELS: Record<OutputMode, string> = {
+  single: "단일 날짜",
+  range: "기간",
+  list: "날짜 목록",
+  business_days: "영업일",
+  weekdays: "평일",
+  holidays: "공휴일",
+  all: "전체 묶음",
+  datetime: "날짜+시간",
+};
+
+const TEMPORALITY_LABELS: Record<
+  NonNullable<ExtractedExpression["temporality"]>,
+  string
+> = {
+  past: "과거",
+  present: "현재",
+  future: "미래",
+};
 
 function todayIso(): string {
   const now = new Date();
@@ -83,6 +104,191 @@ function renderHighlight(text: string, expressions: ExtractedExpression[]): stri
 
   output += escapeHtml(text.slice(cursor));
   return output;
+}
+
+function formatRangeValue(value: { start: string; end: string }): string {
+  return `${value.start} ~ ${value.end}`;
+}
+
+function formatListPreview(values: string[]): string {
+  if (values.length === 0) {
+    return "0개";
+  }
+
+  const preview = values.slice(0, 3).join(", ");
+  return values.length > 3
+    ? `${values.length}개 (${preview} 외 ${values.length - 3}개)`
+    : `${values.length}개 (${preview})`;
+}
+
+function summarizeAllModes(value: Extract<ResolvedValue, { mode: "all" }>["value"]): string {
+  const parts: string[] = [];
+
+  if (value.single) {
+    parts.push(`단일 날짜 ${value.single}`);
+  }
+  if (value.range) {
+    parts.push(`기간 ${formatRangeValue(value.range)}`);
+  }
+  if (value.list) {
+    parts.push(`날짜 목록 ${formatListPreview(value.list)}`);
+  }
+  if (value.business_days) {
+    parts.push(`영업일 ${formatListPreview(value.business_days)}`);
+  }
+  if (value.weekdays) {
+    parts.push(`평일 ${formatListPreview(value.weekdays)}`);
+  }
+  if (value.holidays) {
+    parts.push(`공휴일 ${formatListPreview(value.holidays)}`);
+  }
+  if (value.datetime) {
+    parts.push(`날짜+시간 ${formatRangeValue(value.datetime)}`);
+  }
+
+  return parts.join(" / ") || "묶인 결과 없음";
+}
+
+function summarizeResolvedValue(result: ResolvedValue): string {
+  switch (result.mode) {
+    case "single":
+      return result.value;
+    case "range":
+    case "datetime":
+      return formatRangeValue(result.value);
+    case "list":
+    case "business_days":
+    case "weekdays":
+    case "holidays":
+      return formatListPreview(result.value);
+    case "all":
+      return summarizeAllModes(result.value);
+    default:
+      return "요약 불가";
+  }
+}
+
+function renderHighlightSummary(response: ExtractResponse): string {
+  const expressions = response.expressions ?? [];
+
+  if (expressions.length === 0) {
+    const emptyMessage = response.meta.error
+      ? `추출 중 오류가 발생했습니다: ${response.meta.error}`
+      : "감지된 날짜 표현이 없습니다. 문장을 바꾸거나 출력 모드를 조정해 다시 시도해보세요.";
+
+    return `
+      <h3 class="summary-title">결과 요약</h3>
+      <p class="summary-copy">${escapeHtml(emptyMessage)}</p>
+    `;
+  }
+
+  const returnedModes = new Set<OutputMode>();
+  const temporalityCounts: Record<
+    NonNullable<ExtractedExpression["temporality"]>,
+    number
+  > = {
+    past: 0,
+    present: 0,
+    future: 0,
+  };
+  let timedExpressions = 0;
+
+  expressions.forEach((expression) => {
+    expression.results.forEach((result) => returnedModes.add(result.mode));
+    if (expression.temporality) {
+      temporalityCounts[expression.temporality] += 1;
+    }
+    if (expression.time) {
+      timedExpressions += 1;
+    }
+  });
+
+  const modeList = Array.from(returnedModes);
+  const modeText = modeList.length
+    ? modeList.map((mode) => MODE_LABELS[mode]).join(", ")
+    : "반환된 모드 없음";
+  const temporalityText = (
+    Object.entries(temporalityCounts) as Array<
+      [keyof typeof temporalityCounts, number]
+    >
+  )
+    .filter(([, count]) => count > 0)
+    .map(([key, count]) => `${TEMPORALITY_LABELS[key]} ${count}개`)
+    .join(" · ");
+
+  const summaryCards = [
+    { label: "감지 표현", value: `${expressions.length}개` },
+    { label: "반환 모드", value: `${modeList.length}개` },
+    { label: "시간 포함", value: `${timedExpressions}개` },
+    { label: "시점 분포", value: temporalityText || "없음" },
+  ]
+    .map(
+      (item) => `
+        <div class="summary-stat">
+          <span class="summary-stat__label">${item.label}</span>
+          <strong class="summary-stat__value">${escapeHtml(item.value)}</strong>
+        </div>
+      `,
+    )
+    .join("");
+
+  const modeTags = modeList
+    .map(
+      (mode) =>
+        `<span class="summary-chip">${escapeHtml(MODE_LABELS[mode])}</span>`,
+    )
+    .join("");
+
+  const items = expressions
+    .map((expression, index) => {
+      const metaParts: string[] = [];
+      if (expression.temporality) {
+        metaParts.push(TEMPORALITY_LABELS[expression.temporality]);
+      }
+      if (expression.time) {
+        metaParts.push(`${expression.time.startTime} ~ ${expression.time.endTime}`);
+      }
+      if (expression.confidence !== undefined) {
+        metaParts.push(`신뢰도 ${Math.round(expression.confidence * 100)}%`);
+      }
+
+      const resultsText = expression.results.length
+        ? expression.results
+            .map(
+              (result) =>
+                `${MODE_LABELS[result.mode]}: ${summarizeResolvedValue(result)}`,
+            )
+            .join(" / ")
+        : "반환된 결과가 없습니다.";
+
+      return `
+        <article class="summary-item">
+          <div class="summary-item__header">
+            <span class="summary-item__index">${index + 1}</span>
+            <div class="summary-item__body">
+              <h4 class="summary-item__title">"${escapeHtml(expression.text)}"</h4>
+              <p class="summary-item__meta">${escapeHtml(metaParts.join(" · ") || "추가 메타 정보 없음")}</p>
+            </div>
+          </div>
+          <p class="summary-item__result">${escapeHtml(resultsText)}</p>
+        </article>
+      `;
+    })
+    .join("");
+
+  const intro = `총 ${expressions.length}개 표현을 감지했고, ${modeText} 형식으로 결과를 만들었습니다. ${
+    timedExpressions > 0
+      ? `이 중 ${timedExpressions}개는 시간 정보까지 포함합니다.`
+      : "시간 정보가 포함된 표현은 없습니다."
+  }`;
+
+  return `
+    <h3 class="summary-title">결과 요약</h3>
+    <div class="summary-grid">${summaryCards}</div>
+    <p class="summary-copy">${escapeHtml(intro)}</p>
+    <div class="summary-tags">${modeTags}</div>
+    <div class="summary-list">${items}</div>
+  `;
 }
 
 function activateTab(name: string): void {
@@ -190,6 +396,11 @@ function renderResponse(
   $("#latency-breakdown").textContent = breakdown;
 
   $("#runtime-note").textContent = buildRuntimeNote(response, request);
+  $("#highlight-summary").innerHTML = renderHighlightSummary(response);
+  $("#highlight-summary").classList.toggle(
+    "summary-box--empty",
+    (response.expressions ?? []).length === 0,
+  );
   $("#highlighted").innerHTML = renderHighlight(text, response.expressions ?? []);
   $("#dsl").textContent = JSON.stringify(
     (response.expressions ?? []).map((expression) => ({
