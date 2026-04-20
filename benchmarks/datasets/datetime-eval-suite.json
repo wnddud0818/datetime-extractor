@@ -17210,6 +17210,1238 @@
     }
   },
   {
+    "id": "default:edge_connector_month_span_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-01-01",
+            "end": "2029-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-10-01",
+            "end": "2024-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-10-01",
+            "end": "2025-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-10-01",
+            "end": "2025-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-10-01",
+            "end": "2026-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-10-01",
+            "end": "2026-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-10-01",
+            "end": "2027-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_month_span_q4:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "10월부터 12월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-10-01",
+            "end": "2029-12-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-06",
+            "end": "2025-01-10"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-11-17",
+            "end": "2025-11-21"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-04-13",
+            "end": "2026-04-17"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-12-28",
+            "end": "2027-01-01"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-09-13",
+            "end": "2027-09-17"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-02-28",
+            "end": "2028-03-03"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_this_week_monday_to_friday:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "이번주 월요일부터 금요일까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-12-24",
+            "end": "2029-12-28"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-10",
+            "end": "2025-01-19"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-11-17",
+            "end": "2025-11-30"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-04-18",
+            "end": "2026-04-26"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-12-31",
+            "end": "2027-01-10"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-09-16",
+            "end": "2027-09-26"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-02-29",
+            "end": "2028-03-12"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_today_to_next_week:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "오늘부터 다음주까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2029-12-30",
+            "end": "2030-01-06"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "작년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_previous_year_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "지난해 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_prior_year_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "전년 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2024-01-01",
+            "end": "2024-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-01-01",
+            "end": "2025-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2026-01-01",
+            "end": "2026-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2027-01-01",
+            "end": "2027-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_connector_last_year_alias_q1:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "지난년도 1월부터 3월까지",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2028-01-01",
+            "end": "2028-03-31"
+          }
+        }
+      ]
+    }
+  },
+  {
     "id": "default:edge_month_end:2025-01-10",
     "suite": "default",
     "category": "J.edge",

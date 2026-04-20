@@ -11,6 +11,38 @@ import {
   ENGLISH_DATE_RESIDUAL_KEYWORDS,
 } from "./patterns-en.js";
 
+function inheritAbsoluteContext(
+  startExpr: DateExpression,
+  endExpr: DateExpression,
+): DateExpression {
+  if (startExpr.kind !== "absolute" || endExpr.kind !== "absolute") {
+    return endExpr;
+  }
+
+  const inherited = { ...endExpr };
+
+  if (inherited.year === undefined && inherited.yearOffset === undefined) {
+    if (startExpr.year !== undefined) {
+      inherited.year = startExpr.year;
+    } else if (startExpr.yearOffset !== undefined) {
+      inherited.yearOffset = startExpr.yearOffset;
+    }
+  }
+
+  if (inherited.month === undefined && inherited.monthOffset === undefined) {
+    if (startExpr.month !== undefined) {
+      inherited.month = startExpr.month;
+    } else if (startExpr.monthOffset !== undefined) {
+      inherited.monthOffset = startExpr.monthOffset;
+    }
+    if (inherited.lunar === undefined && startExpr.lunar !== undefined) {
+      inherited.lunar = startExpr.lunar;
+    }
+  }
+
+  return inherited;
+}
+
 /**
  * resolveOverlaps 이후 인접 매치 사이에 "부터~까지" 연결어가 있으면
  * 두 매치를 단일 RangeExpression으로 병합한다.
@@ -38,6 +70,7 @@ function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
         ) {
           endExpr = { kind: "weekday_in_week", weekOffset: a.expression.weekOffset, weekday: b.expression.weekday };
         }
+        endExpr = inheritAbsoluteContext(a.expression, endExpr);
         result.push({
           text: text.slice(a.start, rangeEnd),
           start: a.start,

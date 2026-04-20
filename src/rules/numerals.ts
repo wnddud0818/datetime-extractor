@@ -39,6 +39,40 @@ export const ENGLISH_DAY_WORDS: Array<{ word: string; token: NamedToken }> = [
   { word: "tomorrow", token: "tomorrow" },
 ];
 
+export const KOREAN_COUNT_NUMERALS: Record<string, number> = {
+  한: 1,
+  두: 2,
+  세: 3,
+  석: 3,
+  네: 4,
+  넉: 4,
+  다섯: 5,
+  여섯: 6,
+  일곱: 7,
+  여덟: 8,
+  아홉: 9,
+  열: 10,
+  일: 1,
+  이: 2,
+  삼: 3,
+  사: 4,
+  오: 5,
+  육: 6,
+  칠: 7,
+  팔: 8,
+  구: 9,
+  십: 10,
+};
+
+export const KOREAN_COUNT_NUMERAL_ALT = Object.keys(KOREAN_COUNT_NUMERALS)
+  .sort((a, b) => b.length - a.length)
+  .join("|");
+
+export function parseKoreanCountNumeral(text: string): number | undefined {
+  if (/^\d+$/.test(text)) return Number(text);
+  return KOREAN_COUNT_NUMERALS[text];
+}
+
 /**
  * 영어 구동 표현을 기존 한국어 NamedToken에 매핑.
  * 타입 변경 없이 의미만 재사용.

@@ -147,6 +147,99 @@ describe("golden dataset (rule-path end-to-end)", () => {
     expect(r.meta.model).toBe("rules");
   });
 
+  it("작년 월별은 1월부터 12월까지 12개 월 범위로 확장된다", async () => {
+    cacheClear();
+    const r = await extract({
+      text: "작년 월별 매출",
+      referenceDate: "2026-04-17",
+      outputModes: ["range"],
+    });
+    expect(r.hasDate).toBe(true);
+    expect(r.expressions).toHaveLength(12);
+    expect(
+      r.expressions.map((expr) => expr.results.find((result) => result.mode === "range")?.value),
+    ).toEqual([
+      { start: "2025-01-01", end: "2025-01-31" },
+      { start: "2025-02-01", end: "2025-02-28" },
+      { start: "2025-03-01", end: "2025-03-31" },
+      { start: "2025-04-01", end: "2025-04-30" },
+      { start: "2025-05-01", end: "2025-05-31" },
+      { start: "2025-06-01", end: "2025-06-30" },
+      { start: "2025-07-01", end: "2025-07-31" },
+      { start: "2025-08-01", end: "2025-08-31" },
+      { start: "2025-09-01", end: "2025-09-30" },
+      { start: "2025-10-01", end: "2025-10-31" },
+      { start: "2025-11-01", end: "2025-11-30" },
+      { start: "2025-12-01", end: "2025-12-31" },
+    ]);
+  });
+
+  it("네달전과 삼개월 전은 한글 수사 상대 표현으로 해석된다", async () => {
+    cacheClear();
+    const r1 = await extract({
+      text: "네달전",
+      referenceDate: "2026-04-17",
+      outputModes: ["single"],
+    });
+    expect(r1.expressions[0].results.find((result) => result.mode === "single")?.value).toBe("2025-12-17");
+
+    cacheClear();
+    const r2 = await extract({
+      text: "삼개월 전",
+      referenceDate: "2026-04-17",
+      outputModes: ["single"],
+    });
+    expect(r2.expressions[0].results.find((result) => result.mode === "single")?.value).toBe("2026-01-17");
+  });
+
+  it("사개월~구개월, 삼일전/사일전, 삼년전/사년전도 한글 수사 상대 표현으로 해석된다", async () => {
+    const monthCases: Array<[string, string]> = [
+      ["사개월전", "2025-12-17"],
+      ["오개월전", "2025-11-17"],
+      ["육개월전", "2025-10-17"],
+      ["칠개월전", "2025-09-17"],
+      ["팔개월전", "2025-08-17"],
+      ["구개월전", "2025-07-17"],
+    ];
+    for (const [text, expected] of monthCases) {
+      cacheClear();
+      const r = await extract({
+        text,
+        referenceDate: "2026-04-17",
+        outputModes: ["single"],
+      });
+      expect(r.expressions[0].results.find((result) => result.mode === "single")?.value).toBe(expected);
+    }
+
+    const dayCases: Array<[string, string]> = [
+      ["삼일전", "2026-04-14"],
+      ["사일전", "2026-04-13"],
+    ];
+    for (const [text, expected] of dayCases) {
+      cacheClear();
+      const r = await extract({
+        text,
+        referenceDate: "2026-04-17",
+        outputModes: ["single"],
+      });
+      expect(r.expressions[0].results.find((result) => result.mode === "single")?.value).toBe(expected);
+    }
+
+    const yearCases: Array<[string, string]> = [
+      ["삼년전", "2023-04-17"],
+      ["사년전", "2022-04-17"],
+    ];
+    for (const [text, expected] of yearCases) {
+      cacheClear();
+      const r = await extract({
+        text,
+        referenceDate: "2026-04-17",
+        outputModes: ["single"],
+      });
+      expect(r.expressions[0].results.find((result) => result.mode === "single")?.value).toBe(expected);
+    }
+  });
+
   it("캐시 hit 동작", async () => {
     cacheClear();
     const req = {

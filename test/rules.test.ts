@@ -63,6 +63,32 @@ describe("rules engine", () => {
     expect(r.expressions[1].expression).toEqual({ kind: "absolute", year: 2025, month: 3 });
   });
 
+  it("작년 월별 → yearOffset=-1인 12개의 absolute month", () => {
+    const r = runRules("작년 월별 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(12);
+    expect(r.expressions.map((expr) => expr.expression)).toEqual(
+      Array.from({ length: 12 }, (_, i) => ({
+        kind: "absolute",
+        yearOffset: -1,
+        month: i + 1,
+      })),
+    );
+  });
+
+  it("2025년 월별로 → year=2025인 12개의 absolute month", () => {
+    const r = runRules("2025년 월별로 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(12);
+    expect(r.expressions.map((expr) => expr.expression)).toEqual(
+      Array.from({ length: 12 }, (_, i) => ({
+        kind: "absolute",
+        year: 2025,
+        month: i + 1,
+      })),
+    );
+  });
+
   it("올해 1,2분기 → yearOffset=0인 두 개의 quarter", () => {
     const r = runRules("올해 1,2분기 실적");
     expect(r.confidence).toBe(1.0);
@@ -292,6 +318,93 @@ describe("rules engine", () => {
       unit: "day",
       offset: -7,
     });
+  });
+
+  it("네달전 → relative month offset=-4 singleDay", () => {
+    const r = runRules("네달전");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "month",
+      offset: -4,
+      singleDay: true,
+    });
+  });
+
+  it("삼개월 전 → relative month offset=-3 singleDay", () => {
+    const r = runRules("삼개월 전");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "month",
+      offset: -3,
+      singleDay: true,
+    });
+  });
+
+  it("최근 삼개월 → duration month amount=3", () => {
+    const r = runRules("최근 삼개월 매출");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "month",
+      amount: 3,
+      direction: "past",
+    });
+  });
+
+  it("사개월/오개월/육개월/칠개월/팔개월/구개월 전 → month relative를 모두 지원", () => {
+    const cases: Array<[string, number]> = [
+      ["사개월전", -4],
+      ["오개월전", -5],
+      ["육개월전", -6],
+      ["칠개월전", -7],
+      ["팔개월전", -8],
+      ["구개월전", -9],
+    ];
+    for (const [text, offset] of cases) {
+      const r = runRules(text);
+      expect(r.confidence).toBe(1.0);
+      expect(r.expressions[0].expression).toEqual({
+        kind: "relative",
+        unit: "month",
+        offset,
+        singleDay: true,
+      });
+    }
+  });
+
+  it("삼일전/사일전 → day relative를 지원", () => {
+    const cases: Array<[string, number]> = [
+      ["삼일전", -3],
+      ["사일전", -4],
+    ];
+    for (const [text, offset] of cases) {
+      const r = runRules(text);
+      expect(r.confidence).toBe(1.0);
+      expect(r.expressions[0].expression).toEqual({
+        kind: "relative",
+        unit: "day",
+        offset,
+      });
+    }
+  });
+
+  it("삼년전/사년전 → year relative를 지원", () => {
+    const cases: Array<[string, number]> = [
+      ["삼년전", -3],
+      ["사년전", -4],
+    ];
+    for (const [text, offset] of cases) {
+      const r = runRules(text);
+      expect(r.confidence).toBe(1.0);
+      expect(r.expressions[0].expression).toEqual({
+        kind: "relative",
+        unit: "year",
+        offset,
+        singleDay: true,
+      });
+    }
   });
 
   it("어제 매출 → named yesterday", () => {

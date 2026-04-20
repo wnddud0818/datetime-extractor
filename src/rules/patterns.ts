@@ -6,7 +6,12 @@ import type {
   TimeOfDay,
   TimePeriod,
 } from "../types.js";
-import { KOREAN_DAY_NUMERALS, KOREAN_DAY_WORDS } from "./numerals.js";
+import {
+  KOREAN_DAY_NUMERALS,
+  KOREAN_DAY_WORDS,
+  KOREAN_COUNT_NUMERAL_ALT,
+  parseKoreanCountNumeral,
+} from "./numerals.js";
 import {
   KOREAN_PERIOD_KEYWORDS,
   inferMeridiemFromPeriod,
@@ -32,6 +37,8 @@ export const KOREAN_FILTER_SUFFIX_MAP: FilterSuffixMap = [
   { re: /^\s*토요일/, filter: "saturdays" },
   { re: /^\s*일요일/, filter: "sundays" },
 ];
+
+const KOREAN_COUNT_RE_SRC = `\\d+|${KOREAN_COUNT_NUMERAL_ALT}`;
 
 export function tryAttachFilter(
   text: string,
@@ -701,9 +708,11 @@ export function findMatchesKo(text: string): Match[] {
   const YEAR_RELATIVE: Array<{ word: string; offset: number }> = [
     { word: "재작년", offset: -2 },
     { word: "제작년", offset: -2 },
+    { word: "지난년도", offset: -1 },
     { word: "작년", offset: -1 },
     { word: "지난해", offset: -1 },
     { word: "지난 해", offset: -1 },
+    { word: "전년도", offset: -1 },
     { word: "전년", offset: -1 },
     { word: "올해", offset: 0 },
     { word: "금년", offset: 0 },
@@ -851,17 +860,20 @@ export function findMatchesKo(text: string): Match[] {
   // 8. 수치 상대 (7일 전, 3일 후, 2주 전, 3개월 뒤)
   //    "N일 전" = 단일 일. "N주/N개월/N년 전"도 point-in-time = 단일 일 해석.
   {
-    const re =
-      /(\d+)\s*(일|주|개월|달|년|년도|주일)\s*(전|뒤|후)(?=$|\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)/g;
+    const re = new RegExp(
+      `(${KOREAN_COUNT_RE_SRC})\\s*(일|주|개월|달|년|년도|해|주일)\\s*(전|뒤|후)(?=$|\\s|[.,!?~)]|에|엔|은|는|이|가|을|를|도|만|쯤|부터|까지)`,
+      "g",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const n = Number(m[1]);
+      const n = parseKoreanCountNumeral(m[1]);
+      if (n === undefined) continue;
       const unitWord = m[2];
       const dirWord = m[3];
       let unit: "day" | "week" | "month" | "year" = "day";
       if (unitWord === "주" || unitWord === "주일") unit = "week";
       else if (unitWord === "개월" || unitWord === "달") unit = "month";
-      else if (unitWord === "년" || unitWord === "년도") unit = "year";
+      else if (unitWord === "년" || unitWord === "년도" || unitWord === "해") unit = "year";
       const sign = dirWord === "전" ? -1 : 1;
       const singleDay = unit !== "day";
       out.push({
@@ -1336,24 +1348,14 @@ export function findMatchesKo(text: string): Match[] {
 
   // 17. 최근/지난 N 일/주/개월/달/년 (간|동안|내) — duration
   {
-    const KOREAN_NUM: Record<string, number> = {
-      한: 1,
-      두: 2,
-      세: 3,
-      네: 4,
-      다섯: 5,
-      여섯: 6,
-      일곱: 7,
-      여덟: 8,
-      아홉: 9,
-      열: 10,
-    };
-    const re =
-      /(최근|지난|요)?\s*(\d+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\s*(일|주일|주|개월|달|년|해)\s*(간|동안|내|째)/g;
+    const re = new RegExp(
+      `(최근|지난|요)?\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)\\s*(간|동안|내|째)`,
+      "g",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const numStr = m[2];
-      const amount = /^\d+$/.test(numStr) ? Number(numStr) : KOREAN_NUM[numStr] ?? 1;
+      const amount = parseKoreanCountNumeral(m[2]);
+      if (amount === undefined) continue;
       const unitWord = m[3];
       let unit: "day" | "week" | "month" | "year" = "day";
       if (unitWord === "주" || unitWord === "주일") unit = "week";
@@ -1432,16 +1434,14 @@ export function findMatchesKo(text: string): Match[] {
 
   // 17d. 최근/지난 + N일/N주/N개월/N년 (간|동안 suffix 없이도 duration으로 해석)
   {
-    const KOREAN_NUM: Record<string, number> = {
-      한: 1, 두: 2, 세: 3, 네: 4, 다섯: 5,
-      여섯: 6, 일곱: 7, 여덟: 8, 아홉: 9, 열: 10,
-    };
-    const re =
-      /(최근|지난)\s*(\d+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\s*(일|주일|주|개월|달|년|해)(?!\s*(전|뒤|후))/g;
+    const re = new RegExp(
+      `(최근|지난)\\s*(${KOREAN_COUNT_RE_SRC})\\s*(일|주일|주|개월|달|년|해)(?!\\s*(전|뒤|후))`,
+      "g",
+    );
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      const numStr = m[2];
-      const amount = /^\d+$/.test(numStr) ? Number(numStr) : KOREAN_NUM[numStr] ?? 1;
+      const amount = parseKoreanCountNumeral(m[2]);
+      if (amount === undefined) continue;
       const unitWord = m[3];
       let unit: "day" | "week" | "month" | "year" = "day";
       if (unitWord === "주" || unitWord === "주일") unit = "week";
@@ -1497,8 +1497,11 @@ export function findMatchesKo(text: string): Match[] {
     const PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
+      { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
       { word: "내년", offset: 1 },
@@ -1541,8 +1544,11 @@ export function findMatchesKo(text: string): Match[] {
     const PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
+      { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
       { word: "내년", offset: 1 },
@@ -1584,8 +1590,11 @@ export function findMatchesKo(text: string): Match[] {
     const PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
+      { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
       { word: "내년", offset: 1 },
@@ -1622,6 +1631,58 @@ export function findMatchesKo(text: string): Match[] {
             priority: 92,
           });
         }
+      }
+    }
+  }
+
+  // 20-monthly. (prefix) 월별/월별로 → 1월~12월 확장
+  {
+    const PREFIXES: Array<{ word: string; offset: number }> = [
+      { word: "재작년", offset: -2 },
+      { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
+      { word: "지난해", offset: -1 },
+      { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
+      { word: "전년", offset: -1 },
+      { word: "올해", offset: 0 },
+      { word: "금년", offset: 0 },
+      { word: "내년", offset: 1 },
+      { word: "후년", offset: 2 },
+    ];
+    for (const { word, offset } of PREFIXES) {
+      const re = new RegExp(`${word}\\s*월\\s*별(?:로)?`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text))) {
+        const matchEnd = m.index + m[0].length;
+        for (let month = 1; month <= 12; month++) {
+          out.push({
+            text: month === 1 ? m[0] : `${month}월`,
+            start: month === 1 ? m.index : matchEnd,
+            end: month === 1 ? matchEnd : matchEnd,
+            expression: { kind: "absolute", yearOffset: offset, month },
+            priority: 92,
+          });
+        }
+      }
+    }
+  }
+
+  // 20-monthly-year. YYYY년 월별/월별로 → 1월~12월 확장
+  {
+    const re = /(\d{4})\s*년\s*월\s*별(?:로)?/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text))) {
+      const year = Number(m[1]);
+      const matchEnd = m.index + m[0].length;
+      for (let month = 1; month <= 12; month++) {
+        out.push({
+          text: month === 1 ? m[0] : `${month}월`,
+          start: month === 1 ? m.index : matchEnd,
+          end: month === 1 ? matchEnd : matchEnd,
+          expression: { kind: "absolute", year, month },
+          priority: 94,
+        });
       }
     }
   }
@@ -1667,8 +1728,10 @@ export function findMatchesKo(text: string): Match[] {
     const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "지난 해", offset: -1 },
+      { word: "전년도", offset: -1 },
       { word: "전년", offset: -1 },
       { word: "작년", offset: -1 },
       { word: "올해", offset: 0 },
@@ -2480,8 +2543,10 @@ export function findMatchesKo(text: string): Match[] {
     const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
       { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
@@ -2519,8 +2584,11 @@ export function findMatchesKo(text: string): Match[] {
     const PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
+      { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
       { word: "내년", offset: 1 },
@@ -2843,8 +2911,10 @@ export function findMatchesKo(text: string): Match[] {
     const YEAR_PREFIXES: Array<{ word: string; offset: number }> = [
       { word: "재작년", offset: -2 },
       { word: "제작년", offset: -2 },
+      { word: "지난년도", offset: -1 },
       { word: "지난해", offset: -1 },
       { word: "작년", offset: -1 },
+      { word: "전년도", offset: -1 },
       { word: "전년", offset: -1 },
       { word: "올해", offset: 0 },
       { word: "금년", offset: 0 },
@@ -2982,6 +3052,7 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "다음",
   "올해",
   "작년",
+  "지난년도",
   "내년",
   "재작년",
   "제작년",
@@ -3039,6 +3110,7 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "동월",
   "동기",
   "전년",
+  "전년도",
   "마지막 주",
   "마지막 영업일",
   "첫 영업일",

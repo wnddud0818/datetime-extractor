@@ -746,7 +746,22 @@ function resolveRange(
   if (!expr.end) {
     return { start: s.start, end: s.end, granularity: "day" };
   }
-  const e = resolveExpression(expr.end, ctx);
+  let e = resolveExpression(expr.end, ctx);
+  if (expr.end.kind === "absolute") {
+    const endHasExplicitYear =
+      expr.end.year !== undefined || expr.end.yearOffset !== undefined;
+    if (!endHasExplicitYear) {
+      e = resolveExpression(expr.end, { ...ctx, contextDate: s.start });
+
+      // "11월부터 2월까지"처럼 끝 월/일이 시작보다 앞서면 다음 해로 넘긴다.
+      if (e.end < s.start) {
+        e = resolveExpression(expr.end, {
+          ...ctx,
+          contextDate: addYears(s.start, 1),
+        });
+      }
+    }
+  }
   return {
     start: s.start,
     end: e.end,

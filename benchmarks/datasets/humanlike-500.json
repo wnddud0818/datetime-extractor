@@ -5,7 +5,7 @@
     {
       "id": "single-1-1",
       "category": "single_date",
-      "text": "오늘 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "오늘 기준으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -23,7 +23,7 @@
     {
       "id": "single-1-2",
       "category": "single_date",
-      "text": "오늘 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "오늘만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -41,7 +41,7 @@
     {
       "id": "single-1-3",
       "category": "single_date",
-      "text": "오늘만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "오늘 기준 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -59,7 +59,7 @@
     {
       "id": "single-1-4",
       "category": "single_date",
-      "text": "오늘 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "오늘 데이터로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -77,7 +77,7 @@
     {
       "id": "single-1-5",
       "category": "single_date",
-      "text": "오늘 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "오늘 시점으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -95,7 +95,7 @@
     {
       "id": "single-1-6",
       "category": "single_date",
-      "text": "오늘 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "오늘 상황만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -113,7 +113,7 @@
     {
       "id": "single-1-7",
       "category": "single_date",
-      "text": "오늘 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "오늘 기준으로만 보면 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -131,7 +131,7 @@
     {
       "id": "single-1-8",
       "category": "single_date",
-      "text": "오늘 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "오늘 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -149,7 +149,7 @@
     {
       "id": "single-1-9",
       "category": "single_date",
-      "text": "오늘 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "오늘 기준으로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -167,7 +167,7 @@
     {
       "id": "single-1-10",
       "category": "single_date",
-      "text": "오늘 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "오늘만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -185,7 +185,7 @@
     {
       "id": "single-2-1",
       "category": "single_date",
-      "text": "어제만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "어제 기준 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -203,7 +203,7 @@
     {
       "id": "single-2-2",
       "category": "single_date",
-      "text": "어제 기준 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "어제 데이터로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -221,7 +221,7 @@
     {
       "id": "single-2-3",
       "category": "single_date",
-      "text": "어제 데이터로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "어제 시점으로 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -239,7 +239,7 @@
     {
       "id": "single-2-4",
       "category": "single_date",
-      "text": "어제 시점으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "어제 상황만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -257,7 +257,7 @@
     {
       "id": "single-2-5",
       "category": "single_date",
-      "text": "어제 상황만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "어제 기준으로만 보면 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -275,7 +275,7 @@
     {
       "id": "single-2-6",
       "category": "single_date",
-      "text": "어제 기준으로만 보면 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "어제 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -293,7 +293,7 @@
     {
       "id": "single-2-7",
       "category": "single_date",
-      "text": "어제 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "어제 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -311,7 +311,7 @@
     {
       "id": "single-2-8",
       "category": "single_date",
-      "text": "어제 기준으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "어제만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -329,7 +329,7 @@
     {
       "id": "single-2-9",
       "category": "single_date",
-      "text": "어제만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "어제 기준 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -347,7 +347,7 @@
     {
       "id": "single-2-10",
       "category": "single_date",
-      "text": "어제 기준 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "어제 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -365,7 +365,7 @@
     {
       "id": "single-3-1",
       "category": "single_date",
-      "text": "그제 데이터로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "그제 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -383,7 +383,7 @@
     {
       "id": "single-3-2",
       "category": "single_date",
-      "text": "그제 시점으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "그제 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -401,7 +401,7 @@
     {
       "id": "single-3-3",
       "category": "single_date",
-      "text": "그제 상황만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "그제 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -419,7 +419,7 @@
     {
       "id": "single-3-4",
       "category": "single_date",
-      "text": "그제 기준으로만 보면 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "그제 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -437,7 +437,7 @@
     {
       "id": "single-3-5",
       "category": "single_date",
-      "text": "그제 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "그제 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -455,7 +455,7 @@
     {
       "id": "single-3-6",
       "category": "single_date",
-      "text": "그제 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "그제 기준으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -473,7 +473,7 @@
     {
       "id": "single-3-7",
       "category": "single_date",
-      "text": "그제 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "그제만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -491,7 +491,7 @@
     {
       "id": "single-3-8",
       "category": "single_date",
-      "text": "그제만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "그제 기준 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -509,7 +509,7 @@
     {
       "id": "single-3-9",
       "category": "single_date",
-      "text": "그제 기준 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "그제 데이터로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -527,7 +527,7 @@
     {
       "id": "single-3-10",
       "category": "single_date",
-      "text": "그제 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "그제 시점으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -545,7 +545,7 @@
     {
       "id": "single-4-1",
       "category": "single_date",
-      "text": "그저께 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "그저께 상황만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -563,7 +563,7 @@
     {
       "id": "single-4-2",
       "category": "single_date",
-      "text": "그저께 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "그저께 기준으로만 보면 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -581,7 +581,7 @@
     {
       "id": "single-4-3",
       "category": "single_date",
-      "text": "그저께 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "그저께 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -599,7 +599,7 @@
     {
       "id": "single-4-4",
       "category": "single_date",
-      "text": "그저께 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "그저께 기준으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -617,7 +617,7 @@
     {
       "id": "single-4-5",
       "category": "single_date",
-      "text": "그저께 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "그저께만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -635,7 +635,7 @@
     {
       "id": "single-4-6",
       "category": "single_date",
-      "text": "그저께만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "그저께 기준 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -653,7 +653,7 @@
     {
       "id": "single-4-7",
       "category": "single_date",
-      "text": "그저께 기준 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "그저께 데이터로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -671,7 +671,7 @@
     {
       "id": "single-4-8",
       "category": "single_date",
-      "text": "그저께 데이터로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "그저께 시점으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -689,7 +689,7 @@
     {
       "id": "single-4-9",
       "category": "single_date",
-      "text": "그저께 시점으로 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "그저께 상황만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -707,7 +707,7 @@
     {
       "id": "single-4-10",
       "category": "single_date",
-      "text": "그저께 상황만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "그저께 기준으로만 보면 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -725,7 +725,7 @@
     {
       "id": "single-5-1",
       "category": "single_date",
-      "text": "엊그제 기준으로만 보면 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "엊그제 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -743,7 +743,7 @@
     {
       "id": "single-5-2",
       "category": "single_date",
-      "text": "엊그제 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "엊그제 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -761,7 +761,7 @@
     {
       "id": "single-5-3",
       "category": "single_date",
-      "text": "엊그제 기준으로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "엊그제만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -779,7 +779,7 @@
     {
       "id": "single-5-4",
       "category": "single_date",
-      "text": "엊그제만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "엊그제 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -797,7 +797,7 @@
     {
       "id": "single-5-5",
       "category": "single_date",
-      "text": "엊그제 기준 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "엊그제 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -815,7 +815,7 @@
     {
       "id": "single-5-6",
       "category": "single_date",
-      "text": "엊그제 데이터로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "엊그제 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -833,7 +833,7 @@
     {
       "id": "single-5-7",
       "category": "single_date",
-      "text": "엊그제 시점으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "엊그제 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -851,7 +851,7 @@
     {
       "id": "single-5-8",
       "category": "single_date",
-      "text": "엊그제 상황만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "엊그제 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -869,7 +869,7 @@
     {
       "id": "single-5-9",
       "category": "single_date",
-      "text": "엊그제 기준으로만 보면 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "엊그제 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -887,7 +887,7 @@
     {
       "id": "single-5-10",
       "category": "single_date",
-      "text": "엊그제 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "엊그제 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -905,7 +905,7 @@
     {
       "id": "single-6-1",
       "category": "single_date",
-      "text": "사흘 전 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "사흘 전 기준으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -923,7 +923,7 @@
     {
       "id": "single-6-2",
       "category": "single_date",
-      "text": "사흘 전 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "사흘 전만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -941,7 +941,7 @@
     {
       "id": "single-6-3",
       "category": "single_date",
-      "text": "사흘 전만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "사흘 전 기준 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -959,7 +959,7 @@
     {
       "id": "single-6-4",
       "category": "single_date",
-      "text": "사흘 전 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "사흘 전 데이터로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -977,7 +977,7 @@
     {
       "id": "single-6-5",
       "category": "single_date",
-      "text": "사흘 전 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "사흘 전 시점으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -995,7 +995,7 @@
     {
       "id": "single-6-6",
       "category": "single_date",
-      "text": "사흘 전 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "사흘 전 상황만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1013,7 +1013,7 @@
     {
       "id": "single-6-7",
       "category": "single_date",
-      "text": "사흘 전 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "사흘 전 기준으로만 보면 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1031,7 +1031,7 @@
     {
       "id": "single-6-8",
       "category": "single_date",
-      "text": "사흘 전 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "사흘 전 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1049,7 +1049,7 @@
     {
       "id": "single-6-9",
       "category": "single_date",
-      "text": "사흘 전 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "사흘 전 기준으로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1067,7 +1067,7 @@
     {
       "id": "single-6-10",
       "category": "single_date",
-      "text": "사흘 전 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "사흘 전만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1085,7 +1085,7 @@
     {
       "id": "single-7-1",
       "category": "single_date",
-      "text": "나흘 전만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "나흘 전 기준 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1103,7 +1103,7 @@
     {
       "id": "single-7-2",
       "category": "single_date",
-      "text": "나흘 전 기준 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "나흘 전 데이터로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1121,7 +1121,7 @@
     {
       "id": "single-7-3",
       "category": "single_date",
-      "text": "나흘 전 데이터로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "나흘 전 시점으로 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1139,7 +1139,7 @@
     {
       "id": "single-7-4",
       "category": "single_date",
-      "text": "나흘 전 시점으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "나흘 전 상황만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1157,7 +1157,7 @@
     {
       "id": "single-7-5",
       "category": "single_date",
-      "text": "나흘 전 상황만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "나흘 전 기준으로만 보면 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1175,7 +1175,7 @@
     {
       "id": "single-7-6",
       "category": "single_date",
-      "text": "나흘 전 기준으로만 보면 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "나흘 전 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1193,7 +1193,7 @@
     {
       "id": "single-7-7",
       "category": "single_date",
-      "text": "나흘 전 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "나흘 전 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1211,7 +1211,7 @@
     {
       "id": "single-7-8",
       "category": "single_date",
-      "text": "나흘 전 기준으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "나흘 전만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1229,7 +1229,7 @@
     {
       "id": "single-7-9",
       "category": "single_date",
-      "text": "나흘 전만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "나흘 전 기준 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1247,7 +1247,7 @@
     {
       "id": "single-7-10",
       "category": "single_date",
-      "text": "나흘 전 기준 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "나흘 전 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1265,7 +1265,7 @@
     {
       "id": "single-8-1",
       "category": "single_date",
-      "text": "보름 전 데이터로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "보름 전 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1283,7 +1283,7 @@
     {
       "id": "single-8-2",
       "category": "single_date",
-      "text": "보름 전 시점으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "보름 전 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1301,7 +1301,7 @@
     {
       "id": "single-8-3",
       "category": "single_date",
-      "text": "보름 전 상황만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "보름 전 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1319,7 +1319,7 @@
     {
       "id": "single-8-4",
       "category": "single_date",
-      "text": "보름 전 기준으로만 보면 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "보름 전 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1337,7 +1337,7 @@
     {
       "id": "single-8-5",
       "category": "single_date",
-      "text": "보름 전 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "보름 전 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1355,7 +1355,7 @@
     {
       "id": "single-8-6",
       "category": "single_date",
-      "text": "보름 전 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "보름 전 기준으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1373,7 +1373,7 @@
     {
       "id": "single-8-7",
       "category": "single_date",
-      "text": "보름 전 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "보름 전만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1391,7 +1391,7 @@
     {
       "id": "single-8-8",
       "category": "single_date",
-      "text": "보름 전만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "보름 전 기준 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1409,7 +1409,7 @@
     {
       "id": "single-8-9",
       "category": "single_date",
-      "text": "보름 전 기준 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "보름 전 데이터로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1427,7 +1427,7 @@
     {
       "id": "single-8-10",
       "category": "single_date",
-      "text": "보름 전 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "보름 전 시점으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1445,7 +1445,7 @@
     {
       "id": "single-9-1",
       "category": "single_date",
-      "text": "일주일 전 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "일주일 전 상황만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1463,7 +1463,7 @@
     {
       "id": "single-9-2",
       "category": "single_date",
-      "text": "일주일 전 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "일주일 전 기준으로만 보면 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1481,7 +1481,7 @@
     {
       "id": "single-9-3",
       "category": "single_date",
-      "text": "일주일 전 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "일주일 전 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1499,7 +1499,7 @@
     {
       "id": "single-9-4",
       "category": "single_date",
-      "text": "일주일 전 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "일주일 전 기준으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1517,7 +1517,7 @@
     {
       "id": "single-9-5",
       "category": "single_date",
-      "text": "일주일 전 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "일주일 전만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1535,7 +1535,7 @@
     {
       "id": "single-9-6",
       "category": "single_date",
-      "text": "일주일 전만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "일주일 전 기준 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1553,7 +1553,7 @@
     {
       "id": "single-9-7",
       "category": "single_date",
-      "text": "일주일 전 기준 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "일주일 전 데이터로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1571,7 +1571,7 @@
     {
       "id": "single-9-8",
       "category": "single_date",
-      "text": "일주일 전 데이터로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "일주일 전 시점으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1589,7 +1589,7 @@
     {
       "id": "single-9-9",
       "category": "single_date",
-      "text": "일주일 전 시점으로 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "일주일 전 상황만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1607,7 +1607,7 @@
     {
       "id": "single-9-10",
       "category": "single_date",
-      "text": "일주일 전 상황만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "일주일 전 기준으로만 보면 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1625,7 +1625,7 @@
     {
       "id": "single-10-1",
       "category": "single_date",
-      "text": "지난주 기준으로만 보면 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "지난주 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1643,7 +1643,7 @@
     {
       "id": "single-10-2",
       "category": "single_date",
-      "text": "지난주 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "지난주 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1661,7 +1661,7 @@
     {
       "id": "single-10-3",
       "category": "single_date",
-      "text": "지난주 기준으로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "지난주만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1679,7 +1679,7 @@
     {
       "id": "single-10-4",
       "category": "single_date",
-      "text": "지난주만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "지난주 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1697,7 +1697,7 @@
     {
       "id": "single-10-5",
       "category": "single_date",
-      "text": "지난주 기준 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "지난주 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1715,7 +1715,7 @@
     {
       "id": "single-10-6",
       "category": "single_date",
-      "text": "지난주 데이터로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "지난주 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1733,7 +1733,7 @@
     {
       "id": "single-10-7",
       "category": "single_date",
-      "text": "지난주 시점으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "지난주 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1751,7 +1751,7 @@
     {
       "id": "single-10-8",
       "category": "single_date",
-      "text": "지난주 상황만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "지난주 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1769,7 +1769,7 @@
     {
       "id": "single-10-9",
       "category": "single_date",
-      "text": "지난주 기준으로만 보면 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "지난주 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1787,7 +1787,7 @@
     {
       "id": "single-10-10",
       "category": "single_date",
-      "text": "지난주 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "지난주 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1805,7 +1805,7 @@
     {
       "id": "single-11-1",
       "category": "single_date",
-      "text": "이번 주 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "이번 주 기준으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1823,7 +1823,7 @@
     {
       "id": "single-11-2",
       "category": "single_date",
-      "text": "이번 주 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "이번 주만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1841,7 +1841,7 @@
     {
       "id": "single-11-3",
       "category": "single_date",
-      "text": "이번 주만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "이번 주 기준 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1859,7 +1859,7 @@
     {
       "id": "single-11-4",
       "category": "single_date",
-      "text": "이번 주 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "이번 주 데이터로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1877,7 +1877,7 @@
     {
       "id": "single-11-5",
       "category": "single_date",
-      "text": "이번 주 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "이번 주 시점으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1895,7 +1895,7 @@
     {
       "id": "single-11-6",
       "category": "single_date",
-      "text": "이번 주 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "이번 주 상황만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1913,7 +1913,7 @@
     {
       "id": "single-11-7",
       "category": "single_date",
-      "text": "이번 주 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "이번 주 기준으로만 보면 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1931,7 +1931,7 @@
     {
       "id": "single-11-8",
       "category": "single_date",
-      "text": "이번 주 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "이번 주 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1949,7 +1949,7 @@
     {
       "id": "single-11-9",
       "category": "single_date",
-      "text": "이번 주 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "이번 주 기준으로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1967,7 +1967,7 @@
     {
       "id": "single-11-10",
       "category": "single_date",
-      "text": "이번 주 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "이번 주만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -1985,7 +1985,7 @@
     {
       "id": "single-12-1",
       "category": "single_date",
-      "text": "지난달만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "지난달 기준 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2003,7 +2003,7 @@
     {
       "id": "single-12-2",
       "category": "single_date",
-      "text": "지난달 기준 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "지난달 데이터로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2021,7 +2021,7 @@
     {
       "id": "single-12-3",
       "category": "single_date",
-      "text": "지난달 데이터로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "지난달 시점으로 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2039,7 +2039,7 @@
     {
       "id": "single-12-4",
       "category": "single_date",
-      "text": "지난달 시점으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "지난달 상황만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2057,7 +2057,7 @@
     {
       "id": "single-12-5",
       "category": "single_date",
-      "text": "지난달 상황만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "지난달 기준으로만 보면 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2075,7 +2075,7 @@
     {
       "id": "single-12-6",
       "category": "single_date",
-      "text": "지난달 기준으로만 보면 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "지난달 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2093,7 +2093,7 @@
     {
       "id": "single-12-7",
       "category": "single_date",
-      "text": "지난달 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "지난달 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2111,7 +2111,7 @@
     {
       "id": "single-12-8",
       "category": "single_date",
-      "text": "지난달 기준으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "지난달만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2129,7 +2129,7 @@
     {
       "id": "single-12-9",
       "category": "single_date",
-      "text": "지난달만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "지난달 기준 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2147,7 +2147,7 @@
     {
       "id": "single-12-10",
       "category": "single_date",
-      "text": "지난달 기준 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "지난달 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2165,7 +2165,7 @@
     {
       "id": "single-13-1",
       "category": "single_date",
-      "text": "이번 달 데이터로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "이번 달 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2183,7 +2183,7 @@
     {
       "id": "single-13-2",
       "category": "single_date",
-      "text": "이번 달 시점으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "이번 달 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2201,7 +2201,7 @@
     {
       "id": "single-13-3",
       "category": "single_date",
-      "text": "이번 달 상황만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "이번 달 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2219,7 +2219,7 @@
     {
       "id": "single-13-4",
       "category": "single_date",
-      "text": "이번 달 기준으로만 보면 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "이번 달 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2237,7 +2237,7 @@
     {
       "id": "single-13-5",
       "category": "single_date",
-      "text": "이번 달 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "이번 달 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2255,7 +2255,7 @@
     {
       "id": "single-13-6",
       "category": "single_date",
-      "text": "이번 달 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "이번 달 기준으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2273,7 +2273,7 @@
     {
       "id": "single-13-7",
       "category": "single_date",
-      "text": "이번 달 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "이번 달만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2291,7 +2291,7 @@
     {
       "id": "single-13-8",
       "category": "single_date",
-      "text": "이번 달만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "이번 달 기준 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2309,7 +2309,7 @@
     {
       "id": "single-13-9",
       "category": "single_date",
-      "text": "이번 달 기준 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "이번 달 데이터로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2327,7 +2327,7 @@
     {
       "id": "single-13-10",
       "category": "single_date",
-      "text": "이번 달 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "이번 달 시점으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2345,7 +2345,7 @@
     {
       "id": "single-14-1",
       "category": "single_date",
-      "text": "3월 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "3월 상황만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2363,7 +2363,7 @@
     {
       "id": "single-14-2",
       "category": "single_date",
-      "text": "3월 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "3월 기준으로만 보면 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2381,7 +2381,7 @@
     {
       "id": "single-14-3",
       "category": "single_date",
-      "text": "3월 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "3월 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2399,7 +2399,7 @@
     {
       "id": "single-14-4",
       "category": "single_date",
-      "text": "3월 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "3월 기준으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2417,7 +2417,7 @@
     {
       "id": "single-14-5",
       "category": "single_date",
-      "text": "3월 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "3월만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2435,7 +2435,7 @@
     {
       "id": "single-14-6",
       "category": "single_date",
-      "text": "3월만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "3월 기준 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2453,7 +2453,7 @@
     {
       "id": "single-14-7",
       "category": "single_date",
-      "text": "3월 기준 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "3월 데이터로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2471,7 +2471,7 @@
     {
       "id": "single-14-8",
       "category": "single_date",
-      "text": "3월 데이터로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "3월 시점으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2489,7 +2489,7 @@
     {
       "id": "single-14-9",
       "category": "single_date",
-      "text": "3월 시점으로 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "3월 상황만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2507,7 +2507,7 @@
     {
       "id": "single-14-10",
       "category": "single_date",
-      "text": "3월 상황만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "3월 기준으로만 보면 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2525,7 +2525,7 @@
     {
       "id": "single-15-1",
       "category": "single_date",
-      "text": "8월 기준으로만 보면 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "8월 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2543,7 +2543,7 @@
     {
       "id": "single-15-2",
       "category": "single_date",
-      "text": "8월 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "8월 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2561,7 +2561,7 @@
     {
       "id": "single-15-3",
       "category": "single_date",
-      "text": "8월 기준으로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "8월만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2579,7 +2579,7 @@
     {
       "id": "single-15-4",
       "category": "single_date",
-      "text": "8월만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "8월 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2597,7 +2597,7 @@
     {
       "id": "single-15-5",
       "category": "single_date",
-      "text": "8월 기준 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "8월 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2615,7 +2615,7 @@
     {
       "id": "single-15-6",
       "category": "single_date",
-      "text": "8월 데이터로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "8월 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2633,7 +2633,7 @@
     {
       "id": "single-15-7",
       "category": "single_date",
-      "text": "8월 시점으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "8월 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2651,7 +2651,7 @@
     {
       "id": "single-15-8",
       "category": "single_date",
-      "text": "8월 상황만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "8월 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2669,7 +2669,7 @@
     {
       "id": "single-15-9",
       "category": "single_date",
-      "text": "8월 기준으로만 보면 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "8월 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2687,7 +2687,7 @@
     {
       "id": "single-15-10",
       "category": "single_date",
-      "text": "8월 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "8월 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2705,7 +2705,7 @@
     {
       "id": "single-16-1",
       "category": "single_date",
-      "text": "올해 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "올해 기준으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2723,7 +2723,7 @@
     {
       "id": "single-16-2",
       "category": "single_date",
-      "text": "올해 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "올해만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2741,7 +2741,7 @@
     {
       "id": "single-16-3",
       "category": "single_date",
-      "text": "올해만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "올해 기준 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2759,7 +2759,7 @@
     {
       "id": "single-16-4",
       "category": "single_date",
-      "text": "올해 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "올해 데이터로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2777,7 +2777,7 @@
     {
       "id": "single-16-5",
       "category": "single_date",
-      "text": "올해 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "올해 시점으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2795,7 +2795,7 @@
     {
       "id": "single-16-6",
       "category": "single_date",
-      "text": "올해 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "올해 상황만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2813,7 +2813,7 @@
     {
       "id": "single-16-7",
       "category": "single_date",
-      "text": "올해 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "올해 기준으로만 보면 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2831,7 +2831,7 @@
     {
       "id": "single-16-8",
       "category": "single_date",
-      "text": "올해 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "올해 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2849,7 +2849,7 @@
     {
       "id": "single-16-9",
       "category": "single_date",
-      "text": "올해 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "올해 기준으로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2867,7 +2867,7 @@
     {
       "id": "single-16-10",
       "category": "single_date",
-      "text": "올해 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "올해만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2885,7 +2885,7 @@
     {
       "id": "single-17-1",
       "category": "single_date",
-      "text": "작년만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "작년 기준 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2903,7 +2903,7 @@
     {
       "id": "single-17-2",
       "category": "single_date",
-      "text": "작년 기준 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "작년 데이터로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2921,7 +2921,7 @@
     {
       "id": "single-17-3",
       "category": "single_date",
-      "text": "작년 데이터로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "작년 시점으로 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2939,7 +2939,7 @@
     {
       "id": "single-17-4",
       "category": "single_date",
-      "text": "작년 시점으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "작년 상황만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2957,7 +2957,7 @@
     {
       "id": "single-17-5",
       "category": "single_date",
-      "text": "작년 상황만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "작년 기준으로만 보면 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2975,7 +2975,7 @@
     {
       "id": "single-17-6",
       "category": "single_date",
-      "text": "작년 기준으로만 보면 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "작년 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -2993,7 +2993,7 @@
     {
       "id": "single-17-7",
       "category": "single_date",
-      "text": "작년 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "작년 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3011,7 +3011,7 @@
     {
       "id": "single-17-8",
       "category": "single_date",
-      "text": "작년 기준으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "작년만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3029,7 +3029,7 @@
     {
       "id": "single-17-9",
       "category": "single_date",
-      "text": "작년만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "작년 기준 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3047,7 +3047,7 @@
     {
       "id": "single-17-10",
       "category": "single_date",
-      "text": "작년 기준 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "작년 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3065,7 +3065,7 @@
     {
       "id": "single-18-1",
       "category": "single_date",
-      "text": "재작년 데이터로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "재작년 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3083,7 +3083,7 @@
     {
       "id": "single-18-2",
       "category": "single_date",
-      "text": "재작년 시점으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "재작년 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3101,7 +3101,7 @@
     {
       "id": "single-18-3",
       "category": "single_date",
-      "text": "재작년 상황만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "재작년 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3119,7 +3119,7 @@
     {
       "id": "single-18-4",
       "category": "single_date",
-      "text": "재작년 기준으로만 보면 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "재작년 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3137,7 +3137,7 @@
     {
       "id": "single-18-5",
       "category": "single_date",
-      "text": "재작년 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "재작년 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3155,7 +3155,7 @@
     {
       "id": "single-18-6",
       "category": "single_date",
-      "text": "재작년 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "재작년 기준으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3173,7 +3173,7 @@
     {
       "id": "single-18-7",
       "category": "single_date",
-      "text": "재작년 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "재작년만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3191,7 +3191,7 @@
     {
       "id": "single-18-8",
       "category": "single_date",
-      "text": "재작년만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "재작년 기준 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3209,7 +3209,7 @@
     {
       "id": "single-18-9",
       "category": "single_date",
-      "text": "재작년 기준 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "재작년 데이터로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3227,7 +3227,7 @@
     {
       "id": "single-18-10",
       "category": "single_date",
-      "text": "재작년 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "재작년 시점으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3245,7 +3245,7 @@
     {
       "id": "single-19-1",
       "category": "single_date",
-      "text": "이번분기 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "이번분기 상황만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3263,7 +3263,7 @@
     {
       "id": "single-19-2",
       "category": "single_date",
-      "text": "이번분기 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "이번분기 기준으로만 보면 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3281,7 +3281,7 @@
     {
       "id": "single-19-3",
       "category": "single_date",
-      "text": "이번분기 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "이번분기 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3299,7 +3299,7 @@
     {
       "id": "single-19-4",
       "category": "single_date",
-      "text": "이번분기 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "이번분기 기준으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3317,7 +3317,7 @@
     {
       "id": "single-19-5",
       "category": "single_date",
-      "text": "이번분기 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "이번분기만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3335,7 +3335,7 @@
     {
       "id": "single-19-6",
       "category": "single_date",
-      "text": "이번분기만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "이번분기 기준 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3353,7 +3353,7 @@
     {
       "id": "single-19-7",
       "category": "single_date",
-      "text": "이번분기 기준 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "이번분기 데이터로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3371,7 +3371,7 @@
     {
       "id": "single-19-8",
       "category": "single_date",
-      "text": "이번분기 데이터로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "이번분기 시점으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3389,7 +3389,7 @@
     {
       "id": "single-19-9",
       "category": "single_date",
-      "text": "이번분기 시점으로 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "이번분기 상황만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3407,7 +3407,7 @@
     {
       "id": "single-19-10",
       "category": "single_date",
-      "text": "이번분기 상황만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "이번분기 기준으로만 보면 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3425,7 +3425,7 @@
     {
       "id": "single-20-1",
       "category": "single_date",
-      "text": "지난분기 기준으로만 보면 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "지난분기 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3443,7 +3443,7 @@
     {
       "id": "single-20-2",
       "category": "single_date",
-      "text": "지난분기 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "지난분기 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3461,7 +3461,7 @@
     {
       "id": "single-20-3",
       "category": "single_date",
-      "text": "지난분기 기준으로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "지난분기만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3479,7 +3479,7 @@
     {
       "id": "single-20-4",
       "category": "single_date",
-      "text": "지난분기만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "지난분기 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3497,7 +3497,7 @@
     {
       "id": "single-20-5",
       "category": "single_date",
-      "text": "지난분기 기준 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "지난분기 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3515,7 +3515,7 @@
     {
       "id": "single-20-6",
       "category": "single_date",
-      "text": "지난분기 데이터로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "지난분기 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3533,7 +3533,7 @@
     {
       "id": "single-20-7",
       "category": "single_date",
-      "text": "지난분기 시점으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "지난분기 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3551,7 +3551,7 @@
     {
       "id": "single-20-8",
       "category": "single_date",
-      "text": "지난분기 상황만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "지난분기 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3569,7 +3569,7 @@
     {
       "id": "single-20-9",
       "category": "single_date",
-      "text": "지난분기 기준으로만 보면 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "지난분기 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3587,7 +3587,7 @@
     {
       "id": "single-20-10",
       "category": "single_date",
-      "text": "지난분기 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "지난분기 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3605,7 +3605,7 @@
     {
       "id": "single-21-1",
       "category": "single_date",
-      "text": "4분기 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "4분기 기준으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3623,7 +3623,7 @@
     {
       "id": "single-21-2",
       "category": "single_date",
-      "text": "4분기 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "4분기만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3641,7 +3641,7 @@
     {
       "id": "single-21-3",
       "category": "single_date",
-      "text": "4분기만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "4분기 기준 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3659,7 +3659,7 @@
     {
       "id": "single-21-4",
       "category": "single_date",
-      "text": "4분기 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "4분기 데이터로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3677,7 +3677,7 @@
     {
       "id": "single-21-5",
       "category": "single_date",
-      "text": "4분기 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "4분기 시점으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3695,7 +3695,7 @@
     {
       "id": "single-21-6",
       "category": "single_date",
-      "text": "4분기 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "4분기 상황만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3713,7 +3713,7 @@
     {
       "id": "single-21-7",
       "category": "single_date",
-      "text": "4분기 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "4분기 기준으로만 보면 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3731,7 +3731,7 @@
     {
       "id": "single-21-8",
       "category": "single_date",
-      "text": "4분기 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "4분기 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3749,7 +3749,7 @@
     {
       "id": "single-21-9",
       "category": "single_date",
-      "text": "4분기 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "4분기 기준으로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3767,7 +3767,7 @@
     {
       "id": "single-21-10",
       "category": "single_date",
-      "text": "4분기 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "4분기만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3785,7 +3785,7 @@
     {
       "id": "single-22-1",
       "category": "single_date",
-      "text": "하반기만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "하반기 기준 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3803,7 +3803,7 @@
     {
       "id": "single-22-2",
       "category": "single_date",
-      "text": "하반기 기준 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "하반기 데이터로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3821,7 +3821,7 @@
     {
       "id": "single-22-3",
       "category": "single_date",
-      "text": "하반기 데이터로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "하반기 시점으로 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3839,7 +3839,7 @@
     {
       "id": "single-22-4",
       "category": "single_date",
-      "text": "하반기 시점으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "하반기 상황만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3857,7 +3857,7 @@
     {
       "id": "single-22-5",
       "category": "single_date",
-      "text": "하반기 상황만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "하반기 기준으로만 보면 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3875,7 +3875,7 @@
     {
       "id": "single-22-6",
       "category": "single_date",
-      "text": "하반기 기준으로만 보면 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "하반기 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3893,7 +3893,7 @@
     {
       "id": "single-22-7",
       "category": "single_date",
-      "text": "하반기 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "하반기 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3911,7 +3911,7 @@
     {
       "id": "single-22-8",
       "category": "single_date",
-      "text": "하반기 기준으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "하반기만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3929,7 +3929,7 @@
     {
       "id": "single-22-9",
       "category": "single_date",
-      "text": "하반기만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "하반기 기준 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3947,7 +3947,7 @@
     {
       "id": "single-22-10",
       "category": "single_date",
-      "text": "하반기 기준 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "하반기 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3965,7 +3965,7 @@
     {
       "id": "single-23-1",
       "category": "single_date",
-      "text": "1분기 데이터로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "1분기 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -3983,7 +3983,7 @@
     {
       "id": "single-23-2",
       "category": "single_date",
-      "text": "1분기 시점으로 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "1분기 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4001,7 +4001,7 @@
     {
       "id": "single-23-3",
       "category": "single_date",
-      "text": "1분기 상황만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "1분기 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4019,7 +4019,7 @@
     {
       "id": "single-23-4",
       "category": "single_date",
-      "text": "1분기 기준으로만 보면 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "1분기 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4037,7 +4037,7 @@
     {
       "id": "single-23-5",
       "category": "single_date",
-      "text": "1분기 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "1분기 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4055,7 +4055,7 @@
     {
       "id": "single-23-6",
       "category": "single_date",
-      "text": "1분기 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "1분기 기준으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4073,7 +4073,7 @@
     {
       "id": "single-23-7",
       "category": "single_date",
-      "text": "1분기 기준으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "1분기만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4091,7 +4091,7 @@
     {
       "id": "single-23-8",
       "category": "single_date",
-      "text": "1분기만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "1분기 기준 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4109,7 +4109,7 @@
     {
       "id": "single-23-9",
       "category": "single_date",
-      "text": "1분기 기준 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "1분기 데이터로 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4127,7 +4127,7 @@
     {
       "id": "single-23-10",
       "category": "single_date",
-      "text": "1분기 데이터로 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "1분기 시점으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4145,7 +4145,7 @@
     {
       "id": "single-24-1",
       "category": "single_date",
-      "text": "2024년 2월 시점으로 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "2024년 2월 상황만 놓고 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4163,7 +4163,7 @@
     {
       "id": "single-24-2",
       "category": "single_date",
-      "text": "2024년 2월 상황만 놓고 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "2024년 2월 기준으로만 보면 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4181,7 +4181,7 @@
     {
       "id": "single-24-3",
       "category": "single_date",
-      "text": "2024년 2월 기준으로만 보면 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "2024년 2월 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4199,7 +4199,7 @@
     {
       "id": "single-24-4",
       "category": "single_date",
-      "text": "2024년 2월 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "2024년 2월 기준으로 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4217,7 +4217,7 @@
     {
       "id": "single-24-5",
       "category": "single_date",
-      "text": "2024년 2월 기준으로 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "2024년 2월만 놓고 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4235,7 +4235,7 @@
     {
       "id": "single-24-6",
       "category": "single_date",
-      "text": "2024년 2월만 놓고 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "2024년 2월 기준 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4253,7 +4253,7 @@
     {
       "id": "single-24-7",
       "category": "single_date",
-      "text": "2024년 2월 기준 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "2024년 2월 데이터로 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4271,7 +4271,7 @@
     {
       "id": "single-24-8",
       "category": "single_date",
-      "text": "2024년 2월 데이터로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "2024년 2월 시점으로 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4289,7 +4289,7 @@
     {
       "id": "single-24-9",
       "category": "single_date",
-      "text": "2024년 2월 시점으로 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "2024년 2월 상황만 놓고 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4307,7 +4307,7 @@
     {
       "id": "single-24-10",
       "category": "single_date",
-      "text": "2024년 2월 상황만 놓고 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "2024년 2월 기준으로만 보면 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4325,7 +4325,7 @@
     {
       "id": "single-25-1",
       "category": "single_date",
-      "text": "2023년 기준으로만 보면 예적금 계좌 흐름이 어땠는지 보고 싶어",
+      "text": "2023년 예적금 계좌 흐름이 어땠는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4343,7 +4343,7 @@
     {
       "id": "single-25-2",
       "category": "single_date",
-      "text": "2023년 대출 쪽 잔액만 따로 확인하고 싶어",
+      "text": "2023년 기준으로 대출 쪽 잔액만 따로 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4361,7 +4361,7 @@
     {
       "id": "single-25-3",
       "category": "single_date",
-      "text": "2023년 기준으로 외화 계좌 거래 내역을 정리해서 보여줘",
+      "text": "2023년만 놓고 외화 계좌 거래 내역을 정리해서 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4379,7 +4379,7 @@
     {
       "id": "single-25-4",
       "category": "single_date",
-      "text": "2023년만 놓고 증권 계좌에서 빠져나간 돈만 보고 싶어",
+      "text": "2023년 기준 증권 계좌에서 빠져나간 돈만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4397,7 +4397,7 @@
     {
       "id": "single-25-5",
       "category": "single_date",
-      "text": "2023년 기준 신탁 계좌 입출금 흐름을 확인해줘",
+      "text": "2023년 데이터로 신탁 계좌 입출금 흐름을 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4415,7 +4415,7 @@
     {
       "id": "single-25-6",
       "category": "single_date",
-      "text": "2023년 데이터로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
+      "text": "2023년 시점으로 수시입출 계좌 움직임이 어땠는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4433,7 +4433,7 @@
     {
       "id": "single-25-7",
       "category": "single_date",
-      "text": "2023년 시점으로 운영비 비중이 어느 정도였는지 보고 싶어",
+      "text": "2023년 상황만 놓고 운영비 비중이 어느 정도였는지 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4451,7 +4451,7 @@
     {
       "id": "single-25-8",
       "category": "single_date",
-      "text": "2023년 상황만 놓고 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
+      "text": "2023년 기준으로만 보면 삼성전자랑 거래한 비중이 얼마나 되는지 궁금해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4469,7 +4469,7 @@
     {
       "id": "single-25-9",
       "category": "single_date",
-      "text": "2023년 기준으로만 보면 큰 금액 거래만 골라서 확인하고 싶어",
+      "text": "2023년 큰 금액 거래만 골라서 확인하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4487,7 +4487,7 @@
     {
       "id": "single-25-10",
       "category": "single_date",
-      "text": "2023년 자금 증감 흐름을 한눈에 보고 싶어",
+      "text": "2023년 기준으로 자금 증감 흐름을 한눈에 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4505,7 +4505,7 @@
     {
       "id": "life-1-1",
       "category": "lifecycle",
-      "text": "2024년 7월 31일에 만기되는 계좌만 추려줘",
+      "text": "2024년 7월 31일에 만기되는 계좌만 추려줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4523,7 +4523,7 @@
     {
       "id": "life-1-2",
       "category": "lifecycle",
-      "text": "2024년 7월 31일에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
+      "text": "2024년 7월 31일에 개설된 계좌가 뭐였는지 찾아줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4541,7 +4541,7 @@
     {
       "id": "life-1-3",
       "category": "lifecycle",
-      "text": "2024년 7월 31일에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
+      "text": "2024년 7월 31일에 남아 있던 잔액을 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4559,7 +4559,7 @@
     {
       "id": "life-1-4",
       "category": "lifecycle",
-      "text": "2024년 7월 31일에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
+      "text": "2024년 7월 31일에 신규 개설된 계좌 거래내역만 보고 싶어 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4577,7 +4577,7 @@
     {
       "id": "life-1-5",
       "category": "lifecycle",
-      "text": "2024년 7월 31일에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
+      "text": "2024년 7월 31일에 가입한 상품이 있었는지 확인해줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4595,7 +4595,7 @@
     {
       "id": "life-2-1",
       "category": "lifecycle",
-      "text": "2014년 7월 31일에 만기되는 계좌만 추려줘 부탁해",
+      "text": "2014년 7월 31일에 만기되는 계좌만 추려줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4613,7 +4613,7 @@
     {
       "id": "life-2-2",
       "category": "lifecycle",
-      "text": "2014년 7월 31일에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
+      "text": "2014년 7월 31일에 개설된 계좌가 뭐였는지 찾아줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4631,7 +4631,7 @@
     {
       "id": "life-2-3",
       "category": "lifecycle",
-      "text": "2014년 7월 31일에 남아 있던 잔액을 보고 싶어 체크해줘",
+      "text": "2014년 7월 31일에 남아 있던 잔액을 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4649,7 +4649,7 @@
     {
       "id": "life-2-4",
       "category": "lifecycle",
-      "text": "2014년 7월 31일에 신규 개설된 계좌 거래내역만 보고 싶어",
+      "text": "2014년 7월 31일에 신규 개설된 계좌 거래내역만 보고 싶어 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4667,7 +4667,7 @@
     {
       "id": "life-2-5",
       "category": "lifecycle",
-      "text": "2014년 7월 31일에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
+      "text": "2014년 7월 31일에 가입한 상품이 있었는지 확인해줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4685,7 +4685,7 @@
     {
       "id": "life-3-1",
       "category": "lifecycle",
-      "text": "2027년 2월 1일부터 7일까지 사이에 만기되는 계좌만 추려줘 먼저 확인해줘",
+      "text": "2027년 2월 1일부터 7일까지 사이에 만기되는 계좌만 추려줘 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4703,7 +4703,7 @@
     {
       "id": "life-3-2",
       "category": "lifecycle",
-      "text": "2027년 2월 1일부터 7일까지 사이에 개설된 계좌가 뭐였는지 찾아줘 한 번 정리해줘",
+      "text": "2027년 2월 1일부터 7일까지 사이에 개설된 계좌가 뭐였는지 찾아줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4721,7 +4721,7 @@
     {
       "id": "life-3-3",
       "category": "lifecycle",
-      "text": "2027년 2월 1일부터 7일까지 사이에 남아 있던 잔액을 보고 싶어 있는지 알려줘",
+      "text": "2027년 2월 1일부터 7일까지 사이에 남아 있던 잔액을 보고 싶어 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4739,7 +4739,7 @@
     {
       "id": "life-3-4",
       "category": "lifecycle",
-      "text": "2027년 2월 1일부터 7일까지 사이에 신규 개설된 계좌 거래내역만 보고 싶어 부탁해",
+      "text": "2027년 2월 1일부터 7일까지 사이에 신규 개설된 계좌 거래내역만 보고 싶어 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4757,7 +4757,7 @@
     {
       "id": "life-3-5",
       "category": "lifecycle",
-      "text": "2027년 2월 1일부터 7일까지 사이에 가입한 상품이 있었는지 확인해줘 바로 보고 싶어",
+      "text": "2027년 2월 1일부터 7일까지 사이에 가입한 상품이 있었는지 확인해줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4775,7 +4775,7 @@
     {
       "id": "life-4-1",
       "category": "lifecycle",
-      "text": "2027년 1월 31일에 만기되는 계좌만 추려줘 체크해줘",
+      "text": "2027년 1월 31일에 만기되는 계좌만 추려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4793,7 +4793,7 @@
     {
       "id": "life-4-2",
       "category": "lifecycle",
-      "text": "2027년 1월 31일에 개설된 계좌가 뭐였는지 찾아줘",
+      "text": "2027년 1월 31일에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4811,7 +4811,7 @@
     {
       "id": "life-4-3",
       "category": "lifecycle",
-      "text": "2027년 1월 31일에 남아 있던 잔액을 보고 싶어 좀 볼 수 있을까?",
+      "text": "2027년 1월 31일에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4829,7 +4829,7 @@
     {
       "id": "life-4-4",
       "category": "lifecycle",
-      "text": "2027년 1월 31일에 신규 개설된 계좌 거래내역만 보고 싶어 먼저 확인해줘",
+      "text": "2027년 1월 31일에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4847,7 +4847,7 @@
     {
       "id": "life-4-5",
       "category": "lifecycle",
-      "text": "2027년 1월 31일에 가입한 상품이 있었는지 확인해줘 한 번 정리해줘",
+      "text": "2027년 1월 31일에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4865,7 +4865,7 @@
     {
       "id": "life-5-1",
       "category": "lifecycle",
-      "text": "2032년 1분기에 만기되는 계좌만 추려줘 있는지 알려줘",
+      "text": "2032년 1분기에 만기되는 계좌만 추려줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4883,7 +4883,7 @@
     {
       "id": "life-5-2",
       "category": "lifecycle",
-      "text": "2032년 1분기에 개설된 계좌가 뭐였는지 찾아줘 부탁해",
+      "text": "2032년 1분기에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4901,7 +4901,7 @@
     {
       "id": "life-5-3",
       "category": "lifecycle",
-      "text": "2032년 1분기에 남아 있던 잔액을 보고 싶어 바로 보고 싶어",
+      "text": "2032년 1분기에 남아 있던 잔액을 보고 싶어 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4919,7 +4919,7 @@
     {
       "id": "life-5-4",
       "category": "lifecycle",
-      "text": "2032년 1분기에 신규 개설된 계좌 거래내역만 보고 싶어 체크해줘",
+      "text": "2032년 1분기에 신규 개설된 계좌 거래내역만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4937,7 +4937,7 @@
     {
       "id": "life-5-5",
       "category": "lifecycle",
-      "text": "2032년 1분기에 가입한 상품이 있었는지 확인해줘",
+      "text": "2032년 1분기에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4955,7 +4955,7 @@
     {
       "id": "life-6-1",
       "category": "lifecycle",
-      "text": "2029년 12월에 만기되는 계좌만 추려줘",
+      "text": "2029년 12월에 만기되는 계좌만 추려줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4973,7 +4973,7 @@
     {
       "id": "life-6-2",
       "category": "lifecycle",
-      "text": "2029년 12월에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
+      "text": "2029년 12월에 개설된 계좌가 뭐였는지 찾아줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -4991,7 +4991,7 @@
     {
       "id": "life-6-3",
       "category": "lifecycle",
-      "text": "2029년 12월에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
+      "text": "2029년 12월에 남아 있던 잔액을 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5009,7 +5009,7 @@
     {
       "id": "life-6-4",
       "category": "lifecycle",
-      "text": "2029년 12월에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
+      "text": "2029년 12월에 신규 개설된 계좌 거래내역만 보고 싶어 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5027,7 +5027,7 @@
     {
       "id": "life-6-5",
       "category": "lifecycle",
-      "text": "2029년 12월에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
+      "text": "2029년 12월에 가입한 상품이 있었는지 확인해줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5045,7 +5045,7 @@
     {
       "id": "life-7-1",
       "category": "lifecycle",
-      "text": "2020년 2월에 만기되는 계좌만 추려줘 부탁해",
+      "text": "2020년 2월에 만기되는 계좌만 추려줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5063,7 +5063,7 @@
     {
       "id": "life-7-2",
       "category": "lifecycle",
-      "text": "2020년 2월에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
+      "text": "2020년 2월에 개설된 계좌가 뭐였는지 찾아줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5081,7 +5081,7 @@
     {
       "id": "life-7-3",
       "category": "lifecycle",
-      "text": "2020년 2월에 남아 있던 잔액을 보고 싶어 체크해줘",
+      "text": "2020년 2월에 남아 있던 잔액을 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5099,7 +5099,7 @@
     {
       "id": "life-7-4",
       "category": "lifecycle",
-      "text": "2020년 2월에 신규 개설된 계좌 거래내역만 보고 싶어",
+      "text": "2020년 2월에 신규 개설된 계좌 거래내역만 보고 싶어 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5117,7 +5117,7 @@
     {
       "id": "life-7-5",
       "category": "lifecycle",
-      "text": "2020년 2월에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
+      "text": "2020년 2월에 가입한 상품이 있었는지 확인해줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5135,7 +5135,7 @@
     {
       "id": "life-8-1",
       "category": "lifecycle",
-      "text": "2026년 8월에 만기되는 계좌만 추려줘 먼저 확인해줘",
+      "text": "2026년 8월에 만기되는 계좌만 추려줘 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5153,7 +5153,7 @@
     {
       "id": "life-8-2",
       "category": "lifecycle",
-      "text": "2026년 8월에 개설된 계좌가 뭐였는지 찾아줘 한 번 정리해줘",
+      "text": "2026년 8월에 개설된 계좌가 뭐였는지 찾아줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5171,7 +5171,7 @@
     {
       "id": "life-8-3",
       "category": "lifecycle",
-      "text": "2026년 8월에 남아 있던 잔액을 보고 싶어 있는지 알려줘",
+      "text": "2026년 8월에 남아 있던 잔액을 보고 싶어 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5189,7 +5189,7 @@
     {
       "id": "life-8-4",
       "category": "lifecycle",
-      "text": "2026년 8월에 신규 개설된 계좌 거래내역만 보고 싶어 부탁해",
+      "text": "2026년 8월에 신규 개설된 계좌 거래내역만 보고 싶어 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5207,7 +5207,7 @@
     {
       "id": "life-8-5",
       "category": "lifecycle",
-      "text": "2026년 8월에 가입한 상품이 있었는지 확인해줘 바로 보고 싶어",
+      "text": "2026년 8월에 가입한 상품이 있었는지 확인해줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5225,7 +5225,7 @@
     {
       "id": "life-9-1",
       "category": "lifecycle",
-      "text": "2025년 3월 1일에 만기되는 계좌만 추려줘 체크해줘",
+      "text": "2025년 3월 1일에 만기되는 계좌만 추려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5243,7 +5243,7 @@
     {
       "id": "life-9-2",
       "category": "lifecycle",
-      "text": "2025년 3월 1일에 개설된 계좌가 뭐였는지 찾아줘",
+      "text": "2025년 3월 1일에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5261,7 +5261,7 @@
     {
       "id": "life-9-3",
       "category": "lifecycle",
-      "text": "2025년 3월 1일에 남아 있던 잔액을 보고 싶어 좀 볼 수 있을까?",
+      "text": "2025년 3월 1일에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5279,7 +5279,7 @@
     {
       "id": "life-9-4",
       "category": "lifecycle",
-      "text": "2025년 3월 1일에 신규 개설된 계좌 거래내역만 보고 싶어 먼저 확인해줘",
+      "text": "2025년 3월 1일에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5297,7 +5297,7 @@
     {
       "id": "life-9-5",
       "category": "lifecycle",
-      "text": "2025년 3월 1일에 가입한 상품이 있었는지 확인해줘 한 번 정리해줘",
+      "text": "2025년 3월 1일에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5315,7 +5315,7 @@
     {
       "id": "life-10-1",
       "category": "lifecycle",
-      "text": "2024년 10월 9일에 만기되는 계좌만 추려줘 있는지 알려줘",
+      "text": "2024년 10월 9일에 만기되는 계좌만 추려줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5333,7 +5333,7 @@
     {
       "id": "life-10-2",
       "category": "lifecycle",
-      "text": "2024년 10월 9일에 개설된 계좌가 뭐였는지 찾아줘 부탁해",
+      "text": "2024년 10월 9일에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5351,7 +5351,7 @@
     {
       "id": "life-10-3",
       "category": "lifecycle",
-      "text": "2024년 10월 9일에 남아 있던 잔액을 보고 싶어 바로 보고 싶어",
+      "text": "2024년 10월 9일에 남아 있던 잔액을 보고 싶어 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5369,7 +5369,7 @@
     {
       "id": "life-10-4",
       "category": "lifecycle",
-      "text": "2024년 10월 9일에 신규 개설된 계좌 거래내역만 보고 싶어 체크해줘",
+      "text": "2024년 10월 9일에 신규 개설된 계좌 거래내역만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5387,7 +5387,7 @@
     {
       "id": "life-10-5",
       "category": "lifecycle",
-      "text": "2024년 10월 9일에 가입한 상품이 있었는지 확인해줘",
+      "text": "2024년 10월 9일에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5405,7 +5405,7 @@
     {
       "id": "life-11-1",
       "category": "lifecycle",
-      "text": "2028년 상반기에 만기되는 계좌만 추려줘",
+      "text": "2028년 상반기에 만기되는 계좌만 추려줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5423,7 +5423,7 @@
     {
       "id": "life-11-2",
       "category": "lifecycle",
-      "text": "2028년 상반기에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
+      "text": "2028년 상반기에 개설된 계좌가 뭐였는지 찾아줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5441,7 +5441,7 @@
     {
       "id": "life-11-3",
       "category": "lifecycle",
-      "text": "2028년 상반기에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
+      "text": "2028년 상반기에 남아 있던 잔액을 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5459,7 +5459,7 @@
     {
       "id": "life-11-4",
       "category": "lifecycle",
-      "text": "2028년 상반기에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
+      "text": "2028년 상반기에 신규 개설된 계좌 거래내역만 보고 싶어 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5477,7 +5477,7 @@
     {
       "id": "life-11-5",
       "category": "lifecycle",
-      "text": "2028년 상반기에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
+      "text": "2028년 상반기에 가입한 상품이 있었는지 확인해줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5495,7 +5495,7 @@
     {
       "id": "life-12-1",
       "category": "lifecycle",
-      "text": "2028년 하반기에 만기되는 계좌만 추려줘 부탁해",
+      "text": "2028년 하반기에 만기되는 계좌만 추려줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5513,7 +5513,7 @@
     {
       "id": "life-12-2",
       "category": "lifecycle",
-      "text": "2028년 하반기에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
+      "text": "2028년 하반기에 개설된 계좌가 뭐였는지 찾아줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5531,7 +5531,7 @@
     {
       "id": "life-12-3",
       "category": "lifecycle",
-      "text": "2028년 하반기에 남아 있던 잔액을 보고 싶어 체크해줘",
+      "text": "2028년 하반기에 남아 있던 잔액을 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5549,7 +5549,7 @@
     {
       "id": "life-12-4",
       "category": "lifecycle",
-      "text": "2028년 하반기에 신규 개설된 계좌 거래내역만 보고 싶어",
+      "text": "2028년 하반기에 신규 개설된 계좌 거래내역만 보고 싶어 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5567,7 +5567,7 @@
     {
       "id": "life-12-5",
       "category": "lifecycle",
-      "text": "2028년 하반기에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
+      "text": "2028년 하반기에 가입한 상품이 있었는지 확인해줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5585,7 +5585,7 @@
     {
       "id": "life-13-1",
       "category": "lifecycle",
-      "text": "2026년 1분기에 만기되는 계좌만 추려줘 먼저 확인해줘",
+      "text": "2026년 1분기에 만기되는 계좌만 추려줘 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5603,7 +5603,7 @@
     {
       "id": "life-13-2",
       "category": "lifecycle",
-      "text": "2026년 1분기에 개설된 계좌가 뭐였는지 찾아줘 한 번 정리해줘",
+      "text": "2026년 1분기에 개설된 계좌가 뭐였는지 찾아줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5621,7 +5621,7 @@
     {
       "id": "life-13-3",
       "category": "lifecycle",
-      "text": "2026년 1분기에 남아 있던 잔액을 보고 싶어 있는지 알려줘",
+      "text": "2026년 1분기에 남아 있던 잔액을 보고 싶어 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5639,7 +5639,7 @@
     {
       "id": "life-13-4",
       "category": "lifecycle",
-      "text": "2026년 1분기에 신규 개설된 계좌 거래내역만 보고 싶어 부탁해",
+      "text": "2026년 1분기에 신규 개설된 계좌 거래내역만 보고 싶어 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5657,7 +5657,7 @@
     {
       "id": "life-13-5",
       "category": "lifecycle",
-      "text": "2026년 1분기에 가입한 상품이 있었는지 확인해줘 바로 보고 싶어",
+      "text": "2026년 1분기에 가입한 상품이 있었는지 확인해줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5675,7 +5675,7 @@
     {
       "id": "life-14-1",
       "category": "lifecycle",
-      "text": "2027년 4분기에 만기되는 계좌만 추려줘 체크해줘",
+      "text": "2027년 4분기에 만기되는 계좌만 추려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5693,7 +5693,7 @@
     {
       "id": "life-14-2",
       "category": "lifecycle",
-      "text": "2027년 4분기에 개설된 계좌가 뭐였는지 찾아줘",
+      "text": "2027년 4분기에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5711,7 +5711,7 @@
     {
       "id": "life-14-3",
       "category": "lifecycle",
-      "text": "2027년 4분기에 남아 있던 잔액을 보고 싶어 좀 볼 수 있을까?",
+      "text": "2027년 4분기에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5729,7 +5729,7 @@
     {
       "id": "life-14-4",
       "category": "lifecycle",
-      "text": "2027년 4분기에 신규 개설된 계좌 거래내역만 보고 싶어 먼저 확인해줘",
+      "text": "2027년 4분기에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5747,7 +5747,7 @@
     {
       "id": "life-14-5",
       "category": "lifecycle",
-      "text": "2027년 4분기에 가입한 상품이 있었는지 확인해줘 한 번 정리해줘",
+      "text": "2027년 4분기에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5765,7 +5765,7 @@
     {
       "id": "life-15-1",
       "category": "lifecycle",
-      "text": "2023년 1월 1일부터 10일까지 사이에 만기되는 계좌만 추려줘 있는지 알려줘",
+      "text": "2023년 1월 1일부터 10일까지 사이에 만기되는 계좌만 추려줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5783,7 +5783,7 @@
     {
       "id": "life-15-2",
       "category": "lifecycle",
-      "text": "2023년 1월 1일부터 10일까지 사이에 개설된 계좌가 뭐였는지 찾아줘 부탁해",
+      "text": "2023년 1월 1일부터 10일까지 사이에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5801,7 +5801,7 @@
     {
       "id": "life-15-3",
       "category": "lifecycle",
-      "text": "2023년 1월 1일부터 10일까지 사이에 남아 있던 잔액을 보고 싶어 바로 보고 싶어",
+      "text": "2023년 1월 1일부터 10일까지 사이에 남아 있던 잔액을 보고 싶어 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5819,7 +5819,7 @@
     {
       "id": "life-15-4",
       "category": "lifecycle",
-      "text": "2023년 1월 1일부터 10일까지 사이에 신규 개설된 계좌 거래내역만 보고 싶어 체크해줘",
+      "text": "2023년 1월 1일부터 10일까지 사이에 신규 개설된 계좌 거래내역만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5837,7 +5837,7 @@
     {
       "id": "life-15-5",
       "category": "lifecycle",
-      "text": "2023년 1월 1일부터 10일까지 사이에 가입한 상품이 있었는지 확인해줘",
+      "text": "2023년 1월 1일부터 10일까지 사이에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5855,7 +5855,7 @@
     {
       "id": "life-16-1",
       "category": "lifecycle",
-      "text": "2024년 5월에 만기되는 계좌만 추려줘",
+      "text": "2024년 5월에 만기되는 계좌만 추려줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5873,7 +5873,7 @@
     {
       "id": "life-16-2",
       "category": "lifecycle",
-      "text": "2024년 5월에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
+      "text": "2024년 5월에 개설된 계좌가 뭐였는지 찾아줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5891,7 +5891,7 @@
     {
       "id": "life-16-3",
       "category": "lifecycle",
-      "text": "2024년 5월에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
+      "text": "2024년 5월에 남아 있던 잔액을 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5909,7 +5909,7 @@
     {
       "id": "life-16-4",
       "category": "lifecycle",
-      "text": "2024년 5월에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
+      "text": "2024년 5월에 신규 개설된 계좌 거래내역만 보고 싶어 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5927,7 +5927,7 @@
     {
       "id": "life-16-5",
       "category": "lifecycle",
-      "text": "2024년 5월에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
+      "text": "2024년 5월에 가입한 상품이 있었는지 확인해줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5945,7 +5945,7 @@
     {
       "id": "life-17-1",
       "category": "lifecycle",
-      "text": "2023년 12월에 만기되는 계좌만 추려줘 부탁해",
+      "text": "2023년 12월에 만기되는 계좌만 추려줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5963,7 +5963,7 @@
     {
       "id": "life-17-2",
       "category": "lifecycle",
-      "text": "2023년 12월에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
+      "text": "2023년 12월에 개설된 계좌가 뭐였는지 찾아줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5981,7 +5981,7 @@
     {
       "id": "life-17-3",
       "category": "lifecycle",
-      "text": "2023년 12월에 남아 있던 잔액을 보고 싶어 체크해줘",
+      "text": "2023년 12월에 남아 있던 잔액을 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -5999,7 +5999,7 @@
     {
       "id": "life-17-4",
       "category": "lifecycle",
-      "text": "2023년 12월에 신규 개설된 계좌 거래내역만 보고 싶어",
+      "text": "2023년 12월에 신규 개설된 계좌 거래내역만 보고 싶어 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6017,7 +6017,7 @@
     {
       "id": "life-17-5",
       "category": "lifecycle",
-      "text": "2023년 12월에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
+      "text": "2023년 12월에 가입한 상품이 있었는지 확인해줘 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6035,7 +6035,7 @@
     {
       "id": "life-18-1",
       "category": "lifecycle",
-      "text": "2027년 2월에 만기되는 계좌만 추려줘 먼저 확인해줘",
+      "text": "2027년 2월에 만기되는 계좌만 추려줘 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6053,7 +6053,7 @@
     {
       "id": "life-18-2",
       "category": "lifecycle",
-      "text": "2027년 2월에 개설된 계좌가 뭐였는지 찾아줘 한 번 정리해줘",
+      "text": "2027년 2월에 개설된 계좌가 뭐였는지 찾아줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6071,7 +6071,7 @@
     {
       "id": "life-18-3",
       "category": "lifecycle",
-      "text": "2027년 2월에 남아 있던 잔액을 보고 싶어 있는지 알려줘",
+      "text": "2027년 2월에 남아 있던 잔액을 보고 싶어 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6089,7 +6089,7 @@
     {
       "id": "life-18-4",
       "category": "lifecycle",
-      "text": "2027년 2월에 신규 개설된 계좌 거래내역만 보고 싶어 부탁해",
+      "text": "2027년 2월에 신규 개설된 계좌 거래내역만 보고 싶어 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6107,7 +6107,7 @@
     {
       "id": "life-18-5",
       "category": "lifecycle",
-      "text": "2027년 2월에 가입한 상품이 있었는지 확인해줘 바로 보고 싶어",
+      "text": "2027년 2월에 가입한 상품이 있었는지 확인해줘 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6125,7 +6125,7 @@
     {
       "id": "life-19-1",
       "category": "lifecycle",
-      "text": "2026년 3월에 만기되는 계좌만 추려줘 체크해줘",
+      "text": "2026년 3월에 만기되는 계좌만 추려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6143,7 +6143,7 @@
     {
       "id": "life-19-2",
       "category": "lifecycle",
-      "text": "2026년 3월에 개설된 계좌가 뭐였는지 찾아줘",
+      "text": "2026년 3월에 개설된 계좌가 뭐였는지 찾아줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6161,7 +6161,7 @@
     {
       "id": "life-19-3",
       "category": "lifecycle",
-      "text": "2026년 3월에 남아 있던 잔액을 보고 싶어 좀 볼 수 있을까?",
+      "text": "2026년 3월에 남아 있던 잔액을 보고 싶어 먼저 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6179,7 +6179,7 @@
     {
       "id": "life-19-4",
       "category": "lifecycle",
-      "text": "2026년 3월에 신규 개설된 계좌 거래내역만 보고 싶어 먼저 확인해줘",
+      "text": "2026년 3월에 신규 개설된 계좌 거래내역만 보고 싶어 한 번 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6197,7 +6197,7 @@
     {
       "id": "life-19-5",
       "category": "lifecycle",
-      "text": "2026년 3월에 가입한 상품이 있었는지 확인해줘 한 번 정리해줘",
+      "text": "2026년 3월에 가입한 상품이 있었는지 확인해줘 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6215,7 +6215,7 @@
     {
       "id": "life-20-1",
       "category": "lifecycle",
-      "text": "2024년 2월에 만기되는 계좌만 추려줘 있는지 알려줘",
+      "text": "2024년 2월에 만기되는 계좌만 추려줘 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6233,7 +6233,7 @@
     {
       "id": "life-20-2",
       "category": "lifecycle",
-      "text": "2024년 2월에 개설된 계좌가 뭐였는지 찾아줘 부탁해",
+      "text": "2024년 2월에 개설된 계좌가 뭐였는지 찾아줘 바로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6251,7 +6251,7 @@
     {
       "id": "life-20-3",
       "category": "lifecycle",
-      "text": "2024년 2월에 남아 있던 잔액을 보고 싶어 바로 보고 싶어",
+      "text": "2024년 2월에 남아 있던 잔액을 보고 싶어 체크해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6269,7 +6269,7 @@
     {
       "id": "life-20-4",
       "category": "lifecycle",
-      "text": "2024년 2월에 신규 개설된 계좌 거래내역만 보고 싶어 체크해줘",
+      "text": "2024년 2월에 신규 개설된 계좌 거래내역만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6287,7 +6287,7 @@
     {
       "id": "life-20-5",
       "category": "lifecycle",
-      "text": "2024년 2월에 가입한 상품이 있었는지 확인해줘",
+      "text": "2024년 2월에 가입한 상품이 있었는지 확인해줘 좀 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6305,7 +6305,7 @@
     {
       "id": "pair-1-1",
       "category": "comparison",
-      "text": "지난달이랑 이번 달 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난달하고 이번 달 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6328,7 +6328,7 @@
     {
       "id": "pair-1-2",
       "category": "comparison",
-      "text": "지난달하고 이번 달 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난달 기준이랑 이번 달 기준 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6351,7 +6351,7 @@
     {
       "id": "pair-1-3",
       "category": "comparison",
-      "text": "지난달 기준이랑 이번 달 기준 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난달 때랑 이번 달 때 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6374,7 +6374,7 @@
     {
       "id": "pair-1-4",
       "category": "comparison",
-      "text": "지난달 때랑 이번 달 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난달하고 이번 달를 같이 놓고 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6397,7 +6397,7 @@
     {
       "id": "pair-1-5",
       "category": "comparison",
-      "text": "지난달하고 이번 달를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난달, 이번 달 두 구간 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6420,7 +6420,7 @@
     {
       "id": "pair-2-1",
       "category": "comparison",
-      "text": "작년, 올해 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "작년 쪽이랑 올해 쪽 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6443,7 +6443,7 @@
     {
       "id": "pair-2-2",
       "category": "comparison",
-      "text": "작년 쪽이랑 올해 쪽 잔액 차이만 바로 보이게 정리해줘",
+      "text": "작년하고 올해 건 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6466,7 +6466,7 @@
     {
       "id": "pair-2-3",
       "category": "comparison",
-      "text": "작년하고 올해 건 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "작년이랑 올해 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6489,7 +6489,7 @@
     {
       "id": "pair-2-4",
       "category": "comparison",
-      "text": "작년이랑 올해 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "작년하고 올해 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6512,7 +6512,7 @@
     {
       "id": "pair-2-5",
       "category": "comparison",
-      "text": "작년하고 올해 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "작년 기준이랑 올해 기준 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6535,7 +6535,7 @@
     {
       "id": "pair-3-1",
       "category": "comparison",
-      "text": "지난분기 기준이랑 이번분기 기준 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난분기 때랑 이번분기 때 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6558,7 +6558,7 @@
     {
       "id": "pair-3-2",
       "category": "comparison",
-      "text": "지난분기 때랑 이번분기 때 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난분기하고 이번분기를 같이 놓고 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6581,7 +6581,7 @@
     {
       "id": "pair-3-3",
       "category": "comparison",
-      "text": "지난분기하고 이번분기를 같이 놓고 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난분기, 이번분기 두 구간 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6604,7 +6604,7 @@
     {
       "id": "pair-3-4",
       "category": "comparison",
-      "text": "지난분기, 이번분기 두 구간 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난분기 쪽이랑 이번분기 쪽 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6627,7 +6627,7 @@
     {
       "id": "pair-3-5",
       "category": "comparison",
-      "text": "지난분기 쪽이랑 이번분기 쪽 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난분기하고 이번분기 건 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6650,7 +6650,7 @@
     {
       "id": "pair-4-1",
       "category": "comparison",
-      "text": "3월하고 4월 건 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "3월이랑 4월 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6673,7 +6673,7 @@
     {
       "id": "pair-4-2",
       "category": "comparison",
-      "text": "3월이랑 4월 잔액 차이만 바로 보이게 정리해줘",
+      "text": "3월하고 4월 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6696,7 +6696,7 @@
     {
       "id": "pair-4-3",
       "category": "comparison",
-      "text": "3월하고 4월 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "3월 기준이랑 4월 기준 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6719,7 +6719,7 @@
     {
       "id": "pair-4-4",
       "category": "comparison",
-      "text": "3월 기준이랑 4월 기준 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "3월 때랑 4월 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6742,7 +6742,7 @@
     {
       "id": "pair-4-5",
       "category": "comparison",
-      "text": "3월 때랑 4월 때 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "3월하고 4월를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6765,7 +6765,7 @@
     {
       "id": "pair-5-1",
       "category": "comparison",
-      "text": "재작년하고 작년를 같이 놓고 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "재작년, 작년 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6788,7 +6788,7 @@
     {
       "id": "pair-5-2",
       "category": "comparison",
-      "text": "재작년, 작년 두 구간 잔액 차이만 바로 보이게 정리해줘",
+      "text": "재작년 쪽이랑 작년 쪽 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6811,7 +6811,7 @@
     {
       "id": "pair-5-3",
       "category": "comparison",
-      "text": "재작년 쪽이랑 작년 쪽 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "재작년하고 작년 건 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6834,7 +6834,7 @@
     {
       "id": "pair-5-4",
       "category": "comparison",
-      "text": "재작년하고 작년 건 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "재작년이랑 작년 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6857,7 +6857,7 @@
     {
       "id": "pair-5-5",
       "category": "comparison",
-      "text": "재작년이랑 작년 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "재작년하고 작년 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6880,7 +6880,7 @@
     {
       "id": "pair-6-1",
       "category": "comparison",
-      "text": "지난주이랑 이번 주 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난주하고 이번 주 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6903,7 +6903,7 @@
     {
       "id": "pair-6-2",
       "category": "comparison",
-      "text": "지난주하고 이번 주 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난주 기준이랑 이번 주 기준 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6926,7 +6926,7 @@
     {
       "id": "pair-6-3",
       "category": "comparison",
-      "text": "지난주 기준이랑 이번 주 기준 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난주 때랑 이번 주 때 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6949,7 +6949,7 @@
     {
       "id": "pair-6-4",
       "category": "comparison",
-      "text": "지난주 때랑 이번 주 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난주하고 이번 주를 같이 놓고 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6972,7 +6972,7 @@
     {
       "id": "pair-6-5",
       "category": "comparison",
-      "text": "지난주하고 이번 주를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난주, 이번 주 두 구간 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -6995,7 +6995,7 @@
     {
       "id": "pair-7-1",
       "category": "comparison",
-      "text": "2024년, 2025년 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2024년 쪽이랑 2025년 쪽 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7018,7 +7018,7 @@
     {
       "id": "pair-7-2",
       "category": "comparison",
-      "text": "2024년 쪽이랑 2025년 쪽 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2024년하고 2025년 건 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7041,7 +7041,7 @@
     {
       "id": "pair-7-3",
       "category": "comparison",
-      "text": "2024년하고 2025년 건 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2024년이랑 2025년 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7064,7 +7064,7 @@
     {
       "id": "pair-7-4",
       "category": "comparison",
-      "text": "2024년이랑 2025년 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2024년하고 2025년 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7087,7 +7087,7 @@
     {
       "id": "pair-7-5",
       "category": "comparison",
-      "text": "2024년하고 2025년 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2024년 기준이랑 2025년 기준 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7110,7 +7110,7 @@
     {
       "id": "pair-8-1",
       "category": "comparison",
-      "text": "2024년 2월 기준이랑 2024년 3월 기준 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2024년 2월 때랑 2024년 3월 때 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7133,7 +7133,7 @@
     {
       "id": "pair-8-2",
       "category": "comparison",
-      "text": "2024년 2월 때랑 2024년 3월 때 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2024년 2월하고 2024년 3월를 같이 놓고 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7156,7 +7156,7 @@
     {
       "id": "pair-8-3",
       "category": "comparison",
-      "text": "2024년 2월하고 2024년 3월를 같이 놓고 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2024년 2월, 2024년 3월 두 구간 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7179,7 +7179,7 @@
     {
       "id": "pair-8-4",
       "category": "comparison",
-      "text": "2024년 2월, 2024년 3월 두 구간 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2024년 2월 쪽이랑 2024년 3월 쪽 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7202,7 +7202,7 @@
     {
       "id": "pair-8-5",
       "category": "comparison",
-      "text": "2024년 2월 쪽이랑 2024년 3월 쪽 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2024년 2월하고 2024년 3월 건 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7225,7 +7225,7 @@
     {
       "id": "pair-9-1",
       "category": "comparison",
-      "text": "1분기하고 2분기 건 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "1분기이랑 2분기 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7248,7 +7248,7 @@
     {
       "id": "pair-9-2",
       "category": "comparison",
-      "text": "1분기이랑 2분기 잔액 차이만 바로 보이게 정리해줘",
+      "text": "1분기하고 2분기 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7271,7 +7271,7 @@
     {
       "id": "pair-9-3",
       "category": "comparison",
-      "text": "1분기하고 2분기 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "1분기 기준이랑 2분기 기준 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7294,7 +7294,7 @@
     {
       "id": "pair-9-4",
       "category": "comparison",
-      "text": "1분기 기준이랑 2분기 기준 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "1분기 때랑 2분기 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7317,7 +7317,7 @@
     {
       "id": "pair-9-5",
       "category": "comparison",
-      "text": "1분기 때랑 2분기 때 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "1분기하고 2분기를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7340,7 +7340,7 @@
     {
       "id": "pair-10-1",
       "category": "comparison",
-      "text": "작년 4분기하고 올해 1분기를 같이 놓고 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "작년 4분기, 올해 1분기 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7363,7 +7363,7 @@
     {
       "id": "pair-10-2",
       "category": "comparison",
-      "text": "작년 4분기, 올해 1분기 두 구간 잔액 차이만 바로 보이게 정리해줘",
+      "text": "작년 4분기 쪽이랑 올해 1분기 쪽 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7386,7 +7386,7 @@
     {
       "id": "pair-10-3",
       "category": "comparison",
-      "text": "작년 4분기 쪽이랑 올해 1분기 쪽 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "작년 4분기하고 올해 1분기 건 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7409,7 +7409,7 @@
     {
       "id": "pair-10-4",
       "category": "comparison",
-      "text": "작년 4분기하고 올해 1분기 건 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "작년 4분기이랑 올해 1분기 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7432,7 +7432,7 @@
     {
       "id": "pair-10-5",
       "category": "comparison",
-      "text": "작년 4분기이랑 올해 1분기 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "작년 4분기하고 올해 1분기 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7455,7 +7455,7 @@
     {
       "id": "pair-11-1",
       "category": "comparison",
-      "text": "2025년 1분기이랑 2025년 2분기 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2025년 1분기하고 2025년 2분기 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7478,7 +7478,7 @@
     {
       "id": "pair-11-2",
       "category": "comparison",
-      "text": "2025년 1분기하고 2025년 2분기 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2025년 1분기 기준이랑 2025년 2분기 기준 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7501,7 +7501,7 @@
     {
       "id": "pair-11-3",
       "category": "comparison",
-      "text": "2025년 1분기 기준이랑 2025년 2분기 기준 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2025년 1분기 때랑 2025년 2분기 때 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7524,7 +7524,7 @@
     {
       "id": "pair-11-4",
       "category": "comparison",
-      "text": "2025년 1분기 때랑 2025년 2분기 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2025년 1분기하고 2025년 2분기를 같이 놓고 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7547,7 +7547,7 @@
     {
       "id": "pair-11-5",
       "category": "comparison",
-      "text": "2025년 1분기하고 2025년 2분기를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2025년 1분기, 2025년 2분기 두 구간 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7570,7 +7570,7 @@
     {
       "id": "pair-12-1",
       "category": "comparison",
-      "text": "2024년 상반기, 2024년 하반기 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2024년 상반기 쪽이랑 2024년 하반기 쪽 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7593,7 +7593,7 @@
     {
       "id": "pair-12-2",
       "category": "comparison",
-      "text": "2024년 상반기 쪽이랑 2024년 하반기 쪽 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2024년 상반기하고 2024년 하반기 건 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7616,7 +7616,7 @@
     {
       "id": "pair-12-3",
       "category": "comparison",
-      "text": "2024년 상반기하고 2024년 하반기 건 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2024년 상반기이랑 2024년 하반기 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7639,7 +7639,7 @@
     {
       "id": "pair-12-4",
       "category": "comparison",
-      "text": "2024년 상반기이랑 2024년 하반기 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2024년 상반기하고 2024년 하반기 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7662,7 +7662,7 @@
     {
       "id": "pair-12-5",
       "category": "comparison",
-      "text": "2024년 상반기하고 2024년 하반기 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2024년 상반기 기준이랑 2024년 하반기 기준 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7685,7 +7685,7 @@
     {
       "id": "pair-13-1",
       "category": "comparison",
-      "text": "지난달 기준이랑 올해 기준 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난달 때랑 올해 때 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7708,7 +7708,7 @@
     {
       "id": "pair-13-2",
       "category": "comparison",
-      "text": "지난달 때랑 올해 때 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난달하고 올해를 같이 놓고 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7731,7 +7731,7 @@
     {
       "id": "pair-13-3",
       "category": "comparison",
-      "text": "지난달하고 올해를 같이 놓고 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난달, 올해 두 구간 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7754,7 +7754,7 @@
     {
       "id": "pair-13-4",
       "category": "comparison",
-      "text": "지난달, 올해 두 구간 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난달 쪽이랑 올해 쪽 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7777,7 +7777,7 @@
     {
       "id": "pair-13-5",
       "category": "comparison",
-      "text": "지난달 쪽이랑 올해 쪽 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난달하고 올해 건 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7800,7 +7800,7 @@
     {
       "id": "pair-14-1",
       "category": "comparison",
-      "text": "지난분기하고 올해 건 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난분기이랑 올해 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7823,7 +7823,7 @@
     {
       "id": "pair-14-2",
       "category": "comparison",
-      "text": "지난분기이랑 올해 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난분기하고 올해 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7846,7 +7846,7 @@
     {
       "id": "pair-14-3",
       "category": "comparison",
-      "text": "지난분기하고 올해 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난분기 기준이랑 올해 기준 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7869,7 +7869,7 @@
     {
       "id": "pair-14-4",
       "category": "comparison",
-      "text": "지난분기 기준이랑 올해 기준 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난분기 때랑 올해 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7892,7 +7892,7 @@
     {
       "id": "pair-14-5",
       "category": "comparison",
-      "text": "지난분기 때랑 올해 때 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난분기하고 올해를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7915,7 +7915,7 @@
     {
       "id": "pair-15-1",
       "category": "comparison",
-      "text": "2023년하고 2024년를 같이 놓고 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2023년, 2024년 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7938,7 +7938,7 @@
     {
       "id": "pair-15-2",
       "category": "comparison",
-      "text": "2023년, 2024년 두 구간 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2023년 쪽이랑 2024년 쪽 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7961,7 +7961,7 @@
     {
       "id": "pair-15-3",
       "category": "comparison",
-      "text": "2023년 쪽이랑 2024년 쪽 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2023년하고 2024년 건 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -7984,7 +7984,7 @@
     {
       "id": "pair-15-4",
       "category": "comparison",
-      "text": "2023년하고 2024년 건 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2023년이랑 2024년 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8007,7 +8007,7 @@
     {
       "id": "pair-15-5",
       "category": "comparison",
-      "text": "2023년이랑 2024년 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2023년하고 2024년 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8030,7 +8030,7 @@
     {
       "id": "pair-16-1",
       "category": "comparison",
-      "text": "2026년 3월이랑 2026년 8월 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2026년 3월하고 2026년 8월 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8053,7 +8053,7 @@
     {
       "id": "pair-16-2",
       "category": "comparison",
-      "text": "2026년 3월하고 2026년 8월 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2026년 3월 기준이랑 2026년 8월 기준 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8076,7 +8076,7 @@
     {
       "id": "pair-16-3",
       "category": "comparison",
-      "text": "2026년 3월 기준이랑 2026년 8월 기준 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2026년 3월 때랑 2026년 8월 때 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8099,7 +8099,7 @@
     {
       "id": "pair-16-4",
       "category": "comparison",
-      "text": "2026년 3월 때랑 2026년 8월 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2026년 3월하고 2026년 8월를 같이 놓고 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8122,7 +8122,7 @@
     {
       "id": "pair-16-5",
       "category": "comparison",
-      "text": "2026년 3월하고 2026년 8월를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2026년 3월, 2026년 8월 두 구간 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8145,7 +8145,7 @@
     {
       "id": "pair-17-1",
       "category": "comparison",
-      "text": "이번 주, 이번 달 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "이번 주 쪽이랑 이번 달 쪽 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8168,7 +8168,7 @@
     {
       "id": "pair-17-2",
       "category": "comparison",
-      "text": "이번 주 쪽이랑 이번 달 쪽 잔액 차이만 바로 보이게 정리해줘",
+      "text": "이번 주하고 이번 달 건 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8191,7 +8191,7 @@
     {
       "id": "pair-17-3",
       "category": "comparison",
-      "text": "이번 주하고 이번 달 건 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "이번 주이랑 이번 달 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8214,7 +8214,7 @@
     {
       "id": "pair-17-4",
       "category": "comparison",
-      "text": "이번 주이랑 이번 달 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "이번 주하고 이번 달 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8237,7 +8237,7 @@
     {
       "id": "pair-17-5",
       "category": "comparison",
-      "text": "이번 주하고 이번 달 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "이번 주 기준이랑 이번 달 기준 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8260,7 +8260,7 @@
     {
       "id": "pair-18-1",
       "category": "comparison",
-      "text": "작년 기준이랑 올해 1분기 기준 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "작년 때랑 올해 1분기 때 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8283,7 +8283,7 @@
     {
       "id": "pair-18-2",
       "category": "comparison",
-      "text": "작년 때랑 올해 1분기 때 잔액 차이만 바로 보이게 정리해줘",
+      "text": "작년하고 올해 1분기를 같이 놓고 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8306,7 +8306,7 @@
     {
       "id": "pair-18-3",
       "category": "comparison",
-      "text": "작년하고 올해 1분기를 같이 놓고 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "작년, 올해 1분기 두 구간 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8329,7 +8329,7 @@
     {
       "id": "pair-18-4",
       "category": "comparison",
-      "text": "작년, 올해 1분기 두 구간 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "작년 쪽이랑 올해 1분기 쪽 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8352,7 +8352,7 @@
     {
       "id": "pair-18-5",
       "category": "comparison",
-      "text": "작년 쪽이랑 올해 1분기 쪽 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "작년하고 올해 1분기 건 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8375,7 +8375,7 @@
     {
       "id": "pair-19-1",
       "category": "comparison",
-      "text": "지난달하고 4분기 건 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "지난달이랑 4분기 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8398,7 +8398,7 @@
     {
       "id": "pair-19-2",
       "category": "comparison",
-      "text": "지난달이랑 4분기 잔액 차이만 바로 보이게 정리해줘",
+      "text": "지난달하고 4분기 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8421,7 +8421,7 @@
     {
       "id": "pair-19-3",
       "category": "comparison",
-      "text": "지난달하고 4분기 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "지난달 기준이랑 4분기 기준 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8444,7 +8444,7 @@
     {
       "id": "pair-19-4",
       "category": "comparison",
-      "text": "지난달 기준이랑 4분기 기준 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "지난달 때랑 4분기 때 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8467,7 +8467,7 @@
     {
       "id": "pair-19-5",
       "category": "comparison",
-      "text": "지난달 때랑 4분기 때 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "지난달하고 4분기를 같이 놓고 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8490,7 +8490,7 @@
     {
       "id": "pair-20-1",
       "category": "comparison",
-      "text": "2024년 10월하고 2024년 12월를 같이 놓고 지출 흐름이 어떻게 달라졌는지 비교해줘",
+      "text": "2024년 10월, 2024년 12월 두 구간 지출 흐름이 어떻게 달라졌는지 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8513,7 +8513,7 @@
     {
       "id": "pair-20-2",
       "category": "comparison",
-      "text": "2024년 10월, 2024년 12월 두 구간 잔액 차이만 바로 보이게 정리해줘",
+      "text": "2024년 10월 쪽이랑 2024년 12월 쪽 잔액 차이만 바로 보이게 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8536,7 +8536,7 @@
     {
       "id": "pair-20-3",
       "category": "comparison",
-      "text": "2024년 10월 쪽이랑 2024년 12월 쪽 입출금 흐름을 나란히 비교하고 싶어",
+      "text": "2024년 10월하고 2024년 12월 건 입출금 흐름을 나란히 비교하고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8559,7 +8559,7 @@
     {
       "id": "pair-20-4",
       "category": "comparison",
-      "text": "2024년 10월하고 2024년 12월 건 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
+      "text": "2024년 10월이랑 2024년 12월 어느 쪽 거래 규모가 더 컸는지 알고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8582,7 +8582,7 @@
     {
       "id": "pair-20-5",
       "category": "comparison",
-      "text": "2024년 10월이랑 2024년 12월 같은 거래처 기준으로 비중을 비교해줘",
+      "text": "2024년 10월하고 2024년 12월 같은 거래처 기준으로 비중을 비교해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [
@@ -8605,7 +8605,7 @@
     {
       "id": "none-1",
       "category": "no_date",
-      "text": "예적금 잔액만 따로 보여줘",
+      "text": "예적금 잔액만 따로 보여줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8616,7 +8616,7 @@
     {
       "id": "none-2",
       "category": "no_date",
-      "text": "대출 거래내역만 모아서 볼 수 있을까? 좀 확인해줘",
+      "text": "대출 거래내역만 모아서 볼 수 있을까? 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8627,7 +8627,7 @@
     {
       "id": "none-3",
       "category": "no_date",
-      "text": "외화 계좌가 몇 개인지 확인해줘 볼 수 있을까?",
+      "text": "외화 계좌가 몇 개인지 확인해줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8638,7 +8638,7 @@
     {
       "id": "none-4",
       "category": "no_date",
-      "text": "증권 계좌 잔액을 큰 순서로 정렬해줘 먼저 보고 싶어",
+      "text": "증권 계좌 잔액을 큰 순서로 정렬해줘 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8649,7 +8649,7 @@
     {
       "id": "none-5",
       "category": "no_date",
-      "text": "신탁 계좌에서 출금 큰 건만 보여줘 한 번만 정리해줘",
+      "text": "신탁 계좌에서 출금 큰 건만 보여줘 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8660,7 +8660,7 @@
     {
       "id": "none-6",
       "category": "no_date",
-      "text": "수시입출 계좌 입금이 더 많은 계좌가 있는지 봐줘 바로 알려줘",
+      "text": "수시입출 계좌 입금이 더 많은 계좌가 있는지 봐줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8671,7 +8671,7 @@
     {
       "id": "none-7",
       "category": "no_date",
-      "text": "삼성전자랑 거래한 내역만 찾아줘 확인 부탁해",
+      "text": "삼성전자랑 거래한 내역만 찾아줘 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8682,7 +8682,7 @@
     {
       "id": "none-8",
       "category": "no_date",
-      "text": "은행별 잔액 현황을 보여줘 간단히 보여줘",
+      "text": "은행별 잔액 현황을 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8693,7 +8693,7 @@
     {
       "id": "none-9",
       "category": "no_date",
-      "text": "달러 예수금이 얼마나 있는지 알려줘",
+      "text": "달러 예수금이 얼마나 있는지 알려줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8704,7 +8704,7 @@
     {
       "id": "none-10",
       "category": "no_date",
-      "text": "운용 가능한 자금이 얼마나 되는지 궁금해 좀 확인해줘",
+      "text": "운용 가능한 자금이 얼마나 되는지 궁금해 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8715,7 +8715,7 @@
     {
       "id": "none-11",
       "category": "no_date",
-      "text": "우리 회사가 보유한 상품 종류를 알려줘 볼 수 있을까?",
+      "text": "우리 회사가 보유한 상품 종류를 알려줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8726,7 +8726,7 @@
     {
       "id": "none-12",
       "category": "no_date",
-      "text": "외화 계좌 잔액 합계가 얼마인지 봐줘 먼저 보고 싶어",
+      "text": "외화 계좌 잔액 합계가 얼마인지 봐줘 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8737,7 +8737,7 @@
     {
       "id": "none-13",
       "category": "no_date",
-      "text": "거래가 제일 많은 계좌 하나만 보여줘 한 번만 정리해줘",
+      "text": "거래가 제일 많은 계좌 하나만 보여줘 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8748,7 +8748,7 @@
     {
       "id": "none-14",
       "category": "no_date",
-      "text": "입금이 없는 계좌가 있는지 확인해줘 바로 알려줘",
+      "text": "입금이 없는 계좌가 있는지 확인해줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8759,7 +8759,7 @@
     {
       "id": "none-15",
       "category": "no_date",
-      "text": "잔액이 큰 계좌부터 정렬해서 보여줘 확인 부탁해",
+      "text": "잔액이 큰 계좌부터 정렬해서 보여줘 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8770,7 +8770,7 @@
     {
       "id": "none-16",
       "category": "no_date",
-      "text": "기업은행 쪽 거래내역만 따로 보고 싶어 간단히 보여줘",
+      "text": "기업은행 쪽 거래내역만 따로 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8781,7 +8781,7 @@
     {
       "id": "none-17",
       "category": "no_date",
-      "text": "예금 금리가 높은 상품이 있는지 알려줘",
+      "text": "예금 금리가 높은 상품이 있는지 알려줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8792,7 +8792,7 @@
     {
       "id": "none-18",
       "category": "no_date",
-      "text": "수수료 많이 나간 계좌를 찾아줘 좀 확인해줘",
+      "text": "수수료 많이 나간 계좌를 찾아줘 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8803,7 +8803,7 @@
     {
       "id": "none-19",
       "category": "no_date",
-      "text": "대출 계좌 중 금액이 큰 것만 보여줘 볼 수 있을까?",
+      "text": "대출 계좌 중 금액이 큰 것만 보여줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8814,7 +8814,7 @@
     {
       "id": "none-20",
       "category": "no_date",
-      "text": "증권 쪽 남은 돈이 얼마나 되는지 보고 싶어 먼저 보고 싶어",
+      "text": "증권 쪽 남은 돈이 얼마나 되는지 보고 싶어 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8825,7 +8825,7 @@
     {
       "id": "none-21",
       "category": "no_date",
-      "text": "계좌별 잔액 합계를 계산해줘 한 번만 정리해줘",
+      "text": "계좌별 잔액 합계를 계산해줘 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8836,7 +8836,7 @@
     {
       "id": "none-22",
       "category": "no_date",
-      "text": "입출금 내역에서 이상 거래가 있는지 봐줘 바로 알려줘",
+      "text": "입출금 내역에서 이상 거래가 있는지 봐줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8847,7 +8847,7 @@
     {
       "id": "none-23",
       "category": "no_date",
-      "text": "예적금 계좌 개수가 몇 개인지 알려줘 확인 부탁해",
+      "text": "예적금 계좌 개수가 몇 개인지 알려줘 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8858,7 +8858,7 @@
     {
       "id": "none-24",
       "category": "no_date",
-      "text": "웹케시랑 거래한 내역만 보고 싶어 간단히 보여줘",
+      "text": "웹케시랑 거래한 내역만 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8869,7 +8869,7 @@
     {
       "id": "none-25",
       "category": "no_date",
-      "text": "출금이 많은 순서대로 계좌를 보여줘",
+      "text": "출금이 많은 순서대로 계좌를 보여줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8880,7 +8880,7 @@
     {
       "id": "none-26",
       "category": "no_date",
-      "text": "외화 예적금 계좌만 따로 모아줘",
+      "text": "외화 예적금 계좌만 따로 모아줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8891,7 +8891,7 @@
     {
       "id": "none-27",
       "category": "no_date",
-      "text": "거래 적요별 개수를 정리해줘 좀 확인해줘",
+      "text": "거래 적요별 개수를 정리해줘 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8902,7 +8902,7 @@
     {
       "id": "none-28",
       "category": "no_date",
-      "text": "대출 원금이 큰 순서대로 보여줘 볼 수 있을까?",
+      "text": "대출 원금이 큰 순서대로 보여줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8913,7 +8913,7 @@
     {
       "id": "none-29",
       "category": "no_date",
-      "text": "신탁 상품별 잔액 현황을 보고 싶어 먼저 보고 싶어",
+      "text": "신탁 상품별 잔액 현황을 보고 싶어 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8924,7 +8924,7 @@
     {
       "id": "none-30",
       "category": "no_date",
-      "text": "증권 계좌 수익이 큰 것부터 보여줘 한 번만 정리해줘",
+      "text": "증권 계좌 수익이 큰 것부터 보여줘 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8935,7 +8935,7 @@
     {
       "id": "none-31",
       "category": "no_date",
-      "text": "은행별 자금 현황을 한눈에 보여줘 바로 알려줘",
+      "text": "은행별 자금 현황을 한눈에 보여줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8946,7 +8946,7 @@
     {
       "id": "none-32",
       "category": "no_date",
-      "text": "계좌 중 비활성으로 보이는 게 있는지 알려줘 확인 부탁해",
+      "text": "계좌 중 비활성으로 보이는 게 있는지 알려줘 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8957,7 +8957,7 @@
     {
       "id": "none-33",
       "category": "no_date",
-      "text": "입금만 있고 출금 없는 계좌를 찾아줘 간단히 보여줘",
+      "text": "입금만 있고 출금 없는 계좌를 찾아줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8968,7 +8968,7 @@
     {
       "id": "none-34",
       "category": "no_date",
-      "text": "외화 대출이 있는지 확인해줘",
+      "text": "외화 대출이 있는지 확인해줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8979,7 +8979,7 @@
     {
       "id": "none-35",
       "category": "no_date",
-      "text": "적금 계좌 잔액이 얼마나 남았는지 봐줘 좀 확인해줘",
+      "text": "적금 계좌 잔액이 얼마나 남았는지 봐줘 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -8990,7 +8990,7 @@
     {
       "id": "none-36",
       "category": "no_date",
-      "text": "거래처별 비중을 정리해서 보여줘 볼 수 있을까?",
+      "text": "거래처별 비중을 정리해서 보여줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9001,7 +9001,7 @@
     {
       "id": "none-37",
       "category": "no_date",
-      "text": "예수금이 많은 계좌만 골라줘 먼저 보고 싶어",
+      "text": "예수금이 많은 계좌만 골라줘 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9012,7 +9012,7 @@
     {
       "id": "none-38",
       "category": "no_date",
-      "text": "상품별 거래내역을 나눠서 보고 싶어 한 번만 정리해줘",
+      "text": "상품별 거래내역을 나눠서 보고 싶어 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9023,7 +9023,7 @@
     {
       "id": "none-39",
       "category": "no_date",
-      "text": "기업별 거래 금액 순위를 보여줘 바로 알려줘",
+      "text": "기업별 거래 금액 순위를 보여줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9034,7 +9034,7 @@
     {
       "id": "none-40",
       "category": "no_date",
-      "text": "출금보다 입금이 많은 계좌를 보여줘 확인 부탁해",
+      "text": "출금보다 입금이 많은 계좌를 보여줘 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9045,7 +9045,7 @@
     {
       "id": "none-41",
       "category": "no_date",
-      "text": "예적금 해지 예정 계좌가 있는지 알려줘 간단히 보여줘",
+      "text": "예적금 해지 예정 계좌가 있는지 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9056,7 +9056,7 @@
     {
       "id": "none-42",
       "category": "no_date",
-      "text": "증권 거래내역을 최신순으로 정렬해줘",
+      "text": "증권 거래내역을 최신순으로 정렬해줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9067,7 +9067,7 @@
     {
       "id": "none-43",
       "category": "no_date",
-      "text": "대출 이자 납부 내역만 모아줘 좀 확인해줘",
+      "text": "대출 이자 납부 내역만 모아줘 볼 수 있을까?",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9078,7 +9078,7 @@
     {
       "id": "none-44",
       "category": "no_date",
-      "text": "수시입출 계좌 잔액 합계를 계산해줘 볼 수 있을까?",
+      "text": "수시입출 계좌 잔액 합계를 계산해줘 먼저 보고 싶어",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9089,7 +9089,7 @@
     {
       "id": "none-45",
       "category": "no_date",
-      "text": "외화 거래가 있었던 계좌만 보여줘 먼저 보고 싶어",
+      "text": "외화 거래가 있었던 계좌만 보여줘 한 번만 정리해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9100,7 +9100,7 @@
     {
       "id": "none-46",
       "category": "no_date",
-      "text": "신탁 계좌가 몇 개나 있는지 궁금해 한 번만 정리해줘",
+      "text": "신탁 계좌가 몇 개나 있는지 궁금해 바로 알려줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9111,7 +9111,7 @@
     {
       "id": "none-47",
       "category": "no_date",
-      "text": "잔액은 있는데 거래가 없는 계좌를 찾아줘 바로 알려줘",
+      "text": "잔액은 있는데 거래가 없는 계좌를 찾아줘 확인 부탁해",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9122,7 +9122,7 @@
     {
       "id": "none-48",
       "category": "no_date",
-      "text": "보통예금 쪽 자금만 보고 싶어 확인 부탁해",
+      "text": "보통예금 쪽 자금만 보고 싶어 간단히 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9133,7 +9133,7 @@
     {
       "id": "none-49",
       "category": "no_date",
-      "text": "거래 많은 계좌를 상위 몇 개만 보여줘 간단히 보여줘",
+      "text": "거래 많은 계좌를 상위 몇 개만 보여줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],
@@ -9144,7 +9144,7 @@
     {
       "id": "none-50",
       "category": "no_date",
-      "text": "은행별 계좌 수를 알려줘",
+      "text": "은행별 계좌 수를 알려줘 좀 확인해줘",
       "referenceDate": "2025-11-17",
       "presentRangeEnd": "today",
       "expected": [],

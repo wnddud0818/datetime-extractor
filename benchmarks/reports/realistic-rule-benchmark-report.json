@@ -3,8 +3,8 @@
   "defaultReferenceDate": "2026-04-18",
   "timezone": "Asia/Seoul",
   "total": 1150,
-  "passed": 1150,
-  "accuracy": 100,
+  "passed": 1149,
+  "accuracy": 99.9,
   "byCategory": [
     {
       "category": "1.named_day",
@@ -57,8 +57,8 @@
     {
       "category": "17.userlike.month",
       "total": 20,
-      "passed": 20,
-      "accuracy": 100
+      "passed": 19,
+      "accuracy": 95
     },
     {
       "category": "18.userlike.absolute",
@@ -124,9 +124,9 @@
   "byPath": [
     {
       "path": "full",
-      "total": 934,
+      "total": 935,
       "passed": 934,
-      "accuracy": 100
+      "accuracy": 99.9
     },
     {
       "path": "no_match",
@@ -136,10 +136,19 @@
     },
     {
       "path": "partial",
-      "total": 211,
-      "passed": 211,
+      "total": 210,
+      "passed": 210,
       "accuracy": 100
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "id": 205,
+      "category": "17.userlike.month",
+      "text": "이번달 중순쯤 매출 어땠어",
+      "path": "full",
+      "reason": "expected 2026-04-11~2026-04-20",
+      "actualSummary": "2026-04-08~2026-04-23"
+    }
+  ]
 }
