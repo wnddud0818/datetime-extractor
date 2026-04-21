@@ -15,6 +15,8 @@ export const KOREAN_DAY_NUMERALS: Array<{ word: string; token: NamedToken }> = [
 ];
 
 export const KOREAN_DAY_WORDS: Array<{ word: string; token: NamedToken }> = [
+  { word: "지금 현재", token: "today" },
+  { word: "현재", token: "today" },
   { word: "그저께", token: "그저께" },
   { word: "엊그제", token: "엊그제" },
   { word: "그제", token: "그저께" },

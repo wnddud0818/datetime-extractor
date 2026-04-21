@@ -17448,6 +17448,930 @@
     }
   },
   {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_spaced:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12 ~ 2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_iso_compact:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "2025-04-12~2025-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_slash:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "2025/04/12 ~ 2025/05/15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_dot:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "2025.04.12 ~ 2025.05.15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_compact_digits:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "20250412~20250515",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2025-01-10",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-01-10",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2025-11-17",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2025-11-17",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2026-04-18",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-04-18",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2026-12-31",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2026-12-31",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2027-09-16",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2027-09-16",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2028-02-29",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2028-02-29",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "default:edge_symbolic_explicit_day_range_short_year:2029-12-30",
+    "suite": "default",
+    "category": "J.edge",
+    "referenceDate": "2029-12-30",
+    "timezone": "Asia/Seoul",
+    "text": "25-04-12 ~ 25-05-15",
+    "outputModes": [
+      "range"
+    ],
+    "expected": {
+      "hasDate": true,
+      "expressions": [
+        {
+          "range": {
+            "start": "2025-04-12",
+            "end": "2025-05-15"
+          }
+        }
+      ]
+    }
+  },
+  {
     "id": "default:edge_connector_month_span_q1:2025-01-10",
     "suite": "default",
     "category": "J.edge",

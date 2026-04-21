@@ -137,6 +137,27 @@ function mergeRangeConnectors(text: string, matches: Match[]): Match[] {
         i += 2;
         continue;
       }
+      // 부터만 있고 까지가 없는 경우: 월 단위 이상(day 없음)에서만 범위로 병합
+      if (isConnector && !kajiMatch) {
+        const isMonthOrCoarser = (expr: DateExpression): boolean => {
+          if (expr.kind === "absolute") return expr.day === undefined;
+          if (expr.kind === "named") return true;
+          if (expr.kind === "relative") return true;
+          return false;
+        };
+        if (isMonthOrCoarser(a.expression) && isMonthOrCoarser(b.expression)) {
+          const endExpr = inheritAbsoluteContext(a.expression, b.expression);
+          result.push({
+            text: text.slice(a.start, b.end),
+            start: a.start,
+            end: b.end,
+            expression: { kind: "range", start: a.expression, end: endExpr },
+            priority: Math.max(a.priority, b.priority) + 1,
+          });
+          i += 2;
+          continue;
+        }
+      }
     }
     result.push(a);
     i++;

@@ -2,7 +2,7 @@
   "name": "realistic-rule-benchmark",
   "defaultReferenceDate": "2026-04-18",
   "timezone": "Asia/Seoul",
-  "totalCases": 1150,
+  "totalCases": 1186,
   "cases": [
     {
       "id": 1,
@@ -489,6 +489,30 @@
       ]
     },
     {
+      "id": 401,
+      "category": "4.month_year",
+      "text": "지난 1~2월 거래내역 알려줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-02-28"
+        }
+      ]
+    },
+    {
+      "id": 402,
+      "category": "4.month_year",
+      "text": "작년 1~2월 거래내역 알려줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-01-01",
+          "end": "2025-02-28"
+        }
+      ]
+    },
+    {
       "id": 41,
       "category": "5.absolute",
       "text": "2025-12-25 일정 있어?",
@@ -727,6 +751,78 @@
         {
           "start": "2025-01-01",
           "end": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": 403,
+      "category": "6.range",
+      "text": "2025-04-12 ~ 2025-05-15 예약 현황 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": 404,
+      "category": "6.range",
+      "text": "2025-04-12~2025-05-15 주문 데이터 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": 405,
+      "category": "6.range",
+      "text": "2025/04/12 ~ 2025/05/15 결제 내역 조회해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": 406,
+      "category": "6.range",
+      "text": "2025.04.12 ~ 2025.05.15 일정 비교해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": 407,
+      "category": "6.range",
+      "text": "20250412~20250515 로그 찾아줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": 408,
+      "category": "6.range",
+      "text": "25-04-12 ~ 25-05-15 휴가 기록 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-12",
+          "end": "2025-05-15"
         }
       ]
     },
@@ -2998,6 +3094,429 @@
     },
     {
       "id": 251,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "2025년도 3월부터 2026년도 4월까지의 세금계산서 금액 변화 추이를 시각자료로 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-03-01",
+          "end": "2026-04-30"
+        }
+      ]
+    },
+    {
+      "id": 252,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "작년 3월과 올해 3월의 건수와 매출/매입액으로만 비교해서 보여줄래?",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-03-01",
+          "end": "2025-03-31"
+        },
+        {
+          "start": "2026-03-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 253,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지난달 매출세금계산서와 매입세금계산서의 총액 차이는 얼마인가?",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-03-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 254,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "전체 건수 말고 일자별 합산금액 알려줘",
+      "mode": "range",
+      "expectNone": true
+    },
+    {
+      "id": 255,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1월부터 3월",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 256,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지난 1년간",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-04-21",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 257,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "발급된 법인카드 중 최근 3개월 거래 없는 카드 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-21",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 258,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "법인카드 1월 매입(이용)내역 있다면 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "id": 259,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "씨엔에스 사업장 법인카드 중 1월부터 3월 법인카드 청구내역 리스트 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 260,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1월부터 현재까지 월별 입출금 합계 정리해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 261,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "이번 달 거래후잔액이 10만원 이하인 거래 내역 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-04-01",
+          "end": "2026-04-30"
+        }
+      ]
+    },
+    {
+      "id": 262,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지난달 말일 기준 계좌 잔액이랑 오늘 잔액 비교해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-03-31",
+          "end": "2026-03-31"
+        },
+        {
+          "start": "2026-04-21",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 263,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "이번 달 입금 합계랑 출금 합계 각각 얼마야?",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-04-01",
+          "end": "2026-04-30"
+        }
+      ]
+    },
+    {
+      "id": 264,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "카드번호 뒤의 4자리가 1872인 카드와 1307인 카드의 26년 1월 사용 내역 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-01-31"
+        }
+      ]
+    },
+    {
+      "id": 265,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "작년 1~12월까지 월말 잔액 알려줘 수시입출 계좌만",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": 266,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "4월 1일 기준으로 시재보고서 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-04-01",
+          "end": "2026-04-01"
+        }
+      ]
+    },
+    {
+      "id": 267,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지금 현재 계좌 잔액 얼마야?",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-04-21",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 268,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "상반기 법인카드 사용 현황 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-06-30"
+        }
+      ]
+    },
+    {
+      "id": 269,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "올해 1월 순이익과 2월 순이익 비교해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-01-31"
+        },
+        {
+          "start": "2026-02-01",
+          "end": "2026-02-28"
+        }
+      ]
+    },
+    {
+      "id": 270,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "작년 월별로 매출 금액 알려줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-01-01",
+          "end": "2025-01-31"
+        },
+        {
+          "start": "2025-02-01",
+          "end": "2025-02-28"
+        },
+        {
+          "start": "2025-03-01",
+          "end": "2025-03-31"
+        },
+        {
+          "start": "2025-04-01",
+          "end": "2025-04-30"
+        },
+        {
+          "start": "2025-05-01",
+          "end": "2025-05-31"
+        },
+        {
+          "start": "2025-06-01",
+          "end": "2025-06-30"
+        },
+        {
+          "start": "2025-07-01",
+          "end": "2025-07-31"
+        },
+        {
+          "start": "2025-08-01",
+          "end": "2025-08-31"
+        },
+        {
+          "start": "2025-09-01",
+          "end": "2025-09-30"
+        },
+        {
+          "start": "2025-10-01",
+          "end": "2025-10-31"
+        },
+        {
+          "start": "2025-11-01",
+          "end": "2025-11-30"
+        },
+        {
+          "start": "2025-12-01",
+          "end": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": 271,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "어제 18시 기준으로 계좌 잔액 알려줘",
+      "mode": "datetime",
+      "expectedRanges": [
+        {
+          "start": "2026-04-20T18:00:00+09:00",
+          "end": "2026-04-20T18:00:00+09:00"
+        }
+      ]
+    },
+    {
+      "id": 272,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1분기 법인카드 사용 내역 월별 비교 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 273,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1월부터 3월까지 법인카드 사용 내역 정리해서 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 274,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "작년 한 해 전체 거래내역 연간 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": 275,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지난 6개월 거래내역 월별로 비교해서 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2025-10-21",
+          "end": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "id": 276,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1분기(1~3월) 전체 거래내역 요약 보고서 만들어줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        },
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 277,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "1월부터 3월까지 거래내역 보여줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31"
+        }
+      ]
+    },
+    {
+      "id": 278,
+      "category": "20.finance",
+      "referenceDate": "2026-04-21",
+      "text": "지난달과 이번달 원화 잔액 비교해줘",
+      "mode": "range",
+      "expectedRanges": [
+        {
+          "start": "2026-03-01",
+          "end": "2026-03-31"
+        },
+        {
+          "start": "2026-04-01",
+          "end": "2026-04-30"
+        }
+      ]
+    },
+    {
+      "id": 287,
       "category": "14.template.csv",
       "text": "오늘 예적금 거래내역",
       "mode": "range",
@@ -3011,7 +3530,7 @@
       ]
     },
     {
-      "id": 252,
+      "id": 288,
       "category": "14.template.csv",
       "text": "어제 대출 거래내역",
       "mode": "range",
@@ -3025,7 +3544,7 @@
       ]
     },
     {
-      "id": 253,
+      "id": 289,
       "category": "14.template.csv",
       "text": "그제 외화 거래내역",
       "mode": "range",
@@ -3039,7 +3558,7 @@
       ]
     },
     {
-      "id": 254,
+      "id": 290,
       "category": "14.template.csv",
       "text": "그저께 증권 거래내역",
       "mode": "range",
@@ -3053,7 +3572,7 @@
       ]
     },
     {
-      "id": 255,
+      "id": 291,
       "category": "14.template.csv",
       "text": "엊그제 신탁 거래내역",
       "mode": "range",
@@ -3067,7 +3586,7 @@
       ]
     },
     {
-      "id": 256,
+      "id": 292,
       "category": "14.template.csv",
       "text": "사흘전 수시입출 거래내역",
       "mode": "range",
@@ -3081,7 +3600,7 @@
       ]
     },
     {
-      "id": 257,
+      "id": 293,
       "category": "14.template.csv",
       "text": "나흘전 정기예금 거래내역",
       "mode": "range",
@@ -3095,7 +3614,7 @@
       ]
     },
     {
-      "id": 258,
+      "id": 294,
       "category": "14.template.csv",
       "text": "보름전 적금 거래내역",
       "mode": "range",
@@ -3109,7 +3628,7 @@
       ]
     },
     {
-      "id": 259,
+      "id": 295,
       "category": "14.template.csv",
       "text": "일주일 전 보통예금 거래내역",
       "mode": "range",
@@ -3123,7 +3642,7 @@
       ]
     },
     {
-      "id": 260,
+      "id": 296,
       "category": "14.template.csv",
       "text": "지난주 달러 예수금 거래내역",
       "mode": "range",
@@ -3137,7 +3656,7 @@
       ]
     },
     {
-      "id": 261,
+      "id": 297,
       "category": "14.template.csv",
       "text": "이번 주 예적금 거래내역",
       "mode": "range",
@@ -3151,7 +3670,7 @@
       ]
     },
     {
-      "id": 262,
+      "id": 298,
       "category": "14.template.csv",
       "text": "지난달 대출 거래내역",
       "mode": "range",
@@ -3165,7 +3684,7 @@
       ]
     },
     {
-      "id": 263,
+      "id": 299,
       "category": "14.template.csv",
       "text": "저번달 외화 거래내역",
       "mode": "range",
@@ -3179,7 +3698,7 @@
       ]
     },
     {
-      "id": 264,
+      "id": 300,
       "category": "14.template.csv",
       "text": "이번달 증권 거래내역",
       "mode": "range",
@@ -3193,7 +3712,7 @@
       ]
     },
     {
-      "id": 265,
+      "id": 301,
       "category": "14.template.csv",
       "text": "3월 신탁 거래내역",
       "mode": "range",
@@ -3207,7 +3726,7 @@
       ]
     },
     {
-      "id": 266,
+      "id": 302,
       "category": "14.template.csv",
       "text": "8월 수시입출 거래내역",
       "mode": "range",
@@ -3221,7 +3740,7 @@
       ]
     },
     {
-      "id": 267,
+      "id": 303,
       "category": "14.template.csv",
       "text": "올해 정기예금 거래내역",
       "mode": "range",
@@ -3235,7 +3754,7 @@
       ]
     },
     {
-      "id": 268,
+      "id": 304,
       "category": "14.template.csv",
       "text": "작년 적금 거래내역",
       "mode": "range",
@@ -3249,7 +3768,7 @@
       ]
     },
     {
-      "id": 269,
+      "id": 305,
       "category": "14.template.csv",
       "text": "재작년 보통예금 거래내역",
       "mode": "range",
@@ -3263,7 +3782,7 @@
       ]
     },
     {
-      "id": 270,
+      "id": 306,
       "category": "14.template.csv",
       "text": "1분기 달러 예수금 거래내역",
       "mode": "range",
@@ -3277,7 +3796,7 @@
       ]
     },
     {
-      "id": 271,
+      "id": 307,
       "category": "14.template.csv",
       "text": "2분기 예적금 거래내역",
       "mode": "range",
@@ -3291,7 +3810,7 @@
       ]
     },
     {
-      "id": 272,
+      "id": 308,
       "category": "14.template.csv",
       "text": "4분기 대출 거래내역",
       "mode": "range",
@@ -3305,7 +3824,7 @@
       ]
     },
     {
-      "id": 273,
+      "id": 309,
       "category": "14.template.csv",
       "text": "이번분기 외화 거래내역",
       "mode": "range",
@@ -3319,7 +3838,7 @@
       ]
     },
     {
-      "id": 274,
+      "id": 310,
       "category": "14.template.csv",
       "text": "지난분기 증권 거래내역",
       "mode": "range",
@@ -3333,7 +3852,7 @@
       ]
     },
     {
-      "id": 275,
+      "id": 311,
       "category": "14.template.csv",
       "text": "하반기 신탁 거래내역",
       "mode": "range",
@@ -3347,7 +3866,7 @@
       ]
     },
     {
-      "id": 276,
+      "id": 312,
       "category": "14.template.csv",
       "text": "지난 상반기 수시입출 거래내역",
       "mode": "range",
@@ -3361,7 +3880,7 @@
       ]
     },
     {
-      "id": 277,
+      "id": 313,
       "category": "14.template.csv",
       "text": "2023년 정기예금 거래내역",
       "mode": "range",
@@ -3375,7 +3894,7 @@
       ]
     },
     {
-      "id": 278,
+      "id": 314,
       "category": "14.template.csv",
       "text": "2024년 2월 적금 거래내역",
       "mode": "range",
@@ -3389,7 +3908,7 @@
       ]
     },
     {
-      "id": 279,
+      "id": 315,
       "category": "14.template.csv",
       "text": "최근 6개월간 보통예금 거래내역",
       "mode": "range",
@@ -3403,7 +3922,7 @@
       ]
     },
     {
-      "id": 280,
+      "id": 316,
       "category": "14.template.csv",
       "text": "지난 1년간 달러 예수금 거래내역",
       "mode": "range",
@@ -3417,7 +3936,7 @@
       ]
     },
     {
-      "id": 281,
+      "id": 317,
       "category": "14.template.csv",
       "text": "오늘 대출 잔액",
       "mode": "range",
@@ -3431,7 +3950,7 @@
       ]
     },
     {
-      "id": 282,
+      "id": 318,
       "category": "14.template.csv",
       "text": "어제 외화 잔액",
       "mode": "range",
@@ -3445,7 +3964,7 @@
       ]
     },
     {
-      "id": 283,
+      "id": 319,
       "category": "14.template.csv",
       "text": "그제 증권 잔액",
       "mode": "range",
@@ -3459,7 +3978,7 @@
       ]
     },
     {
-      "id": 284,
+      "id": 320,
       "category": "14.template.csv",
       "text": "그저께 신탁 잔액",
       "mode": "range",
@@ -3473,7 +3992,7 @@
       ]
     },
     {
-      "id": 285,
+      "id": 321,
       "category": "14.template.csv",
       "text": "엊그제 수시입출 잔액",
       "mode": "range",
@@ -3487,7 +4006,7 @@
       ]
     },
     {
-      "id": 286,
+      "id": 322,
       "category": "14.template.csv",
       "text": "사흘전 정기예금 잔액",
       "mode": "range",
@@ -3501,7 +4020,7 @@
       ]
     },
     {
-      "id": 287,
+      "id": 323,
       "category": "14.template.csv",
       "text": "나흘전 적금 잔액",
       "mode": "range",
@@ -3515,7 +4034,7 @@
       ]
     },
     {
-      "id": 288,
+      "id": 324,
       "category": "14.template.csv",
       "text": "보름전 보통예금 잔액",
       "mode": "range",
@@ -3529,7 +4048,7 @@
       ]
     },
     {
-      "id": 289,
+      "id": 325,
       "category": "14.template.csv",
       "text": "일주일 전 달러 예수금 잔액",
       "mode": "range",
@@ -3543,7 +4062,7 @@
       ]
     },
     {
-      "id": 290,
+      "id": 326,
       "category": "14.template.csv",
       "text": "지난주 예적금 잔액",
       "mode": "range",
@@ -3557,7 +4076,7 @@
       ]
     },
     {
-      "id": 291,
+      "id": 327,
       "category": "14.template.csv",
       "text": "이번 주 대출 잔액",
       "mode": "range",
@@ -3571,7 +4090,7 @@
       ]
     },
     {
-      "id": 292,
+      "id": 328,
       "category": "14.template.csv",
       "text": "지난달 외화 잔액",
       "mode": "range",
@@ -3585,7 +4104,7 @@
       ]
     },
     {
-      "id": 293,
+      "id": 329,
       "category": "14.template.csv",
       "text": "저번달 증권 잔액",
       "mode": "range",
@@ -3599,7 +4118,7 @@
       ]
     },
     {
-      "id": 294,
+      "id": 330,
       "category": "14.template.csv",
       "text": "이번달 신탁 잔액",
       "mode": "range",
@@ -3613,7 +4132,7 @@
       ]
     },
     {
-      "id": 295,
+      "id": 331,
       "category": "14.template.csv",
       "text": "3월 수시입출 잔액",
       "mode": "range",
@@ -3627,7 +4146,7 @@
       ]
     },
     {
-      "id": 296,
+      "id": 332,
       "category": "14.template.csv",
       "text": "8월 정기예금 잔액",
       "mode": "range",
@@ -3641,7 +4160,7 @@
       ]
     },
     {
-      "id": 297,
+      "id": 333,
       "category": "14.template.csv",
       "text": "올해 적금 잔액",
       "mode": "range",
@@ -3655,7 +4174,7 @@
       ]
     },
     {
-      "id": 298,
+      "id": 334,
       "category": "14.template.csv",
       "text": "작년 보통예금 잔액",
       "mode": "range",
@@ -3669,7 +4188,7 @@
       ]
     },
     {
-      "id": 299,
+      "id": 335,
       "category": "14.template.csv",
       "text": "재작년 달러 예수금 잔액",
       "mode": "range",
@@ -3683,7 +4202,7 @@
       ]
     },
     {
-      "id": 300,
+      "id": 336,
       "category": "14.template.csv",
       "text": "1분기 예적금 잔액",
       "mode": "range",
@@ -3697,7 +4216,7 @@
       ]
     },
     {
-      "id": 301,
+      "id": 337,
       "category": "14.template.csv",
       "text": "2분기 대출 잔액",
       "mode": "range",
@@ -3711,7 +4230,7 @@
       ]
     },
     {
-      "id": 302,
+      "id": 338,
       "category": "14.template.csv",
       "text": "4분기 외화 잔액",
       "mode": "range",
@@ -3725,7 +4244,7 @@
       ]
     },
     {
-      "id": 303,
+      "id": 339,
       "category": "14.template.csv",
       "text": "이번분기 증권 잔액",
       "mode": "range",
@@ -3739,7 +4258,7 @@
       ]
     },
     {
-      "id": 304,
+      "id": 340,
       "category": "14.template.csv",
       "text": "지난분기 신탁 잔액",
       "mode": "range",
@@ -3753,7 +4272,7 @@
       ]
     },
     {
-      "id": 305,
+      "id": 341,
       "category": "14.template.csv",
       "text": "하반기 수시입출 잔액",
       "mode": "range",
@@ -3767,7 +4286,7 @@
       ]
     },
     {
-      "id": 306,
+      "id": 342,
       "category": "14.template.csv",
       "text": "지난 상반기 정기예금 잔액",
       "mode": "range",
@@ -3781,7 +4300,7 @@
       ]
     },
     {
-      "id": 307,
+      "id": 343,
       "category": "14.template.csv",
       "text": "2023년 적금 잔액",
       "mode": "range",
@@ -3795,7 +4314,7 @@
       ]
     },
     {
-      "id": 308,
+      "id": 344,
       "category": "14.template.csv",
       "text": "2024년 2월 보통예금 잔액",
       "mode": "range",
@@ -3809,7 +4328,7 @@
       ]
     },
     {
-      "id": 309,
+      "id": 345,
       "category": "14.template.csv",
       "text": "최근 6개월간 달러 예수금 잔액",
       "mode": "range",
@@ -3823,7 +4342,7 @@
       ]
     },
     {
-      "id": 310,
+      "id": 346,
       "category": "14.template.csv",
       "text": "지난 1년간 예적금 잔액",
       "mode": "range",
@@ -3837,7 +4356,7 @@
       ]
     },
     {
-      "id": 311,
+      "id": 347,
       "category": "14.template.csv",
       "text": "오늘 외화 남은 돈",
       "mode": "range",
@@ -3851,7 +4370,7 @@
       ]
     },
     {
-      "id": 312,
+      "id": 348,
       "category": "14.template.csv",
       "text": "어제 증권 남은 돈",
       "mode": "range",
@@ -3865,7 +4384,7 @@
       ]
     },
     {
-      "id": 313,
+      "id": 349,
       "category": "14.template.csv",
       "text": "그제 신탁 남은 돈",
       "mode": "range",
@@ -3879,7 +4398,7 @@
       ]
     },
     {
-      "id": 314,
+      "id": 350,
       "category": "14.template.csv",
       "text": "그저께 수시입출 남은 돈",
       "mode": "range",
@@ -3893,7 +4412,7 @@
       ]
     },
     {
-      "id": 315,
+      "id": 351,
       "category": "14.template.csv",
       "text": "엊그제 정기예금 남은 돈",
       "mode": "range",
@@ -3907,7 +4426,7 @@
       ]
     },
     {
-      "id": 316,
+      "id": 352,
       "category": "14.template.csv",
       "text": "사흘전 적금 남은 돈",
       "mode": "range",
@@ -3921,7 +4440,7 @@
       ]
     },
     {
-      "id": 317,
+      "id": 353,
       "category": "14.template.csv",
       "text": "나흘전 보통예금 남은 돈",
       "mode": "range",
@@ -3935,7 +4454,7 @@
       ]
     },
     {
-      "id": 318,
+      "id": 354,
       "category": "14.template.csv",
       "text": "보름전 달러 예수금 남은 돈",
       "mode": "range",
@@ -3949,7 +4468,7 @@
       ]
     },
     {
-      "id": 319,
+      "id": 355,
       "category": "14.template.csv",
       "text": "일주일 전 예적금 남은 돈",
       "mode": "range",
@@ -3963,7 +4482,7 @@
       ]
     },
     {
-      "id": 320,
+      "id": 356,
       "category": "14.template.csv",
       "text": "지난주 대출 남은 돈",
       "mode": "range",
@@ -3977,7 +4496,7 @@
       ]
     },
     {
-      "id": 321,
+      "id": 357,
       "category": "14.template.csv",
       "text": "이번 주 외화 남은 돈",
       "mode": "range",
@@ -3991,7 +4510,7 @@
       ]
     },
     {
-      "id": 322,
+      "id": 358,
       "category": "14.template.csv",
       "text": "지난달 증권 남은 돈",
       "mode": "range",
@@ -4005,7 +4524,7 @@
       ]
     },
     {
-      "id": 323,
+      "id": 359,
       "category": "14.template.csv",
       "text": "저번달 신탁 남은 돈",
       "mode": "range",
@@ -4019,7 +4538,7 @@
       ]
     },
     {
-      "id": 324,
+      "id": 360,
       "category": "14.template.csv",
       "text": "이번달 수시입출 남은 돈",
       "mode": "range",
@@ -4033,7 +4552,7 @@
       ]
     },
     {
-      "id": 325,
+      "id": 361,
       "category": "14.template.csv",
       "text": "3월 정기예금 남은 돈",
       "mode": "range",
@@ -4047,7 +4566,7 @@
       ]
     },
     {
-      "id": 326,
+      "id": 362,
       "category": "14.template.csv",
       "text": "8월 적금 남은 돈",
       "mode": "range",
@@ -4061,7 +4580,7 @@
       ]
     },
     {
-      "id": 327,
+      "id": 363,
       "category": "14.template.csv",
       "text": "올해 보통예금 남은 돈",
       "mode": "range",
@@ -4075,7 +4594,7 @@
       ]
     },
     {
-      "id": 328,
+      "id": 364,
       "category": "14.template.csv",
       "text": "작년 달러 예수금 남은 돈",
       "mode": "range",
@@ -4089,7 +4608,7 @@
       ]
     },
     {
-      "id": 329,
+      "id": 365,
       "category": "14.template.csv",
       "text": "재작년 예적금 남은 돈",
       "mode": "range",
@@ -4103,7 +4622,7 @@
       ]
     },
     {
-      "id": 330,
+      "id": 366,
       "category": "14.template.csv",
       "text": "1분기 대출 남은 돈",
       "mode": "range",
@@ -4117,7 +4636,7 @@
       ]
     },
     {
-      "id": 331,
+      "id": 367,
       "category": "14.template.csv",
       "text": "2분기 외화 남은 돈",
       "mode": "range",
@@ -4131,7 +4650,7 @@
       ]
     },
     {
-      "id": 332,
+      "id": 368,
       "category": "14.template.csv",
       "text": "4분기 증권 남은 돈",
       "mode": "range",
@@ -4145,7 +4664,7 @@
       ]
     },
     {
-      "id": 333,
+      "id": 369,
       "category": "14.template.csv",
       "text": "이번분기 신탁 남은 돈",
       "mode": "range",
@@ -4159,7 +4678,7 @@
       ]
     },
     {
-      "id": 334,
+      "id": 370,
       "category": "14.template.csv",
       "text": "지난분기 수시입출 남은 돈",
       "mode": "range",
@@ -4173,7 +4692,7 @@
       ]
     },
     {
-      "id": 335,
+      "id": 371,
       "category": "14.template.csv",
       "text": "하반기 정기예금 남은 돈",
       "mode": "range",
@@ -4187,7 +4706,7 @@
       ]
     },
     {
-      "id": 336,
+      "id": 372,
       "category": "14.template.csv",
       "text": "지난 상반기 적금 남은 돈",
       "mode": "range",
@@ -4201,7 +4720,7 @@
       ]
     },
     {
-      "id": 337,
+      "id": 373,
       "category": "14.template.csv",
       "text": "2023년 보통예금 남은 돈",
       "mode": "range",
@@ -4215,7 +4734,7 @@
       ]
     },
     {
-      "id": 338,
+      "id": 374,
       "category": "14.template.csv",
       "text": "2024년 2월 달러 예수금 남은 돈",
       "mode": "range",
@@ -4229,7 +4748,7 @@
       ]
     },
     {
-      "id": 339,
+      "id": 375,
       "category": "14.template.csv",
       "text": "최근 6개월간 예적금 남은 돈",
       "mode": "range",
@@ -4243,7 +4762,7 @@
       ]
     },
     {
-      "id": 340,
+      "id": 376,
       "category": "14.template.csv",
       "text": "지난 1년간 대출 남은 돈",
       "mode": "range",
@@ -4257,7 +4776,7 @@
       ]
     },
     {
-      "id": 341,
+      "id": 377,
       "category": "14.template.csv",
       "text": "오늘 증권 입출금 내역",
       "mode": "range",
@@ -4271,7 +4790,7 @@
       ]
     },
     {
-      "id": 342,
+      "id": 378,
       "category": "14.template.csv",
       "text": "어제 신탁 입출금 내역",
       "mode": "range",
@@ -4285,7 +4804,7 @@
       ]
     },
     {
-      "id": 343,
+      "id": 379,
       "category": "14.template.csv",
       "text": "그제 수시입출 입출금 내역",
       "mode": "range",
@@ -4299,7 +4818,7 @@
       ]
     },
     {
-      "id": 344,
+      "id": 380,
       "category": "14.template.csv",
       "text": "그저께 정기예금 입출금 내역",
       "mode": "range",
@@ -4313,7 +4832,7 @@
       ]
     },
     {
-      "id": 345,
+      "id": 381,
       "category": "14.template.csv",
       "text": "엊그제 적금 입출금 내역",
       "mode": "range",
@@ -4327,7 +4846,7 @@
       ]
     },
     {
-      "id": 346,
+      "id": 382,
       "category": "14.template.csv",
       "text": "사흘전 보통예금 입출금 내역",
       "mode": "range",
@@ -4341,7 +4860,7 @@
       ]
     },
     {
-      "id": 347,
+      "id": 383,
       "category": "14.template.csv",
       "text": "나흘전 달러 예수금 입출금 내역",
       "mode": "range",
@@ -4355,7 +4874,7 @@
       ]
     },
     {
-      "id": 348,
+      "id": 384,
       "category": "14.template.csv",
       "text": "보름전 예적금 입출금 내역",
       "mode": "range",
@@ -4369,7 +4888,7 @@
       ]
     },
     {
-      "id": 349,
+      "id": 385,
       "category": "14.template.csv",
       "text": "일주일 전 대출 입출금 내역",
       "mode": "range",
@@ -4383,7 +4902,7 @@
       ]
     },
     {
-      "id": 350,
+      "id": 386,
       "category": "14.template.csv",
       "text": "지난주 외화 입출금 내역",
       "mode": "range",
@@ -4397,7 +4916,7 @@
       ]
     },
     {
-      "id": 351,
+      "id": 387,
       "category": "14.template.csv",
       "text": "이번 주 증권 입출금 내역",
       "mode": "range",
@@ -4411,7 +4930,7 @@
       ]
     },
     {
-      "id": 352,
+      "id": 388,
       "category": "14.template.csv",
       "text": "지난달 신탁 입출금 내역",
       "mode": "range",
@@ -4425,7 +4944,7 @@
       ]
     },
     {
-      "id": 353,
+      "id": 389,
       "category": "14.template.csv",
       "text": "저번달 수시입출 입출금 내역",
       "mode": "range",
@@ -4439,7 +4958,7 @@
       ]
     },
     {
-      "id": 354,
+      "id": 390,
       "category": "14.template.csv",
       "text": "이번달 정기예금 입출금 내역",
       "mode": "range",
@@ -4453,7 +4972,7 @@
       ]
     },
     {
-      "id": 355,
+      "id": 391,
       "category": "14.template.csv",
       "text": "3월 적금 입출금 내역",
       "mode": "range",
@@ -4467,7 +4986,7 @@
       ]
     },
     {
-      "id": 356,
+      "id": 392,
       "category": "14.template.csv",
       "text": "8월 보통예금 입출금 내역",
       "mode": "range",
@@ -4481,7 +5000,7 @@
       ]
     },
     {
-      "id": 357,
+      "id": 393,
       "category": "14.template.csv",
       "text": "올해 달러 예수금 입출금 내역",
       "mode": "range",
@@ -4495,7 +5014,7 @@
       ]
     },
     {
-      "id": 358,
+      "id": 394,
       "category": "14.template.csv",
       "text": "작년 예적금 입출금 내역",
       "mode": "range",
@@ -4509,7 +5028,7 @@
       ]
     },
     {
-      "id": 359,
+      "id": 395,
       "category": "14.template.csv",
       "text": "재작년 대출 입출금 내역",
       "mode": "range",
@@ -4523,7 +5042,7 @@
       ]
     },
     {
-      "id": 360,
+      "id": 396,
       "category": "14.template.csv",
       "text": "1분기 외화 입출금 내역",
       "mode": "range",
@@ -4537,7 +5056,7 @@
       ]
     },
     {
-      "id": 361,
+      "id": 397,
       "category": "14.template.csv",
       "text": "2분기 증권 입출금 내역",
       "mode": "range",
@@ -4551,7 +5070,7 @@
       ]
     },
     {
-      "id": 362,
+      "id": 398,
       "category": "14.template.csv",
       "text": "4분기 신탁 입출금 내역",
       "mode": "range",
@@ -4565,7 +5084,7 @@
       ]
     },
     {
-      "id": 363,
+      "id": 399,
       "category": "14.template.csv",
       "text": "이번분기 수시입출 입출금 내역",
       "mode": "range",
@@ -4579,7 +5098,7 @@
       ]
     },
     {
-      "id": 364,
+      "id": 400,
       "category": "14.template.csv",
       "text": "지난분기 정기예금 입출금 내역",
       "mode": "range",
@@ -4593,7 +5112,7 @@
       ]
     },
     {
-      "id": 365,
+      "id": 401,
       "category": "14.template.csv",
       "text": "하반기 적금 입출금 내역",
       "mode": "range",
@@ -4607,7 +5126,7 @@
       ]
     },
     {
-      "id": 366,
+      "id": 402,
       "category": "14.template.csv",
       "text": "지난 상반기 보통예금 입출금 내역",
       "mode": "range",
@@ -4621,7 +5140,7 @@
       ]
     },
     {
-      "id": 367,
+      "id": 403,
       "category": "14.template.csv",
       "text": "2023년 달러 예수금 입출금 내역",
       "mode": "range",
@@ -4635,7 +5154,7 @@
       ]
     },
     {
-      "id": 368,
+      "id": 404,
       "category": "14.template.csv",
       "text": "2024년 2월 예적금 입출금 내역",
       "mode": "range",
@@ -4649,7 +5168,7 @@
       ]
     },
     {
-      "id": 369,
+      "id": 405,
       "category": "14.template.csv",
       "text": "최근 6개월간 대출 입출금 내역",
       "mode": "range",
@@ -4663,7 +5182,7 @@
       ]
     },
     {
-      "id": 370,
+      "id": 406,
       "category": "14.template.csv",
       "text": "지난 1년간 외화 입출금 내역",
       "mode": "range",
@@ -4677,7 +5196,7 @@
       ]
     },
     {
-      "id": 371,
+      "id": 407,
       "category": "14.template.csv",
       "text": "오늘 신탁 계좌 잔액",
       "mode": "range",
@@ -4691,7 +5210,7 @@
       ]
     },
     {
-      "id": 372,
+      "id": 408,
       "category": "14.template.csv",
       "text": "어제 수시입출 계좌 잔액",
       "mode": "range",
@@ -4705,7 +5224,7 @@
       ]
     },
     {
-      "id": 373,
+      "id": 409,
       "category": "14.template.csv",
       "text": "그제 정기예금 계좌 잔액",
       "mode": "range",
@@ -4719,7 +5238,7 @@
       ]
     },
     {
-      "id": 374,
+      "id": 410,
       "category": "14.template.csv",
       "text": "그저께 적금 계좌 잔액",
       "mode": "range",
@@ -4733,7 +5252,7 @@
       ]
     },
     {
-      "id": 375,
+      "id": 411,
       "category": "14.template.csv",
       "text": "엊그제 보통예금 계좌 잔액",
       "mode": "range",
@@ -4747,7 +5266,7 @@
       ]
     },
     {
-      "id": 376,
+      "id": 412,
       "category": "14.template.csv",
       "text": "사흘전 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -4761,7 +5280,7 @@
       ]
     },
     {
-      "id": 377,
+      "id": 413,
       "category": "14.template.csv",
       "text": "나흘전 예적금 계좌 잔액",
       "mode": "range",
@@ -4775,7 +5294,7 @@
       ]
     },
     {
-      "id": 378,
+      "id": 414,
       "category": "14.template.csv",
       "text": "보름전 대출 계좌 잔액",
       "mode": "range",
@@ -4789,7 +5308,7 @@
       ]
     },
     {
-      "id": 379,
+      "id": 415,
       "category": "14.template.csv",
       "text": "일주일 전 외화 계좌 잔액",
       "mode": "range",
@@ -4803,7 +5322,7 @@
       ]
     },
     {
-      "id": 380,
+      "id": 416,
       "category": "14.template.csv",
       "text": "지난주 증권 계좌 잔액",
       "mode": "range",
@@ -4817,7 +5336,7 @@
       ]
     },
     {
-      "id": 381,
+      "id": 417,
       "category": "14.template.csv",
       "text": "이번 주 신탁 계좌 잔액",
       "mode": "range",
@@ -4831,7 +5350,7 @@
       ]
     },
     {
-      "id": 382,
+      "id": 418,
       "category": "14.template.csv",
       "text": "지난달 수시입출 계좌 잔액",
       "mode": "range",
@@ -4845,7 +5364,7 @@
       ]
     },
     {
-      "id": 383,
+      "id": 419,
       "category": "14.template.csv",
       "text": "저번달 정기예금 계좌 잔액",
       "mode": "range",
@@ -4859,7 +5378,7 @@
       ]
     },
     {
-      "id": 384,
+      "id": 420,
       "category": "14.template.csv",
       "text": "이번달 적금 계좌 잔액",
       "mode": "range",
@@ -4873,7 +5392,7 @@
       ]
     },
     {
-      "id": 385,
+      "id": 421,
       "category": "14.template.csv",
       "text": "3월 보통예금 계좌 잔액",
       "mode": "range",
@@ -4887,7 +5406,7 @@
       ]
     },
     {
-      "id": 386,
+      "id": 422,
       "category": "14.template.csv",
       "text": "8월 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -4901,7 +5420,7 @@
       ]
     },
     {
-      "id": 387,
+      "id": 423,
       "category": "14.template.csv",
       "text": "올해 예적금 계좌 잔액",
       "mode": "range",
@@ -4915,7 +5434,7 @@
       ]
     },
     {
-      "id": 388,
+      "id": 424,
       "category": "14.template.csv",
       "text": "작년 대출 계좌 잔액",
       "mode": "range",
@@ -4929,7 +5448,7 @@
       ]
     },
     {
-      "id": 389,
+      "id": 425,
       "category": "14.template.csv",
       "text": "재작년 외화 계좌 잔액",
       "mode": "range",
@@ -4943,7 +5462,7 @@
       ]
     },
     {
-      "id": 390,
+      "id": 426,
       "category": "14.template.csv",
       "text": "1분기 증권 계좌 잔액",
       "mode": "range",
@@ -4957,7 +5476,7 @@
       ]
     },
     {
-      "id": 391,
+      "id": 427,
       "category": "14.template.csv",
       "text": "2분기 신탁 계좌 잔액",
       "mode": "range",
@@ -4971,7 +5490,7 @@
       ]
     },
     {
-      "id": 392,
+      "id": 428,
       "category": "14.template.csv",
       "text": "4분기 수시입출 계좌 잔액",
       "mode": "range",
@@ -4985,7 +5504,7 @@
       ]
     },
     {
-      "id": 393,
+      "id": 429,
       "category": "14.template.csv",
       "text": "이번분기 정기예금 계좌 잔액",
       "mode": "range",
@@ -4999,7 +5518,7 @@
       ]
     },
     {
-      "id": 394,
+      "id": 430,
       "category": "14.template.csv",
       "text": "지난분기 적금 계좌 잔액",
       "mode": "range",
@@ -5013,7 +5532,7 @@
       ]
     },
     {
-      "id": 395,
+      "id": 431,
       "category": "14.template.csv",
       "text": "하반기 보통예금 계좌 잔액",
       "mode": "range",
@@ -5027,7 +5546,7 @@
       ]
     },
     {
-      "id": 396,
+      "id": 432,
       "category": "14.template.csv",
       "text": "지난 상반기 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -5041,7 +5560,7 @@
       ]
     },
     {
-      "id": 397,
+      "id": 433,
       "category": "14.template.csv",
       "text": "2023년 예적금 계좌 잔액",
       "mode": "range",
@@ -5055,7 +5574,7 @@
       ]
     },
     {
-      "id": 398,
+      "id": 434,
       "category": "14.template.csv",
       "text": "2024년 2월 대출 계좌 잔액",
       "mode": "range",
@@ -5069,7 +5588,7 @@
       ]
     },
     {
-      "id": 399,
+      "id": 435,
       "category": "14.template.csv",
       "text": "최근 6개월간 외화 계좌 잔액",
       "mode": "range",
@@ -5083,7 +5602,7 @@
       ]
     },
     {
-      "id": 400,
+      "id": 436,
       "category": "14.template.csv",
       "text": "지난 1년간 증권 계좌 잔액",
       "mode": "range",
@@ -5097,7 +5616,7 @@
       ]
     },
     {
-      "id": 401,
+      "id": 437,
       "category": "14.template.csv",
       "text": "오늘 수시입출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5111,7 +5630,7 @@
       ]
     },
     {
-      "id": 402,
+      "id": 438,
       "category": "14.template.csv",
       "text": "어제 정기예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5125,7 +5644,7 @@
       ]
     },
     {
-      "id": 403,
+      "id": 439,
       "category": "14.template.csv",
       "text": "그제 적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5139,7 +5658,7 @@
       ]
     },
     {
-      "id": 404,
+      "id": 440,
       "category": "14.template.csv",
       "text": "그저께 보통예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5153,7 +5672,7 @@
       ]
     },
     {
-      "id": 405,
+      "id": 441,
       "category": "14.template.csv",
       "text": "엊그제 달러 예수금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5167,7 +5686,7 @@
       ]
     },
     {
-      "id": 406,
+      "id": 442,
       "category": "14.template.csv",
       "text": "사흘전 예적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5181,7 +5700,7 @@
       ]
     },
     {
-      "id": 407,
+      "id": 443,
       "category": "14.template.csv",
       "text": "나흘전 대출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5195,7 +5714,7 @@
       ]
     },
     {
-      "id": 408,
+      "id": 444,
       "category": "14.template.csv",
       "text": "보름전 외화 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5209,7 +5728,7 @@
       ]
     },
     {
-      "id": 409,
+      "id": 445,
       "category": "14.template.csv",
       "text": "일주일 전 증권 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5223,7 +5742,7 @@
       ]
     },
     {
-      "id": 410,
+      "id": 446,
       "category": "14.template.csv",
       "text": "지난주 신탁 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5237,7 +5756,7 @@
       ]
     },
     {
-      "id": 411,
+      "id": 447,
       "category": "14.template.csv",
       "text": "이번 주 수시입출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5251,7 +5770,7 @@
       ]
     },
     {
-      "id": 412,
+      "id": 448,
       "category": "14.template.csv",
       "text": "지난달 정기예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5265,7 +5784,7 @@
       ]
     },
     {
-      "id": 413,
+      "id": 449,
       "category": "14.template.csv",
       "text": "저번달 적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5279,7 +5798,7 @@
       ]
     },
     {
-      "id": 414,
+      "id": 450,
       "category": "14.template.csv",
       "text": "이번달 보통예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5293,7 +5812,7 @@
       ]
     },
     {
-      "id": 415,
+      "id": 451,
       "category": "14.template.csv",
       "text": "3월 달러 예수금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5307,7 +5826,7 @@
       ]
     },
     {
-      "id": 416,
+      "id": 452,
       "category": "14.template.csv",
       "text": "8월 예적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5321,7 +5840,7 @@
       ]
     },
     {
-      "id": 417,
+      "id": 453,
       "category": "14.template.csv",
       "text": "올해 대출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5335,7 +5854,7 @@
       ]
     },
     {
-      "id": 418,
+      "id": 454,
       "category": "14.template.csv",
       "text": "작년 외화 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5349,7 +5868,7 @@
       ]
     },
     {
-      "id": 419,
+      "id": 455,
       "category": "14.template.csv",
       "text": "재작년 증권 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5363,7 +5882,7 @@
       ]
     },
     {
-      "id": 420,
+      "id": 456,
       "category": "14.template.csv",
       "text": "1분기 신탁 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5377,7 +5896,7 @@
       ]
     },
     {
-      "id": 421,
+      "id": 457,
       "category": "14.template.csv",
       "text": "2분기 수시입출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5391,7 +5910,7 @@
       ]
     },
     {
-      "id": 422,
+      "id": 458,
       "category": "14.template.csv",
       "text": "4분기 정기예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5405,7 +5924,7 @@
       ]
     },
     {
-      "id": 423,
+      "id": 459,
       "category": "14.template.csv",
       "text": "이번분기 적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5419,7 +5938,7 @@
       ]
     },
     {
-      "id": 424,
+      "id": 460,
       "category": "14.template.csv",
       "text": "지난분기 보통예금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5433,7 +5952,7 @@
       ]
     },
     {
-      "id": 425,
+      "id": 461,
       "category": "14.template.csv",
       "text": "하반기 달러 예수금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5447,7 +5966,7 @@
       ]
     },
     {
-      "id": 426,
+      "id": 462,
       "category": "14.template.csv",
       "text": "지난 상반기 예적금 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5461,7 +5980,7 @@
       ]
     },
     {
-      "id": 427,
+      "id": 463,
       "category": "14.template.csv",
       "text": "2023년 대출 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5475,7 +5994,7 @@
       ]
     },
     {
-      "id": 428,
+      "id": 464,
       "category": "14.template.csv",
       "text": "2024년 2월 외화 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5489,7 +6008,7 @@
       ]
     },
     {
-      "id": 429,
+      "id": 465,
       "category": "14.template.csv",
       "text": "최근 6개월간 증권 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5503,7 +6022,7 @@
       ]
     },
     {
-      "id": 430,
+      "id": 466,
       "category": "14.template.csv",
       "text": "지난 1년간 신탁 계좌의 자세한 거래 내역은?",
       "mode": "range",
@@ -5517,7 +6036,7 @@
       ]
     },
     {
-      "id": 431,
+      "id": 467,
       "category": "14.template.csv",
       "text": "오늘 정기예금 거래내역 보여줘",
       "mode": "range",
@@ -5531,7 +6050,7 @@
       ]
     },
     {
-      "id": 432,
+      "id": 468,
       "category": "14.template.csv",
       "text": "어제 적금 거래내역 보여줘",
       "mode": "range",
@@ -5545,7 +6064,7 @@
       ]
     },
     {
-      "id": 433,
+      "id": 469,
       "category": "14.template.csv",
       "text": "그제 보통예금 거래내역 보여줘",
       "mode": "range",
@@ -5559,7 +6078,7 @@
       ]
     },
     {
-      "id": 434,
+      "id": 470,
       "category": "14.template.csv",
       "text": "그저께 달러 예수금 거래내역 보여줘",
       "mode": "range",
@@ -5573,7 +6092,7 @@
       ]
     },
     {
-      "id": 435,
+      "id": 471,
       "category": "14.template.csv",
       "text": "엊그제 예적금 거래내역 보여줘",
       "mode": "range",
@@ -5587,7 +6106,7 @@
       ]
     },
     {
-      "id": 436,
+      "id": 472,
       "category": "14.template.csv",
       "text": "사흘전 대출 거래내역 보여줘",
       "mode": "range",
@@ -5601,7 +6120,7 @@
       ]
     },
     {
-      "id": 437,
+      "id": 473,
       "category": "14.template.csv",
       "text": "나흘전 외화 거래내역 보여줘",
       "mode": "range",
@@ -5615,7 +6134,7 @@
       ]
     },
     {
-      "id": 438,
+      "id": 474,
       "category": "14.template.csv",
       "text": "보름전 증권 거래내역 보여줘",
       "mode": "range",
@@ -5629,7 +6148,7 @@
       ]
     },
     {
-      "id": 439,
+      "id": 475,
       "category": "14.template.csv",
       "text": "일주일 전 신탁 거래내역 보여줘",
       "mode": "range",
@@ -5643,7 +6162,7 @@
       ]
     },
     {
-      "id": 440,
+      "id": 476,
       "category": "14.template.csv",
       "text": "지난주 수시입출 거래내역 보여줘",
       "mode": "range",
@@ -5657,7 +6176,7 @@
       ]
     },
     {
-      "id": 441,
+      "id": 477,
       "category": "14.template.csv",
       "text": "이번 주 정기예금 거래내역 보여줘",
       "mode": "range",
@@ -5671,7 +6190,7 @@
       ]
     },
     {
-      "id": 442,
+      "id": 478,
       "category": "14.template.csv",
       "text": "지난달 적금 거래내역 보여줘",
       "mode": "range",
@@ -5685,7 +6204,7 @@
       ]
     },
     {
-      "id": 443,
+      "id": 479,
       "category": "14.template.csv",
       "text": "저번달 보통예금 거래내역 보여줘",
       "mode": "range",
@@ -5699,7 +6218,7 @@
       ]
     },
     {
-      "id": 444,
+      "id": 480,
       "category": "14.template.csv",
       "text": "이번달 달러 예수금 거래내역 보여줘",
       "mode": "range",
@@ -5713,7 +6232,7 @@
       ]
     },
     {
-      "id": 445,
+      "id": 481,
       "category": "14.template.csv",
       "text": "3월 예적금 거래내역 보여줘",
       "mode": "range",
@@ -5727,7 +6246,7 @@
       ]
     },
     {
-      "id": 446,
+      "id": 482,
       "category": "14.template.csv",
       "text": "8월 대출 거래내역 보여줘",
       "mode": "range",
@@ -5741,7 +6260,7 @@
       ]
     },
     {
-      "id": 447,
+      "id": 483,
       "category": "14.template.csv",
       "text": "올해 외화 거래내역 보여줘",
       "mode": "range",
@@ -5755,7 +6274,7 @@
       ]
     },
     {
-      "id": 448,
+      "id": 484,
       "category": "14.template.csv",
       "text": "작년 증권 거래내역 보여줘",
       "mode": "range",
@@ -5769,7 +6288,7 @@
       ]
     },
     {
-      "id": 449,
+      "id": 485,
       "category": "14.template.csv",
       "text": "재작년 신탁 거래내역 보여줘",
       "mode": "range",
@@ -5783,7 +6302,7 @@
       ]
     },
     {
-      "id": 450,
+      "id": 486,
       "category": "14.template.csv",
       "text": "1분기 수시입출 거래내역 보여줘",
       "mode": "range",
@@ -5797,7 +6316,7 @@
       ]
     },
     {
-      "id": 451,
+      "id": 487,
       "category": "14.template.csv",
       "text": "2분기 정기예금 거래내역 보여줘",
       "mode": "range",
@@ -5811,7 +6330,7 @@
       ]
     },
     {
-      "id": 452,
+      "id": 488,
       "category": "14.template.csv",
       "text": "4분기 적금 거래내역 보여줘",
       "mode": "range",
@@ -5825,7 +6344,7 @@
       ]
     },
     {
-      "id": 453,
+      "id": 489,
       "category": "14.template.csv",
       "text": "이번분기 보통예금 거래내역 보여줘",
       "mode": "range",
@@ -5839,7 +6358,7 @@
       ]
     },
     {
-      "id": 454,
+      "id": 490,
       "category": "14.template.csv",
       "text": "지난분기 달러 예수금 거래내역 보여줘",
       "mode": "range",
@@ -5853,7 +6372,7 @@
       ]
     },
     {
-      "id": 455,
+      "id": 491,
       "category": "14.template.csv",
       "text": "하반기 예적금 거래내역 보여줘",
       "mode": "range",
@@ -5867,7 +6386,7 @@
       ]
     },
     {
-      "id": 456,
+      "id": 492,
       "category": "14.template.csv",
       "text": "지난 상반기 대출 거래내역 보여줘",
       "mode": "range",
@@ -5881,7 +6400,7 @@
       ]
     },
     {
-      "id": 457,
+      "id": 493,
       "category": "14.template.csv",
       "text": "2023년 외화 거래내역 보여줘",
       "mode": "range",
@@ -5895,7 +6414,7 @@
       ]
     },
     {
-      "id": 458,
+      "id": 494,
       "category": "14.template.csv",
       "text": "2024년 2월 증권 거래내역 보여줘",
       "mode": "range",
@@ -5909,7 +6428,7 @@
       ]
     },
     {
-      "id": 459,
+      "id": 495,
       "category": "14.template.csv",
       "text": "최근 6개월간 신탁 거래내역 보여줘",
       "mode": "range",
@@ -5923,7 +6442,7 @@
       ]
     },
     {
-      "id": 460,
+      "id": 496,
       "category": "14.template.csv",
       "text": "지난 1년간 수시입출 거래내역 보여줘",
       "mode": "range",
@@ -5937,7 +6456,7 @@
       ]
     },
     {
-      "id": 461,
+      "id": 497,
       "category": "14.template.csv",
       "text": "오늘 적금 출금 내역 보여 줘",
       "mode": "range",
@@ -5951,7 +6470,7 @@
       ]
     },
     {
-      "id": 462,
+      "id": 498,
       "category": "14.template.csv",
       "text": "어제 보통예금 출금 내역 보여 줘",
       "mode": "range",
@@ -5965,7 +6484,7 @@
       ]
     },
     {
-      "id": 463,
+      "id": 499,
       "category": "14.template.csv",
       "text": "그제 달러 예수금 출금 내역 보여 줘",
       "mode": "range",
@@ -5979,7 +6498,7 @@
       ]
     },
     {
-      "id": 464,
+      "id": 500,
       "category": "14.template.csv",
       "text": "그저께 예적금 출금 내역 보여 줘",
       "mode": "range",
@@ -5993,7 +6512,7 @@
       ]
     },
     {
-      "id": 465,
+      "id": 501,
       "category": "14.template.csv",
       "text": "엊그제 대출 출금 내역 보여 줘",
       "mode": "range",
@@ -6007,7 +6526,7 @@
       ]
     },
     {
-      "id": 466,
+      "id": 502,
       "category": "14.template.csv",
       "text": "사흘전 외화 출금 내역 보여 줘",
       "mode": "range",
@@ -6021,7 +6540,7 @@
       ]
     },
     {
-      "id": 467,
+      "id": 503,
       "category": "14.template.csv",
       "text": "나흘전 증권 출금 내역 보여 줘",
       "mode": "range",
@@ -6035,7 +6554,7 @@
       ]
     },
     {
-      "id": 468,
+      "id": 504,
       "category": "14.template.csv",
       "text": "보름전 신탁 출금 내역 보여 줘",
       "mode": "range",
@@ -6049,7 +6568,7 @@
       ]
     },
     {
-      "id": 469,
+      "id": 505,
       "category": "14.template.csv",
       "text": "일주일 전 수시입출 출금 내역 보여 줘",
       "mode": "range",
@@ -6063,7 +6582,7 @@
       ]
     },
     {
-      "id": 470,
+      "id": 506,
       "category": "14.template.csv",
       "text": "지난주 정기예금 출금 내역 보여 줘",
       "mode": "range",
@@ -6077,7 +6596,7 @@
       ]
     },
     {
-      "id": 471,
+      "id": 507,
       "category": "14.template.csv",
       "text": "이번 주 적금 출금 내역 보여 줘",
       "mode": "range",
@@ -6091,7 +6610,7 @@
       ]
     },
     {
-      "id": 472,
+      "id": 508,
       "category": "14.template.csv",
       "text": "지난달 보통예금 출금 내역 보여 줘",
       "mode": "range",
@@ -6105,7 +6624,7 @@
       ]
     },
     {
-      "id": 473,
+      "id": 509,
       "category": "14.template.csv",
       "text": "저번달 달러 예수금 출금 내역 보여 줘",
       "mode": "range",
@@ -6119,7 +6638,7 @@
       ]
     },
     {
-      "id": 474,
+      "id": 510,
       "category": "14.template.csv",
       "text": "이번달 예적금 출금 내역 보여 줘",
       "mode": "range",
@@ -6133,7 +6652,7 @@
       ]
     },
     {
-      "id": 475,
+      "id": 511,
       "category": "14.template.csv",
       "text": "3월 대출 출금 내역 보여 줘",
       "mode": "range",
@@ -6147,7 +6666,7 @@
       ]
     },
     {
-      "id": 476,
+      "id": 512,
       "category": "14.template.csv",
       "text": "8월 외화 출금 내역 보여 줘",
       "mode": "range",
@@ -6161,7 +6680,7 @@
       ]
     },
     {
-      "id": 477,
+      "id": 513,
       "category": "14.template.csv",
       "text": "올해 증권 출금 내역 보여 줘",
       "mode": "range",
@@ -6175,7 +6694,7 @@
       ]
     },
     {
-      "id": 478,
+      "id": 514,
       "category": "14.template.csv",
       "text": "작년 신탁 출금 내역 보여 줘",
       "mode": "range",
@@ -6189,7 +6708,7 @@
       ]
     },
     {
-      "id": 479,
+      "id": 515,
       "category": "14.template.csv",
       "text": "재작년 수시입출 출금 내역 보여 줘",
       "mode": "range",
@@ -6203,7 +6722,7 @@
       ]
     },
     {
-      "id": 480,
+      "id": 516,
       "category": "14.template.csv",
       "text": "1분기 정기예금 출금 내역 보여 줘",
       "mode": "range",
@@ -6217,7 +6736,7 @@
       ]
     },
     {
-      "id": 481,
+      "id": 517,
       "category": "14.template.csv",
       "text": "2분기 적금 출금 내역 보여 줘",
       "mode": "range",
@@ -6231,7 +6750,7 @@
       ]
     },
     {
-      "id": 482,
+      "id": 518,
       "category": "14.template.csv",
       "text": "4분기 보통예금 출금 내역 보여 줘",
       "mode": "range",
@@ -6245,7 +6764,7 @@
       ]
     },
     {
-      "id": 483,
+      "id": 519,
       "category": "14.template.csv",
       "text": "이번분기 달러 예수금 출금 내역 보여 줘",
       "mode": "range",
@@ -6259,7 +6778,7 @@
       ]
     },
     {
-      "id": 484,
+      "id": 520,
       "category": "14.template.csv",
       "text": "지난분기 예적금 출금 내역 보여 줘",
       "mode": "range",
@@ -6273,7 +6792,7 @@
       ]
     },
     {
-      "id": 485,
+      "id": 521,
       "category": "14.template.csv",
       "text": "하반기 대출 출금 내역 보여 줘",
       "mode": "range",
@@ -6287,7 +6806,7 @@
       ]
     },
     {
-      "id": 486,
+      "id": 522,
       "category": "14.template.csv",
       "text": "지난 상반기 외화 출금 내역 보여 줘",
       "mode": "range",
@@ -6301,7 +6820,7 @@
       ]
     },
     {
-      "id": 487,
+      "id": 523,
       "category": "14.template.csv",
       "text": "2023년 증권 출금 내역 보여 줘",
       "mode": "range",
@@ -6315,7 +6834,7 @@
       ]
     },
     {
-      "id": 488,
+      "id": 524,
       "category": "14.template.csv",
       "text": "2024년 2월 신탁 출금 내역 보여 줘",
       "mode": "range",
@@ -6329,7 +6848,7 @@
       ]
     },
     {
-      "id": 489,
+      "id": 525,
       "category": "14.template.csv",
       "text": "최근 6개월간 수시입출 출금 내역 보여 줘",
       "mode": "range",
@@ -6343,7 +6862,7 @@
       ]
     },
     {
-      "id": 490,
+      "id": 526,
       "category": "14.template.csv",
       "text": "지난 1년간 정기예금 출금 내역 보여 줘",
       "mode": "range",
@@ -6357,7 +6876,7 @@
       ]
     },
     {
-      "id": 491,
+      "id": 527,
       "category": "14.template.csv",
       "text": "오늘 서버비 비용 비중은?",
       "mode": "range",
@@ -6371,7 +6890,7 @@
       ]
     },
     {
-      "id": 492,
+      "id": 528,
       "category": "14.template.csv",
       "text": "어제 수수료 비용 비중은?",
       "mode": "range",
@@ -6385,7 +6904,7 @@
       ]
     },
     {
-      "id": 493,
+      "id": 529,
       "category": "14.template.csv",
       "text": "그제 임대료 비용 비중은?",
       "mode": "range",
@@ -6399,7 +6918,7 @@
       ]
     },
     {
-      "id": 494,
+      "id": 530,
       "category": "14.template.csv",
       "text": "그저께 마케팅 비용 비용 비중은?",
       "mode": "range",
@@ -6413,7 +6932,7 @@
       ]
     },
     {
-      "id": 495,
+      "id": 531,
       "category": "14.template.csv",
       "text": "엊그제 연구비 비용 비중은?",
       "mode": "range",
@@ -6427,7 +6946,7 @@
       ]
     },
     {
-      "id": 496,
+      "id": 532,
       "category": "14.template.csv",
       "text": "사흘전 인건비 비용 비중은?",
       "mode": "range",
@@ -6441,7 +6960,7 @@
       ]
     },
     {
-      "id": 497,
+      "id": 533,
       "category": "14.template.csv",
       "text": "나흘전 운영비 비용 비중은?",
       "mode": "range",
@@ -6455,7 +6974,7 @@
       ]
     },
     {
-      "id": 498,
+      "id": 534,
       "category": "14.template.csv",
       "text": "보름전 광고비 비용 비중은?",
       "mode": "range",
@@ -6469,7 +6988,7 @@
       ]
     },
     {
-      "id": 499,
+      "id": 535,
       "category": "14.template.csv",
       "text": "일주일 전 복리후생비 비용 비중은?",
       "mode": "range",
@@ -6483,7 +7002,7 @@
       ]
     },
     {
-      "id": 500,
+      "id": 536,
       "category": "14.template.csv",
       "text": "지난주 출장비 비용 비중은?",
       "mode": "range",
@@ -6497,7 +7016,7 @@
       ]
     },
     {
-      "id": 501,
+      "id": 537,
       "category": "14.template.csv",
       "text": "이번 주 서버비 비용 비중은?",
       "mode": "range",
@@ -6511,7 +7030,7 @@
       ]
     },
     {
-      "id": 502,
+      "id": 538,
       "category": "14.template.csv",
       "text": "지난달 수수료 비용 비중은?",
       "mode": "range",
@@ -6525,7 +7044,7 @@
       ]
     },
     {
-      "id": 503,
+      "id": 539,
       "category": "14.template.csv",
       "text": "저번달 임대료 비용 비중은?",
       "mode": "range",
@@ -6539,7 +7058,7 @@
       ]
     },
     {
-      "id": 504,
+      "id": 540,
       "category": "14.template.csv",
       "text": "이번달 마케팅 비용 비용 비중은?",
       "mode": "range",
@@ -6553,7 +7072,7 @@
       ]
     },
     {
-      "id": 505,
+      "id": 541,
       "category": "14.template.csv",
       "text": "3월 연구비 비용 비중은?",
       "mode": "range",
@@ -6567,7 +7086,7 @@
       ]
     },
     {
-      "id": 506,
+      "id": 542,
       "category": "14.template.csv",
       "text": "8월 인건비 비용 비중은?",
       "mode": "range",
@@ -6581,7 +7100,7 @@
       ]
     },
     {
-      "id": 507,
+      "id": 543,
       "category": "14.template.csv",
       "text": "올해 운영비 비용 비중은?",
       "mode": "range",
@@ -6595,7 +7114,7 @@
       ]
     },
     {
-      "id": 508,
+      "id": 544,
       "category": "14.template.csv",
       "text": "작년 광고비 비용 비중은?",
       "mode": "range",
@@ -6609,7 +7128,7 @@
       ]
     },
     {
-      "id": 509,
+      "id": 545,
       "category": "14.template.csv",
       "text": "재작년 복리후생비 비용 비중은?",
       "mode": "range",
@@ -6623,7 +7142,7 @@
       ]
     },
     {
-      "id": 510,
+      "id": 546,
       "category": "14.template.csv",
       "text": "1분기 출장비 비용 비중은?",
       "mode": "range",
@@ -6637,7 +7156,7 @@
       ]
     },
     {
-      "id": 511,
+      "id": 547,
       "category": "14.template.csv",
       "text": "2분기 서버비 비용 비중은?",
       "mode": "range",
@@ -6651,7 +7170,7 @@
       ]
     },
     {
-      "id": 512,
+      "id": 548,
       "category": "14.template.csv",
       "text": "4분기 수수료 비용 비중은?",
       "mode": "range",
@@ -6665,7 +7184,7 @@
       ]
     },
     {
-      "id": 513,
+      "id": 549,
       "category": "14.template.csv",
       "text": "이번분기 임대료 비용 비중은?",
       "mode": "range",
@@ -6679,7 +7198,7 @@
       ]
     },
     {
-      "id": 514,
+      "id": 550,
       "category": "14.template.csv",
       "text": "지난분기 마케팅 비용 비용 비중은?",
       "mode": "range",
@@ -6693,7 +7212,7 @@
       ]
     },
     {
-      "id": 515,
+      "id": 551,
       "category": "14.template.csv",
       "text": "하반기 연구비 비용 비중은?",
       "mode": "range",
@@ -6707,7 +7226,7 @@
       ]
     },
     {
-      "id": 516,
+      "id": 552,
       "category": "14.template.csv",
       "text": "지난 상반기 인건비 비용 비중은?",
       "mode": "range",
@@ -6721,7 +7240,7 @@
       ]
     },
     {
-      "id": 517,
+      "id": 553,
       "category": "14.template.csv",
       "text": "2023년 운영비 비용 비중은?",
       "mode": "range",
@@ -6735,7 +7254,7 @@
       ]
     },
     {
-      "id": 518,
+      "id": 554,
       "category": "14.template.csv",
       "text": "2024년 2월 광고비 비용 비중은?",
       "mode": "range",
@@ -6749,7 +7268,7 @@
       ]
     },
     {
-      "id": 519,
+      "id": 555,
       "category": "14.template.csv",
       "text": "최근 6개월간 복리후생비 비용 비중은?",
       "mode": "range",
@@ -6763,7 +7282,7 @@
       ]
     },
     {
-      "id": 520,
+      "id": 556,
       "category": "14.template.csv",
       "text": "지난 1년간 출장비 비용 비중은?",
       "mode": "range",
@@ -6777,7 +7296,7 @@
       ]
     },
     {
-      "id": 521,
+      "id": 557,
       "category": "14.template.csv",
       "text": "오늘 자금 증감 현황",
       "mode": "range",
@@ -6791,7 +7310,7 @@
       ]
     },
     {
-      "id": 522,
+      "id": 558,
       "category": "14.template.csv",
       "text": "어제 자금 증감 현황",
       "mode": "range",
@@ -6805,7 +7324,7 @@
       ]
     },
     {
-      "id": 523,
+      "id": 559,
       "category": "14.template.csv",
       "text": "그제 자금 증감 현황",
       "mode": "range",
@@ -6819,7 +7338,7 @@
       ]
     },
     {
-      "id": 524,
+      "id": 560,
       "category": "14.template.csv",
       "text": "그저께 자금 증감 현황",
       "mode": "range",
@@ -6833,7 +7352,7 @@
       ]
     },
     {
-      "id": 525,
+      "id": 561,
       "category": "14.template.csv",
       "text": "엊그제 자금 증감 현황",
       "mode": "range",
@@ -6847,7 +7366,7 @@
       ]
     },
     {
-      "id": 526,
+      "id": 562,
       "category": "14.template.csv",
       "text": "사흘전 자금 증감 현황",
       "mode": "range",
@@ -6861,7 +7380,7 @@
       ]
     },
     {
-      "id": 527,
+      "id": 563,
       "category": "14.template.csv",
       "text": "나흘전 자금 증감 현황",
       "mode": "range",
@@ -6875,7 +7394,7 @@
       ]
     },
     {
-      "id": 528,
+      "id": 564,
       "category": "14.template.csv",
       "text": "보름전 자금 증감 현황",
       "mode": "range",
@@ -6889,7 +7408,7 @@
       ]
     },
     {
-      "id": 529,
+      "id": 565,
       "category": "14.template.csv",
       "text": "일주일 전 자금 증감 현황",
       "mode": "range",
@@ -6903,7 +7422,7 @@
       ]
     },
     {
-      "id": 530,
+      "id": 566,
       "category": "14.template.csv",
       "text": "지난주 자금 증감 현황",
       "mode": "range",
@@ -6917,7 +7436,7 @@
       ]
     },
     {
-      "id": 531,
+      "id": 567,
       "category": "14.template.csv",
       "text": "이번 주 자금 증감 현황",
       "mode": "range",
@@ -6931,7 +7450,7 @@
       ]
     },
     {
-      "id": 532,
+      "id": 568,
       "category": "14.template.csv",
       "text": "지난달 자금 증감 현황",
       "mode": "range",
@@ -6945,7 +7464,7 @@
       ]
     },
     {
-      "id": 533,
+      "id": 569,
       "category": "14.template.csv",
       "text": "저번달 자금 증감 현황",
       "mode": "range",
@@ -6959,7 +7478,7 @@
       ]
     },
     {
-      "id": 534,
+      "id": 570,
       "category": "14.template.csv",
       "text": "이번달 자금 증감 현황",
       "mode": "range",
@@ -6973,7 +7492,7 @@
       ]
     },
     {
-      "id": 535,
+      "id": 571,
       "category": "14.template.csv",
       "text": "3월 자금 증감 현황",
       "mode": "range",
@@ -6987,7 +7506,7 @@
       ]
     },
     {
-      "id": 536,
+      "id": 572,
       "category": "14.template.csv",
       "text": "8월 자금 증감 현황",
       "mode": "range",
@@ -7001,7 +7520,7 @@
       ]
     },
     {
-      "id": 537,
+      "id": 573,
       "category": "14.template.csv",
       "text": "올해 자금 증감 현황",
       "mode": "range",
@@ -7015,7 +7534,7 @@
       ]
     },
     {
-      "id": 538,
+      "id": 574,
       "category": "14.template.csv",
       "text": "작년 자금 증감 현황",
       "mode": "range",
@@ -7029,7 +7548,7 @@
       ]
     },
     {
-      "id": 539,
+      "id": 575,
       "category": "14.template.csv",
       "text": "재작년 자금 증감 현황",
       "mode": "range",
@@ -7043,7 +7562,7 @@
       ]
     },
     {
-      "id": 540,
+      "id": 576,
       "category": "14.template.csv",
       "text": "1분기 자금 증감 현황",
       "mode": "range",
@@ -7057,7 +7576,7 @@
       ]
     },
     {
-      "id": 541,
+      "id": 577,
       "category": "14.template.csv",
       "text": "2분기 자금 증감 현황",
       "mode": "range",
@@ -7071,7 +7590,7 @@
       ]
     },
     {
-      "id": 542,
+      "id": 578,
       "category": "14.template.csv",
       "text": "4분기 자금 증감 현황",
       "mode": "range",
@@ -7085,7 +7604,7 @@
       ]
     },
     {
-      "id": 543,
+      "id": 579,
       "category": "14.template.csv",
       "text": "이번분기 자금 증감 현황",
       "mode": "range",
@@ -7099,7 +7618,7 @@
       ]
     },
     {
-      "id": 544,
+      "id": 580,
       "category": "14.template.csv",
       "text": "지난분기 자금 증감 현황",
       "mode": "range",
@@ -7113,7 +7632,7 @@
       ]
     },
     {
-      "id": 545,
+      "id": 581,
       "category": "14.template.csv",
       "text": "하반기 자금 증감 현황",
       "mode": "range",
@@ -7127,7 +7646,7 @@
       ]
     },
     {
-      "id": 546,
+      "id": 582,
       "category": "14.template.csv",
       "text": "지난 상반기 자금 증감 현황",
       "mode": "range",
@@ -7141,7 +7660,7 @@
       ]
     },
     {
-      "id": 547,
+      "id": 583,
       "category": "14.template.csv",
       "text": "2023년 자금 증감 현황",
       "mode": "range",
@@ -7155,7 +7674,7 @@
       ]
     },
     {
-      "id": 548,
+      "id": 584,
       "category": "14.template.csv",
       "text": "2024년 2월 자금 증감 현황",
       "mode": "range",
@@ -7169,7 +7688,7 @@
       ]
     },
     {
-      "id": 549,
+      "id": 585,
       "category": "14.template.csv",
       "text": "최근 6개월간 자금 증감 현황",
       "mode": "range",
@@ -7183,7 +7702,7 @@
       ]
     },
     {
-      "id": 550,
+      "id": 586,
       "category": "14.template.csv",
       "text": "지난 1년간 자금 증감 현황",
       "mode": "range",
@@ -7197,7 +7716,7 @@
       ]
     },
     {
-      "id": 551,
+      "id": 587,
       "category": "14.template.csv",
       "text": "오늘 월별 예적금 거래내역",
       "mode": "range",
@@ -7211,7 +7730,7 @@
       ]
     },
     {
-      "id": 552,
+      "id": 588,
       "category": "14.template.csv",
       "text": "어제 월별 대출 거래내역",
       "mode": "range",
@@ -7225,7 +7744,7 @@
       ]
     },
     {
-      "id": 553,
+      "id": 589,
       "category": "14.template.csv",
       "text": "그제 월별 외화 거래내역",
       "mode": "range",
@@ -7239,7 +7758,7 @@
       ]
     },
     {
-      "id": 554,
+      "id": 590,
       "category": "14.template.csv",
       "text": "그저께 월별 증권 거래내역",
       "mode": "range",
@@ -7253,7 +7772,7 @@
       ]
     },
     {
-      "id": 555,
+      "id": 591,
       "category": "14.template.csv",
       "text": "엊그제 월별 신탁 거래내역",
       "mode": "range",
@@ -7267,7 +7786,7 @@
       ]
     },
     {
-      "id": 556,
+      "id": 592,
       "category": "14.template.csv",
       "text": "사흘전 월별 수시입출 거래내역",
       "mode": "range",
@@ -7281,7 +7800,7 @@
       ]
     },
     {
-      "id": 557,
+      "id": 593,
       "category": "14.template.csv",
       "text": "나흘전 월별 정기예금 거래내역",
       "mode": "range",
@@ -7295,7 +7814,7 @@
       ]
     },
     {
-      "id": 558,
+      "id": 594,
       "category": "14.template.csv",
       "text": "보름전 월별 적금 거래내역",
       "mode": "range",
@@ -7309,7 +7828,7 @@
       ]
     },
     {
-      "id": 559,
+      "id": 595,
       "category": "14.template.csv",
       "text": "일주일 전 월별 보통예금 거래내역",
       "mode": "range",
@@ -7323,7 +7842,7 @@
       ]
     },
     {
-      "id": 560,
+      "id": 596,
       "category": "14.template.csv",
       "text": "지난주 월별 달러 예수금 거래내역",
       "mode": "range",
@@ -7337,7 +7856,7 @@
       ]
     },
     {
-      "id": 561,
+      "id": 597,
       "category": "14.template.csv",
       "text": "이번 주 월별 예적금 거래내역",
       "mode": "range",
@@ -7351,7 +7870,7 @@
       ]
     },
     {
-      "id": 562,
+      "id": 598,
       "category": "14.template.csv",
       "text": "지난달 월별 대출 거래내역",
       "mode": "range",
@@ -7365,7 +7884,7 @@
       ]
     },
     {
-      "id": 563,
+      "id": 599,
       "category": "14.template.csv",
       "text": "저번달 월별 외화 거래내역",
       "mode": "range",
@@ -7379,7 +7898,7 @@
       ]
     },
     {
-      "id": 564,
+      "id": 600,
       "category": "14.template.csv",
       "text": "이번달 월별 증권 거래내역",
       "mode": "range",
@@ -7393,7 +7912,7 @@
       ]
     },
     {
-      "id": 565,
+      "id": 601,
       "category": "14.template.csv",
       "text": "3월 월별 신탁 거래내역",
       "mode": "range",
@@ -7407,7 +7926,7 @@
       ]
     },
     {
-      "id": 566,
+      "id": 602,
       "category": "14.template.csv",
       "text": "8월 월별 수시입출 거래내역",
       "mode": "range",
@@ -7421,7 +7940,7 @@
       ]
     },
     {
-      "id": 567,
+      "id": 603,
       "category": "14.template.csv",
       "text": "올해 월별 정기예금 거래내역",
       "mode": "range",
@@ -7435,7 +7954,7 @@
       ]
     },
     {
-      "id": 568,
+      "id": 604,
       "category": "14.template.csv",
       "text": "작년 월별 적금 거래내역",
       "mode": "range",
@@ -7449,7 +7968,7 @@
       ]
     },
     {
-      "id": 569,
+      "id": 605,
       "category": "14.template.csv",
       "text": "재작년 월별 보통예금 거래내역",
       "mode": "range",
@@ -7463,7 +7982,7 @@
       ]
     },
     {
-      "id": 570,
+      "id": 606,
       "category": "14.template.csv",
       "text": "1분기 월별 달러 예수금 거래내역",
       "mode": "range",
@@ -7477,7 +7996,7 @@
       ]
     },
     {
-      "id": 571,
+      "id": 607,
       "category": "14.template.csv",
       "text": "2분기 월별 예적금 거래내역",
       "mode": "range",
@@ -7491,7 +8010,7 @@
       ]
     },
     {
-      "id": 572,
+      "id": 608,
       "category": "14.template.csv",
       "text": "4분기 월별 대출 거래내역",
       "mode": "range",
@@ -7505,7 +8024,7 @@
       ]
     },
     {
-      "id": 573,
+      "id": 609,
       "category": "14.template.csv",
       "text": "이번분기 월별 외화 거래내역",
       "mode": "range",
@@ -7519,7 +8038,7 @@
       ]
     },
     {
-      "id": 574,
+      "id": 610,
       "category": "14.template.csv",
       "text": "지난분기 월별 증권 거래내역",
       "mode": "range",
@@ -7533,7 +8052,7 @@
       ]
     },
     {
-      "id": 575,
+      "id": 611,
       "category": "14.template.csv",
       "text": "하반기 월별 신탁 거래내역",
       "mode": "range",
@@ -7547,7 +8066,7 @@
       ]
     },
     {
-      "id": 576,
+      "id": 612,
       "category": "14.template.csv",
       "text": "지난 상반기 월별 수시입출 거래내역",
       "mode": "range",
@@ -7561,7 +8080,7 @@
       ]
     },
     {
-      "id": 577,
+      "id": 613,
       "category": "14.template.csv",
       "text": "2023년 월별 정기예금 거래내역",
       "mode": "range",
@@ -7575,7 +8094,7 @@
       ]
     },
     {
-      "id": 578,
+      "id": 614,
       "category": "14.template.csv",
       "text": "2024년 2월 월별 적금 거래내역",
       "mode": "range",
@@ -7589,7 +8108,7 @@
       ]
     },
     {
-      "id": 579,
+      "id": 615,
       "category": "14.template.csv",
       "text": "최근 6개월간 월별 보통예금 거래내역",
       "mode": "range",
@@ -7603,7 +8122,7 @@
       ]
     },
     {
-      "id": 580,
+      "id": 616,
       "category": "14.template.csv",
       "text": "지난 1년간 월별 달러 예수금 거래내역",
       "mode": "range",
@@ -7617,7 +8136,7 @@
       ]
     },
     {
-      "id": 581,
+      "id": 617,
       "category": "14.template.csv",
       "text": "오늘 삼성전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7631,7 +8150,7 @@
       ]
     },
     {
-      "id": 582,
+      "id": 618,
       "category": "14.template.csv",
       "text": "어제 빙그레와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7645,7 +8164,7 @@
       ]
     },
     {
-      "id": 583,
+      "id": 619,
       "category": "14.template.csv",
       "text": "그제 원티드랩와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7659,7 +8178,7 @@
       ]
     },
     {
-      "id": 584,
+      "id": 620,
       "category": "14.template.csv",
       "text": "그저께 네이버와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7673,7 +8192,7 @@
       ]
     },
     {
-      "id": 585,
+      "id": 621,
       "category": "14.template.csv",
       "text": "엊그제 카카오와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7687,7 +8206,7 @@
       ]
     },
     {
-      "id": 586,
+      "id": 622,
       "category": "14.template.csv",
       "text": "사흘전 현대차와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7701,7 +8220,7 @@
       ]
     },
     {
-      "id": 587,
+      "id": 623,
       "category": "14.template.csv",
       "text": "나흘전 LG전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7715,7 +8234,7 @@
       ]
     },
     {
-      "id": 588,
+      "id": 624,
       "category": "14.template.csv",
       "text": "보름전 기업은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7729,7 +8248,7 @@
       ]
     },
     {
-      "id": 589,
+      "id": 625,
       "category": "14.template.csv",
       "text": "일주일 전 신한은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7743,7 +8262,7 @@
       ]
     },
     {
-      "id": 590,
+      "id": 626,
       "category": "14.template.csv",
       "text": "지난주 웹케시와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7757,7 +8276,7 @@
       ]
     },
     {
-      "id": 591,
+      "id": 627,
       "category": "14.template.csv",
       "text": "이번 주 삼성전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7771,7 +8290,7 @@
       ]
     },
     {
-      "id": 592,
+      "id": 628,
       "category": "14.template.csv",
       "text": "지난달 빙그레와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7785,7 +8304,7 @@
       ]
     },
     {
-      "id": 593,
+      "id": 629,
       "category": "14.template.csv",
       "text": "저번달 원티드랩와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7799,7 +8318,7 @@
       ]
     },
     {
-      "id": 594,
+      "id": 630,
       "category": "14.template.csv",
       "text": "이번달 네이버와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7813,7 +8332,7 @@
       ]
     },
     {
-      "id": 595,
+      "id": 631,
       "category": "14.template.csv",
       "text": "3월 카카오와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7827,7 +8346,7 @@
       ]
     },
     {
-      "id": 596,
+      "id": 632,
       "category": "14.template.csv",
       "text": "8월 현대차와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7841,7 +8360,7 @@
       ]
     },
     {
-      "id": 597,
+      "id": 633,
       "category": "14.template.csv",
       "text": "올해 LG전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7855,7 +8374,7 @@
       ]
     },
     {
-      "id": 598,
+      "id": 634,
       "category": "14.template.csv",
       "text": "작년 기업은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7869,7 +8388,7 @@
       ]
     },
     {
-      "id": 599,
+      "id": 635,
       "category": "14.template.csv",
       "text": "재작년 신한은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7883,7 +8402,7 @@
       ]
     },
     {
-      "id": 600,
+      "id": 636,
       "category": "14.template.csv",
       "text": "1분기 웹케시와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7897,7 +8416,7 @@
       ]
     },
     {
-      "id": 601,
+      "id": 637,
       "category": "14.template.csv",
       "text": "2분기 삼성전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7911,7 +8430,7 @@
       ]
     },
     {
-      "id": 602,
+      "id": 638,
       "category": "14.template.csv",
       "text": "4분기 빙그레와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7925,7 +8444,7 @@
       ]
     },
     {
-      "id": 603,
+      "id": 639,
       "category": "14.template.csv",
       "text": "이번분기 원티드랩와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7939,7 +8458,7 @@
       ]
     },
     {
-      "id": 604,
+      "id": 640,
       "category": "14.template.csv",
       "text": "지난분기 네이버와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7953,7 +8472,7 @@
       ]
     },
     {
-      "id": 605,
+      "id": 641,
       "category": "14.template.csv",
       "text": "하반기 카카오와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7967,7 +8486,7 @@
       ]
     },
     {
-      "id": 606,
+      "id": 642,
       "category": "14.template.csv",
       "text": "지난 상반기 현대차와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7981,7 +8500,7 @@
       ]
     },
     {
-      "id": 607,
+      "id": 643,
       "category": "14.template.csv",
       "text": "2023년 LG전자와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -7995,7 +8514,7 @@
       ]
     },
     {
-      "id": 608,
+      "id": 644,
       "category": "14.template.csv",
       "text": "2024년 2월 기업은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -8009,7 +8528,7 @@
       ]
     },
     {
-      "id": 609,
+      "id": 645,
       "category": "14.template.csv",
       "text": "최근 6개월간 신한은행와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -8023,7 +8542,7 @@
       ]
     },
     {
-      "id": 610,
+      "id": 646,
       "category": "14.template.csv",
       "text": "지난 1년간 웹케시와의 거래 비중이 어떻게 돼?",
       "mode": "range",
@@ -8037,7 +8556,7 @@
       ]
     },
     {
-      "id": 611,
+      "id": 647,
       "category": "14.template.csv",
       "text": "오늘 외화 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8051,7 +8570,7 @@
       ]
     },
     {
-      "id": 612,
+      "id": 648,
       "category": "14.template.csv",
       "text": "어제 증권 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8065,7 +8584,7 @@
       ]
     },
     {
-      "id": 613,
+      "id": 649,
       "category": "14.template.csv",
       "text": "그제 신탁 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8079,7 +8598,7 @@
       ]
     },
     {
-      "id": 614,
+      "id": 650,
       "category": "14.template.csv",
       "text": "그저께 수시입출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8093,7 +8612,7 @@
       ]
     },
     {
-      "id": 615,
+      "id": 651,
       "category": "14.template.csv",
       "text": "엊그제 정기예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8107,7 +8626,7 @@
       ]
     },
     {
-      "id": 616,
+      "id": 652,
       "category": "14.template.csv",
       "text": "사흘전 적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8121,7 +8640,7 @@
       ]
     },
     {
-      "id": 617,
+      "id": 653,
       "category": "14.template.csv",
       "text": "나흘전 보통예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8135,7 +8654,7 @@
       ]
     },
     {
-      "id": 618,
+      "id": 654,
       "category": "14.template.csv",
       "text": "보름전 달러 예수금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8149,7 +8668,7 @@
       ]
     },
     {
-      "id": 619,
+      "id": 655,
       "category": "14.template.csv",
       "text": "일주일 전 예적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8163,7 +8682,7 @@
       ]
     },
     {
-      "id": 620,
+      "id": 656,
       "category": "14.template.csv",
       "text": "지난주 대출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8177,7 +8696,7 @@
       ]
     },
     {
-      "id": 621,
+      "id": 657,
       "category": "14.template.csv",
       "text": "이번 주 외화 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8191,7 +8710,7 @@
       ]
     },
     {
-      "id": 622,
+      "id": 658,
       "category": "14.template.csv",
       "text": "지난달 증권 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8205,7 +8724,7 @@
       ]
     },
     {
-      "id": 623,
+      "id": 659,
       "category": "14.template.csv",
       "text": "저번달 신탁 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8219,7 +8738,7 @@
       ]
     },
     {
-      "id": 624,
+      "id": 660,
       "category": "14.template.csv",
       "text": "이번달 수시입출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8233,7 +8752,7 @@
       ]
     },
     {
-      "id": 625,
+      "id": 661,
       "category": "14.template.csv",
       "text": "3월 정기예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8247,7 +8766,7 @@
       ]
     },
     {
-      "id": 626,
+      "id": 662,
       "category": "14.template.csv",
       "text": "8월 적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8261,7 +8780,7 @@
       ]
     },
     {
-      "id": 627,
+      "id": 663,
       "category": "14.template.csv",
       "text": "올해 보통예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8275,7 +8794,7 @@
       ]
     },
     {
-      "id": 628,
+      "id": 664,
       "category": "14.template.csv",
       "text": "작년 달러 예수금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8289,7 +8808,7 @@
       ]
     },
     {
-      "id": 629,
+      "id": 665,
       "category": "14.template.csv",
       "text": "재작년 예적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8303,7 +8822,7 @@
       ]
     },
     {
-      "id": 630,
+      "id": 666,
       "category": "14.template.csv",
       "text": "1분기 대출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8317,7 +8836,7 @@
       ]
     },
     {
-      "id": 631,
+      "id": 667,
       "category": "14.template.csv",
       "text": "2분기 외화 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8331,7 +8850,7 @@
       ]
     },
     {
-      "id": 632,
+      "id": 668,
       "category": "14.template.csv",
       "text": "4분기 증권 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8345,7 +8864,7 @@
       ]
     },
     {
-      "id": 633,
+      "id": 669,
       "category": "14.template.csv",
       "text": "이번분기 신탁 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8359,7 +8878,7 @@
       ]
     },
     {
-      "id": 634,
+      "id": 670,
       "category": "14.template.csv",
       "text": "지난분기 수시입출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8373,7 +8892,7 @@
       ]
     },
     {
-      "id": 635,
+      "id": 671,
       "category": "14.template.csv",
       "text": "하반기 정기예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8387,7 +8906,7 @@
       ]
     },
     {
-      "id": 636,
+      "id": 672,
       "category": "14.template.csv",
       "text": "지난 상반기 적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8401,7 +8920,7 @@
       ]
     },
     {
-      "id": 637,
+      "id": 673,
       "category": "14.template.csv",
       "text": "2023년 보통예금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8415,7 +8934,7 @@
       ]
     },
     {
-      "id": 638,
+      "id": 674,
       "category": "14.template.csv",
       "text": "2024년 2월 달러 예수금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8429,7 +8948,7 @@
       ]
     },
     {
-      "id": 639,
+      "id": 675,
       "category": "14.template.csv",
       "text": "최근 6개월간 예적금 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8443,7 +8962,7 @@
       ]
     },
     {
-      "id": 640,
+      "id": 676,
       "category": "14.template.csv",
       "text": "지난 1년간 대출 계좌 잔액 오름차순으로 조회",
       "mode": "range",
@@ -8457,7 +8976,7 @@
       ]
     },
     {
-      "id": 641,
+      "id": 677,
       "category": "14.template.csv",
       "text": "오늘 증권 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8471,7 +8990,7 @@
       ]
     },
     {
-      "id": 642,
+      "id": 678,
       "category": "14.template.csv",
       "text": "어제 신탁 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8485,7 +9004,7 @@
       ]
     },
     {
-      "id": 643,
+      "id": 679,
       "category": "14.template.csv",
       "text": "그제 수시입출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8499,7 +9018,7 @@
       ]
     },
     {
-      "id": 644,
+      "id": 680,
       "category": "14.template.csv",
       "text": "그저께 정기예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8513,7 +9032,7 @@
       ]
     },
     {
-      "id": 645,
+      "id": 681,
       "category": "14.template.csv",
       "text": "엊그제 적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8527,7 +9046,7 @@
       ]
     },
     {
-      "id": 646,
+      "id": 682,
       "category": "14.template.csv",
       "text": "사흘전 보통예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8541,7 +9060,7 @@
       ]
     },
     {
-      "id": 647,
+      "id": 683,
       "category": "14.template.csv",
       "text": "나흘전 달러 예수금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8555,7 +9074,7 @@
       ]
     },
     {
-      "id": 648,
+      "id": 684,
       "category": "14.template.csv",
       "text": "보름전 예적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8569,7 +9088,7 @@
       ]
     },
     {
-      "id": 649,
+      "id": 685,
       "category": "14.template.csv",
       "text": "일주일 전 대출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8583,7 +9102,7 @@
       ]
     },
     {
-      "id": 650,
+      "id": 686,
       "category": "14.template.csv",
       "text": "지난주 외화 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8597,7 +9116,7 @@
       ]
     },
     {
-      "id": 651,
+      "id": 687,
       "category": "14.template.csv",
       "text": "이번 주 증권 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8611,7 +9130,7 @@
       ]
     },
     {
-      "id": 652,
+      "id": 688,
       "category": "14.template.csv",
       "text": "지난달 신탁 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8625,7 +9144,7 @@
       ]
     },
     {
-      "id": 653,
+      "id": 689,
       "category": "14.template.csv",
       "text": "저번달 수시입출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8639,7 +9158,7 @@
       ]
     },
     {
-      "id": 654,
+      "id": 690,
       "category": "14.template.csv",
       "text": "이번달 정기예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8653,7 +9172,7 @@
       ]
     },
     {
-      "id": 655,
+      "id": 691,
       "category": "14.template.csv",
       "text": "3월 적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8667,7 +9186,7 @@
       ]
     },
     {
-      "id": 656,
+      "id": 692,
       "category": "14.template.csv",
       "text": "8월 보통예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8681,7 +9200,7 @@
       ]
     },
     {
-      "id": 657,
+      "id": 693,
       "category": "14.template.csv",
       "text": "올해 달러 예수금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8695,7 +9214,7 @@
       ]
     },
     {
-      "id": 658,
+      "id": 694,
       "category": "14.template.csv",
       "text": "작년 예적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8709,7 +9228,7 @@
       ]
     },
     {
-      "id": 659,
+      "id": 695,
       "category": "14.template.csv",
       "text": "재작년 대출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8723,7 +9242,7 @@
       ]
     },
     {
-      "id": 660,
+      "id": 696,
       "category": "14.template.csv",
       "text": "1분기 외화 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8737,7 +9256,7 @@
       ]
     },
     {
-      "id": 661,
+      "id": 697,
       "category": "14.template.csv",
       "text": "2분기 증권 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8751,7 +9270,7 @@
       ]
     },
     {
-      "id": 662,
+      "id": 698,
       "category": "14.template.csv",
       "text": "4분기 신탁 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8765,7 +9284,7 @@
       ]
     },
     {
-      "id": 663,
+      "id": 699,
       "category": "14.template.csv",
       "text": "이번분기 수시입출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8779,7 +9298,7 @@
       ]
     },
     {
-      "id": 664,
+      "id": 700,
       "category": "14.template.csv",
       "text": "지난분기 정기예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8793,7 +9312,7 @@
       ]
     },
     {
-      "id": 665,
+      "id": 701,
       "category": "14.template.csv",
       "text": "하반기 적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8807,7 +9326,7 @@
       ]
     },
     {
-      "id": 666,
+      "id": 702,
       "category": "14.template.csv",
       "text": "지난 상반기 보통예금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8821,7 +9340,7 @@
       ]
     },
     {
-      "id": 667,
+      "id": 703,
       "category": "14.template.csv",
       "text": "2023년 달러 예수금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8835,7 +9354,7 @@
       ]
     },
     {
-      "id": 668,
+      "id": 704,
       "category": "14.template.csv",
       "text": "2024년 2월 예적금 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8849,7 +9368,7 @@
       ]
     },
     {
-      "id": 669,
+      "id": 705,
       "category": "14.template.csv",
       "text": "최근 6개월간 대출 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8863,7 +9382,7 @@
       ]
     },
     {
-      "id": 670,
+      "id": 706,
       "category": "14.template.csv",
       "text": "지난 1년간 외화 계좌 잔액 내림차순으로 조회",
       "mode": "range",
@@ -8877,7 +9396,7 @@
       ]
     },
     {
-      "id": 671,
+      "id": 707,
       "category": "14.template.csv",
       "text": "오늘 9억원 이상 신탁 거래내역",
       "mode": "range",
@@ -8891,7 +9410,7 @@
       ]
     },
     {
-      "id": 672,
+      "id": 708,
       "category": "14.template.csv",
       "text": "어제 5천만원 이상 수시입출 거래내역",
       "mode": "range",
@@ -8905,7 +9424,7 @@
       ]
     },
     {
-      "id": 673,
+      "id": 709,
       "category": "14.template.csv",
       "text": "그제 1,000만원 이상 정기예금 거래내역",
       "mode": "range",
@@ -8919,7 +9438,7 @@
       ]
     },
     {
-      "id": 674,
+      "id": 710,
       "category": "14.template.csv",
       "text": "그저께 4,000만원 이상 적금 거래내역",
       "mode": "range",
@@ -8933,7 +9452,7 @@
       ]
     },
     {
-      "id": 675,
+      "id": 711,
       "category": "14.template.csv",
       "text": "엊그제 7,000만원 이상 보통예금 거래내역",
       "mode": "range",
@@ -8947,7 +9466,7 @@
       ]
     },
     {
-      "id": 676,
+      "id": 712,
       "category": "14.template.csv",
       "text": "사흘전 1억원 이상 달러 예수금 거래내역",
       "mode": "range",
@@ -8961,7 +9480,7 @@
       ]
     },
     {
-      "id": 677,
+      "id": 713,
       "category": "14.template.csv",
       "text": "나흘전 2억원 이상 예적금 거래내역",
       "mode": "range",
@@ -8975,7 +9494,7 @@
       ]
     },
     {
-      "id": 678,
+      "id": 714,
       "category": "14.template.csv",
       "text": "보름전 6억원 이상 대출 거래내역",
       "mode": "range",
@@ -8989,7 +9508,7 @@
       ]
     },
     {
-      "id": 679,
+      "id": 715,
       "category": "14.template.csv",
       "text": "일주일 전 9억원 이상 외화 거래내역",
       "mode": "range",
@@ -9003,7 +9522,7 @@
       ]
     },
     {
-      "id": 680,
+      "id": 716,
       "category": "14.template.csv",
       "text": "지난주 5천만원 이상 증권 거래내역",
       "mode": "range",
@@ -9017,7 +9536,7 @@
       ]
     },
     {
-      "id": 681,
+      "id": 717,
       "category": "14.template.csv",
       "text": "이번 주 1,000만원 이상 신탁 거래내역",
       "mode": "range",
@@ -9031,7 +9550,7 @@
       ]
     },
     {
-      "id": 682,
+      "id": 718,
       "category": "14.template.csv",
       "text": "지난달 4,000만원 이상 수시입출 거래내역",
       "mode": "range",
@@ -9045,7 +9564,7 @@
       ]
     },
     {
-      "id": 683,
+      "id": 719,
       "category": "14.template.csv",
       "text": "저번달 7,000만원 이상 정기예금 거래내역",
       "mode": "range",
@@ -9059,7 +9578,7 @@
       ]
     },
     {
-      "id": 684,
+      "id": 720,
       "category": "14.template.csv",
       "text": "이번달 1억원 이상 적금 거래내역",
       "mode": "range",
@@ -9073,7 +9592,7 @@
       ]
     },
     {
-      "id": 685,
+      "id": 721,
       "category": "14.template.csv",
       "text": "3월 2억원 이상 보통예금 거래내역",
       "mode": "range",
@@ -9087,7 +9606,7 @@
       ]
     },
     {
-      "id": 686,
+      "id": 722,
       "category": "14.template.csv",
       "text": "8월 6억원 이상 달러 예수금 거래내역",
       "mode": "range",
@@ -9101,7 +9620,7 @@
       ]
     },
     {
-      "id": 687,
+      "id": 723,
       "category": "14.template.csv",
       "text": "올해 9억원 이상 예적금 거래내역",
       "mode": "range",
@@ -9115,7 +9634,7 @@
       ]
     },
     {
-      "id": 688,
+      "id": 724,
       "category": "14.template.csv",
       "text": "작년 5천만원 이상 대출 거래내역",
       "mode": "range",
@@ -9129,7 +9648,7 @@
       ]
     },
     {
-      "id": 689,
+      "id": 725,
       "category": "14.template.csv",
       "text": "재작년 1,000만원 이상 외화 거래내역",
       "mode": "range",
@@ -9143,7 +9662,7 @@
       ]
     },
     {
-      "id": 690,
+      "id": 726,
       "category": "14.template.csv",
       "text": "1분기 4,000만원 이상 증권 거래내역",
       "mode": "range",
@@ -9157,7 +9676,7 @@
       ]
     },
     {
-      "id": 691,
+      "id": 727,
       "category": "14.template.csv",
       "text": "2분기 7,000만원 이상 신탁 거래내역",
       "mode": "range",
@@ -9171,7 +9690,7 @@
       ]
     },
     {
-      "id": 692,
+      "id": 728,
       "category": "14.template.csv",
       "text": "4분기 1억원 이상 수시입출 거래내역",
       "mode": "range",
@@ -9185,7 +9704,7 @@
       ]
     },
     {
-      "id": 693,
+      "id": 729,
       "category": "14.template.csv",
       "text": "이번분기 2억원 이상 정기예금 거래내역",
       "mode": "range",
@@ -9199,7 +9718,7 @@
       ]
     },
     {
-      "id": 694,
+      "id": 730,
       "category": "14.template.csv",
       "text": "지난분기 6억원 이상 적금 거래내역",
       "mode": "range",
@@ -9213,7 +9732,7 @@
       ]
     },
     {
-      "id": 695,
+      "id": 731,
       "category": "14.template.csv",
       "text": "하반기 9억원 이상 보통예금 거래내역",
       "mode": "range",
@@ -9227,7 +9746,7 @@
       ]
     },
     {
-      "id": 696,
+      "id": 732,
       "category": "14.template.csv",
       "text": "지난 상반기 5천만원 이상 달러 예수금 거래내역",
       "mode": "range",
@@ -9241,7 +9760,7 @@
       ]
     },
     {
-      "id": 697,
+      "id": 733,
       "category": "14.template.csv",
       "text": "2023년 1,000만원 이상 예적금 거래내역",
       "mode": "range",
@@ -9255,7 +9774,7 @@
       ]
     },
     {
-      "id": 698,
+      "id": 734,
       "category": "14.template.csv",
       "text": "2024년 2월 4,000만원 이상 대출 거래내역",
       "mode": "range",
@@ -9269,7 +9788,7 @@
       ]
     },
     {
-      "id": 699,
+      "id": 735,
       "category": "14.template.csv",
       "text": "최근 6개월간 7,000만원 이상 외화 거래내역",
       "mode": "range",
@@ -9283,7 +9802,7 @@
       ]
     },
     {
-      "id": 700,
+      "id": 736,
       "category": "14.template.csv",
       "text": "지난 1년간 1억원 이상 증권 거래내역",
       "mode": "range",
@@ -9297,7 +9816,7 @@
       ]
     },
     {
-      "id": 701,
+      "id": 737,
       "category": "14.template.csv",
       "text": "오늘 5천만원 이하 수시입출 계좌 잔액",
       "mode": "range",
@@ -9311,7 +9830,7 @@
       ]
     },
     {
-      "id": 702,
+      "id": 738,
       "category": "14.template.csv",
       "text": "어제 1,000만원 이하 정기예금 계좌 잔액",
       "mode": "range",
@@ -9325,7 +9844,7 @@
       ]
     },
     {
-      "id": 703,
+      "id": 739,
       "category": "14.template.csv",
       "text": "그제 4,000만원 이하 적금 계좌 잔액",
       "mode": "range",
@@ -9339,7 +9858,7 @@
       ]
     },
     {
-      "id": 704,
+      "id": 740,
       "category": "14.template.csv",
       "text": "그저께 7,000만원 이하 보통예금 계좌 잔액",
       "mode": "range",
@@ -9353,7 +9872,7 @@
       ]
     },
     {
-      "id": 705,
+      "id": 741,
       "category": "14.template.csv",
       "text": "엊그제 1억원 이하 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -9367,7 +9886,7 @@
       ]
     },
     {
-      "id": 706,
+      "id": 742,
       "category": "14.template.csv",
       "text": "사흘전 2억원 이하 예적금 계좌 잔액",
       "mode": "range",
@@ -9381,7 +9900,7 @@
       ]
     },
     {
-      "id": 707,
+      "id": 743,
       "category": "14.template.csv",
       "text": "나흘전 6억원 이하 대출 계좌 잔액",
       "mode": "range",
@@ -9395,7 +9914,7 @@
       ]
     },
     {
-      "id": 708,
+      "id": 744,
       "category": "14.template.csv",
       "text": "보름전 9억원 이하 외화 계좌 잔액",
       "mode": "range",
@@ -9409,7 +9928,7 @@
       ]
     },
     {
-      "id": 709,
+      "id": 745,
       "category": "14.template.csv",
       "text": "일주일 전 5천만원 이하 증권 계좌 잔액",
       "mode": "range",
@@ -9423,7 +9942,7 @@
       ]
     },
     {
-      "id": 710,
+      "id": 746,
       "category": "14.template.csv",
       "text": "지난주 1,000만원 이하 신탁 계좌 잔액",
       "mode": "range",
@@ -9437,7 +9956,7 @@
       ]
     },
     {
-      "id": 711,
+      "id": 747,
       "category": "14.template.csv",
       "text": "이번 주 4,000만원 이하 수시입출 계좌 잔액",
       "mode": "range",
@@ -9451,7 +9970,7 @@
       ]
     },
     {
-      "id": 712,
+      "id": 748,
       "category": "14.template.csv",
       "text": "지난달 7,000만원 이하 정기예금 계좌 잔액",
       "mode": "range",
@@ -9465,7 +9984,7 @@
       ]
     },
     {
-      "id": 713,
+      "id": 749,
       "category": "14.template.csv",
       "text": "저번달 1억원 이하 적금 계좌 잔액",
       "mode": "range",
@@ -9479,7 +9998,7 @@
       ]
     },
     {
-      "id": 714,
+      "id": 750,
       "category": "14.template.csv",
       "text": "이번달 2억원 이하 보통예금 계좌 잔액",
       "mode": "range",
@@ -9493,7 +10012,7 @@
       ]
     },
     {
-      "id": 715,
+      "id": 751,
       "category": "14.template.csv",
       "text": "3월 6억원 이하 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -9507,7 +10026,7 @@
       ]
     },
     {
-      "id": 716,
+      "id": 752,
       "category": "14.template.csv",
       "text": "8월 9억원 이하 예적금 계좌 잔액",
       "mode": "range",
@@ -9521,7 +10040,7 @@
       ]
     },
     {
-      "id": 717,
+      "id": 753,
       "category": "14.template.csv",
       "text": "올해 5천만원 이하 대출 계좌 잔액",
       "mode": "range",
@@ -9535,7 +10054,7 @@
       ]
     },
     {
-      "id": 718,
+      "id": 754,
       "category": "14.template.csv",
       "text": "작년 1,000만원 이하 외화 계좌 잔액",
       "mode": "range",
@@ -9549,7 +10068,7 @@
       ]
     },
     {
-      "id": 719,
+      "id": 755,
       "category": "14.template.csv",
       "text": "재작년 4,000만원 이하 증권 계좌 잔액",
       "mode": "range",
@@ -9563,7 +10082,7 @@
       ]
     },
     {
-      "id": 720,
+      "id": 756,
       "category": "14.template.csv",
       "text": "1분기 7,000만원 이하 신탁 계좌 잔액",
       "mode": "range",
@@ -9577,7 +10096,7 @@
       ]
     },
     {
-      "id": 721,
+      "id": 757,
       "category": "14.template.csv",
       "text": "2분기 1억원 이하 수시입출 계좌 잔액",
       "mode": "range",
@@ -9591,7 +10110,7 @@
       ]
     },
     {
-      "id": 722,
+      "id": 758,
       "category": "14.template.csv",
       "text": "4분기 2억원 이하 정기예금 계좌 잔액",
       "mode": "range",
@@ -9605,7 +10124,7 @@
       ]
     },
     {
-      "id": 723,
+      "id": 759,
       "category": "14.template.csv",
       "text": "이번분기 6억원 이하 적금 계좌 잔액",
       "mode": "range",
@@ -9619,7 +10138,7 @@
       ]
     },
     {
-      "id": 724,
+      "id": 760,
       "category": "14.template.csv",
       "text": "지난분기 9억원 이하 보통예금 계좌 잔액",
       "mode": "range",
@@ -9633,7 +10152,7 @@
       ]
     },
     {
-      "id": 725,
+      "id": 761,
       "category": "14.template.csv",
       "text": "하반기 5천만원 이하 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -9647,7 +10166,7 @@
       ]
     },
     {
-      "id": 726,
+      "id": 762,
       "category": "14.template.csv",
       "text": "지난 상반기 1,000만원 이하 예적금 계좌 잔액",
       "mode": "range",
@@ -9661,7 +10180,7 @@
       ]
     },
     {
-      "id": 727,
+      "id": 763,
       "category": "14.template.csv",
       "text": "2023년 4,000만원 이하 대출 계좌 잔액",
       "mode": "range",
@@ -9675,7 +10194,7 @@
       ]
     },
     {
-      "id": 728,
+      "id": 764,
       "category": "14.template.csv",
       "text": "2024년 2월 7,000만원 이하 외화 계좌 잔액",
       "mode": "range",
@@ -9689,7 +10208,7 @@
       ]
     },
     {
-      "id": 729,
+      "id": 765,
       "category": "14.template.csv",
       "text": "최근 6개월간 1억원 이하 증권 계좌 잔액",
       "mode": "range",
@@ -9703,7 +10222,7 @@
       ]
     },
     {
-      "id": 730,
+      "id": 766,
       "category": "14.template.csv",
       "text": "지난 1년간 2억원 이하 신탁 계좌 잔액",
       "mode": "range",
@@ -9717,7 +10236,7 @@
       ]
     },
     {
-      "id": 731,
+      "id": 767,
       "category": "14.template.csv",
       "text": "오늘 정기예금 계좌에서 1,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9731,7 +10250,7 @@
       ]
     },
     {
-      "id": 732,
+      "id": 768,
       "category": "14.template.csv",
       "text": "어제 적금 계좌에서 4,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9745,7 +10264,7 @@
       ]
     },
     {
-      "id": 733,
+      "id": 769,
       "category": "14.template.csv",
       "text": "그제 보통예금 계좌에서 7,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9759,7 +10278,7 @@
       ]
     },
     {
-      "id": 734,
+      "id": 770,
       "category": "14.template.csv",
       "text": "그저께 달러 예수금 계좌에서 1억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9773,7 +10292,7 @@
       ]
     },
     {
-      "id": 735,
+      "id": 771,
       "category": "14.template.csv",
       "text": "엊그제 예적금 계좌에서 2억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9787,7 +10306,7 @@
       ]
     },
     {
-      "id": 736,
+      "id": 772,
       "category": "14.template.csv",
       "text": "사흘전 대출 계좌에서 6억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9801,7 +10320,7 @@
       ]
     },
     {
-      "id": 737,
+      "id": 773,
       "category": "14.template.csv",
       "text": "나흘전 외화 계좌에서 9억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9815,7 +10334,7 @@
       ]
     },
     {
-      "id": 738,
+      "id": 774,
       "category": "14.template.csv",
       "text": "보름전 증권 계좌에서 5천만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9829,7 +10348,7 @@
       ]
     },
     {
-      "id": 739,
+      "id": 775,
       "category": "14.template.csv",
       "text": "일주일 전 신탁 계좌에서 1,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9843,7 +10362,7 @@
       ]
     },
     {
-      "id": 740,
+      "id": 776,
       "category": "14.template.csv",
       "text": "지난주 수시입출 계좌에서 4,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9857,7 +10376,7 @@
       ]
     },
     {
-      "id": 741,
+      "id": 777,
       "category": "14.template.csv",
       "text": "이번 주 정기예금 계좌에서 7,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9871,7 +10390,7 @@
       ]
     },
     {
-      "id": 742,
+      "id": 778,
       "category": "14.template.csv",
       "text": "지난달 적금 계좌에서 1억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9885,7 +10404,7 @@
       ]
     },
     {
-      "id": 743,
+      "id": 779,
       "category": "14.template.csv",
       "text": "저번달 보통예금 계좌에서 2억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9899,7 +10418,7 @@
       ]
     },
     {
-      "id": 744,
+      "id": 780,
       "category": "14.template.csv",
       "text": "이번달 달러 예수금 계좌에서 6억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9913,7 +10432,7 @@
       ]
     },
     {
-      "id": 745,
+      "id": 781,
       "category": "14.template.csv",
       "text": "3월 예적금 계좌에서 9억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9927,7 +10446,7 @@
       ]
     },
     {
-      "id": 746,
+      "id": 782,
       "category": "14.template.csv",
       "text": "8월 대출 계좌에서 5천만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9941,7 +10460,7 @@
       ]
     },
     {
-      "id": 747,
+      "id": 783,
       "category": "14.template.csv",
       "text": "올해 외화 계좌에서 1,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9955,7 +10474,7 @@
       ]
     },
     {
-      "id": 748,
+      "id": 784,
       "category": "14.template.csv",
       "text": "작년 증권 계좌에서 4,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9969,7 +10488,7 @@
       ]
     },
     {
-      "id": 749,
+      "id": 785,
       "category": "14.template.csv",
       "text": "재작년 신탁 계좌에서 7,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9983,7 +10502,7 @@
       ]
     },
     {
-      "id": 750,
+      "id": 786,
       "category": "14.template.csv",
       "text": "1분기 수시입출 계좌에서 1억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -9997,7 +10516,7 @@
       ]
     },
     {
-      "id": 751,
+      "id": 787,
       "category": "14.template.csv",
       "text": "2분기 정기예금 계좌에서 2억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10011,7 +10530,7 @@
       ]
     },
     {
-      "id": 752,
+      "id": 788,
       "category": "14.template.csv",
       "text": "4분기 적금 계좌에서 6억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10025,7 +10544,7 @@
       ]
     },
     {
-      "id": 753,
+      "id": 789,
       "category": "14.template.csv",
       "text": "이번분기 보통예금 계좌에서 9억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10039,7 +10558,7 @@
       ]
     },
     {
-      "id": 754,
+      "id": 790,
       "category": "14.template.csv",
       "text": "지난분기 달러 예수금 계좌에서 5천만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10053,7 +10572,7 @@
       ]
     },
     {
-      "id": 755,
+      "id": 791,
       "category": "14.template.csv",
       "text": "하반기 예적금 계좌에서 1,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10067,7 +10586,7 @@
       ]
     },
     {
-      "id": 756,
+      "id": 792,
       "category": "14.template.csv",
       "text": "지난 상반기 대출 계좌에서 4,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10081,7 +10600,7 @@
       ]
     },
     {
-      "id": 757,
+      "id": 793,
       "category": "14.template.csv",
       "text": "2023년 외화 계좌에서 7,000만원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10095,7 +10614,7 @@
       ]
     },
     {
-      "id": 758,
+      "id": 794,
       "category": "14.template.csv",
       "text": "2024년 2월 증권 계좌에서 1억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10109,7 +10628,7 @@
       ]
     },
     {
-      "id": 759,
+      "id": 795,
       "category": "14.template.csv",
       "text": "최근 6개월간 신탁 계좌에서 2억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10123,7 +10642,7 @@
       ]
     },
     {
-      "id": 760,
+      "id": 796,
       "category": "14.template.csv",
       "text": "지난 1년간 수시입출 계좌에서 6억원 가량의 금액이 거래된 내역을 확인하고 싶어.",
       "mode": "range",
@@ -10137,7 +10656,7 @@
       ]
     },
     {
-      "id": 761,
+      "id": 797,
       "category": "14.template.csv",
       "text": "오늘 수시입출, 외화 잔액 보여줘",
       "mode": "range",
@@ -10151,7 +10670,7 @@
       ]
     },
     {
-      "id": 762,
+      "id": 798,
       "category": "14.template.csv",
       "text": "어제 외화, 대출 잔액 보여줘",
       "mode": "range",
@@ -10165,7 +10684,7 @@
       ]
     },
     {
-      "id": 763,
+      "id": 799,
       "category": "14.template.csv",
       "text": "그제 수시입출, 예적금 잔액 보여줘",
       "mode": "range",
@@ -10179,7 +10698,7 @@
       ]
     },
     {
-      "id": 764,
+      "id": 800,
       "category": "14.template.csv",
       "text": "그저께 증권, 신탁 잔액 보여줘",
       "mode": "range",
@@ -10193,7 +10712,7 @@
       ]
     },
     {
-      "id": 765,
+      "id": 801,
       "category": "14.template.csv",
       "text": "엊그제 외화, 증권 잔액 보여줘",
       "mode": "range",
@@ -10207,7 +10726,7 @@
       ]
     },
     {
-      "id": 766,
+      "id": 802,
       "category": "14.template.csv",
       "text": "사흘전 예적금, 대출 잔액 보여줘",
       "mode": "range",
@@ -10221,7 +10740,7 @@
       ]
     },
     {
-      "id": 767,
+      "id": 803,
       "category": "14.template.csv",
       "text": "나흘전 수시입출, 외화 잔액 보여줘",
       "mode": "range",
@@ -10235,7 +10754,7 @@
       ]
     },
     {
-      "id": 768,
+      "id": 804,
       "category": "14.template.csv",
       "text": "보름전 외화, 대출 잔액 보여줘",
       "mode": "range",
@@ -10249,7 +10768,7 @@
       ]
     },
     {
-      "id": 769,
+      "id": 805,
       "category": "14.template.csv",
       "text": "일주일 전 수시입출, 예적금 잔액 보여줘",
       "mode": "range",
@@ -10263,7 +10782,7 @@
       ]
     },
     {
-      "id": 770,
+      "id": 806,
       "category": "14.template.csv",
       "text": "지난주 증권, 신탁 잔액 보여줘",
       "mode": "range",
@@ -10277,7 +10796,7 @@
       ]
     },
     {
-      "id": 771,
+      "id": 807,
       "category": "14.template.csv",
       "text": "이번 주 외화, 증권 잔액 보여줘",
       "mode": "range",
@@ -10291,7 +10810,7 @@
       ]
     },
     {
-      "id": 772,
+      "id": 808,
       "category": "14.template.csv",
       "text": "지난달 예적금, 대출 잔액 보여줘",
       "mode": "range",
@@ -10305,7 +10824,7 @@
       ]
     },
     {
-      "id": 773,
+      "id": 809,
       "category": "14.template.csv",
       "text": "저번달 수시입출, 외화 잔액 보여줘",
       "mode": "range",
@@ -10319,7 +10838,7 @@
       ]
     },
     {
-      "id": 774,
+      "id": 810,
       "category": "14.template.csv",
       "text": "이번달 외화, 대출 잔액 보여줘",
       "mode": "range",
@@ -10333,7 +10852,7 @@
       ]
     },
     {
-      "id": 775,
+      "id": 811,
       "category": "14.template.csv",
       "text": "3월 수시입출, 예적금 잔액 보여줘",
       "mode": "range",
@@ -10347,7 +10866,7 @@
       ]
     },
     {
-      "id": 776,
+      "id": 812,
       "category": "14.template.csv",
       "text": "8월 증권, 신탁 잔액 보여줘",
       "mode": "range",
@@ -10361,7 +10880,7 @@
       ]
     },
     {
-      "id": 777,
+      "id": 813,
       "category": "14.template.csv",
       "text": "올해 외화, 증권 잔액 보여줘",
       "mode": "range",
@@ -10375,7 +10894,7 @@
       ]
     },
     {
-      "id": 778,
+      "id": 814,
       "category": "14.template.csv",
       "text": "작년 예적금, 대출 잔액 보여줘",
       "mode": "range",
@@ -10389,7 +10908,7 @@
       ]
     },
     {
-      "id": 779,
+      "id": 815,
       "category": "14.template.csv",
       "text": "재작년 수시입출, 외화 잔액 보여줘",
       "mode": "range",
@@ -10403,7 +10922,7 @@
       ]
     },
     {
-      "id": 780,
+      "id": 816,
       "category": "14.template.csv",
       "text": "1분기 외화, 대출 잔액 보여줘",
       "mode": "range",
@@ -10417,7 +10936,7 @@
       ]
     },
     {
-      "id": 781,
+      "id": 817,
       "category": "14.template.csv",
       "text": "2분기 수시입출, 예적금 잔액 보여줘",
       "mode": "range",
@@ -10431,7 +10950,7 @@
       ]
     },
     {
-      "id": 782,
+      "id": 818,
       "category": "14.template.csv",
       "text": "4분기 증권, 신탁 잔액 보여줘",
       "mode": "range",
@@ -10445,7 +10964,7 @@
       ]
     },
     {
-      "id": 783,
+      "id": 819,
       "category": "14.template.csv",
       "text": "이번분기 외화, 증권 잔액 보여줘",
       "mode": "range",
@@ -10459,7 +10978,7 @@
       ]
     },
     {
-      "id": 784,
+      "id": 820,
       "category": "14.template.csv",
       "text": "지난분기 예적금, 대출 잔액 보여줘",
       "mode": "range",
@@ -10473,7 +10992,7 @@
       ]
     },
     {
-      "id": 785,
+      "id": 821,
       "category": "14.template.csv",
       "text": "하반기 수시입출, 외화 잔액 보여줘",
       "mode": "range",
@@ -10487,7 +11006,7 @@
       ]
     },
     {
-      "id": 786,
+      "id": 822,
       "category": "14.template.csv",
       "text": "지난 상반기 외화, 대출 잔액 보여줘",
       "mode": "range",
@@ -10501,7 +11020,7 @@
       ]
     },
     {
-      "id": 787,
+      "id": 823,
       "category": "14.template.csv",
       "text": "2023년 수시입출, 예적금 잔액 보여줘",
       "mode": "range",
@@ -10515,7 +11034,7 @@
       ]
     },
     {
-      "id": 788,
+      "id": 824,
       "category": "14.template.csv",
       "text": "2024년 2월 증권, 신탁 잔액 보여줘",
       "mode": "range",
@@ -10529,7 +11048,7 @@
       ]
     },
     {
-      "id": 789,
+      "id": 825,
       "category": "14.template.csv",
       "text": "최근 6개월간 외화, 증권 잔액 보여줘",
       "mode": "range",
@@ -10543,7 +11062,7 @@
       ]
     },
     {
-      "id": 790,
+      "id": 826,
       "category": "14.template.csv",
       "text": "지난 1년간 예적금, 대출 잔액 보여줘",
       "mode": "range",
@@ -10557,7 +11076,7 @@
       ]
     },
     {
-      "id": 791,
+      "id": 827,
       "category": "14.template.csv",
       "text": "오늘 외화과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10571,7 +11090,7 @@
       ]
     },
     {
-      "id": 792,
+      "id": 828,
       "category": "14.template.csv",
       "text": "어제 수시입출과 예적금의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10585,7 +11104,7 @@
       ]
     },
     {
-      "id": 793,
+      "id": 829,
       "category": "14.template.csv",
       "text": "그제 증권과 신탁의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10599,7 +11118,7 @@
       ]
     },
     {
-      "id": 794,
+      "id": 830,
       "category": "14.template.csv",
       "text": "그저께 외화과 증권의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10613,7 +11132,7 @@
       ]
     },
     {
-      "id": 795,
+      "id": 831,
       "category": "14.template.csv",
       "text": "엊그제 예적금과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10627,7 +11146,7 @@
       ]
     },
     {
-      "id": 796,
+      "id": 832,
       "category": "14.template.csv",
       "text": "사흘전 수시입출과 외화의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10641,7 +11160,7 @@
       ]
     },
     {
-      "id": 797,
+      "id": 833,
       "category": "14.template.csv",
       "text": "나흘전 외화과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10655,7 +11174,7 @@
       ]
     },
     {
-      "id": 798,
+      "id": 834,
       "category": "14.template.csv",
       "text": "보름전 수시입출과 예적금의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10669,7 +11188,7 @@
       ]
     },
     {
-      "id": 799,
+      "id": 835,
       "category": "14.template.csv",
       "text": "일주일 전 증권과 신탁의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10683,7 +11202,7 @@
       ]
     },
     {
-      "id": 800,
+      "id": 836,
       "category": "14.template.csv",
       "text": "지난주 외화과 증권의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10697,7 +11216,7 @@
       ]
     },
     {
-      "id": 801,
+      "id": 837,
       "category": "14.template.csv",
       "text": "이번 주 예적금과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10711,7 +11230,7 @@
       ]
     },
     {
-      "id": 802,
+      "id": 838,
       "category": "14.template.csv",
       "text": "지난달 수시입출과 외화의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10725,7 +11244,7 @@
       ]
     },
     {
-      "id": 803,
+      "id": 839,
       "category": "14.template.csv",
       "text": "저번달 외화과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10739,7 +11258,7 @@
       ]
     },
     {
-      "id": 804,
+      "id": 840,
       "category": "14.template.csv",
       "text": "이번달 수시입출과 예적금의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10753,7 +11272,7 @@
       ]
     },
     {
-      "id": 805,
+      "id": 841,
       "category": "14.template.csv",
       "text": "3월 증권과 신탁의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10767,7 +11286,7 @@
       ]
     },
     {
-      "id": 806,
+      "id": 842,
       "category": "14.template.csv",
       "text": "8월 외화과 증권의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10781,7 +11300,7 @@
       ]
     },
     {
-      "id": 807,
+      "id": 843,
       "category": "14.template.csv",
       "text": "올해 예적금과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10795,7 +11314,7 @@
       ]
     },
     {
-      "id": 808,
+      "id": 844,
       "category": "14.template.csv",
       "text": "작년 수시입출과 외화의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10809,7 +11328,7 @@
       ]
     },
     {
-      "id": 809,
+      "id": 845,
       "category": "14.template.csv",
       "text": "재작년 외화과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10823,7 +11342,7 @@
       ]
     },
     {
-      "id": 810,
+      "id": 846,
       "category": "14.template.csv",
       "text": "1분기 수시입출과 예적금의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10837,7 +11356,7 @@
       ]
     },
     {
-      "id": 811,
+      "id": 847,
       "category": "14.template.csv",
       "text": "2분기 증권과 신탁의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10851,7 +11370,7 @@
       ]
     },
     {
-      "id": 812,
+      "id": 848,
       "category": "14.template.csv",
       "text": "4분기 외화과 증권의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10865,7 +11384,7 @@
       ]
     },
     {
-      "id": 813,
+      "id": 849,
       "category": "14.template.csv",
       "text": "이번분기 예적금과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10879,7 +11398,7 @@
       ]
     },
     {
-      "id": 814,
+      "id": 850,
       "category": "14.template.csv",
       "text": "지난분기 수시입출과 외화의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10893,7 +11412,7 @@
       ]
     },
     {
-      "id": 815,
+      "id": 851,
       "category": "14.template.csv",
       "text": "하반기 외화과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10907,7 +11426,7 @@
       ]
     },
     {
-      "id": 816,
+      "id": 852,
       "category": "14.template.csv",
       "text": "지난 상반기 수시입출과 예적금의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10921,7 +11440,7 @@
       ]
     },
     {
-      "id": 817,
+      "id": 853,
       "category": "14.template.csv",
       "text": "2023년 증권과 신탁의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10935,7 +11454,7 @@
       ]
     },
     {
-      "id": 818,
+      "id": 854,
       "category": "14.template.csv",
       "text": "2024년 2월 외화과 증권의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10949,7 +11468,7 @@
       ]
     },
     {
-      "id": 819,
+      "id": 855,
       "category": "14.template.csv",
       "text": "최근 6개월간 예적금과 대출의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10963,7 +11482,7 @@
       ]
     },
     {
-      "id": 820,
+      "id": 856,
       "category": "14.template.csv",
       "text": "지난 1년간 수시입출과 외화의 거래 내역을 모두 알려주세요.",
       "mode": "range",
@@ -10977,7 +11496,7 @@
       ]
     },
     {
-      "id": 821,
+      "id": 857,
       "category": "14.template.csv",
       "text": "오늘 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -10991,7 +11510,7 @@
       ]
     },
     {
-      "id": 822,
+      "id": 858,
       "category": "14.template.csv",
       "text": "어제 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11005,7 +11524,7 @@
       ]
     },
     {
-      "id": 823,
+      "id": 859,
       "category": "14.template.csv",
       "text": "그제 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11019,7 +11538,7 @@
       ]
     },
     {
-      "id": 824,
+      "id": 860,
       "category": "14.template.csv",
       "text": "그저께 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11033,7 +11552,7 @@
       ]
     },
     {
-      "id": 825,
+      "id": 861,
       "category": "14.template.csv",
       "text": "엊그제 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11047,7 +11566,7 @@
       ]
     },
     {
-      "id": 826,
+      "id": 862,
       "category": "14.template.csv",
       "text": "사흘전 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11061,7 +11580,7 @@
       ]
     },
     {
-      "id": 827,
+      "id": 863,
       "category": "14.template.csv",
       "text": "나흘전 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11075,7 +11594,7 @@
       ]
     },
     {
-      "id": 828,
+      "id": 864,
       "category": "14.template.csv",
       "text": "보름전 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11089,7 +11608,7 @@
       ]
     },
     {
-      "id": 829,
+      "id": 865,
       "category": "14.template.csv",
       "text": "일주일 전 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11103,7 +11622,7 @@
       ]
     },
     {
-      "id": 830,
+      "id": 866,
       "category": "14.template.csv",
       "text": "지난주 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11117,7 +11636,7 @@
       ]
     },
     {
-      "id": 831,
+      "id": 867,
       "category": "14.template.csv",
       "text": "이번 주 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11131,7 +11650,7 @@
       ]
     },
     {
-      "id": 832,
+      "id": 868,
       "category": "14.template.csv",
       "text": "지난달 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11145,7 +11664,7 @@
       ]
     },
     {
-      "id": 833,
+      "id": 869,
       "category": "14.template.csv",
       "text": "저번달 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11159,7 +11678,7 @@
       ]
     },
     {
-      "id": 834,
+      "id": 870,
       "category": "14.template.csv",
       "text": "이번달 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11173,7 +11692,7 @@
       ]
     },
     {
-      "id": 835,
+      "id": 871,
       "category": "14.template.csv",
       "text": "3월 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11187,7 +11706,7 @@
       ]
     },
     {
-      "id": 836,
+      "id": 872,
       "category": "14.template.csv",
       "text": "8월 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11201,7 +11720,7 @@
       ]
     },
     {
-      "id": 837,
+      "id": 873,
       "category": "14.template.csv",
       "text": "올해 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11215,7 +11734,7 @@
       ]
     },
     {
-      "id": 838,
+      "id": 874,
       "category": "14.template.csv",
       "text": "작년 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11229,7 +11748,7 @@
       ]
     },
     {
-      "id": 839,
+      "id": 875,
       "category": "14.template.csv",
       "text": "재작년 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11243,7 +11762,7 @@
       ]
     },
     {
-      "id": 840,
+      "id": 876,
       "category": "14.template.csv",
       "text": "1분기 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11257,7 +11776,7 @@
       ]
     },
     {
-      "id": 841,
+      "id": 877,
       "category": "14.template.csv",
       "text": "2분기 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11271,7 +11790,7 @@
       ]
     },
     {
-      "id": 842,
+      "id": 878,
       "category": "14.template.csv",
       "text": "4분기 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11285,7 +11804,7 @@
       ]
     },
     {
-      "id": 843,
+      "id": 879,
       "category": "14.template.csv",
       "text": "이번분기 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11299,7 +11818,7 @@
       ]
     },
     {
-      "id": 844,
+      "id": 880,
       "category": "14.template.csv",
       "text": "지난분기 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11313,7 +11832,7 @@
       ]
     },
     {
-      "id": 845,
+      "id": 881,
       "category": "14.template.csv",
       "text": "하반기 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11327,7 +11846,7 @@
       ]
     },
     {
-      "id": 846,
+      "id": 882,
       "category": "14.template.csv",
       "text": "지난 상반기 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11341,7 +11860,7 @@
       ]
     },
     {
-      "id": 847,
+      "id": 883,
       "category": "14.template.csv",
       "text": "2023년 임대료, 광고비, 운영비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11355,7 +11874,7 @@
       ]
     },
     {
-      "id": 848,
+      "id": 884,
       "category": "14.template.csv",
       "text": "2024년 2월 복리후생비, 출장비, 서버비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11369,7 +11888,7 @@
       ]
     },
     {
-      "id": 849,
+      "id": 885,
       "category": "14.template.csv",
       "text": "최근 6개월간 인건비, 수수료, 광고비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11383,7 +11902,7 @@
       ]
     },
     {
-      "id": 850,
+      "id": 886,
       "category": "14.template.csv",
       "text": "지난 1년간 연구비, 인건비, 마케팅비 비중을 한번에 비교해줘",
       "mode": "range",
@@ -11397,7 +11916,7 @@
       ]
     },
     {
-      "id": 851,
+      "id": 887,
       "category": "14.template.csv",
       "text": "2032년 초에 만기되는 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11411,7 +11930,7 @@
       ]
     },
     {
-      "id": 852,
+      "id": 888,
       "category": "14.template.csv",
       "text": "2029년 말에 만기되는 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -11425,7 +11944,7 @@
       ]
     },
     {
-      "id": 853,
+      "id": 889,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 만기되는 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -11439,7 +11958,7 @@
       ]
     },
     {
-      "id": 854,
+      "id": 890,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 만기되는 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -11453,7 +11972,7 @@
       ]
     },
     {
-      "id": 855,
+      "id": 891,
       "category": "14.template.csv",
       "text": "2020년 2월에 만기되는 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -11467,7 +11986,7 @@
       ]
     },
     {
-      "id": 856,
+      "id": 892,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 만기되는 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -11481,7 +12000,7 @@
       ]
     },
     {
-      "id": 857,
+      "id": 893,
       "category": "14.template.csv",
       "text": "2026년 3월에 만기되는 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11495,7 +12014,7 @@
       ]
     },
     {
-      "id": 858,
+      "id": 894,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 만기되는 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11509,7 +12028,7 @@
       ]
     },
     {
-      "id": 859,
+      "id": 895,
       "category": "14.template.csv",
       "text": "2024년 5월에 만기되는 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11523,7 +12042,7 @@
       ]
     },
     {
-      "id": 860,
+      "id": 896,
       "category": "14.template.csv",
       "text": "2023년 12월에 만기되는 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -11537,7 +12056,7 @@
       ]
     },
     {
-      "id": 861,
+      "id": 897,
       "category": "14.template.csv",
       "text": "2028년 상반기에 만기되는 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11551,7 +12070,7 @@
       ]
     },
     {
-      "id": 862,
+      "id": 898,
       "category": "14.template.csv",
       "text": "2028년 하반기에 만기되는 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -11565,7 +12084,7 @@
       ]
     },
     {
-      "id": 863,
+      "id": 899,
       "category": "14.template.csv",
       "text": "내년 1분기에 만기되는 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -11579,7 +12098,7 @@
       ]
     },
     {
-      "id": 864,
+      "id": 900,
       "category": "14.template.csv",
       "text": "내년 2분기에 만기되는 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -11593,7 +12112,7 @@
       ]
     },
     {
-      "id": 865,
+      "id": 901,
       "category": "14.template.csv",
       "text": "2026년 1분기에 만기되는 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -11607,7 +12126,7 @@
       ]
     },
     {
-      "id": 866,
+      "id": 902,
       "category": "14.template.csv",
       "text": "2027년 4분기에 만기되는 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -11621,7 +12140,7 @@
       ]
     },
     {
-      "id": 867,
+      "id": 903,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 만기되는 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11635,7 +12154,7 @@
       ]
     },
     {
-      "id": 868,
+      "id": 904,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 만기되는 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11649,7 +12168,7 @@
       ]
     },
     {
-      "id": 869,
+      "id": 905,
       "category": "14.template.csv",
       "text": "2026년 8월에 만기되는 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11663,7 +12182,7 @@
       ]
     },
     {
-      "id": 870,
+      "id": 906,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 만기되는 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -11677,7 +12196,7 @@
       ]
     },
     {
-      "id": 871,
+      "id": 907,
       "category": "14.template.csv",
       "text": "2032년 초에 개설된 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -11691,7 +12210,7 @@
       ]
     },
     {
-      "id": 872,
+      "id": 908,
       "category": "14.template.csv",
       "text": "2029년 말에 개설된 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -11705,7 +12224,7 @@
       ]
     },
     {
-      "id": 873,
+      "id": 909,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 개설된 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -11719,7 +12238,7 @@
       ]
     },
     {
-      "id": 874,
+      "id": 910,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 개설된 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -11733,7 +12252,7 @@
       ]
     },
     {
-      "id": 875,
+      "id": 911,
       "category": "14.template.csv",
       "text": "2020년 2월에 개설된 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -11747,7 +12266,7 @@
       ]
     },
     {
-      "id": 876,
+      "id": 912,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 개설된 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11761,7 +12280,7 @@
       ]
     },
     {
-      "id": 877,
+      "id": 913,
       "category": "14.template.csv",
       "text": "2026년 3월에 개설된 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11775,7 +12294,7 @@
       ]
     },
     {
-      "id": 878,
+      "id": 914,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 개설된 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11789,7 +12308,7 @@
       ]
     },
     {
-      "id": 879,
+      "id": 915,
       "category": "14.template.csv",
       "text": "2024년 5월에 개설된 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -11803,7 +12322,7 @@
       ]
     },
     {
-      "id": 880,
+      "id": 916,
       "category": "14.template.csv",
       "text": "2023년 12월에 개설된 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11817,7 +12336,7 @@
       ]
     },
     {
-      "id": 881,
+      "id": 917,
       "category": "14.template.csv",
       "text": "2028년 상반기에 개설된 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -11831,7 +12350,7 @@
       ]
     },
     {
-      "id": 882,
+      "id": 918,
       "category": "14.template.csv",
       "text": "2028년 하반기에 개설된 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -11845,7 +12364,7 @@
       ]
     },
     {
-      "id": 883,
+      "id": 919,
       "category": "14.template.csv",
       "text": "내년 1분기에 개설된 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -11859,7 +12378,7 @@
       ]
     },
     {
-      "id": 884,
+      "id": 920,
       "category": "14.template.csv",
       "text": "내년 2분기에 개설된 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -11873,7 +12392,7 @@
       ]
     },
     {
-      "id": 885,
+      "id": 921,
       "category": "14.template.csv",
       "text": "2026년 1분기에 개설된 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -11887,7 +12406,7 @@
       ]
     },
     {
-      "id": 886,
+      "id": 922,
       "category": "14.template.csv",
       "text": "2027년 4분기에 개설된 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11901,7 +12420,7 @@
       ]
     },
     {
-      "id": 887,
+      "id": 923,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 개설된 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11915,7 +12434,7 @@
       ]
     },
     {
-      "id": 888,
+      "id": 924,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 개설된 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -11929,7 +12448,7 @@
       ]
     },
     {
-      "id": 889,
+      "id": 925,
       "category": "14.template.csv",
       "text": "2026년 8월에 개설된 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -11943,7 +12462,7 @@
       ]
     },
     {
-      "id": 890,
+      "id": 926,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 개설된 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -11957,7 +12476,7 @@
       ]
     },
     {
-      "id": 891,
+      "id": 927,
       "category": "14.template.csv",
       "text": "2032년 초에 만기된 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -11971,7 +12490,7 @@
       ]
     },
     {
-      "id": 892,
+      "id": 928,
       "category": "14.template.csv",
       "text": "2029년 말에 만기된 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -11985,7 +12504,7 @@
       ]
     },
     {
-      "id": 893,
+      "id": 929,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 만기된 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -11999,7 +12518,7 @@
       ]
     },
     {
-      "id": 894,
+      "id": 930,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 만기된 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -12013,7 +12532,7 @@
       ]
     },
     {
-      "id": 895,
+      "id": 931,
       "category": "14.template.csv",
       "text": "2020년 2월에 만기된 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -12027,7 +12546,7 @@
       ]
     },
     {
-      "id": 896,
+      "id": 932,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 만기된 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -12041,7 +12560,7 @@
       ]
     },
     {
-      "id": 897,
+      "id": 933,
       "category": "14.template.csv",
       "text": "2026년 3월에 만기된 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -12055,7 +12574,7 @@
       ]
     },
     {
-      "id": 898,
+      "id": 934,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 만기된 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -12069,7 +12588,7 @@
       ]
     },
     {
-      "id": 899,
+      "id": 935,
       "category": "14.template.csv",
       "text": "2024년 5월에 만기된 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -12083,7 +12602,7 @@
       ]
     },
     {
-      "id": 900,
+      "id": 936,
       "category": "14.template.csv",
       "text": "2023년 12월에 만기된 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -12097,7 +12616,7 @@
       ]
     },
     {
-      "id": 901,
+      "id": 937,
       "category": "14.template.csv",
       "text": "2028년 상반기에 만기된 외화 계좌를 조회해줘.",
       "mode": "range",
@@ -12111,7 +12630,7 @@
       ]
     },
     {
-      "id": 902,
+      "id": 938,
       "category": "14.template.csv",
       "text": "2028년 하반기에 만기된 증권 계좌를 조회해줘.",
       "mode": "range",
@@ -12125,7 +12644,7 @@
       ]
     },
     {
-      "id": 903,
+      "id": 939,
       "category": "14.template.csv",
       "text": "내년 1분기에 만기된 신탁 계좌를 조회해줘.",
       "mode": "range",
@@ -12139,7 +12658,7 @@
       ]
     },
     {
-      "id": 904,
+      "id": 940,
       "category": "14.template.csv",
       "text": "내년 2분기에 만기된 수시입출 계좌를 조회해줘.",
       "mode": "range",
@@ -12153,7 +12672,7 @@
       ]
     },
     {
-      "id": 905,
+      "id": 941,
       "category": "14.template.csv",
       "text": "2026년 1분기에 만기된 정기예금 계좌를 조회해줘.",
       "mode": "range",
@@ -12167,7 +12686,7 @@
       ]
     },
     {
-      "id": 906,
+      "id": 942,
       "category": "14.template.csv",
       "text": "2027년 4분기에 만기된 적금 계좌를 조회해줘.",
       "mode": "range",
@@ -12181,7 +12700,7 @@
       ]
     },
     {
-      "id": 907,
+      "id": 943,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 만기된 보통예금 계좌를 조회해줘.",
       "mode": "range",
@@ -12195,7 +12714,7 @@
       ]
     },
     {
-      "id": 908,
+      "id": 944,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 만기된 달러 예수금 계좌를 조회해줘.",
       "mode": "range",
@@ -12209,7 +12728,7 @@
       ]
     },
     {
-      "id": 909,
+      "id": 945,
       "category": "14.template.csv",
       "text": "2026년 8월에 만기된 예적금 계좌를 조회해줘.",
       "mode": "range",
@@ -12223,7 +12742,7 @@
       ]
     },
     {
-      "id": 910,
+      "id": 946,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 만기된 대출 계좌를 조회해줘.",
       "mode": "range",
@@ -12237,7 +12756,7 @@
       ]
     },
     {
-      "id": 911,
+      "id": 947,
       "category": "14.template.csv",
       "text": "2032년 초에 개설한 증권 계좌 목록은?",
       "mode": "range",
@@ -12251,7 +12770,7 @@
       ]
     },
     {
-      "id": 912,
+      "id": 948,
       "category": "14.template.csv",
       "text": "2029년 말에 개설한 신탁 계좌 목록은?",
       "mode": "range",
@@ -12265,7 +12784,7 @@
       ]
     },
     {
-      "id": 913,
+      "id": 949,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 개설한 수시입출 계좌 목록은?",
       "mode": "range",
@@ -12279,7 +12798,7 @@
       ]
     },
     {
-      "id": 914,
+      "id": 950,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 개설한 정기예금 계좌 목록은?",
       "mode": "range",
@@ -12293,7 +12812,7 @@
       ]
     },
     {
-      "id": 915,
+      "id": 951,
       "category": "14.template.csv",
       "text": "2020년 2월에 개설한 적금 계좌 목록은?",
       "mode": "range",
@@ -12307,7 +12826,7 @@
       ]
     },
     {
-      "id": 916,
+      "id": 952,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 개설한 보통예금 계좌 목록은?",
       "mode": "range",
@@ -12321,7 +12840,7 @@
       ]
     },
     {
-      "id": 917,
+      "id": 953,
       "category": "14.template.csv",
       "text": "2026년 3월에 개설한 달러 예수금 계좌 목록은?",
       "mode": "range",
@@ -12335,7 +12854,7 @@
       ]
     },
     {
-      "id": 918,
+      "id": 954,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 개설한 예적금 계좌 목록은?",
       "mode": "range",
@@ -12349,7 +12868,7 @@
       ]
     },
     {
-      "id": 919,
+      "id": 955,
       "category": "14.template.csv",
       "text": "2024년 5월에 개설한 대출 계좌 목록은?",
       "mode": "range",
@@ -12363,7 +12882,7 @@
       ]
     },
     {
-      "id": 920,
+      "id": 956,
       "category": "14.template.csv",
       "text": "2023년 12월에 개설한 외화 계좌 목록은?",
       "mode": "range",
@@ -12377,7 +12896,7 @@
       ]
     },
     {
-      "id": 921,
+      "id": 957,
       "category": "14.template.csv",
       "text": "2028년 상반기에 개설한 증권 계좌 목록은?",
       "mode": "range",
@@ -12391,7 +12910,7 @@
       ]
     },
     {
-      "id": 922,
+      "id": 958,
       "category": "14.template.csv",
       "text": "2028년 하반기에 개설한 신탁 계좌 목록은?",
       "mode": "range",
@@ -12405,7 +12924,7 @@
       ]
     },
     {
-      "id": 923,
+      "id": 959,
       "category": "14.template.csv",
       "text": "내년 1분기에 개설한 수시입출 계좌 목록은?",
       "mode": "range",
@@ -12419,7 +12938,7 @@
       ]
     },
     {
-      "id": 924,
+      "id": 960,
       "category": "14.template.csv",
       "text": "내년 2분기에 개설한 정기예금 계좌 목록은?",
       "mode": "range",
@@ -12433,7 +12952,7 @@
       ]
     },
     {
-      "id": 925,
+      "id": 961,
       "category": "14.template.csv",
       "text": "2026년 1분기에 개설한 적금 계좌 목록은?",
       "mode": "range",
@@ -12447,7 +12966,7 @@
       ]
     },
     {
-      "id": 926,
+      "id": 962,
       "category": "14.template.csv",
       "text": "2027년 4분기에 개설한 보통예금 계좌 목록은?",
       "mode": "range",
@@ -12461,7 +12980,7 @@
       ]
     },
     {
-      "id": 927,
+      "id": 963,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 개설한 달러 예수금 계좌 목록은?",
       "mode": "range",
@@ -12475,7 +12994,7 @@
       ]
     },
     {
-      "id": 928,
+      "id": 964,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 개설한 예적금 계좌 목록은?",
       "mode": "range",
@@ -12489,7 +13008,7 @@
       ]
     },
     {
-      "id": 929,
+      "id": 965,
       "category": "14.template.csv",
       "text": "2026년 8월에 개설한 대출 계좌 목록은?",
       "mode": "range",
@@ -12503,7 +13022,7 @@
       ]
     },
     {
-      "id": 930,
+      "id": 966,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 개설한 외화 계좌 목록은?",
       "mode": "range",
@@ -12517,7 +13036,7 @@
       ]
     },
     {
-      "id": 931,
+      "id": 967,
       "category": "14.template.csv",
       "text": "2032년 초에 개설된 신탁 계좌 잔액",
       "mode": "range",
@@ -12531,7 +13050,7 @@
       ]
     },
     {
-      "id": 932,
+      "id": 968,
       "category": "14.template.csv",
       "text": "2029년 말에 개설된 수시입출 계좌 잔액",
       "mode": "range",
@@ -12545,7 +13064,7 @@
       ]
     },
     {
-      "id": 933,
+      "id": 969,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 개설된 정기예금 계좌 잔액",
       "mode": "range",
@@ -12559,7 +13078,7 @@
       ]
     },
     {
-      "id": 934,
+      "id": 970,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 개설된 적금 계좌 잔액",
       "mode": "range",
@@ -12573,7 +13092,7 @@
       ]
     },
     {
-      "id": 935,
+      "id": 971,
       "category": "14.template.csv",
       "text": "2020년 2월에 개설된 보통예금 계좌 잔액",
       "mode": "range",
@@ -12587,7 +13106,7 @@
       ]
     },
     {
-      "id": 936,
+      "id": 972,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 개설된 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -12601,7 +13120,7 @@
       ]
     },
     {
-      "id": 937,
+      "id": 973,
       "category": "14.template.csv",
       "text": "2026년 3월에 개설된 예적금 계좌 잔액",
       "mode": "range",
@@ -12615,7 +13134,7 @@
       ]
     },
     {
-      "id": 938,
+      "id": 974,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 개설된 대출 계좌 잔액",
       "mode": "range",
@@ -12629,7 +13148,7 @@
       ]
     },
     {
-      "id": 939,
+      "id": 975,
       "category": "14.template.csv",
       "text": "2024년 5월에 개설된 외화 계좌 잔액",
       "mode": "range",
@@ -12643,7 +13162,7 @@
       ]
     },
     {
-      "id": 940,
+      "id": 976,
       "category": "14.template.csv",
       "text": "2023년 12월에 개설된 증권 계좌 잔액",
       "mode": "range",
@@ -12657,7 +13176,7 @@
       ]
     },
     {
-      "id": 941,
+      "id": 977,
       "category": "14.template.csv",
       "text": "2028년 상반기에 개설된 신탁 계좌 잔액",
       "mode": "range",
@@ -12671,7 +13190,7 @@
       ]
     },
     {
-      "id": 942,
+      "id": 978,
       "category": "14.template.csv",
       "text": "2028년 하반기에 개설된 수시입출 계좌 잔액",
       "mode": "range",
@@ -12685,7 +13204,7 @@
       ]
     },
     {
-      "id": 943,
+      "id": 979,
       "category": "14.template.csv",
       "text": "내년 1분기에 개설된 정기예금 계좌 잔액",
       "mode": "range",
@@ -12699,7 +13218,7 @@
       ]
     },
     {
-      "id": 944,
+      "id": 980,
       "category": "14.template.csv",
       "text": "내년 2분기에 개설된 적금 계좌 잔액",
       "mode": "range",
@@ -12713,7 +13232,7 @@
       ]
     },
     {
-      "id": 945,
+      "id": 981,
       "category": "14.template.csv",
       "text": "2026년 1분기에 개설된 보통예금 계좌 잔액",
       "mode": "range",
@@ -12727,7 +13246,7 @@
       ]
     },
     {
-      "id": 946,
+      "id": 982,
       "category": "14.template.csv",
       "text": "2027년 4분기에 개설된 달러 예수금 계좌 잔액",
       "mode": "range",
@@ -12741,7 +13260,7 @@
       ]
     },
     {
-      "id": 947,
+      "id": 983,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 개설된 예적금 계좌 잔액",
       "mode": "range",
@@ -12755,7 +13274,7 @@
       ]
     },
     {
-      "id": 948,
+      "id": 984,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 개설된 대출 계좌 잔액",
       "mode": "range",
@@ -12769,7 +13288,7 @@
       ]
     },
     {
-      "id": 949,
+      "id": 985,
       "category": "14.template.csv",
       "text": "2026년 8월에 개설된 외화 계좌 잔액",
       "mode": "range",
@@ -12783,7 +13302,7 @@
       ]
     },
     {
-      "id": 950,
+      "id": 986,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 개설된 증권 계좌 잔액",
       "mode": "range",
@@ -12797,7 +13316,7 @@
       ]
     },
     {
-      "id": 951,
+      "id": 987,
       "category": "14.template.csv",
       "text": "2032년 초에 만기 도래하는 수시입출 계좌가 있는가?",
       "mode": "range",
@@ -12811,7 +13330,7 @@
       ]
     },
     {
-      "id": 952,
+      "id": 988,
       "category": "14.template.csv",
       "text": "2029년 말에 만기 도래하는 정기예금 계좌가 있는가?",
       "mode": "range",
@@ -12825,7 +13344,7 @@
       ]
     },
     {
-      "id": 953,
+      "id": 989,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 만기 도래하는 적금 계좌가 있는가?",
       "mode": "range",
@@ -12839,7 +13358,7 @@
       ]
     },
     {
-      "id": 954,
+      "id": 990,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 만기 도래하는 보통예금 계좌가 있는가?",
       "mode": "range",
@@ -12853,7 +13372,7 @@
       ]
     },
     {
-      "id": 955,
+      "id": 991,
       "category": "14.template.csv",
       "text": "2020년 2월에 만기 도래하는 달러 예수금 계좌가 있는가?",
       "mode": "range",
@@ -12867,7 +13386,7 @@
       ]
     },
     {
-      "id": 956,
+      "id": 992,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 만기 도래하는 예적금 계좌가 있는가?",
       "mode": "range",
@@ -12881,7 +13400,7 @@
       ]
     },
     {
-      "id": 957,
+      "id": 993,
       "category": "14.template.csv",
       "text": "2026년 3월에 만기 도래하는 대출 계좌가 있는가?",
       "mode": "range",
@@ -12895,7 +13414,7 @@
       ]
     },
     {
-      "id": 958,
+      "id": 994,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 만기 도래하는 외화 계좌가 있는가?",
       "mode": "range",
@@ -12909,7 +13428,7 @@
       ]
     },
     {
-      "id": 959,
+      "id": 995,
       "category": "14.template.csv",
       "text": "2024년 5월에 만기 도래하는 증권 계좌가 있는가?",
       "mode": "range",
@@ -12923,7 +13442,7 @@
       ]
     },
     {
-      "id": 960,
+      "id": 996,
       "category": "14.template.csv",
       "text": "2023년 12월에 만기 도래하는 신탁 계좌가 있는가?",
       "mode": "range",
@@ -12937,7 +13456,7 @@
       ]
     },
     {
-      "id": 961,
+      "id": 997,
       "category": "14.template.csv",
       "text": "2028년 상반기에 만기 도래하는 수시입출 계좌가 있는가?",
       "mode": "range",
@@ -12951,7 +13470,7 @@
       ]
     },
     {
-      "id": 962,
+      "id": 998,
       "category": "14.template.csv",
       "text": "2028년 하반기에 만기 도래하는 정기예금 계좌가 있는가?",
       "mode": "range",
@@ -12965,7 +13484,7 @@
       ]
     },
     {
-      "id": 963,
+      "id": 999,
       "category": "14.template.csv",
       "text": "내년 1분기에 만기 도래하는 적금 계좌가 있는가?",
       "mode": "range",
@@ -12979,7 +13498,7 @@
       ]
     },
     {
-      "id": 964,
+      "id": 1000,
       "category": "14.template.csv",
       "text": "내년 2분기에 만기 도래하는 보통예금 계좌가 있는가?",
       "mode": "range",
@@ -12993,7 +13512,7 @@
       ]
     },
     {
-      "id": 965,
+      "id": 1001,
       "category": "14.template.csv",
       "text": "2026년 1분기에 만기 도래하는 달러 예수금 계좌가 있는가?",
       "mode": "range",
@@ -13007,7 +13526,7 @@
       ]
     },
     {
-      "id": 966,
+      "id": 1002,
       "category": "14.template.csv",
       "text": "2027년 4분기에 만기 도래하는 예적금 계좌가 있는가?",
       "mode": "range",
@@ -13021,7 +13540,7 @@
       ]
     },
     {
-      "id": 967,
+      "id": 1003,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 만기 도래하는 대출 계좌가 있는가?",
       "mode": "range",
@@ -13035,7 +13554,7 @@
       ]
     },
     {
-      "id": 968,
+      "id": 1004,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 만기 도래하는 외화 계좌가 있는가?",
       "mode": "range",
@@ -13049,7 +13568,7 @@
       ]
     },
     {
-      "id": 969,
+      "id": 1005,
       "category": "14.template.csv",
       "text": "2026년 8월에 만기 도래하는 증권 계좌가 있는가?",
       "mode": "range",
@@ -13063,7 +13582,7 @@
       ]
     },
     {
-      "id": 970,
+      "id": 1006,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 만기 도래하는 신탁 계좌가 있는가?",
       "mode": "range",
@@ -13077,7 +13596,7 @@
       ]
     },
     {
-      "id": 971,
+      "id": 1007,
       "category": "14.template.csv",
       "text": "2032년 초에 신규 개설된 정기예금 계좌의 거래내역",
       "mode": "range",
@@ -13091,7 +13610,7 @@
       ]
     },
     {
-      "id": 972,
+      "id": 1008,
       "category": "14.template.csv",
       "text": "2029년 말에 신규 개설된 적금 계좌의 거래내역",
       "mode": "range",
@@ -13105,7 +13624,7 @@
       ]
     },
     {
-      "id": 973,
+      "id": 1009,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 신규 개설된 보통예금 계좌의 거래내역",
       "mode": "range",
@@ -13119,7 +13638,7 @@
       ]
     },
     {
-      "id": 974,
+      "id": 1010,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 신규 개설된 달러 예수금 계좌의 거래내역",
       "mode": "range",
@@ -13133,7 +13652,7 @@
       ]
     },
     {
-      "id": 975,
+      "id": 1011,
       "category": "14.template.csv",
       "text": "2020년 2월에 신규 개설된 예적금 계좌의 거래내역",
       "mode": "range",
@@ -13147,7 +13666,7 @@
       ]
     },
     {
-      "id": 976,
+      "id": 1012,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 신규 개설된 대출 계좌의 거래내역",
       "mode": "range",
@@ -13161,7 +13680,7 @@
       ]
     },
     {
-      "id": 977,
+      "id": 1013,
       "category": "14.template.csv",
       "text": "2026년 3월에 신규 개설된 외화 계좌의 거래내역",
       "mode": "range",
@@ -13175,7 +13694,7 @@
       ]
     },
     {
-      "id": 978,
+      "id": 1014,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 신규 개설된 증권 계좌의 거래내역",
       "mode": "range",
@@ -13189,7 +13708,7 @@
       ]
     },
     {
-      "id": 979,
+      "id": 1015,
       "category": "14.template.csv",
       "text": "2024년 5월에 신규 개설된 신탁 계좌의 거래내역",
       "mode": "range",
@@ -13203,7 +13722,7 @@
       ]
     },
     {
-      "id": 980,
+      "id": 1016,
       "category": "14.template.csv",
       "text": "2023년 12월에 신규 개설된 수시입출 계좌의 거래내역",
       "mode": "range",
@@ -13217,7 +13736,7 @@
       ]
     },
     {
-      "id": 981,
+      "id": 1017,
       "category": "14.template.csv",
       "text": "2028년 상반기에 신규 개설된 정기예금 계좌의 거래내역",
       "mode": "range",
@@ -13231,7 +13750,7 @@
       ]
     },
     {
-      "id": 982,
+      "id": 1018,
       "category": "14.template.csv",
       "text": "2028년 하반기에 신규 개설된 적금 계좌의 거래내역",
       "mode": "range",
@@ -13245,7 +13764,7 @@
       ]
     },
     {
-      "id": 983,
+      "id": 1019,
       "category": "14.template.csv",
       "text": "내년 1분기에 신규 개설된 보통예금 계좌의 거래내역",
       "mode": "range",
@@ -13259,7 +13778,7 @@
       ]
     },
     {
-      "id": 984,
+      "id": 1020,
       "category": "14.template.csv",
       "text": "내년 2분기에 신규 개설된 달러 예수금 계좌의 거래내역",
       "mode": "range",
@@ -13273,7 +13792,7 @@
       ]
     },
     {
-      "id": 985,
+      "id": 1021,
       "category": "14.template.csv",
       "text": "2026년 1분기에 신규 개설된 예적금 계좌의 거래내역",
       "mode": "range",
@@ -13287,7 +13806,7 @@
       ]
     },
     {
-      "id": 986,
+      "id": 1022,
       "category": "14.template.csv",
       "text": "2027년 4분기에 신규 개설된 대출 계좌의 거래내역",
       "mode": "range",
@@ -13301,7 +13820,7 @@
       ]
     },
     {
-      "id": 987,
+      "id": 1023,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 신규 개설된 외화 계좌의 거래내역",
       "mode": "range",
@@ -13315,7 +13834,7 @@
       ]
     },
     {
-      "id": 988,
+      "id": 1024,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 신규 개설된 증권 계좌의 거래내역",
       "mode": "range",
@@ -13329,7 +13848,7 @@
       ]
     },
     {
-      "id": 989,
+      "id": 1025,
       "category": "14.template.csv",
       "text": "2026년 8월에 신규 개설된 신탁 계좌의 거래내역",
       "mode": "range",
@@ -13343,7 +13862,7 @@
       ]
     },
     {
-      "id": 990,
+      "id": 1026,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 신규 개설된 수시입출 계좌의 거래내역",
       "mode": "range",
@@ -13357,7 +13876,7 @@
       ]
     },
     {
-      "id": 991,
+      "id": 1027,
       "category": "14.template.csv",
       "text": "2032년 초에 종료된 적금 계좌를 보여줘",
       "mode": "range",
@@ -13371,7 +13890,7 @@
       ]
     },
     {
-      "id": 992,
+      "id": 1028,
       "category": "14.template.csv",
       "text": "2029년 말에 종료된 보통예금 계좌를 보여줘",
       "mode": "range",
@@ -13385,7 +13904,7 @@
       ]
     },
     {
-      "id": 993,
+      "id": 1029,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 종료된 달러 예수금 계좌를 보여줘",
       "mode": "range",
@@ -13399,7 +13918,7 @@
       ]
     },
     {
-      "id": 994,
+      "id": 1030,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 종료된 예적금 계좌를 보여줘",
       "mode": "range",
@@ -13413,7 +13932,7 @@
       ]
     },
     {
-      "id": 995,
+      "id": 1031,
       "category": "14.template.csv",
       "text": "2020년 2월에 종료된 대출 계좌를 보여줘",
       "mode": "range",
@@ -13427,7 +13946,7 @@
       ]
     },
     {
-      "id": 996,
+      "id": 1032,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 종료된 외화 계좌를 보여줘",
       "mode": "range",
@@ -13441,7 +13960,7 @@
       ]
     },
     {
-      "id": 997,
+      "id": 1033,
       "category": "14.template.csv",
       "text": "2026년 3월에 종료된 증권 계좌를 보여줘",
       "mode": "range",
@@ -13455,7 +13974,7 @@
       ]
     },
     {
-      "id": 998,
+      "id": 1034,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 종료된 신탁 계좌를 보여줘",
       "mode": "range",
@@ -13469,7 +13988,7 @@
       ]
     },
     {
-      "id": 999,
+      "id": 1035,
       "category": "14.template.csv",
       "text": "2024년 5월에 종료된 수시입출 계좌를 보여줘",
       "mode": "range",
@@ -13483,7 +14002,7 @@
       ]
     },
     {
-      "id": 1000,
+      "id": 1036,
       "category": "14.template.csv",
       "text": "2023년 12월에 종료된 정기예금 계좌를 보여줘",
       "mode": "range",
@@ -13497,7 +14016,7 @@
       ]
     },
     {
-      "id": 1001,
+      "id": 1037,
       "category": "14.template.csv",
       "text": "2028년 상반기에 종료된 적금 계좌를 보여줘",
       "mode": "range",
@@ -13511,7 +14030,7 @@
       ]
     },
     {
-      "id": 1002,
+      "id": 1038,
       "category": "14.template.csv",
       "text": "2028년 하반기에 종료된 보통예금 계좌를 보여줘",
       "mode": "range",
@@ -13525,7 +14044,7 @@
       ]
     },
     {
-      "id": 1003,
+      "id": 1039,
       "category": "14.template.csv",
       "text": "내년 1분기에 종료된 달러 예수금 계좌를 보여줘",
       "mode": "range",
@@ -13539,7 +14058,7 @@
       ]
     },
     {
-      "id": 1004,
+      "id": 1040,
       "category": "14.template.csv",
       "text": "내년 2분기에 종료된 예적금 계좌를 보여줘",
       "mode": "range",
@@ -13553,7 +14072,7 @@
       ]
     },
     {
-      "id": 1005,
+      "id": 1041,
       "category": "14.template.csv",
       "text": "2026년 1분기에 종료된 대출 계좌를 보여줘",
       "mode": "range",
@@ -13567,7 +14086,7 @@
       ]
     },
     {
-      "id": 1006,
+      "id": 1042,
       "category": "14.template.csv",
       "text": "2027년 4분기에 종료된 외화 계좌를 보여줘",
       "mode": "range",
@@ -13581,7 +14100,7 @@
       ]
     },
     {
-      "id": 1007,
+      "id": 1043,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 종료된 증권 계좌를 보여줘",
       "mode": "range",
@@ -13595,7 +14114,7 @@
       ]
     },
     {
-      "id": 1008,
+      "id": 1044,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 종료된 신탁 계좌를 보여줘",
       "mode": "range",
@@ -13609,7 +14128,7 @@
       ]
     },
     {
-      "id": 1009,
+      "id": 1045,
       "category": "14.template.csv",
       "text": "2026년 8월에 종료된 수시입출 계좌를 보여줘",
       "mode": "range",
@@ -13623,7 +14142,7 @@
       ]
     },
     {
-      "id": 1010,
+      "id": 1046,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 종료된 정기예금 계좌를 보여줘",
       "mode": "range",
@@ -13637,7 +14156,7 @@
       ]
     },
     {
-      "id": 1011,
+      "id": 1047,
       "category": "14.template.csv",
       "text": "2032년 초에 가입한 보통예금 계좌 알려줘",
       "mode": "range",
@@ -13651,7 +14170,7 @@
       ]
     },
     {
-      "id": 1012,
+      "id": 1048,
       "category": "14.template.csv",
       "text": "2029년 말에 가입한 달러 예수금 계좌 알려줘",
       "mode": "range",
@@ -13665,7 +14184,7 @@
       ]
     },
     {
-      "id": 1013,
+      "id": 1049,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 가입한 예적금 계좌 알려줘",
       "mode": "range",
@@ -13679,7 +14198,7 @@
       ]
     },
     {
-      "id": 1014,
+      "id": 1050,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 가입한 대출 계좌 알려줘",
       "mode": "range",
@@ -13693,7 +14212,7 @@
       ]
     },
     {
-      "id": 1015,
+      "id": 1051,
       "category": "14.template.csv",
       "text": "2020년 2월에 가입한 외화 계좌 알려줘",
       "mode": "range",
@@ -13707,7 +14226,7 @@
       ]
     },
     {
-      "id": 1016,
+      "id": 1052,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 가입한 증권 계좌 알려줘",
       "mode": "range",
@@ -13721,7 +14240,7 @@
       ]
     },
     {
-      "id": 1017,
+      "id": 1053,
       "category": "14.template.csv",
       "text": "2026년 3월에 가입한 신탁 계좌 알려줘",
       "mode": "range",
@@ -13735,7 +14254,7 @@
       ]
     },
     {
-      "id": 1018,
+      "id": 1054,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 가입한 수시입출 계좌 알려줘",
       "mode": "range",
@@ -13749,7 +14268,7 @@
       ]
     },
     {
-      "id": 1019,
+      "id": 1055,
       "category": "14.template.csv",
       "text": "2024년 5월에 가입한 정기예금 계좌 알려줘",
       "mode": "range",
@@ -13763,7 +14282,7 @@
       ]
     },
     {
-      "id": 1020,
+      "id": 1056,
       "category": "14.template.csv",
       "text": "2023년 12월에 가입한 적금 계좌 알려줘",
       "mode": "range",
@@ -13777,7 +14296,7 @@
       ]
     },
     {
-      "id": 1021,
+      "id": 1057,
       "category": "14.template.csv",
       "text": "2028년 상반기에 가입한 보통예금 계좌 알려줘",
       "mode": "range",
@@ -13791,7 +14310,7 @@
       ]
     },
     {
-      "id": 1022,
+      "id": 1058,
       "category": "14.template.csv",
       "text": "2028년 하반기에 가입한 달러 예수금 계좌 알려줘",
       "mode": "range",
@@ -13805,7 +14324,7 @@
       ]
     },
     {
-      "id": 1023,
+      "id": 1059,
       "category": "14.template.csv",
       "text": "내년 1분기에 가입한 예적금 계좌 알려줘",
       "mode": "range",
@@ -13819,7 +14338,7 @@
       ]
     },
     {
-      "id": 1024,
+      "id": 1060,
       "category": "14.template.csv",
       "text": "내년 2분기에 가입한 대출 계좌 알려줘",
       "mode": "range",
@@ -13833,7 +14352,7 @@
       ]
     },
     {
-      "id": 1025,
+      "id": 1061,
       "category": "14.template.csv",
       "text": "2026년 1분기에 가입한 외화 계좌 알려줘",
       "mode": "range",
@@ -13847,7 +14366,7 @@
       ]
     },
     {
-      "id": 1026,
+      "id": 1062,
       "category": "14.template.csv",
       "text": "2027년 4분기에 가입한 증권 계좌 알려줘",
       "mode": "range",
@@ -13861,7 +14380,7 @@
       ]
     },
     {
-      "id": 1027,
+      "id": 1063,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 가입한 신탁 계좌 알려줘",
       "mode": "range",
@@ -13875,7 +14394,7 @@
       ]
     },
     {
-      "id": 1028,
+      "id": 1064,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 가입한 수시입출 계좌 알려줘",
       "mode": "range",
@@ -13889,7 +14408,7 @@
       ]
     },
     {
-      "id": 1029,
+      "id": 1065,
       "category": "14.template.csv",
       "text": "2026년 8월에 가입한 정기예금 계좌 알려줘",
       "mode": "range",
@@ -13903,7 +14422,7 @@
       ]
     },
     {
-      "id": 1030,
+      "id": 1066,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 가입한 적금 계좌 알려줘",
       "mode": "range",
@@ -13917,7 +14436,7 @@
       ]
     },
     {
-      "id": 1031,
+      "id": 1067,
       "category": "14.template.csv",
       "text": "2032년 초에 만기된 달러 예수금 계좌의 남은 돈",
       "mode": "range",
@@ -13931,7 +14450,7 @@
       ]
     },
     {
-      "id": 1032,
+      "id": 1068,
       "category": "14.template.csv",
       "text": "2029년 말에 만기된 예적금 계좌의 남은 돈",
       "mode": "range",
@@ -13945,7 +14464,7 @@
       ]
     },
     {
-      "id": 1033,
+      "id": 1069,
       "category": "14.template.csv",
       "text": "2024년 7월 말에 만기된 대출 계좌의 남은 돈",
       "mode": "range",
@@ -13959,7 +14478,7 @@
       ]
     },
     {
-      "id": 1034,
+      "id": 1070,
       "category": "14.template.csv",
       "text": "2023년 1월 초에 만기된 외화 계좌의 남은 돈",
       "mode": "range",
@@ -13973,7 +14492,7 @@
       ]
     },
     {
-      "id": 1035,
+      "id": 1071,
       "category": "14.template.csv",
       "text": "2020년 2월에 만기된 증권 계좌의 남은 돈",
       "mode": "range",
@@ -13987,7 +14506,7 @@
       ]
     },
     {
-      "id": 1036,
+      "id": 1072,
       "category": "14.template.csv",
       "text": "2014년 7월 말에 만기된 신탁 계좌의 남은 돈",
       "mode": "range",
@@ -14001,7 +14520,7 @@
       ]
     },
     {
-      "id": 1037,
+      "id": 1073,
       "category": "14.template.csv",
       "text": "2026년 3월에 만기된 수시입출 계좌의 남은 돈",
       "mode": "range",
@@ -14015,7 +14534,7 @@
       ]
     },
     {
-      "id": 1038,
+      "id": 1074,
       "category": "14.template.csv",
       "text": "2027년 2월 첫 주에 만기된 정기예금 계좌의 남은 돈",
       "mode": "range",
@@ -14029,7 +14548,7 @@
       ]
     },
     {
-      "id": 1039,
+      "id": 1075,
       "category": "14.template.csv",
       "text": "2024년 5월에 만기된 적금 계좌의 남은 돈",
       "mode": "range",
@@ -14043,7 +14562,7 @@
       ]
     },
     {
-      "id": 1040,
+      "id": 1076,
       "category": "14.template.csv",
       "text": "2023년 12월에 만기된 보통예금 계좌의 남은 돈",
       "mode": "range",
@@ -14057,7 +14576,7 @@
       ]
     },
     {
-      "id": 1041,
+      "id": 1077,
       "category": "14.template.csv",
       "text": "2028년 상반기에 만기된 달러 예수금 계좌의 남은 돈",
       "mode": "range",
@@ -14071,7 +14590,7 @@
       ]
     },
     {
-      "id": 1042,
+      "id": 1078,
       "category": "14.template.csv",
       "text": "2028년 하반기에 만기된 예적금 계좌의 남은 돈",
       "mode": "range",
@@ -14085,7 +14604,7 @@
       ]
     },
     {
-      "id": 1043,
+      "id": 1079,
       "category": "14.template.csv",
       "text": "내년 1분기에 만기된 대출 계좌의 남은 돈",
       "mode": "range",
@@ -14099,7 +14618,7 @@
       ]
     },
     {
-      "id": 1044,
+      "id": 1080,
       "category": "14.template.csv",
       "text": "내년 2분기에 만기된 외화 계좌의 남은 돈",
       "mode": "range",
@@ -14113,7 +14632,7 @@
       ]
     },
     {
-      "id": 1045,
+      "id": 1081,
       "category": "14.template.csv",
       "text": "2026년 1분기에 만기된 증권 계좌의 남은 돈",
       "mode": "range",
@@ -14127,7 +14646,7 @@
       ]
     },
     {
-      "id": 1046,
+      "id": 1082,
       "category": "14.template.csv",
       "text": "2027년 4분기에 만기된 신탁 계좌의 남은 돈",
       "mode": "range",
@@ -14141,7 +14660,7 @@
       ]
     },
     {
-      "id": 1047,
+      "id": 1083,
       "category": "14.template.csv",
       "text": "2025년 3월 1일에 만기된 수시입출 계좌의 남은 돈",
       "mode": "range",
@@ -14155,7 +14674,7 @@
       ]
     },
     {
-      "id": 1048,
+      "id": 1084,
       "category": "14.template.csv",
       "text": "2024년 10월 9일에 만기된 정기예금 계좌의 남은 돈",
       "mode": "range",
@@ -14169,7 +14688,7 @@
       ]
     },
     {
-      "id": 1049,
+      "id": 1085,
       "category": "14.template.csv",
       "text": "2026년 8월에 만기된 적금 계좌의 남은 돈",
       "mode": "range",
@@ -14183,7 +14702,7 @@
       ]
     },
     {
-      "id": 1050,
+      "id": 1086,
       "category": "14.template.csv",
       "text": "2027년 1월 말에 만기된 보통예금 계좌의 남은 돈",
       "mode": "range",
@@ -14197,7 +14716,7 @@
       ]
     },
     {
-      "id": 1051,
+      "id": 1087,
       "category": "14.template.csv",
       "text": "지난달 대비 이번달 지출 증가율",
       "mode": "range",
@@ -14216,7 +14735,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1052,
+      "id": 1088,
       "category": "14.template.csv",
       "text": "작년 대비 올해 지출 증가율",
       "mode": "range",
@@ -14235,7 +14754,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1053,
+      "id": 1089,
       "category": "14.template.csv",
       "text": "지난분기 대비 이번분기 지출 증가율",
       "mode": "range",
@@ -14254,7 +14773,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1054,
+      "id": 1090,
       "category": "14.template.csv",
       "text": "1분기 대비 2분기 지출 증가율",
       "mode": "range",
@@ -14273,7 +14792,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1055,
+      "id": 1091,
       "category": "14.template.csv",
       "text": "3월 대비 4월 지출 증가율",
       "mode": "range",
@@ -14292,7 +14811,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1056,
+      "id": 1092,
       "category": "14.template.csv",
       "text": "재작년 대비 작년 지출 증가율",
       "mode": "range",
@@ -14311,7 +14830,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1057,
+      "id": 1093,
       "category": "14.template.csv",
       "text": "지난주 대비 이번 주 지출 증가율",
       "mode": "range",
@@ -14330,7 +14849,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1058,
+      "id": 1094,
       "category": "14.template.csv",
       "text": "2024년 대비 2025년 지출 증가율",
       "mode": "range",
@@ -14349,7 +14868,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1059,
+      "id": 1095,
       "category": "14.template.csv",
       "text": "2024년 2월 대비 2024년 3월 지출 증가율",
       "mode": "range",
@@ -14368,7 +14887,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1060,
+      "id": 1096,
       "category": "14.template.csv",
       "text": "상반기 대비 하반기 지출 증가율",
       "mode": "range",
@@ -14387,7 +14906,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1061,
+      "id": 1097,
       "category": "14.template.csv",
       "text": "지난달과 이번달 각각 대출 거래내역",
       "mode": "range",
@@ -14406,7 +14925,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1062,
+      "id": 1098,
       "category": "14.template.csv",
       "text": "작년과 올해 각각 외화 거래내역",
       "mode": "range",
@@ -14425,7 +14944,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1063,
+      "id": 1099,
       "category": "14.template.csv",
       "text": "지난분기과 이번분기 각각 증권 거래내역",
       "mode": "range",
@@ -14444,7 +14963,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1064,
+      "id": 1100,
       "category": "14.template.csv",
       "text": "1분기과 2분기 각각 신탁 거래내역",
       "mode": "range",
@@ -14463,7 +14982,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1065,
+      "id": 1101,
       "category": "14.template.csv",
       "text": "3월과 4월 각각 수시입출 거래내역",
       "mode": "range",
@@ -14482,7 +15001,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1066,
+      "id": 1102,
       "category": "14.template.csv",
       "text": "재작년과 작년 각각 정기예금 거래내역",
       "mode": "range",
@@ -14501,7 +15020,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1067,
+      "id": 1103,
       "category": "14.template.csv",
       "text": "지난주과 이번 주 각각 적금 거래내역",
       "mode": "range",
@@ -14520,7 +15039,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1068,
+      "id": 1104,
       "category": "14.template.csv",
       "text": "2024년과 2025년 각각 보통예금 거래내역",
       "mode": "range",
@@ -14539,7 +15058,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1069,
+      "id": 1105,
       "category": "14.template.csv",
       "text": "2024년 2월과 2024년 3월 각각 달러 예수금 거래내역",
       "mode": "range",
@@ -14558,7 +15077,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1070,
+      "id": 1106,
       "category": "14.template.csv",
       "text": "상반기과 하반기 각각 예적금 거래내역",
       "mode": "range",
@@ -14577,7 +15096,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1071,
+      "id": 1107,
       "category": "14.template.csv",
       "text": "지난달 외화 잔액과 이번달 외화 잔액 비교",
       "mode": "range",
@@ -14596,7 +15115,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1072,
+      "id": 1108,
       "category": "14.template.csv",
       "text": "작년 증권 잔액과 올해 증권 잔액 비교",
       "mode": "range",
@@ -14615,7 +15134,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1073,
+      "id": 1109,
       "category": "14.template.csv",
       "text": "지난분기 신탁 잔액과 이번분기 신탁 잔액 비교",
       "mode": "range",
@@ -14634,7 +15153,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1074,
+      "id": 1110,
       "category": "14.template.csv",
       "text": "1분기 수시입출 잔액과 2분기 수시입출 잔액 비교",
       "mode": "range",
@@ -14653,7 +15172,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1075,
+      "id": 1111,
       "category": "14.template.csv",
       "text": "3월 정기예금 잔액과 4월 정기예금 잔액 비교",
       "mode": "range",
@@ -14672,7 +15191,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1076,
+      "id": 1112,
       "category": "14.template.csv",
       "text": "재작년 적금 잔액과 작년 적금 잔액 비교",
       "mode": "range",
@@ -14691,7 +15210,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1077,
+      "id": 1113,
       "category": "14.template.csv",
       "text": "지난주 보통예금 잔액과 이번 주 보통예금 잔액 비교",
       "mode": "range",
@@ -14710,7 +15229,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1078,
+      "id": 1114,
       "category": "14.template.csv",
       "text": "2024년 달러 예수금 잔액과 2025년 달러 예수금 잔액 비교",
       "mode": "range",
@@ -14729,7 +15248,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1079,
+      "id": 1115,
       "category": "14.template.csv",
       "text": "2024년 2월 예적금 잔액과 2024년 3월 예적금 잔액 비교",
       "mode": "range",
@@ -14748,7 +15267,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1080,
+      "id": 1116,
       "category": "14.template.csv",
       "text": "상반기 대출 잔액과 하반기 대출 잔액 비교",
       "mode": "range",
@@ -14767,7 +15286,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1081,
+      "id": 1117,
       "category": "14.template.csv",
       "text": "지난달 원티드랩 거래 비중과 이번달 원티드랩 거래 비중 비교",
       "mode": "range",
@@ -14786,7 +15305,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1082,
+      "id": 1118,
       "category": "14.template.csv",
       "text": "작년 네이버 거래 비중과 올해 네이버 거래 비중 비교",
       "mode": "range",
@@ -14805,7 +15324,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1083,
+      "id": 1119,
       "category": "14.template.csv",
       "text": "지난분기 카카오 거래 비중과 이번분기 카카오 거래 비중 비교",
       "mode": "range",
@@ -14824,7 +15343,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1084,
+      "id": 1120,
       "category": "14.template.csv",
       "text": "1분기 현대차 거래 비중과 2분기 현대차 거래 비중 비교",
       "mode": "range",
@@ -14843,7 +15362,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1085,
+      "id": 1121,
       "category": "14.template.csv",
       "text": "3월 LG전자 거래 비중과 4월 LG전자 거래 비중 비교",
       "mode": "range",
@@ -14862,7 +15381,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1086,
+      "id": 1122,
       "category": "14.template.csv",
       "text": "재작년 기업은행 거래 비중과 작년 기업은행 거래 비중 비교",
       "mode": "range",
@@ -14881,7 +15400,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1087,
+      "id": 1123,
       "category": "14.template.csv",
       "text": "지난주 신한은행 거래 비중과 이번 주 신한은행 거래 비중 비교",
       "mode": "range",
@@ -14900,7 +15419,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1088,
+      "id": 1124,
       "category": "14.template.csv",
       "text": "2024년 웹케시 거래 비중과 2025년 웹케시 거래 비중 비교",
       "mode": "range",
@@ -14919,7 +15438,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1089,
+      "id": 1125,
       "category": "14.template.csv",
       "text": "2024년 2월 삼성전자 거래 비중과 2024년 3월 삼성전자 거래 비중 비교",
       "mode": "range",
@@ -14938,7 +15457,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1090,
+      "id": 1126,
       "category": "14.template.csv",
       "text": "상반기 빙그레 거래 비중과 하반기 빙그레 거래 비중 비교",
       "mode": "range",
@@ -14957,7 +15476,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1091,
+      "id": 1127,
       "category": "14.template.csv",
       "text": "지난달 운영비 비용을 이번달하고 비교해줘",
       "mode": "range",
@@ -14976,7 +15495,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1092,
+      "id": 1128,
       "category": "14.template.csv",
       "text": "작년 광고비 비용을 올해하고 비교해줘",
       "mode": "range",
@@ -14995,7 +15514,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1093,
+      "id": 1129,
       "category": "14.template.csv",
       "text": "지난분기 복리후생비 비용을 이번분기하고 비교해줘",
       "mode": "range",
@@ -15014,7 +15533,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1094,
+      "id": 1130,
       "category": "14.template.csv",
       "text": "1분기 출장비 비용을 2분기하고 비교해줘",
       "mode": "range",
@@ -15033,7 +15552,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1095,
+      "id": 1131,
       "category": "14.template.csv",
       "text": "3월 서버비 비용을 4월하고 비교해줘",
       "mode": "range",
@@ -15052,7 +15571,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1096,
+      "id": 1132,
       "category": "14.template.csv",
       "text": "재작년 수수료 비용을 작년하고 비교해줘",
       "mode": "range",
@@ -15071,7 +15590,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1097,
+      "id": 1133,
       "category": "14.template.csv",
       "text": "지난주 임대료 비용을 이번 주하고 비교해줘",
       "mode": "range",
@@ -15090,7 +15609,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1098,
+      "id": 1134,
       "category": "14.template.csv",
       "text": "2024년 마케팅 비용 비용을 2025년하고 비교해줘",
       "mode": "range",
@@ -15109,7 +15628,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1099,
+      "id": 1135,
       "category": "14.template.csv",
       "text": "2024년 2월 연구비 비용을 2024년 3월하고 비교해줘",
       "mode": "range",
@@ -15128,7 +15647,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1100,
+      "id": 1136,
       "category": "14.template.csv",
       "text": "상반기 인건비 비용을 하반기하고 비교해줘",
       "mode": "range",
@@ -15147,7 +15666,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1101,
+      "id": 1137,
       "category": "14.template.csv",
       "text": "지난달 수시입출 입출금 내역과 이번달 수시입출 입출금 내역",
       "mode": "range",
@@ -15166,7 +15685,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1102,
+      "id": 1138,
       "category": "14.template.csv",
       "text": "작년 정기예금 입출금 내역과 올해 정기예금 입출금 내역",
       "mode": "range",
@@ -15185,7 +15704,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1103,
+      "id": 1139,
       "category": "14.template.csv",
       "text": "지난분기 적금 입출금 내역과 이번분기 적금 입출금 내역",
       "mode": "range",
@@ -15204,7 +15723,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1104,
+      "id": 1140,
       "category": "14.template.csv",
       "text": "1분기 보통예금 입출금 내역과 2분기 보통예금 입출금 내역",
       "mode": "range",
@@ -15223,7 +15742,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1105,
+      "id": 1141,
       "category": "14.template.csv",
       "text": "3월 달러 예수금 입출금 내역과 4월 달러 예수금 입출금 내역",
       "mode": "range",
@@ -15242,7 +15761,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1106,
+      "id": 1142,
       "category": "14.template.csv",
       "text": "재작년 예적금 입출금 내역과 작년 예적금 입출금 내역",
       "mode": "range",
@@ -15261,7 +15780,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1107,
+      "id": 1143,
       "category": "14.template.csv",
       "text": "지난주 대출 입출금 내역과 이번 주 대출 입출금 내역",
       "mode": "range",
@@ -15280,7 +15799,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1108,
+      "id": 1144,
       "category": "14.template.csv",
       "text": "2024년 외화 입출금 내역과 2025년 외화 입출금 내역",
       "mode": "range",
@@ -15299,7 +15818,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1109,
+      "id": 1145,
       "category": "14.template.csv",
       "text": "2024년 2월 증권 입출금 내역과 2024년 3월 증권 입출금 내역",
       "mode": "range",
@@ -15318,7 +15837,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1110,
+      "id": 1146,
       "category": "14.template.csv",
       "text": "상반기 신탁 입출금 내역과 하반기 신탁 입출금 내역",
       "mode": "range",
@@ -15337,7 +15856,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1111,
+      "id": 1147,
       "category": "14.template.csv",
       "text": "지난달 자금 현황과 이번달 자금 현황 비교",
       "mode": "range",
@@ -15356,7 +15875,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1112,
+      "id": 1148,
       "category": "14.template.csv",
       "text": "작년 자금 현황과 올해 자금 현황 비교",
       "mode": "range",
@@ -15375,7 +15894,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1113,
+      "id": 1149,
       "category": "14.template.csv",
       "text": "지난분기 자금 현황과 이번분기 자금 현황 비교",
       "mode": "range",
@@ -15394,7 +15913,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1114,
+      "id": 1150,
       "category": "14.template.csv",
       "text": "1분기 자금 현황과 2분기 자금 현황 비교",
       "mode": "range",
@@ -15413,7 +15932,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1115,
+      "id": 1151,
       "category": "14.template.csv",
       "text": "3월 자금 현황과 4월 자금 현황 비교",
       "mode": "range",
@@ -15432,7 +15951,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1116,
+      "id": 1152,
       "category": "14.template.csv",
       "text": "재작년 자금 현황과 작년 자금 현황 비교",
       "mode": "range",
@@ -15451,7 +15970,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1117,
+      "id": 1153,
       "category": "14.template.csv",
       "text": "지난주 자금 현황과 이번 주 자금 현황 비교",
       "mode": "range",
@@ -15470,7 +15989,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1118,
+      "id": 1154,
       "category": "14.template.csv",
       "text": "2024년 자금 현황과 2025년 자금 현황 비교",
       "mode": "range",
@@ -15489,7 +16008,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1119,
+      "id": 1155,
       "category": "14.template.csv",
       "text": "2024년 2월 자금 현황과 2024년 3월 자금 현황 비교",
       "mode": "range",
@@ -15508,7 +16027,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1120,
+      "id": 1156,
       "category": "14.template.csv",
       "text": "상반기 자금 현황과 하반기 자금 현황 비교",
       "mode": "range",
@@ -15527,7 +16046,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1121,
+      "id": 1157,
       "category": "14.template.csv",
       "text": "지난달 적금 남은 돈하고 이번달 적금 남은 돈 비교",
       "mode": "range",
@@ -15546,7 +16065,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1122,
+      "id": 1158,
       "category": "14.template.csv",
       "text": "작년 보통예금 남은 돈하고 올해 보통예금 남은 돈 비교",
       "mode": "range",
@@ -15565,7 +16084,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1123,
+      "id": 1159,
       "category": "14.template.csv",
       "text": "지난분기 달러 예수금 남은 돈하고 이번분기 달러 예수금 남은 돈 비교",
       "mode": "range",
@@ -15584,7 +16103,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1124,
+      "id": 1160,
       "category": "14.template.csv",
       "text": "1분기 예적금 남은 돈하고 2분기 예적금 남은 돈 비교",
       "mode": "range",
@@ -15603,7 +16122,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1125,
+      "id": 1161,
       "category": "14.template.csv",
       "text": "3월 대출 남은 돈하고 4월 대출 남은 돈 비교",
       "mode": "range",
@@ -15622,7 +16141,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1126,
+      "id": 1162,
       "category": "14.template.csv",
       "text": "재작년 외화 남은 돈하고 작년 외화 남은 돈 비교",
       "mode": "range",
@@ -15641,7 +16160,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1127,
+      "id": 1163,
       "category": "14.template.csv",
       "text": "지난주 증권 남은 돈하고 이번 주 증권 남은 돈 비교",
       "mode": "range",
@@ -15660,7 +16179,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1128,
+      "id": 1164,
       "category": "14.template.csv",
       "text": "2024년 신탁 남은 돈하고 2025년 신탁 남은 돈 비교",
       "mode": "range",
@@ -15679,7 +16198,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1129,
+      "id": 1165,
       "category": "14.template.csv",
       "text": "2024년 2월 수시입출 남은 돈하고 2024년 3월 수시입출 남은 돈 비교",
       "mode": "range",
@@ -15698,7 +16217,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1130,
+      "id": 1166,
       "category": "14.template.csv",
       "text": "상반기 정기예금 남은 돈하고 하반기 정기예금 남은 돈 비교",
       "mode": "range",
@@ -15717,7 +16236,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1131,
+      "id": 1167,
       "category": "14.template.csv",
       "text": "지난달 출금 내역과 이번달 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15736,7 +16255,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1132,
+      "id": 1168,
       "category": "14.template.csv",
       "text": "작년 출금 내역과 올해 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15755,7 +16274,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1133,
+      "id": 1169,
       "category": "14.template.csv",
       "text": "지난분기 출금 내역과 이번분기 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15774,7 +16293,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1134,
+      "id": 1170,
       "category": "14.template.csv",
       "text": "1분기 출금 내역과 2분기 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15793,7 +16312,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1135,
+      "id": 1171,
       "category": "14.template.csv",
       "text": "3월 출금 내역과 4월 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15812,7 +16331,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1136,
+      "id": 1172,
       "category": "14.template.csv",
       "text": "재작년 출금 내역과 작년 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15831,7 +16350,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1137,
+      "id": 1173,
       "category": "14.template.csv",
       "text": "지난주 출금 내역과 이번 주 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15850,7 +16369,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1138,
+      "id": 1174,
       "category": "14.template.csv",
       "text": "2024년 출금 내역과 2025년 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15869,7 +16388,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1139,
+      "id": 1175,
       "category": "14.template.csv",
       "text": "2024년 2월 출금 내역과 2024년 3월 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15888,7 +16407,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1140,
+      "id": 1176,
       "category": "14.template.csv",
       "text": "상반기 출금 내역과 하반기 출금 내역을 함께 보여줘",
       "mode": "range",
@@ -15907,7 +16426,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1141,
+      "id": 1177,
       "category": "14.template.csv",
       "text": "지난달 거래내역과 이번달 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -15926,7 +16445,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1142,
+      "id": 1178,
       "category": "14.template.csv",
       "text": "작년 거래내역과 올해 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -15945,7 +16464,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1143,
+      "id": 1179,
       "category": "14.template.csv",
       "text": "지난분기 거래내역과 이번분기 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -15964,7 +16483,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1144,
+      "id": 1180,
       "category": "14.template.csv",
       "text": "1분기 거래내역과 2분기 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -15983,7 +16502,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1145,
+      "id": 1181,
       "category": "14.template.csv",
       "text": "3월 거래내역과 4월 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -16002,7 +16521,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1146,
+      "id": 1182,
       "category": "14.template.csv",
       "text": "재작년 거래내역과 작년 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -16021,7 +16540,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1147,
+      "id": 1183,
       "category": "14.template.csv",
       "text": "지난주 거래내역과 이번 주 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -16040,7 +16559,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1148,
+      "id": 1184,
       "category": "14.template.csv",
       "text": "2024년 거래내역과 2025년 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -16059,7 +16578,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1149,
+      "id": 1185,
       "category": "14.template.csv",
       "text": "2024년 2월 거래내역과 2024년 3월 거래내역 중 뭐가 더 많아?",
       "mode": "range",
@@ -16078,7 +16597,7 @@
       "note": "csv-style 템플릿 비교 문장 (동일 text에 다중 기대 구간)"
     },
     {
-      "id": 1150,
+      "id": 1186,
       "category": "14.template.csv",
       "text": "상반기 거래내역과 하반기 거래내역 중 뭐가 더 많아?",
       "mode": "range",

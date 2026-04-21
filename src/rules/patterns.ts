@@ -473,7 +473,7 @@ export function findMatchesKo(text: string): Match[] {
 
   // 2. 한국어 연월일 (2025년 3월 1일, 3월 1일)
   {
-    const re = /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
+    const re = /(\d{4})\s*년도?\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       out.push({
@@ -531,7 +531,7 @@ export function findMatchesKo(text: string): Match[] {
   // 2b. YYYY년 M월 [초/중/말 | N주차]? (일이 없을 때)
   {
     const re = new RegExp(
-      `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?`,
+      `(\\d{4})\\s*년도?\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)(?:\\s*(초|중|말)|\\s*(${WEEK_OF_MONTH_RE_SRC}))?`,
       "g",
     );
     let m: RegExpExecArray | null;
@@ -1833,7 +1833,7 @@ export function findMatchesKo(text: string): Match[] {
 
     {
       const re = new RegExp(
-        `(\\d{4})\\s*년\\s*(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
+        `(\\d{4})\\s*년도?\\s*(\\d{1,2})\\s*(?:월)?\\s*${MONTH_RANGE_SEP}\\s*(\\d{1,2})\\s*월(?!\\s*\\d+\\s*일)`,
         "g",
       );
       let m: RegExpExecArray | null;
@@ -2523,7 +2523,9 @@ export function findMatchesKo(text: string): Match[] {
       { word: "년초", expr: { kind: "absolute", yearOffset: 0, yearPart: "start" } },
     ];
     for (const { word, expr } of MONTH_YEAR_EDGE) {
-      const re = new RegExp(`(?<![가-힣])${word}(?![가-힣])`, "g");
+      // 월말: "월말 잔액"처럼 명사를 수식하는 경우에는 날짜가 아닌 형용사적 용법이므로 제외
+      const negLA = word === "월말" ? "(?!\\s*잔액)" : "";
+      const re = new RegExp(`(?<![가-힣])${word}${negLA}(?![가-힣])`, "g");
       let m: RegExpExecArray | null;
       while ((m = re.exec(text))) {
         out.push({
@@ -3337,6 +3339,8 @@ export const KOREAN_DATE_RESIDUAL_KEYWORDS = [
   "낼",
   "모레",
   "글피",
+  "현재",
+  "지금",
   "그저께",
   "엊그제",
   "그제",
