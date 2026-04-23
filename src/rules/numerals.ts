@@ -18,6 +18,8 @@ export const KOREAN_DAY_WORDS: Array<{ word: string; token: NamedToken }> = [
   { word: "지금 현재", token: "today" },
   { word: "현재", token: "today" },
   { word: "지금", token: "today" },
+  { word: "그끄저께", token: "사흘" },
+  { word: "그끄제", token: "사흘" },
   { word: "그저께", token: "그저께" },
   { word: "엊그제", token: "엊그제" },
   { word: "그제", token: "그저께" },

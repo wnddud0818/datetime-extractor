@@ -5811,9 +5811,43 @@ async function runRealisticRule100(cliArgs: string[]): Promise<void> {
     }));
   }
 
+  const koreanAliasCases: Case[] = [
+    { id: 2001, category: "21.korean_aliases", text: "그끄저께 매출 보여줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -3))] },
+    { id: 2002, category: "21.korean_aliases", text: "그끄제 결제내역 찾아줘", mode: "range", expectedRanges: [dayRange(addDays(REF, -3))] },
+    { id: 2003, category: "21.korean_aliases", text: "다음해 예산안 열어줘", mode: "range", expectedRanges: [yearRange(1)] },
+    { id: 2004, category: "21.korean_aliases", text: "당해 매출만 다시 봐줘", mode: "range", expectedRanges: [yearRange(0)] },
+    { id: 2005, category: "21.korean_aliases", text: "전 해 실적도 비교해줘", mode: "range", expectedRanges: [yearRange(-1)] },
+    { id: 2006, category: "21.korean_aliases", text: "내후년 장기 계획 잡아줘", mode: "range", expectedRanges: [yearRange(2)] },
+    { id: 2007, category: "21.korean_aliases", text: "내주 일정 정리해줘", mode: "range", expectedRanges: [weekRange(1)] },
+    { id: 2008, category: "21.korean_aliases", text: "익주 방문 예약 보여줘", mode: "range", expectedRanges: [weekRange(1)] },
+    { id: 2009, category: "21.korean_aliases", text: "차월 정산 일정 확인해줘", mode: "range", expectedRanges: [monthRange(1)] },
+    { id: 2010, category: "21.korean_aliases", text: "금번 달 매출만 뽑아줘", mode: "range", expectedRanges: [monthRange(0)] },
+    { id: 2011, category: "21.korean_aliases", text: "이번주 초에 들어온 문의", mode: "range", expectedRanges: [explicitRange(2026, 4, 13, 2026, 4, 15)] },
+    { id: 2012, category: "21.korean_aliases", text: "지난주 말 결제 건 찾아줘", mode: "range", expectedRanges: [explicitRange(2026, 4, 10, 2026, 4, 12)] },
+    { id: 2013, category: "21.korean_aliases", text: "주초 회의 일정 다시 보여줘", mode: "range", expectedRanges: [explicitRange(2026, 4, 13, 2026, 4, 15)] },
+    { id: 2014, category: "21.korean_aliases", text: "주말 예약 현황 보여줘", mode: "range", expectedRanges: [explicitRange(2026, 4, 18, 2026, 4, 19)] },
+    { id: 2015, category: "21.korean_aliases", text: "월중 매출 추이 보여줘", mode: "range", expectedRanges: [monthRange(0)] },
+    { id: 2016, category: "21.korean_aliases", text: "월내 처리해야 할 건만 보여줘", mode: "range", expectedRanges: [monthRange(0)] },
+    { id: 2017, category: "21.korean_aliases", text: "연중 누적 매출 보여줘", mode: "range", expectedRanges: [yearRange(0)] },
+    { id: 2018, category: "21.korean_aliases", text: "전반기 실적 자료 열어줘", mode: "range", expectedRanges: [halfRange(2026, 1)] },
+    { id: 2019, category: "21.korean_aliases", text: "후반기 계획 다시 봐줘", mode: "range", expectedRanges: [halfRange(2026, 2)] },
+    { id: 2020, category: "21.korean_aliases", text: "1사분기 매출 비교해줘", mode: "range", expectedRanges: [quarterRange(2026, 1)] },
+    { id: 2021, category: "21.korean_aliases", text: "전분기 실적 알려줘", mode: "range", expectedRanges: [quarterRange(2026, 1)] },
+    { id: 2022, category: "21.korean_aliases", text: "익분기 계획 정리해줘", mode: "range", expectedRanges: [quarterRange(2026, 3)] },
+    { id: 2023, category: "21.korean_aliases", text: "향후 2주 일정 보여줘", mode: "range", expectedRanges: [range(REF, addWeeks(REF, 2))] },
+    { id: 2024, category: "21.korean_aliases", text: "앞으로 3개월 계획 보여줘", mode: "range", expectedRanges: [range(REF, addMonths(REF, 3))] },
+    { id: 2025, category: "21.korean_aliases", text: "며칠 전 결제내역 찾아줘", mode: "range", expectedRanges: [explicitRange(2026, 4, 12, 2026, 4, 18)] },
+    { id: 2026, category: "21.korean_aliases", text: "지난 며칠 거래내역 보여줘", mode: "range", expectedRanges: [explicitRange(2026, 4, 15, 2026, 4, 18)] },
+    { id: 2027, category: "21.korean_aliases", text: "이번달 보름쯤 매출 어땠어", mode: "range", expectedRanges: [explicitRange(2026, 4, 12, 2026, 4, 18)] },
+    { id: 2028, category: "21.korean_aliases", text: "이달 첫째날 입금건만 보여줘", mode: "range", expectedRanges: [exactDay(2026, 4, 1)] },
+    { id: 2029, category: "21.korean_aliases", text: "이달 마지막날 잔액 알려줘", mode: "range", expectedRanges: [exactDay(2026, 4, 30)] },
+    { id: 2030, category: "21.korean_aliases", text: "올 1분기 매출 다시 봐줘", mode: "range", expectedRanges: [quarterRange(2026, 1)] },
+  ];
+
   const cases: Case[] = [
     ...baseCases,
     ...loadCsvTemplateCases(baseCases.length + 1),
+    ...koreanAliasCases,
   ];
 
   function summarizeRanges(items: RangeExp[]): string {

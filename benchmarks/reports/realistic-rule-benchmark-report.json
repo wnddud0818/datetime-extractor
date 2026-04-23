@@ -2,8 +2,8 @@
   "name": "realistic-rule-benchmark",
   "defaultReferenceDate": "2026-04-18",
   "timezone": "Asia/Seoul",
-  "total": 1186,
-  "passed": 1186,
+  "total": 1216,
+  "passed": 1216,
   "accuracy": 100,
   "byCategory": [
     {
@@ -85,6 +85,12 @@
       "accuracy": 100
     },
     {
+      "category": "21.korean_aliases",
+      "total": 30,
+      "passed": 30,
+      "accuracy": 100
+    },
+    {
       "category": "3.week",
       "total": 10,
       "passed": 10,
@@ -130,8 +136,8 @@
   "byPath": [
     {
       "path": "full",
-      "total": 962,
-      "passed": 962,
+      "total": 985,
+      "passed": 985,
       "accuracy": 100
     },
     {
@@ -142,8 +148,8 @@
     },
     {
       "path": "partial",
-      "total": 218,
-      "passed": 218,
+      "total": 225,
+      "passed": 225,
       "accuracy": 100
     }
   ],

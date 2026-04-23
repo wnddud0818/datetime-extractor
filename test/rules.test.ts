@@ -1022,4 +1022,117 @@ describe("rules engine", () => {
     );
     expect(hasWeekdayExpr).toBe(false);
   });
+
+  it("업무식 연/월/주 동의어를 처리한다", () => {
+    const cases = [
+      ["다음해 예산", { kind: "relative", unit: "year", offset: 1 }],
+      ["당해 매출", { kind: "relative", unit: "year", offset: 0 }],
+      ["차월 정산", { kind: "relative", unit: "month", offset: 1 }],
+      ["내주 일정", { kind: "relative", unit: "week", offset: 1 }],
+      ["익주 일정", { kind: "relative", unit: "week", offset: 1 }],
+    ] as const;
+
+    for (const [text, expected] of cases) {
+      const r = runRules(text);
+      expect(r.expressions[0].expression).toEqual(expected);
+    }
+  });
+
+  it("분기/반기 동의어를 처리한다", () => {
+    const cases = [
+      ["전분기 실적", { kind: "relative", unit: "quarter", offset: -1 }],
+      ["익분기 계획", { kind: "relative", unit: "quarter", offset: 1 }],
+      ["1사분기 매출", { kind: "quarter", quarter: 1, yearOffset: 0 }],
+      ["전반기 실적", { kind: "half", half: 1, yearOffset: 0 }],
+      ["후반기 실적", { kind: "half", half: 2, yearOffset: 0 }],
+    ] as const;
+
+    for (const [text, expected] of cases) {
+      const r = runRules(text);
+      expect(r.expressions[0].expression).toEqual(expected);
+    }
+  });
+
+  it("주초/주말과 주 초/말을 범위로 처리한다", () => {
+    expect(runRules("주초 회의").expressions[0].expression).toEqual({
+      kind: "range",
+      start: { kind: "weekday_in_week", weekOffset: 0, weekday: 1 },
+      end: { kind: "weekday_in_week", weekOffset: 0, weekday: 3 },
+    });
+    expect(runRules("지난주 말 결제").expressions[0].expression).toEqual({
+      kind: "range",
+      start: { kind: "weekday_in_week", weekOffset: -1, weekday: 5 },
+      end: { kind: "weekday_in_week", weekOffset: -1, weekday: 0 },
+    });
+    expect(runRules("이번주 초에 들어온 문의").expressions[0].expression).toEqual({
+      kind: "range",
+      start: { kind: "weekday_in_week", weekOffset: 0, weekday: 1 },
+      end: { kind: "weekday_in_week", weekOffset: 0, weekday: 3 },
+    });
+    expect(runRules("주말 일정").expressions[0].expression).toEqual({
+      kind: "range",
+      start: { kind: "weekday_in_week", weekOffset: 0, weekday: 6 },
+      end: { kind: "weekday_in_week", weekOffset: 0, weekday: 0 },
+    });
+    expect(runRules("이번 주말 일정").expressions[0].expression).toEqual({
+      kind: "filter",
+      base: { kind: "relative", unit: "week", offset: 0 },
+      filter: "weekends",
+    });
+  });
+
+  it("월중/월내/연중과 미래 duration 표현을 처리한다", () => {
+    expect(runRules("월중 매출").expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "month",
+      offset: 0,
+    });
+    expect(runRules("연중 매출").expressions[0].expression).toEqual({
+      kind: "relative",
+      unit: "year",
+      offset: 0,
+    });
+    expect(runRules("향후 2주 일정").expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "week",
+      amount: 2,
+      direction: "future",
+    });
+    expect(runRules("앞으로 3개월 계획").expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "month",
+      amount: 3,
+      direction: "future",
+    });
+  });
+
+  it("구어형 과거일과 월내 특정일 표현을 처리한다", () => {
+    expect(runRules("그끄저께 매출").expressions[0].expression).toEqual({
+      kind: "named",
+      name: "사흘",
+    });
+    expect(runRules("며칠 전 결제").expressions[0].expression).toEqual({
+      kind: "named",
+      name: "사흘",
+      direction: "past",
+      fuzzy: true,
+    });
+    expect(runRules("지난 며칠 거래").expressions[0].expression).toEqual({
+      kind: "duration",
+      unit: "day",
+      amount: 3,
+      direction: "past",
+    });
+    expect(runRules("이번달 보름쯤").expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      day: 15,
+      fuzzy: true,
+    });
+    expect(runRules("이달 첫째날").expressions[0].expression).toEqual({
+      kind: "absolute",
+      monthOffset: 0,
+      monthPart: "start",
+    });
+  });
 });
