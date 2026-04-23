@@ -169,6 +169,7 @@ export interface RuleResult {
   expressions: Array<{ text: string; expression: DateExpression }>;
   confidence: number; // 1.0 = full_match, 0.0 = no_match
   residualText: string;
+  monthly?: boolean; // 월별 키워드 감지 시 true
 }
 
 export function runRules(
@@ -208,6 +209,7 @@ export function runRules(
 
   const hasResidual = hasResidualDateContent(text, resolved, keywords);
   const confidence = hasResidual ? 0.85 : 1.0;
+  const monthly = /월\s*별/.test(text) ? true : undefined;
 
-  return { expressions, confidence, residualText: residual };
+  return { expressions, confidence, residualText: residual, monthly };
 }

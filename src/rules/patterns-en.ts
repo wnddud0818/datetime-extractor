@@ -87,7 +87,7 @@ export function findMatchesEn(text: string): Match[] {
 
   // 1c. 구분자 없는 MMDD (0412 → April 12). 연도는 ambiguityStrategy로 해석.
   {
-    const re = /(?<!\d)(\d{2})(\d{2})(?!\d)/g;
+    const re = /(?<![가-힣A-Za-z\d])(\d{2})(\d{2})(?![가-힣A-Za-z\d])/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const mo = Number(m[1]);

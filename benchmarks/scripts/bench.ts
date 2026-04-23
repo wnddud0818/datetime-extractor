@@ -6161,6 +6161,7 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
     text: string;
     start: string;
     end: string;
+    monthlyRanges?: Array<{ start: string; end: string }>;
   };
 
   type Row = {
@@ -6251,6 +6252,16 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
     return { start: ymd(start), end: ymd(end) };
   }
 
+  function monthRangesForYear(year: number): Array<{ start: string; end: string }> {
+    const ranges: Array<{ start: string; end: string }> = [];
+    for (let month = 0; month < 12; month++) {
+      const start = new Date(year, month, 1);
+      const end = endOfMonth(start);
+      ranges.push(clampIfCurrent(start, end));
+    }
+    return ranges;
+  }
+
   function daySpec(text: string, offsetDays: number): RangeSpec {
     const d = addDays(ref, offsetDays);
     const iso = ymd(d);
@@ -6306,7 +6317,7 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
     const start = startOfYear(new Date(targetYear, 0, 1));
     const end = endOfYear(start);
     const r = clampIfCurrent(start, end);
-    return { text, ...r };
+    return { text, ...r, monthlyRanges: monthRangesForYear(targetYear) };
   }
 
   function halfSpec(
@@ -6546,11 +6557,18 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
       const template = genericTemplates[templateIndex];
       for (let dateIndex = 0; dateIndex < genericDateSpecs.length; dateIndex++) {
         const date = genericDateSpecs[dateIndex];
-        uniquePush(rows, seen, {
-          text: template(date, templateIndex + dateIndex),
-          final_start_date: date.start,
-          final_end_date: date.end,
-        });
+        const text = template(date, templateIndex + dateIndex);
+        const ranges =
+          text.includes("월별") && date.monthlyRanges
+            ? date.monthlyRanges
+            : [date];
+        for (const range of ranges) {
+          uniquePush(rows, seen, {
+            text,
+            final_start_date: range.start,
+            final_end_date: range.end,
+          });
+        }
       }
     }
 
@@ -6604,8 +6622,9 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
 
   function main() {
     const rows = buildRows();
-    if (rows.length !== 1000) {
-      throw new Error(`Expected 1000 rows, got ${rows.length}`);
+    const expectedRows = 1044;
+    if (rows.length !== expectedRows) {
+      throw new Error(`Expected ${expectedRows} rows, got ${rows.length}`);
     }
     writeCsv(rows);
     const uniqueTexts = new Set(rows.map((row) => row.text)).size;
@@ -6614,8 +6633,6 @@ async function runGenerateCsvStyle(cliArgs: string[]): Promise<void> {
     console.log(`unique texts: ${uniqueTexts}`);
     console.log(`referenceDate: ${REFERENCE_DATE}`);
   }
-
-  main();
 
   await main();
 }

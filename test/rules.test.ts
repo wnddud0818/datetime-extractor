@@ -13,6 +13,16 @@ describe("rules engine", () => {
     });
   });
 
+  it("지금 → today named expression", () => {
+    const r = runRules("지금 계좌 잔액 얼마야?");
+    expect(r.confidence).toBe(1.0);
+    expect(r.expressions).toHaveLength(1);
+    expect(r.expressions[0].expression).toEqual({
+      kind: "named",
+      name: "today",
+    });
+  });
+
   it("3월 4월 잔액 알려줘 → 1.0, 두 개의 absolute month", () => {
     const r = runRules("3월 4월 잔액 알려줘");
     expect(r.confidence).toBe(1.0);

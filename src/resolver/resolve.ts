@@ -292,15 +292,12 @@ function resolveAbsolute(
       sd = 21;
       ed = lastDay;
     }
-    return applyFuzzy(
-      {
-        start: new Date(year, month - 1, sd),
-        end: new Date(year, month - 1, ed),
-        granularity: "day",
-      },
-      expr.fuzzy,
-      ctx,
-    );
+    // early/mid/late는 이미 다일 범위이므로 fuzzy 확장 미적용
+    return {
+      start: new Date(year, month - 1, sd),
+      end: new Date(year, month - 1, ed),
+      granularity: "day",
+    };
   }
 
   // weekOfMonth: M월 N주차 (1:1-7, 2:8-14, 3:15-21, 4:22-28, 5:29-말일)

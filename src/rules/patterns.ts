@@ -433,7 +433,7 @@ export function findMatchesKo(text: string): Match[] {
   // 1b-2. 구분자 없는 YYMMDD (990512). month/day 범위 검증.
   //       00~49 → 2000~2049, 50~99 → 1950~1999
   {
-    const re = /(?<!\d)(\d{2})(\d{2})(\d{2})(?!\d)/g;
+    const re = /(?<![가-힣A-Za-z\d])(\d{2})(\d{2})(\d{2})(?![가-힣A-Za-z\d])/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const yy = Number(m[1]);
@@ -451,7 +451,7 @@ export function findMatchesKo(text: string): Match[] {
 
   // 1c. 구분자 없는 MMDD (0412 → 4월 12일). 연도는 ambiguityStrategy로 해석.
   {
-    const re = /(?<!\d)(\d{2})(\d{2})(?!\d)/g;
+    const re = /(?<![가-힣A-Za-z\d])(\d{2})(\d{2})(?![가-힣A-Za-z\d])/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
       const mo = Number(m[1]);
